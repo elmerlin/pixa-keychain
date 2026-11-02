@@ -1,6 +1,26 @@
 const crypto = require('crypto');
 const { TextEncoder, TextDecoder } = require('util');
 
+// Tests must mock their transport. Keep accidental HTTP/RPC calls off the wire,
+// including Axios and libraries that bypass the mocked global fetch below.
+const blockNetwork = () => {
+  throw new Error('Network access is forbidden in tests; mock the request');
+};
+for (const protocol of ['http', 'https']) {
+  const transport = require(protocol);
+  transport.request = blockNetwork;
+  transport.get = blockNetwork;
+}
+if (global.XMLHttpRequest) {
+  global.XMLHttpRequest.prototype.send = blockNetwork;
+}
+
+// SVG files are extension assets; rendering icons must not fetch them over HTTP.
+jest.mock('react-svg', () => ({
+  ReactSVG: ({ src, beforeInjection, afterInjection, ...props }) =>
+    require('react').createElement('svg', { ...props, 'data-src': src }),
+}));
+
 /** Popup E2E tests use async HiveApp init + 15s waitFor in render helpers. */
 jest.setTimeout(30000);
 
@@ -58,6 +78,9 @@ const defaultFetchImpl = (_url, init) => {
     }
   }
   const rpcMethod = body.method;
+  if (/broadcast/i.test(rpcMethod || '')) {
+    throw new Error('Broadcasts must be mocked in tests');
+  }
   const jsonRpc = (result) =>
     Promise.resolve({
       status: 200,

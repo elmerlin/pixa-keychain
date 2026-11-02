@@ -5,13 +5,13 @@ describe('currency.utils tests:\n', () => {
     test('Passing isTestnet as true must return currency labels (same as mainnet for now)', () => {
       const isTestnet = true;
       const result = CurrencyUtils.getCurrencyLabels(isTestnet);
-      expect(result).toEqual({ hbd: 'HBD', hive: 'HIVE', hp: 'HP' });
+      expect(result).toEqual({ hbd: 'PXS', hive: 'PIXA', hp: 'PP' });
     });
 
     test('Passing isTestnet as false must return currency labels for mainnet', () => {
       const isTestnet = false;
       const result = CurrencyUtils.getCurrencyLabels(isTestnet);
-      expect(result).toEqual({ hbd: 'HBD', hive: 'HIVE', hp: 'HP' });
+      expect(result).toEqual({ hbd: 'PXS', hive: 'PIXA', hp: 'PP' });
     });
   });
 
@@ -34,42 +34,42 @@ describe('currency.utils tests:\n', () => {
       const isTestnet = false;
       const currency = 'hive';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HIVE');
+      expect(result).toBe('PIXA');
     });
 
     test('Passing currency="hbd" and isTesnet as false, must return currency in uppercase', () => {
       const isTestnet = false;
       const currency = 'hbd';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HBD');
+      expect(result).toBe('PXS');
     });
 
     test('Passing currency="hp" and isTesnet as false, must return currency in uppercase', () => {
       const isTestnet = false;
       const currency = 'hp';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HP');
+      expect(result).toBe('PP');
     });
 
-    test('Passing currency="hive" and isTesnet as true, must return HIVE', () => {
+    test('Passing currency="hive" and isTesnet as true, must return PIXA', () => {
       const isTestnet = true;
       const currency = 'hive';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HIVE');
+      expect(result).toBe('PIXA');
     });
 
-    test('Passing currency="hbd" and isTesnet as true, must return HBD', () => {
+    test('Passing currency="hbd" and isTesnet as true, must return PXS', () => {
       const isTestnet = true;
       const currency = 'hbd';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HBD');
+      expect(result).toBe('PXS');
     });
 
-    test('Passing currency="hp" and isTesnet as true, must return HP', () => {
+    test('Passing currency="hp" and isTesnet as true, must return PP', () => {
       const isTestnet = true;
       const currency = 'hp';
       const result = CurrencyUtils.getCurrencyLabel(currency, isTestnet);
-      expect(result).toBe('HP');
+      expect(result).toBe('PP');
     });
   });
 });

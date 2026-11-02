@@ -1,71 +1,70 @@
-import { KeychainApi } from '@api/keychain';
 import {
   KeychainRequestTypes,
-  RequestId,
   RequestTransfer,
 } from '@interfaces/keychain.interface';
 import { DefaultRpcs } from '@reference-data/default-rpc.list';
-import { cleanup, render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import mk from 'src/__tests__/utils-for-testing/data/mk';
-import objects from 'src/__tests__/utils-for-testing/helpers/objects';
-import * as TransferCheckModule from 'src/dialog/hooks/transfer-check';
-import Transfer from 'src/dialog/pages/requests/transfer';
+import { useTransferCheck } from 'src/dialog/hooks/transfer-check';
+import PhishingUtils from 'src/utils/phishing.utils';
+import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 
-describe('transfer-check.ts tests:\n', () => {
-  const data = {
-    domain: 'domain',
-    type: KeychainRequestTypes.transfer,
-    username: mk.user.one,
-    to: 'theghost1980',
-    amount: '10.000',
-    memo: '',
-    currency: 'HIVE',
-  } as RequestTransfer & RequestId;
+const data = {
+  type: KeychainRequestTypes.transfer,
+  username: 'alice',
+  to: 'bob',
+  amount: '10.000',
+  memo: '',
+  currency: 'PIXA',
+} as RequestTransfer;
+const Check = () => (
+  <output data-testid="warning">
+    {useTransferCheck(data, DefaultRpcs[0]) ?? ''}
+  </output>
+);
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetModules();
-    jest.restoreAllMocks();
-    cleanup();
+describe('useTransferCheck', () => {
+  afterEach(() => jest.restoreAllMocks());
+
+  it('checks PIXA transfer warnings with the empty local phishing list', async () => {
+    const list = jest.spyOn(PhishingUtils, 'getPhishingAccounts');
+    const warning = jest
+      .spyOn(TransferUtils, 'getTransferWarningLabel')
+      .mockReturnValue(null);
+    render(<Check />);
+    await waitFor(() =>
+      expect(warning).toHaveBeenCalledWith('bob', 'PIXA', '', []),
+    );
+    expect(list).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('warning').textContent).toBe('');
   });
-  describe('useTransferCheck cases:\n', () => {
-    it('Must call useTransferCheck without phishing warning', async () => {
-      const sUseTransferCheck = jest.spyOn(
-        TransferCheckModule,
-        'useTransferCheck',
-      );
-      jest.spyOn(KeychainApi, 'get').mockResolvedValue([]);
-      render(
-        <Transfer data={data} domain={'domain'} tab={0} rpc={DefaultRpcs[1]} />,
-      );
-      expect(sUseTransferCheck).toHaveBeenLastCalledWith(
-        { ...data },
-        DefaultRpcs[1],
-      );
-    });
 
-    it('Must call useTransferCheck with a phishing warning', async () => {
-      const sUseTransferCheck = jest.spyOn(
-        TransferCheckModule,
-        'useTransferCheck',
-      );
-      jest.spyOn(KeychainApi, 'get').mockResolvedValue(['bittrex']);
-      const clonedData = objects.clone(data) as RequestTransfer & RequestId;
-      clonedData.to = 'bittrex';
-      clonedData.memo = 'Hi there bittrex!';
-      render(
-        <Transfer
-          data={clonedData}
-          domain={'domain'}
-          tab={0}
-          rpc={DefaultRpcs[1]}
-        />,
-      );
-      expect(sUseTransferCheck).toHaveBeenLastCalledWith(
-        { ...clonedData },
-        DefaultRpcs[1],
-      );
-    });
+  it('shows a transfer warning returned by the transfer checks', async () => {
+    jest
+      .spyOn(TransferUtils, 'getTransferWarningLabel')
+      .mockReturnValue('A memo is required');
+    render(<Check />);
+    await waitFor(() =>
+      expect(screen.getByTestId('warning').textContent).toBe(
+        'A memo is required',
+      ),
+    );
+  });
+
+  it('shows a phishing warning if a local list contains the recipient', async () => {
+    jest.spyOn(PhishingUtils, 'getPhishingAccounts').mockResolvedValue(['bob']);
+    jest
+      .spyOn(chrome.i18n, 'getMessage')
+      .mockReturnValue('Suspicious recipient: bob');
+    render(<Check />);
+    await waitFor(() =>
+      expect(screen.getByTestId('warning').textContent).toBe(
+        'Suspicious recipient: bob',
+      ),
+    );
+    expect(chrome.i18n.getMessage).toHaveBeenCalledWith(
+      'popup_warning_phishing',
+      ['bob'],
+    );
   });
 });

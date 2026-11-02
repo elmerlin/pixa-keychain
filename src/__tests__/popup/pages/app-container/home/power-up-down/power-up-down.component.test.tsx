@@ -49,7 +49,7 @@ describe('power-up-down.component tests:\n', () => {
       ).toBeInTheDocument();
       expect(
         await screen.findByText(
-          `${FormatUtils.formatCurrencyValue(hiveBalance)} HIVE`,
+          `${FormatUtils.formatCurrencyValue(hiveBalance)} PIXA`,
         ),
       ).toBeInTheDocument();
     });
@@ -88,7 +88,7 @@ describe('power-up-down.component tests:\n', () => {
 
     it('Must set value to  max & show confirmation page', async () => {
       await screen.findByText(
-        `${FormatUtils.formatCurrencyValue(hiveBalance)} HIVE`,
+        `${FormatUtils.formatCurrencyValue(hiveBalance)} PIXA`,
       );
       const maxHive = parseFloat(
         hiveBalance.toString().split(' ')[0],
@@ -204,7 +204,7 @@ describe('power-up-down.component tests:\n', () => {
       ).toBeInTheDocument();
       expect(
         await screen.findByText(
-          `${FormatUtils.formatCurrencyValue(hpBalance)} HP`,
+          `${FormatUtils.formatCurrencyValue(hpBalance)} PP`,
         ),
       ).toBeInTheDocument();
     });
@@ -241,7 +241,7 @@ describe('power-up-down.component tests:\n', () => {
 
     it('Must set value to  max & show confirmation page', async () => {
       await screen.findByText(
-        `${FormatUtils.formatCurrencyValue(hpBalance)} HP`,
+        `${FormatUtils.formatCurrencyValue(hpBalance)} PP`,
       );
       await act(async () => {
         await userEvent.clear(screen.getByTestId(dataTestIdInput.amount));

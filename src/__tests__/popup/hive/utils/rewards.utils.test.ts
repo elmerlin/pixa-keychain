@@ -15,8 +15,8 @@ describe('RewardsUtils', () => {
 
       await RewardsUtils.claimRewards(
         'user',
-        '1.000 HIVE',
-        '0.000 HBD',
+        '1.000 PIXA',
+        '0.000 PXS',
         '0.000000 VESTS',
         'postingKey',
       );
@@ -27,8 +27,8 @@ describe('RewardsUtils', () => {
             'claim_reward_balance',
             {
               account: 'user',
-              reward_hive: '1.000 HIVE',
-              reward_hbd: '0.000 HBD',
+              reward_pixa: '1.000 PIXA',
+              reward_pxs: '0.000 PXS',
               reward_vests: '0.000000 VESTS',
             },
           ],
@@ -43,14 +43,14 @@ describe('RewardsUtils', () => {
   describe('hasReward', () => {
     it('returns false when all reward strings parse to zero', () => {
       jest.spyOn(FormatUtils, 'getValFromString').mockReturnValue(0);
-      expect(RewardsUtils.hasReward('0 HBD', '0 HP', '0 HIVE')).toBe(false);
+      expect(RewardsUtils.hasReward('0 PXS', '0 PP', '0 PIXA')).toBe(false);
     });
 
     it('returns true when any reward is non-zero', () => {
       jest
         .spyOn(FormatUtils, 'getValFromString')
         .mockImplementation((s: string) => (String(s).includes('5') ? 5 : 0));
-      expect(RewardsUtils.hasReward('0 HBD', '0 HP', '5 HIVE')).toBe(true);
+      expect(RewardsUtils.hasReward('0 PXS', '0 PP', '5 PIXA')).toBe(true);
     });
   });
 
@@ -59,21 +59,21 @@ describe('RewardsUtils', () => {
       jest.spyOn(chrome.i18n, 'getMessage').mockReturnValue('Redeem');
       jest.spyOn(FormatUtils, 'toHP').mockReturnValue('0');
       jest.spyOn(FormatUtils, 'getValFromString').mockImplementation((s: string) => {
-        if (String(s).includes('HBD') && String(s).includes('1')) return 1;
+        if (String(s).includes('PXS') && String(s).includes('1')) return 1;
         return 0;
       });
 
       const activeAccount = {
         account: {
-          reward_hbd_balance: '1.000 HBD',
+          reward_pxs_balance: '1.000 PXS',
           reward_vesting_balance: '0 VESTS',
-          reward_hive_balance: '0.000 HIVE',
+          reward_pixa_balance: '0.000 PIXA',
         },
       } as any;
 
       const [, , , rewardText] = RewardsUtils.getAvailableRewards(activeAccount);
 
-      expect(rewardText).toContain('1.000 HBD');
+      expect(rewardText).toContain('1.000 PXS');
     });
   });
 });

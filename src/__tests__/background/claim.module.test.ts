@@ -104,9 +104,9 @@ describe('claim.module tests:\n', () => {
     AccountUtils.getExtendedAccounts = jest.fn().mockResolvedValue([
       {
         ...accounts.extended,
-        hbd_last_interest_payment: '1970-01-01 00:00:00',
-        savings_hbd_seconds: '0',
-        savings_hbd_balance: '0.000 HBD',
+        pxs_last_interest_payment: '1970-01-01 00:00:00',
+        savings_pxs_seconds: '0',
+        savings_pxs_balance: '0.000 PXS',
       },
     ]);
     AccountUtils.getRCMana = jest.fn().mockResolvedValue(accounts.active.rc);
@@ -137,9 +137,9 @@ describe('claim.module tests:\n', () => {
     AccountUtils.getExtendedAccounts = jest.fn().mockResolvedValue([
       {
         ...accounts.extended,
-        hbd_last_interest_payment: '2021-06-02 16:46:36',
-        savings_hbd_seconds: '457,677,360',
-        savings_hbd_balance: '3,148.720 HBD',
+        pxs_last_interest_payment: '2021-06-02 16:46:36',
+        savings_pxs_seconds: '457,677,360',
+        savings_pxs_balance: '3,148.720 PXS',
       },
     ]);
     AccountUtils.getRCMana = jest.fn().mockResolvedValue(accounts.active.rc);

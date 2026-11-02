@@ -1,4 +1,5 @@
-import { Asset, DynamicGlobalProperties } from '@hiveio/dhive';
+import type { DynamicGlobalProperties } from '@hiveio/dhive';
+import { Asset } from 'hive-keychain-commons';
 import dynamic from 'src/__tests__/utils-for-testing/data/dynamic.hive';
 import FormatUtils from 'src/utils/format.utils';
 
@@ -49,12 +50,12 @@ describe('format.utils tests:\n', () => {
   });
   describe('withCommas tests:\n', () => {
     test('Passing a currency value using a comma, must return same value in U.S format standards', () => {
-      const result = FormatUtils.withCommas('12,38 HIVE');
-      expect(result).toBe('12.000 HIVE');
+      const result = FormatUtils.withCommas('12,38 PIXA');
+      expect(result).toBe('12.000 PIXA');
     });
     test('Passing a currency value using a dot, must return same value in U.S format standards', () => {
-      const result = FormatUtils.withCommas('12.1 HBD');
-      expect(result).toBe('12.100 HBD');
+      const result = FormatUtils.withCommas('12.1 PXS');
+      expect(result).toBe('12.100 PXS');
     });
     test('Passing a currency value(i.e USD) using a dot, must return same value in U.S format standards', () => {
       const result = FormatUtils.withCommas('9999.09 USD');
@@ -68,13 +69,13 @@ describe('format.utils tests:\n', () => {
       const result = FormatUtils.withCommas(' USD');
       expect(result).toBe('NaN USD');
     });
-    test('Passing a currency value="12999.000 HP", must return same value in U.S format standards', () => {
-      const result = FormatUtils.withCommas('12999.000 HP');
-      expect(result).toBe('12,999.000 HP');
+    test('Passing a currency value="12999.000 PP", must return same value in U.S format standards', () => {
+      const result = FormatUtils.withCommas('12999.000 PP');
+      expect(result).toBe('12,999.000 PP');
     });
-    test('Passing a big currency value="128899899999.88999099 HP", must return same value in U.S format standards but with only 3 decimals', () => {
-      const result = FormatUtils.withCommas('128899899999.88999099 HP');
-      expect(result).toBe('128,899,899,999.890 HP');
+    test('Passing a big currency value="128899899999.88999099 PP", must return same value in U.S format standards but with only 3 decimals', () => {
+      const result = FormatUtils.withCommas('128899899999.88999099 PP');
+      expect(result).toBe('128,899,899,999.890 PP');
     });
     test('Passing a negative currency value="-1200.909 USD", must return same value in U.S format standards', () => {
       const result = FormatUtils.withCommas('-1200.909 USD');
@@ -85,28 +86,28 @@ describe('format.utils tests:\n', () => {
       expect(result).toBe('NaN');
     });
     test('Passing a currency value and decimals, must return same value in U.S format standards with the specified decimals', () => {
-      const result = FormatUtils.withCommas('12.9900901 HP', 7);
-      expect(result).toBe('12.9900901 HP');
+      const result = FormatUtils.withCommas('12.9900901 PP', 7);
+      expect(result).toBe('12.9900901 PP');
     });
-    test('Passing a currency value bad formatted(1 23 .45 HP), will return "1.000 23"', () => {
-      const result = FormatUtils.withCommas('1 23 .45 HP');
+    test('Passing a currency value bad formatted(1 23 .45 PP), will return "1.000 23"', () => {
+      const result = FormatUtils.withCommas('1 23 .45 PP');
       expect(result).toBe('1.000 23');
     });
-    test('Passing a currency value bad formatted(1 23 .450 HP) with decimals, will return "1.0000 23"', () => {
-      const result = FormatUtils.withCommas('1 23 .450 HP', 4);
+    test('Passing a currency value bad formatted(1 23 .450 PP) with decimals, will return "1.0000 23"', () => {
+      const result = FormatUtils.withCommas('1 23 .450 PP', 4);
       expect(result).toBe('1.0000 23');
     });
     test('Passing a Big currency value and decimals, must return same value in U.S format standards with the specified decimals', () => {
-      const result = FormatUtils.withCommas('1200990098.9900901 HP', 7);
-      expect(result).toBe('1,200,990,098.9900901 HP');
+      const result = FormatUtils.withCommas('1200990098.9900901 PP', 7);
+      expect(result).toBe('1,200,990,098.9900901 PP');
     });
     test('Passing a currency value and decimals(negative), will thrown a RangeError', () => {
       const rangeError = new RangeError(
         'toFixed() digits argument must be between 0 and 100',
       );
       try {
-        const result = FormatUtils.withCommas('1.9900901 HP', -2);
-        expect(result).toBe('1,200,990,098.9900901 HP');
+        const result = FormatUtils.withCommas('1.9900901 PP', -2);
+        expect(result).toBe('1,200,990,098.9900901 PP');
       } catch (error) {
         expect(error).toEqual(rangeError);
       }
@@ -116,8 +117,8 @@ describe('format.utils tests:\n', () => {
         'toFixed() digits argument must be between 0 and 100',
       );
       try {
-        const result = FormatUtils.withCommas('1.9900901 HP', 101);
-        expect(result).toBe('1,200,990,098.9900901 HP');
+        const result = FormatUtils.withCommas('1.9900901 PP', 101);
+        expect(result).toBe('1,200,990,098.9900901 PP');
       } catch (error) {
         expect(error).toEqual(rangeError);
       }
@@ -136,36 +137,36 @@ describe('format.utils tests:\n', () => {
       expect(result).toBe(0);
     });
     test('Passing a vesting balance and valid props(as declared bellow), must return 1', () => {
-      const vesting_balance = '1.000 HIVE';
+      const vesting_balance = '1.000 PIXA';
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.000 HIVE',
+        total_vesting_fund_pixa: '1000.000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.toHP(vesting_balance, dynamicProps);
       expect(result).toBe(1);
     });
     test('Passing a negative vesting balance and valid props(as declared bellow), must return -1', () => {
-      const vesting_balance = '-1.000 HIVE';
+      const vesting_balance = '-1.000 PIXA';
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.000 HIVE',
+        total_vesting_fund_pixa: '1000.000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.toHP(vesting_balance, dynamicProps);
       expect(result).toBe(-1);
     });
     test('Passing a vesting balance and invalid props(as declared bellow), will return Infinity', () => {
-      const vesting_balance = '1.000 HIVE';
+      const vesting_balance = '1.000 PIXA';
       const dynamicProps = {
-        total_vesting_fund_hive: '1.00000 HIVE',
+        total_vesting_fund_pixa: '1.00000 PIXA',
         total_vesting_shares: '0.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.toHP(vesting_balance, dynamicProps);
       expect(result).toBe(Infinity);
     });
     test('Passing a vesting balance and invalid props(as declared bellow), will return NaN', () => {
-      const vesting_balance = '1.000 HIVE';
+      const vesting_balance = '1.000 PIXA';
       const dynamicProps = {
-        total_vesting_fund_hive: '0.00000 HIVE',
+        total_vesting_fund_pixa: '0.00000 PIXA',
         total_vesting_shares: '0.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.toHP(vesting_balance, dynamicProps);
@@ -173,7 +174,7 @@ describe('format.utils tests:\n', () => {
     });
     test('Passing vesting balance and valid props(as declared in fake-data.utils), must return expected value defined bellow', () => {
       const expectedValue: number = 0.5458633941648806;
-      const vesting_balance = '1000.000 HIVE';
+      const vesting_balance = '1000.000 PIXA';
       const result = FormatUtils.toHP(
         vesting_balance,
         dynamic.globalProperties,
@@ -191,7 +192,7 @@ describe('format.utils tests:\n', () => {
     });
     test('Passing hp and invalid props(as declared bellow), will return NaN', () => {
       const dynamicProps = {
-        total_vesting_fund_hive: '0.00000 HIVE',
+        total_vesting_fund_pixa: '0.00000 PIXA',
         total_vesting_shares: '0.000 VESTS',
       } as DynamicGlobalProperties;
       const hp = '0.5458633941648806';
@@ -200,16 +201,16 @@ describe('format.utils tests:\n', () => {
     });
     test('Passing hp and invalid props(as declared bellow), will return Infinity', () => {
       const dynamicProps = {
-        total_vesting_fund_hive: '0.00000 HIVE',
+        total_vesting_fund_pixa: '0.00000 PIXA',
         total_vesting_shares: '1.000 VESTS',
       } as DynamicGlobalProperties;
       const hp = '0.5458633941648806';
       const result = FormatUtils.fromHP(hp, dynamicProps);
       expect(result).toBe(Infinity);
     });
-    test('Passing a negative hp balance and valid props(as declared bellow), will return negative HP', () => {
+    test('Passing a negative hp balance and valid props(as declared bellow), will return negative PP', () => {
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.00000 HIVE',
+        total_vesting_fund_pixa: '1000.00000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const hp = '-1.000';
@@ -218,7 +219,7 @@ describe('format.utils tests:\n', () => {
     });
     test('Passing hp and valid props(as declared bellow), will return 1', () => {
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.00000 HIVE',
+        total_vesting_fund_pixa: '1000.00000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const hp = '1.000';
@@ -228,7 +229,7 @@ describe('format.utils tests:\n', () => {
     test('Passing an Empty hp and valid props, will return NaN', () => {
       const hp = '';
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.00000 HIVE',
+        total_vesting_fund_pixa: '1000.00000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.fromHP(hp, dynamicProps);
@@ -237,7 +238,7 @@ describe('format.utils tests:\n', () => {
     test('Passing hp="String" and valid props, will return NaN', () => {
       const hp = 'String';
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.00000 HIVE',
+        total_vesting_fund_pixa: '1000.00000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.fromHP(hp, dynamicProps);
@@ -246,7 +247,7 @@ describe('format.utils tests:\n', () => {
     test('Passing hp="0" and valid props, must return 0', () => {
       const hp = '0';
       const dynamicProps = {
-        total_vesting_fund_hive: '1000.00000 HIVE',
+        total_vesting_fund_pixa: '1000.00000 PIXA',
         total_vesting_shares: '1000.000 VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.fromHP(hp, dynamicProps);
@@ -255,7 +256,7 @@ describe('format.utils tests:\n', () => {
     test('Passing hp="0" and invalid props, will return NaN', () => {
       const hp = '0';
       const dynamicProps = {
-        total_vesting_fund_hive: 'HIVE',
+        total_vesting_fund_pixa: 'PIXA',
         total_vesting_shares: ' VESTS',
       } as DynamicGlobalProperties;
       const result = FormatUtils.fromHP(hp, dynamicProps);
@@ -265,17 +266,17 @@ describe('format.utils tests:\n', () => {
 
   describe('formatCurrencyValue tests:\n', () => {
     test('Passing a valid new asset and no digits parameter, must return valid U.S currency format with 3 digits', () => {
-      const value = new Asset(10, 'HBD');
+      const value = new Asset(10, 'PXS');
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('10.000');
     });
     test('Passing a valid currency string and no digits parameter, must return valid U.S currency format with 3 digits without the currency name', () => {
-      const value = '10 HBD';
+      const value = '10 PXS';
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('10.000');
     });
     test('Passing a valid currency string(with digits) and no digits parameter, must return valid U.S currency format with 3 digits without the currency name', () => {
-      const value = '10.899 HIVE';
+      const value = '10.899 PIXA';
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('10.899');
     });
@@ -290,17 +291,17 @@ describe('format.utils tests:\n', () => {
       expect(result).toBe('10.899 hbd');
     });
     test('Passing a negative currency string and no digits parameter, must return valid U.S currency format with 3 digits without the currency name', () => {
-      const value = '-10.899 HIVE';
+      const value = '-10.899 PIXA';
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('-10.899');
     });
     test('Passing a BIG currency string and no digits parameter, must return valid U.S currency format with 3 digits without the currency name', () => {
-      const value = '100099000900.899 HIVE';
+      const value = '100099000900.899 PIXA';
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('100,099,000,900.899');
     });
-    test('Passing a bad formatted currency string("100  .00 HIVE") and no digits parameter, will return "100.000"', () => {
-      const value = '100  .00 HIVE';
+    test('Passing a bad formatted currency string("100  .00 PIXA") and no digits parameter, will return "100.000"', () => {
+      const value = '100  .00 PIXA';
       const result = FormatUtils.formatCurrencyValue(value);
       expect(result).toBe('100.000');
     });
@@ -313,7 +314,7 @@ describe('format.utils tests:\n', () => {
       const rangeError = new RangeError(
         'toFixed() digits argument must be between 0 and 100',
       );
-      const value = '100.889988998 HIVE';
+      const value = '100.889988998 PIXA';
       try {
         const result = FormatUtils.formatCurrencyValue(value, 101);
         expect(result).toBe(NaN);
@@ -325,7 +326,7 @@ describe('format.utils tests:\n', () => {
       const rangeError = new RangeError(
         'toFixed() digits argument must be between 0 and 100',
       );
-      const value = '100.889988998 HIVE';
+      const value = '100.889988998 PIXA';
       try {
         const result = FormatUtils.formatCurrencyValue(value, -1);
         expect(result).toBe(NaN);
@@ -479,20 +480,20 @@ describe('format.utils tests:\n', () => {
       ).toBe(1.123212312123124e40);
     });
     test('Passing a new Asset object will return the numeric value(amount)', () => {
-      const asset = new Asset(100.89, 'STEEM');
+      const asset = new Asset(100.89, 'PIXA');
       expect(FormatUtils.toNumber(asset)).toBe(100.89);
     });
   });
 
   describe('getSymbol tests:\n', () => {
-    test('Passing "@@000000013" will return "HBD"', () => {
-      expect(FormatUtils.getSymbol('@@000000013')).toBe('HBD');
+    test('Passing "@@000000013" will return "PXS"', () => {
+      expect(FormatUtils.getSymbol('@@000000013')).toBe('PXS');
     });
-    test('Passing "@@000000021" will return "HIVE"', () => {
-      expect(FormatUtils.getSymbol('@@000000021')).toBe('HIVE');
+    test('Passing "@@000000021" will return "PIXA"', () => {
+      expect(FormatUtils.getSymbol('@@000000021')).toBe('PIXA');
     });
-    test('Passing "@@000000037" will return "HP"', () => {
-      expect(FormatUtils.getSymbol('@@000000037')).toBe('HP');
+    test('Passing "@@000000037" will return "PP"', () => {
+      expect(FormatUtils.getSymbol('@@000000037')).toBe('PP');
     });
   });
 
@@ -504,7 +505,7 @@ describe('format.utils tests:\n', () => {
           precision: 4,
           nai: '@@000000013',
         }),
-      ).toBe('1.0000 HBD');
+      ).toBe('1.0000 PXS');
     });
   });
 

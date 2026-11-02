@@ -20,7 +20,7 @@ describe('home.component dropdown hp tests:\n', () => {
     );
   });
 
-  it('Must expand the HP wallet row when clicking the dropdown arrow', async () => {
+  it('Must expand the PP wallet row when clicking the dropdown arrow', async () => {
     const row = await screen.findByTestId(dataTestIdDropdown.arrow.hp);
     await act(async () => {
       await userEvent.click(row);

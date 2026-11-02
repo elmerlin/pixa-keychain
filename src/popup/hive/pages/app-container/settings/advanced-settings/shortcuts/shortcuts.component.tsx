@@ -26,6 +26,7 @@ import {
   ComplexeCustomSelect,
   OptionItem,
 } from 'src/common-ui/custom-select/custom-select.component';
+import CurrencyUtils from 'src/popup/hive/utils/currency.utils';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { InputType } from 'src/common-ui/input/input-type.enum';
 import InputComponent from 'src/common-ui/input/input.component';
@@ -343,7 +344,10 @@ const Shortcuts = ({
     if (!shortcut.params) return '';
 
     if (shortcut.params.selectedCurrency) {
-      return shortcut.params.selectedCurrency.toUpperCase();
+      return CurrencyUtils.getCurrencyLabel(
+        shortcut.params.selectedCurrency,
+        false,
+      );
     }
     return '';
   };

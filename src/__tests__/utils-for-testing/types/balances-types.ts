@@ -1,1 +1,1 @@
-export type BalancesTypes = 'hbd_balance' | 'savings_hbd_balance';
+export type BalancesTypes = 'pxs_balance' | 'savings_pxs_balance';

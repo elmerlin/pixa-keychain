@@ -1,4 +1,3 @@
-import { KeychainApi } from '@api/keychain';
 import {
   DynamicGlobalProperties,
   ExtendedAccount,
@@ -20,7 +19,8 @@ import mk from 'src/__tests__/utils-for-testing/data/mk';
 import fake_RC from 'src/__tests__/utils-for-testing/data/rc';
 import rpc from 'src/__tests__/utils-for-testing/data/rpc';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { KeyChainApiGetCustomData } from 'src/__tests__/utils-for-testing/interfaces/implementations';
+import witness from 'src/__tests__/utils-for-testing/data/witness';
+import WitnessUtils from 'src/popup/hive/utils/witness.utils';
 import {
   CustomDataFromLocalStorage,
   GetManifest,
@@ -91,11 +91,9 @@ export interface TestsAppLoadingValues {
       getProposalList?: Proposal[];
     };
   };
-  apiRelated?: {
-    KeychainApi?: {
-      get?: jest.Mock;
-      customData?: KeyChainApiGetCustomData;
-    };
+  chain?: {
+    getDelegators?: jest.Mock;
+    getWitnessRanking?: jest.Mock;
   };
   localStorageRelated?: {
     implementations?: {
@@ -372,19 +370,13 @@ const set = (params?: {
   //////////
 
   //////////
-  //API related
-  //Note: For now it is only passing customData IF no need to change the get implementation.
-  KeychainApi.get =
-    params?.app?.apiRelated?.KeychainApi?.get ??
-    jest
-      .fn()
-      .mockImplementation((...args: any[]) =>
-        mocksImplementation.keychainApiGet(
-          args[0],
-          params?.app?.apiRelated?.KeychainApi?.customData,
-        ),
-      );
-  //////////
+  // Chain-backed lists used by popup screens. Unit tests cover their RPC requests.
+  DelegationUtils.getDelegators =
+    params?.app?.chain?.getDelegators ??
+    jest.fn().mockResolvedValue(delegations.delegators);
+  WitnessUtils.getWitnessRanking =
+    params?.app?.chain?.getWitnessRanking ??
+    jest.fn().mockResolvedValue(witness.ranking);
 };
 
 export const LoadingValuesConfiguration = { set };

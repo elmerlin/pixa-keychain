@@ -16,11 +16,11 @@ describe('local-storage.module tests:\n', () => {
     jest.resetAllMocks();
   });
 
-  it('Must execute switch cases', async () => {
+  it('migrates preferences without rewriting an old Hive RPC', async () => {
     jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
-    jest.spyOn(BgdAccountsUtils, 'getAccountsFromLocalStorage').mockResolvedValue(
-      [],
-    );
+    jest
+      .spyOn(BgdAccountsUtils, 'getAccountsFromLocalStorage')
+      .mockResolvedValue([]);
     LocalStorageUtils.getValueFromLocalStorage = jest
       .fn()
       .mockImplementation((...args: any[]) =>
@@ -36,21 +36,17 @@ describe('local-storage.module tests:\n', () => {
       'saveValueInLocalStorage',
     );
     await LocalStorageModule.checkAndUpdateLocalStorage();
-    expect(sSaveValueInLocalStorage).toHaveBeenNthCalledWith(
-      1,
+    expect(sSaveValueInLocalStorage).not.toHaveBeenCalledWith(
       LocalStorageKeyEnum.CURRENT_RPC,
-      {
-        testnet: false,
-        uri: 'https://api.hive.blog',
-      },
+      expect.anything(),
     );
     expect(sSaveValueInLocalStorage).toHaveBeenNthCalledWith(
-      2,
+      1,
       LocalStorageKeyEnum.LOCAL_STORAGE_VERSION,
       3,
     );
     expect(sSaveValueInLocalStorage).toHaveBeenNthCalledWith(
-      3,
+      2,
       LocalStorageKeyEnum.FAVORITE_USERS,
       {
         'keychain.tests': [
@@ -61,7 +57,7 @@ describe('local-storage.module tests:\n', () => {
       },
     );
     expect(sSaveValueInLocalStorage).toHaveBeenNthCalledWith(
-      4,
+      3,
       LocalStorageKeyEnum.LOCAL_STORAGE_VERSION,
       4,
     );

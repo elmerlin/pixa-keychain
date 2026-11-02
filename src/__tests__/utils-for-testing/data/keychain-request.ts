@@ -104,7 +104,7 @@ const getWithAllGenericData = () => {
   cloneData.collaterized = false;
   cloneData.memo = '';
   cloneData.enforce = false;
-  cloneData.currency = 'HIVE';
+  cloneData.currency = 'PIXA';
   cloneData.title = 'title';
   cloneData.body = 'body_stringyfied';
   cloneData.parent_perm = 'https://hive.com/perm-link/';
@@ -126,9 +126,9 @@ const getWithAllGenericData = () => {
   cloneData.subject = 'Create a keychain coin';
   cloneData.start = '21/12/2022';
   cloneData.end = '21/12/2024';
-  cloneData.daily_pay = '300 HBD';
+  cloneData.daily_pay = '300 PXS';
   cloneData.delegatee = 'theghost1980';
-  cloneData.unit = 'HP';
+  cloneData.unit = 'PP';
   cloneData.hive_power = '0.001';
   cloneData.hive = '0.001';
   cloneData.proxy = '';

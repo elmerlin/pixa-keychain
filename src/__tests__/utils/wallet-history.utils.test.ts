@@ -24,7 +24,7 @@ describe('wallet-history.utils tests:\n', () => {
     let fakeTransfer = {
       from: 'workerjab1',
       to: 'keychain.tests',
-      amount: '0.001 HIVE',
+      amount: '0.001 PIXA',
       memo: 'Not encrypted Memo',
     } as Transfer;
     const activeAccountName = userData.one.username;
@@ -41,7 +41,7 @@ describe('wallet-history.utils tests:\n', () => {
       expect(
         WalletHistoryUtils.filterTransfer(
           fakeTransfer,
-          'HI',
+          'PI',
           activeAccountName,
         ),
       ).toBe(true);
@@ -98,47 +98,47 @@ describe('wallet-history.utils tests:\n', () => {
       expect(
         WalletHistoryUtils.filterClaimReward(
           {
-            hbd: '100.000 HBD',
-            hive: '120.000 HIVE',
-            hp: '1000.000 HP',
+            hbd: '100.000 PXS',
+            hive: '120.000 PIXA',
+            hp: '1000.000 PP',
           } as ClaimReward,
           'test',
         ),
       ).toBe(false);
     });
-    test('Passing valid ClaimReward with rewards, but filtering "HP", will return true', () => {
+    test('Passing valid ClaimReward with rewards, but filtering "PP", will return true', () => {
       expect(
         WalletHistoryUtils.filterClaimReward(
           {
-            hbd: '100.000 HBD',
-            hive: '120.000 HIVE',
-            hp: '1000.000 HP',
+            hbd: '100.000 PXS',
+            hive: '120.000 PIXA',
+            hp: '1000.000 PP',
           } as ClaimReward,
-          'HP',
+          'PP',
         ),
       ).toBe(true);
     });
-    test('Passing ClaimReward with rewards, but filtering "hive", will return true', () => {
+    test('Passing ClaimReward with rewards, but filtering "pixa", will return true', () => {
       expect(
         WalletHistoryUtils.filterClaimReward(
           {
             hbd: '100.000',
-            hive: '120.000 HIVE',
+            hive: '120.000 PIXA',
             hp: '1000.000 ',
           } as ClaimReward,
-          'hive',
+          'pixa',
         ),
       ).toBe(true);
     });
-    test('Passing ClaimReward with rewards, but filtering "HBD", will return true', () => {
+    test('Passing ClaimReward with rewards, but filtering "PXS", will return true', () => {
       expect(
         WalletHistoryUtils.filterClaimReward(
           {
-            hbd: '100.000 hbd',
-            hive: '120.000 HIV',
+            hbd: '100.000 pxs',
+            hive: '120.000 PIX',
             hp: '1000.000 ',
           } as ClaimReward,
-          'hbd',
+          'pxs',
         ),
       ).toBe(true);
     });
@@ -147,13 +147,13 @@ describe('wallet-history.utils tests:\n', () => {
   describe('filterPowerUpDown tests:\n', () => {
     test('Passing a powerUp with a contained filterable value, must return true', () => {
       const powerUp = {
-        amount: '1000.000 HIVE',
+        amount: '1000.000 PIXA',
       } as PowerUp;
       expect(WalletHistoryUtils.filterPowerUpDown(powerUp, '1000')).toBe(true);
     });
     test('Passing a powerUp with a non contained filterable value, must return false', () => {
       const powerUp = {
-        amount: '1000.000 HIVE',
+        amount: '1000.000 PIXA',
       } as PowerUp;
       expect(WalletHistoryUtils.filterPowerUpDown(powerUp, '3459')).toBe(false);
     });
@@ -178,15 +178,15 @@ describe('wallet-history.utils tests:\n', () => {
   describe('filterSavingsTransaction tests:\n', () => {
     test('Passing a WithdrawSavings with a contained filterable value, must return true', () => {
       const WithdrawSavings = {
-        amount: '1000.000 HBD',
+        amount: '1000.000 PXS',
       } as WithdrawSavings;
-      expect(WalletHistoryUtils.filterPowerUpDown(WithdrawSavings, 'hbd')).toBe(
+      expect(WalletHistoryUtils.filterPowerUpDown(WithdrawSavings, 'pxs')).toBe(
         true,
       );
     });
     test('Passing a WithdrawSavings with a non contained filterable value, must return false', () => {
       const WithdrawSavings = {
-        amount: '1000.000 HBD',
+        amount: '1000.000 PXS',
       } as WithdrawSavings;
       expect(
         WalletHistoryUtils.filterPowerUpDown(WithdrawSavings, '2435'),
@@ -202,7 +202,7 @@ describe('wallet-history.utils tests:\n', () => {
     });
     test('Passing a DepositSavings with a contained filterable value, must return true', () => {
       const DepositSavings = {
-        amount: '1000.000 HBD',
+        amount: '1000.000 PXS',
       } as DepositSavings;
       expect(WalletHistoryUtils.filterPowerUpDown(DepositSavings, '1000')).toBe(
         true,
@@ -246,7 +246,7 @@ describe('wallet-history.utils tests:\n', () => {
     });
     test('If (delegation.delegator === delegation.delegatee === activeAccountName) and trying to filter a value in delegator, will return false', () => {
       const selfDelegation = {
-        amount: '1000.000 HIVE',
+        amount: '1000.000 PIXA',
         delegatee: 'keychain.tests',
         delegator: 'keychain.tests',
       } as Delegation;
@@ -260,7 +260,7 @@ describe('wallet-history.utils tests:\n', () => {
     });
     test('If (delegation.delegator === delegation.delegatee === activeAccountName) and trying to filter a value in delegatee, will return false', () => {
       const selfDelegation = {
-        amount: '1000.000 HIVE',
+        amount: '1000.000 PIXA',
         delegatee: 'keychain.tests',
         delegator: 'keychain.tests',
       } as Delegation;
@@ -276,32 +276,32 @@ describe('wallet-history.utils tests:\n', () => {
 
   describe('filterInterest tests:\n', () => {
     const interest = {
-      interest: '1000.000 HBD',
+      interest: '1000.000 PXS',
     } as ReceivedInterests;
     test('Passing a value not contained in interest must return false', () => {
-      expect(WalletHistoryUtils.filterInterest(interest, 'HIVE')).toBe(false);
+      expect(WalletHistoryUtils.filterInterest(interest, 'PIXA')).toBe(false);
     });
     test('Passing a value contained in interest must return true', () => {
-      expect(WalletHistoryUtils.filterInterest(interest, 'hbd')).toBe(true);
+      expect(WalletHistoryUtils.filterInterest(interest, 'pxs')).toBe(true);
     });
   });
 
   describe('filterConversion tests:\n', () => {
     const convert = {
-      amount: '123.005 HIVE',
+      amount: '123.005 PIXA',
     } as Convert;
     const collateralizedConvert = {
-      amount: '128.005 HIVE',
+      amount: '128.005 PIXA',
     } as CollateralizedConvert;
     test('Passing a value not contained in a Convert must return false', () => {
-      expect(WalletHistoryUtils.filterConversion(convert, 'HBD')).toBe(false);
+      expect(WalletHistoryUtils.filterConversion(convert, 'PXS')).toBe(false);
     });
     test('Passing a value contained in Convert must return true', () => {
-      expect(WalletHistoryUtils.filterConversion(convert, 'hive')).toBe(true);
+      expect(WalletHistoryUtils.filterConversion(convert, 'pixa')).toBe(true);
     });
     test('Passing a value not contained in a CollateralizedConvert must return false', () => {
       expect(
-        WalletHistoryUtils.filterConversion(collateralizedConvert, 'HBD'),
+        WalletHistoryUtils.filterConversion(collateralizedConvert, 'PXS'),
       ).toBe(false);
     });
     test('Passing a value contained in CollateralizedConvert must return true', () => {
@@ -313,12 +313,12 @@ describe('wallet-history.utils tests:\n', () => {
 
   describe('filterFillConversion tests:\n', () => {
     const fillConvert = {
-      amount_in: '10.000 HIVE',
-      amount_out: '100.005 HBD',
+      amount_in: '10.000 PIXA',
+      amount_out: '100.005 PXS',
     } as FillConvert;
     const fillCollateralizedConvert = {
-      amount_in: '30.001 HBD',
-      amount_out: '3009.009 HIVE',
+      amount_in: '30.001 PXS',
+      amount_out: '3009.009 PIXA',
     } as FillCollateralizedConvert;
     test('Passing a value contained in a fillConvert(amount_in) must return true', () => {
       expect(
@@ -345,7 +345,7 @@ describe('wallet-history.utils tests:\n', () => {
       expect(
         WalletHistoryUtils.filterFillConversion(
           fillCollateralizedConvert,
-          'hbd',
+          'pxs',
         ),
       ).toBe(true);
     });
@@ -367,7 +367,7 @@ describe('wallet-history.utils tests:\n', () => {
     });
     test('Passing a value contained in a FillCollateralizedConvert(amount_out or amount_in) must return true', () => {
       expect(
-        WalletHistoryUtils.filterFillConversion(fillCollateralizedConvert, 'H'),
+        WalletHistoryUtils.filterFillConversion(fillCollateralizedConvert, 'P'),
       ).toBe(true);
     });
   });

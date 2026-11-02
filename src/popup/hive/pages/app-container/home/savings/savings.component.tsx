@@ -313,7 +313,7 @@ const SavingsPage = ({
               watch('type') === SavingOperationType.DEPOSIT
                 ? 'popup_html_deposit_fail'
                 : 'popup_html_withdraw_fail',
-              [watch('currency').toUpperCase()],
+              [currencyLabels[watch('currency') as keyof CurrencyLabels]],
             );
           }
         } catch (err: any) {

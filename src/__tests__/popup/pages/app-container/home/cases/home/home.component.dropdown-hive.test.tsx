@@ -20,7 +20,7 @@ describe('home.component dropdown hive tests:\n', () => {
     );
   });
 
-  it('Must expand the HIVE wallet row when clicking the dropdown arrow', async () => {
+  it('Must expand the PIXA wallet row when clicking the dropdown arrow', async () => {
     const row = await screen.findByTestId(dataTestIdDropdown.arrow.hive);
     await act(async () => {
       await userEvent.click(row);

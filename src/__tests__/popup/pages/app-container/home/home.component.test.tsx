@@ -81,9 +81,9 @@ describe('home.component tests:\n', () => {
       currencies.prices.data,
       dynamic.globalProperties,
     );
-    expect(estimatedValueHTMLElement).toHaveTextContent(`$ ${accountValue}`);
+    expect(estimatedValueHTMLElement).toHaveTextContent(`${accountValue} PXS`);
 
-    //WalletInfoSectionComponent (HIVE, HBD, HP rows)
+    //WalletInfoSectionComponent (PIXA, PXS, PP rows)
     expect(screen.getAllByTestId(/^dropdown-arrow-/).length).toBeGreaterThanOrEqual(
       3,
     );
@@ -163,7 +163,7 @@ describe('home.component tests:\n', () => {
       await userEvent.click(screen.getByTestId(dataTestIdIcon.refreshHome));
     });
     expect(
-      await screen.findByText(`$ ${formattedEstimatedAccountValue}`, {
+      await screen.findByText(`${formattedEstimatedAccountValue} PXS`, {
         exact: true,
       }),
     ).toBeInTheDocument();

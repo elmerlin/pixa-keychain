@@ -1,5 +1,5 @@
 import ProposalUtils from '@hiveapp/utils/proposal.utils';
-import { Asset } from '@hiveio/dhive';
+import { Asset } from 'hive-keychain-commons';
 import { TransactionResult } from '@interfaces/hive-tx.interface';
 import { Proposal } from '@interfaces/proposal.interface';
 import '@testing-library/jest-dom';
@@ -26,7 +26,7 @@ describe('Proposal tab:\n', () => {
     ...proposal.expectedResultProposal,
     {
       creator: 'jack.keychain',
-      dailyPay: Asset.fromString('330 HBD'),
+      dailyPay: Asset.fromString('330 PXS'),
       endDate: moment('2022-05-23T00:00:00'),
       startDate: moment('2022-01-23T00:00:00'),
       funded: 'totally_funded',
@@ -36,7 +36,7 @@ describe('Proposal tab:\n', () => {
       receiver: 'v4vapp.dhf',
       subject:
         'Continuation: Hive to Value 4 Value - The Hive <> Bitcoin Lightning Bridge',
-      totalVotes: '40.27M HP',
+      totalVotes: '40.27M PP',
       voted: true,
     } as Proposal,
   ];
@@ -106,7 +106,7 @@ describe('Proposal tab:\n', () => {
       );
     });
     expect(sTabs).toHaveBeenCalledWith({
-      url: `https://peakd.com/@${selectedProposal.creator}`,
+      url: `https://pixtopia.net/chain/account/${selectedProposal.creator}`,
     });
     sTabs.mockRestore();
   });

@@ -29,7 +29,7 @@ describe('proposals tests:\n', () => {
       permlink: 'http://hive-keychain.com/coin',
       start: '21/12/2022',
       end: '21/12/2024',
-      daily_pay: '300 HBD',
+      daily_pay: '300 PXS',
       extensions: '',
       request_id: 1,
     } as RequestCreateProposal & RequestId,

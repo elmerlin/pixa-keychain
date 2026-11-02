@@ -1,69 +1,58 @@
-import { KeychainApi } from '@api/keychain';
 import RPCModule from '@background/rpc.module';
-import { DefaultRpcs } from '@reference-data/default-rpc.list';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { config as HiveTxConfig } from 'hive-tx';
-import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { CustomDataFromLocalStorage } from 'src/__tests__/utils-for-testing/interfaces/mocks.interface';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
-describe('rpc.module tests:\n', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetModules();
-    jest.restoreAllMocks();
-    jest.resetAllMocks();
-  });
+const CHAIN_ID =
+  '706978616772616d000000000000000000000000000000000000000000000000';
 
-  it('Must set active Rpc', async () => {
-    const sSaveValueInLocalStorage = jest.spyOn(
-      LocalStorageUtils,
-      'saveValueInLocalStorage',
-    );
-    await RPCModule.setActiveRpc(DefaultRpcs[0]);
-    expect(sSaveValueInLocalStorage).toHaveBeenCalledWith(
-      LocalStorageKeyEnum.CURRENT_RPC,
-      DefaultRpcs[0],
-    );
-  });
+describe('RPCModule', () => {
+  afterEach(() => jest.restoreAllMocks());
 
-  it('Must get active Rpc', async () => {
-    LocalStorageUtils.getValueFromLocalStorage = jest
-      .fn()
-      .mockImplementation((...args: any[]) =>
-        mocksImplementation.getValuefromLS(args[0], {
-          customCurrentRpc: DefaultRpcs[1],
-        } as CustomDataFromLocalStorage),
-      );
-    const sGetValueFromLocalStorage = jest.spyOn(
-      LocalStorageUtils,
-      'getValueFromLocalStorage',
-    );
+  it.each([undefined, { uri: 'DEFAULT', testnet: false }])(
+    'initializes the default Pixagram node for %p',
+    async (rpc) => {
+      jest.spyOn(RPCModule, 'getActiveRpc').mockResolvedValue(rpc);
+      await RPCModule.init();
+      expect(HiveTxConfig.node).toBe('https://api.pixagram.com');
+      expect(HiveTxConfig.chain_id).toBe(CHAIN_ID);
+    },
+  );
 
-    expect(await RPCModule.getActiveRpc()).toEqual(DefaultRpcs[1]);
-    expect(sGetValueFromLocalStorage).toHaveBeenCalledWith(
-      LocalStorageKeyEnum.CURRENT_RPC,
-    );
-  });
-
-  it('Must set default uri & chainId', async () => {
-    RPCModule.getActiveRpc = jest
-      .fn()
-      .mockResolvedValue({ uri: 'DEFAULT', chainId: '1' });
-    KeychainApi.get = jest.fn().mockResolvedValue({
-      rpc: {
-        uri: 'https://default',
-      },
+  it('initializes a custom node without changing the signing chain', async () => {
+    jest.spyOn(RPCModule, 'getActiveRpc').mockResolvedValue({
+      uri: 'https://custom.example',
+      testnet: false,
+      // Legacy stored data cannot override the signing chain.
+      ...{ chainId: 'foreign-chain' },
     });
     await RPCModule.init();
-    expect(HiveTxConfig.node).toEqual({ uri: 'https://default' });
+    expect(HiveTxConfig.node).toBe('https://custom.example');
+    expect(HiveTxConfig.chain_id).toBe(CHAIN_ID);
   });
 
-  it('Must set uri', async () => {
-    RPCModule.getActiveRpc = jest
-      .fn()
-      .mockResolvedValue({ uri: 'https://saturnoman' });
-    await RPCModule.init();
-    expect(HiveTxConfig.node).toEqual('https://saturnoman');
+  it.each(['DEFAULT', 'https://custom.example'])(
+    'persists and selects %s',
+    async (uri) => {
+      const save = jest
+        .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+        .mockResolvedValue(undefined);
+      const rpc = { uri, testnet: false, chainId: 'foreign-chain' };
+      await RPCModule.setActiveRpc(rpc);
+      expect(save).toHaveBeenCalledWith(LocalStorageKeyEnum.CURRENT_RPC, rpc);
+      expect(HiveTxConfig.node).toBe(
+        uri === 'DEFAULT' ? 'https://api.pixagram.com' : uri,
+      );
+      expect(HiveTxConfig.chain_id).toBe(CHAIN_ID);
+    },
+  );
+
+  it('reads the active RPC from storage', async () => {
+    const rpc = { uri: 'https://custom.example', testnet: false };
+    const read = jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue(rpc);
+    await expect(RPCModule.getActiveRpc()).resolves.toEqual(rpc);
+    expect(read).toHaveBeenCalledWith(LocalStorageKeyEnum.CURRENT_RPC);
   });
 });

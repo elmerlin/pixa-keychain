@@ -20,7 +20,7 @@ describe('proxy.utils tests:\n', () => {
     } as ExtendedAccount);
     expect(result).toBe(null);
   });
-  test('Passing an invalid requested proxy account(non existent on HIVE), will throw an unhandled error', async () => {
+  test('Passing an invalid requested proxy account(non existent on PIXA), will throw an unhandled error', async () => {
     const requestedProxyAccountName = 'fake.Account.NE';
     AccountUtils.getExtendedAccount = jest.fn().mockResolvedValueOnce([]);
     try {

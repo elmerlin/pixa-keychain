@@ -50,10 +50,10 @@ describe('top-bar.component tests:/n', () => {
               .replace('VESTS', ''),
             dynamic.globalProperties,
           ).toString(),
-        ) + ' HP';
+        ) + ' PP';
       const claimedResources = [
-        accounts.extended.reward_hive_balance,
-        accounts.extended.reward_hbd_balance,
+        accounts.extended.reward_pixa_balance,
+        accounts.extended.reward_pxs_balance,
         rewardHp,
       ];
       RewardsUtils.claimRewards = jest.fn().mockResolvedValue(true);

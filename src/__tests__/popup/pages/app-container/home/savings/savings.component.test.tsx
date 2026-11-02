@@ -27,10 +27,10 @@ describe('savings.component tests:\n', () => {
       initialStates.iniStateAs.defaultExistent,
     );
   });
-  describe('HIVE:\n', () => {
+  describe('PIXA:\n', () => {
     describe('withdraw:\n', () => {
       const hiveSavingsBalance = parseFloat(
-        accounts.extended.savings_balance.toString().split(' HIVE')[0],
+        accounts.extended.savings_balance.toString().split(' PIXA')[0],
       );
       beforeEach(async () => {
         await act(async () => {
@@ -62,7 +62,7 @@ describe('savings.component tests:\n', () => {
         ).toBeInTheDocument();
       });
 
-      it('Must set input to max & load HIVE withdraw confirmation text', async () => {
+      it('Must set input to max & load PIXA withdraw confirmation text', async () => {
         await waitFor(() => {
           expect(
             screen.getByTestId(`${Screen.SAVINGS_PAGE}-page`),
@@ -88,7 +88,7 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_confirm_savings_withdraw', [
-              'HIVE',
+              'PIXA',
             ]),
           ),
         ).toBeInTheDocument();
@@ -127,12 +127,12 @@ describe('savings.component tests:\n', () => {
         });
         expect(
           await screen.findByText(
-            chrome.i18n.getMessage('popup_html_withdraw_fail', ['HIVE']),
+            chrome.i18n.getMessage('popup_html_withdraw_fail', ['PIXA']),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show success message in HIVE', async () => {
+      it('Must show success message in PIXA', async () => {
         SavingsUtils.withdraw = jest.fn().mockResolvedValue({
           tx_id: 'tx_id',
           id: 'id',
@@ -154,13 +154,13 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_withdraw_success', [
-              `${FormatUtils.formatCurrencyValue(10)} HIVE`,
+              `${FormatUtils.formatCurrencyValue(10)} PIXA`,
             ]),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show error in HIVE withdraw', async () => {
+      it('Must show error in PIXA withdraw', async () => {
         SavingsUtils.withdraw = jest
           .fn()
           .mockRejectedValue(new Error('Error withdraw'));
@@ -182,7 +182,7 @@ describe('savings.component tests:\n', () => {
 
     describe('deposit:\n', () => {
       const hiveBalance = parseFloat(
-        accounts.extended.balance.toString().split(' HIVE')[0],
+        accounts.extended.balance.toString().split(' PIXA')[0],
       );
       beforeEach(async () => {
         await act(async () => {
@@ -205,13 +205,13 @@ describe('savings.component tests:\n', () => {
         });
       });
 
-      it('Must show deposit HIVE button', async () => {
+      it('Must show deposit PIXA button', async () => {
         expect(
           await screen.findByTestId(dataTestIdButton.operation.savings.submit),
-        ).toHaveTextContent('Deposit HIVE');
+        ).toHaveTextContent('Deposit PIXA');
       });
 
-      it('Must set input to max & load HIVE deposit confirmation text', async () => {
+      it('Must set input to max & load PIXA deposit confirmation text', async () => {
         await waitFor(() => {
           expect(
             screen.getByTestId(`${Screen.SAVINGS_PAGE}-page`),
@@ -234,7 +234,7 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_confirm_savings_deposit', [
-              'HIVE',
+              'PIXA',
             ]),
           ),
         ).toBeInTheDocument();
@@ -273,12 +273,12 @@ describe('savings.component tests:\n', () => {
         });
         expect(
           await screen.findByText(
-            chrome.i18n.getMessage('popup_html_deposit_fail', ['HIVE']),
+            chrome.i18n.getMessage('popup_html_deposit_fail', ['PIXA']),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show success message in HIVE deposit', async () => {
+      it('Must show success message in PIXA deposit', async () => {
         SavingsUtils.deposit = jest.fn().mockResolvedValue({
           tx_id: 'tx_id',
           id: 'id',
@@ -300,13 +300,13 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_deposit_success', [
-              `${FormatUtils.formatCurrencyValue(10)} HIVE`,
+              `${FormatUtils.formatCurrencyValue(10)} PIXA`,
             ]),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show error in HIVE desposit', async () => {
+      it('Must show error in PIXA desposit', async () => {
         SavingsUtils.deposit = jest
           .fn()
           .mockRejectedValue(new Error('Error deposit'));
@@ -327,10 +327,10 @@ describe('savings.component tests:\n', () => {
     });
   });
 
-  describe('HBD:\n', () => {
+  describe('PXS:\n', () => {
     describe('withdraw:\n', () => {
       const hbdSavingsBalance = parseFloat(
-        accounts.extended.savings_hbd_balance.toString().split(' HBD')[0],
+        accounts.extended.savings_pxs_balance.toString().split(' PXS')[0],
       );
       beforeEach(async () => {
         await act(async () => {
@@ -362,7 +362,7 @@ describe('savings.component tests:\n', () => {
         ).toBeInTheDocument();
       });
 
-      it('Must set input to max & load HBD withdraw confirmation text', async () => {
+      it('Must set input to max & load PXS withdraw confirmation text', async () => {
         await waitFor(() => {
           expect(
             screen.getByTestId(`${Screen.SAVINGS_PAGE}-page`),
@@ -385,7 +385,7 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_confirm_savings_withdraw', [
-              'HBD',
+              'PXS',
             ]),
           ),
         ).toBeInTheDocument();
@@ -424,12 +424,12 @@ describe('savings.component tests:\n', () => {
         });
         expect(
           await screen.findByText(
-            chrome.i18n.getMessage('popup_html_withdraw_fail', ['HBD']),
+            chrome.i18n.getMessage('popup_html_withdraw_fail', ['PXS']),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show success message in HBD', async () => {
+      it('Must show success message in PXS', async () => {
         SavingsUtils.withdraw = jest.fn().mockResolvedValue({
           tx_id: 'tx_id',
           id: 'id',
@@ -451,16 +451,16 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_withdraw_success', [
-              `${FormatUtils.formatCurrencyValue(10)} HBD`,
+              `${FormatUtils.formatCurrencyValue(10)} PXS`,
             ]),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show error in HBD withdraw', async () => {
+      it('Must show error in PXS withdraw', async () => {
         SavingsUtils.withdraw = jest
           .fn()
-          .mockRejectedValue(new Error('Error withdraw HBD'));
+          .mockRejectedValue(new Error('Error withdraw PXS'));
         await act(async () => {
           await userEvent.type(
             screen.getByTestId(dataTestIdInput.amount),
@@ -474,14 +474,14 @@ describe('savings.component tests:\n', () => {
           );
         });
         expect(
-          await screen.findByText('Error withdraw HBD'),
+          await screen.findByText('Error withdraw PXS'),
         ).toBeInTheDocument();
       });
     });
 
     describe('deposit:\n', () => {
       const hbdBalance = parseFloat(
-        accounts.extended.hbd_balance.toString().split(' HBD')[0],
+        accounts.extended.pxs_balance.toString().split(' PXS')[0],
       );
       beforeEach(async () => {
         await act(async () => {
@@ -504,13 +504,13 @@ describe('savings.component tests:\n', () => {
         });
       });
 
-      it('Must show deposit HBD button', async () => {
+      it('Must show deposit PXS button', async () => {
         expect(
           await screen.findByTestId(dataTestIdButton.operation.savings.submit),
-        ).toHaveTextContent('Deposit HBD');
+        ).toHaveTextContent('Deposit PXS');
       });
 
-      it('Must set input to max & load HBD deposit confirmation text', async () => {
+      it('Must set input to max & load PXS deposit confirmation text', async () => {
         await waitFor(() => {
           expect(
             screen.getByTestId(`${Screen.SAVINGS_PAGE}-page`),
@@ -533,13 +533,13 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_confirm_savings_deposit', [
-              'HBD',
+              'PXS',
             ]),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show error if not enough HBD balance', async () => {
+      it('Must show error if not enough PXS balance', async () => {
         await act(async () => {
           await userEvent.type(
             screen.getByTestId(dataTestIdInput.amount),
@@ -556,7 +556,7 @@ describe('savings.component tests:\n', () => {
         ).toBeInTheDocument();
       });
 
-      it('Must show error if HBD operation fails', async () => {
+      it('Must show error if PXS operation fails', async () => {
         SavingsUtils.deposit = jest.fn().mockResolvedValue(null);
         await act(async () => {
           await userEvent.type(
@@ -572,12 +572,12 @@ describe('savings.component tests:\n', () => {
         });
         expect(
           await screen.findByText(
-            chrome.i18n.getMessage('popup_html_deposit_fail', ['HBD']),
+            chrome.i18n.getMessage('popup_html_deposit_fail', ['PXS']),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show success message in HBD deposit', async () => {
+      it('Must show success message in PXS deposit', async () => {
         SavingsUtils.deposit = jest.fn().mockResolvedValue({
           tx_id: 'tx_id',
           id: 'id',
@@ -599,16 +599,16 @@ describe('savings.component tests:\n', () => {
         expect(
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_deposit_success', [
-              `${FormatUtils.formatCurrencyValue(10)} HBD`,
+              `${FormatUtils.formatCurrencyValue(10)} PXS`,
             ]),
           ),
         ).toBeInTheDocument();
       });
 
-      it('Must show error in HBD desposit', async () => {
+      it('Must show error in PXS desposit', async () => {
         SavingsUtils.deposit = jest
           .fn()
-          .mockRejectedValue(new Error('Error deposit HBD'));
+          .mockRejectedValue(new Error('Error deposit PXS'));
         await act(async () => {
           await userEvent.type(
             screen.getByTestId(dataTestIdInput.amount),
@@ -622,7 +622,7 @@ describe('savings.component tests:\n', () => {
           );
         });
         expect(
-          await screen.findByText('Error deposit HBD'),
+          await screen.findByText('Error deposit PXS'),
         ).toBeInTheDocument();
       });
     });

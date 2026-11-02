@@ -1,9 +1,7 @@
 import { RequestTransfer } from '@interfaces/keychain.interface';
 import { Rpc } from '@interfaces/rpc.interface';
 import { useEffect, useState } from 'react';
-import CurrencyUtils, {
-  BaseCurrencies,
-} from 'src/popup/hive/utils/currency.utils';
+import CurrencyUtils from 'src/popup/hive/utils/currency.utils';
 import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import PhishingUtils from 'src/utils/phishing.utils';
 
@@ -18,9 +16,7 @@ export const useTransferCheck = (data: RequestTransfer, rpc: Rpc) => {
         warning = TransferUtils.getTransferWarningLabel(
           data.to,
           data.type === 'transfer'
-            ? CurrencyUtils.getCurrencyLabels(rpc.testnet)[
-                data.currency.toLowerCase() as BaseCurrencies
-              ]
+            ? CurrencyUtils.getCurrencyLabel(data.currency, rpc.testnet)
             : data.currency,
           data.memo,
           accs,

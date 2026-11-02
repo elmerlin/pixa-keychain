@@ -28,7 +28,7 @@ describe('transfer tests:\n', () => {
     amount: '0.001',
     memo: '',
     enforce: false,
-    currency: 'HIVE',
+    currency: 'PIXA',
     request_id: 1,
   } as RequestTransfer & RequestId;
 
@@ -82,7 +82,7 @@ describe('transfer tests:\n', () => {
 
         it('Must return error if receiver not found', async () => {
           const cloneData = objects.clone(data) as RequestTransfer & RequestId;
-          cloneData.currency = 'HIVE';
+          cloneData.currency = 'PIXA';
           cloneData.amount = '0.001';
           cloneData.to = mk.user.two;
           const localeMessageKey = 'bgd_ops_transfer_get_account';

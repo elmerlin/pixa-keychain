@@ -16,7 +16,7 @@ describe('transfer-fund.component tests:\n', () => {
     jest.resetModules();
     cleanup();
   });
-  describe('HBD cases:\n', () => {
+  describe('PXS cases:\n', () => {
     describe('Having all keys:\n', () => {
       beforeEach(async () => {
         await reactTestingLibrary.renderWithConfiguration(

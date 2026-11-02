@@ -56,7 +56,7 @@ describe('index tests:\n', () => {
     const requestHandler = new RequestsHandler();
     requestHandler.initializeParameters(
       accounts.twoAccounts,
-      DefaultRpcs[1],
+      DefaultRpcs[0],
       {},
     );
     expect(requestHandler.data.accounts).toEqual(accounts.twoAccounts);

@@ -31,11 +31,11 @@ describe('savings.utils.ts tests:\n', () => {
       const clonedActiveAccount = objects.clone(
         accounts.active,
       ) as ActiveAccount;
-      clonedActiveAccount.account.hbd_balance = '0.000 HBD';
-      clonedActiveAccount.account.savings_hbd_balance = '0.000 HBD';
+      clonedActiveAccount.account.pxs_balance = '0.000 PXS';
+      clonedActiveAccount.account.savings_pxs_balance = '0.000 PXS';
       expect(await SavingsUtils.claimSavings(clonedActiveAccount)).toBe(false);
       expect(sLogger).toHaveBeenCalledWith(
-        `@${clonedActiveAccount.name} has no HBD to deposit or savings to withdraw`,
+        `@${clonedActiveAccount.name} has no PXS to deposit or savings to withdraw`,
       );
       sLogger.mockClear();
     });
@@ -44,8 +44,8 @@ describe('savings.utils.ts tests:\n', () => {
       const clonedActiveAccount = objects.clone(
         accounts.active,
       ) as ActiveAccount;
-      clonedActiveAccount.account.hbd_balance = '10.000 HBD';
-      clonedActiveAccount.account.savings_hbd_balance = '0.000 HBD';
+      clonedActiveAccount.account.pxs_balance = '10.000 PXS';
+      clonedActiveAccount.account.savings_pxs_balance = '0.000 PXS';
       SavingsUtils.deposit = jest.fn().mockResolvedValue(true);
       expect(await SavingsUtils.claimSavings(clonedActiveAccount)).toBe(true);
     });
@@ -54,8 +54,8 @@ describe('savings.utils.ts tests:\n', () => {
       const clonedActiveAccount = objects.clone(
         accounts.active,
       ) as ActiveAccount;
-      clonedActiveAccount.account.hbd_balance = '0.000 HBD';
-      clonedActiveAccount.account.savings_hbd_balance = '10.000 HBD';
+      clonedActiveAccount.account.pxs_balance = '0.000 PXS';
+      clonedActiveAccount.account.savings_pxs_balance = '10.000 PXS';
       SavingsUtils.withdraw = jest.fn().mockResolvedValue(true);
       expect(await SavingsUtils.claimSavings(clonedActiveAccount)).toBe(true);
     });

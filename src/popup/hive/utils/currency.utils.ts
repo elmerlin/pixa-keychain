@@ -5,8 +5,8 @@ export interface CurrencyLabels {
 }
 
 export enum BaseCurrencies {
-  PIXA = 'hive',
-  PXS = 'hbd',
+  PIXA = 'pixa',
+  PXS = 'pxs',
 }
 
 const getCurrencyLabels = (isTestnet: boolean): CurrencyLabels => {
@@ -18,7 +18,7 @@ const getCurrencyLabels = (isTestnet: boolean): CurrencyLabels => {
 };
 
 const getCurrencyLabel = (currency: string, isTestnet: boolean) => {
-  const cur = currency.toLowerCase() as BaseCurrencies;
+  const cur = currency.toLowerCase() as keyof CurrencyLabels;
   const label = getCurrencyLabels(isTestnet)[cur];
   return label ? label : cur.toUpperCase();
 };

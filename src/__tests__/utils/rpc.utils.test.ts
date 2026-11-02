@@ -8,6 +8,7 @@ import Logger from 'src/utils/logger.utils';
 describe('rpc.utils tests:\n', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
   describe('getFullList tests:\n', () => {
     test('Must return a valid object', () => {
@@ -31,7 +32,7 @@ describe('rpc.utils tests:\n', () => {
     });
     test('Passing the default Rpc must return true', () => {
       const defaultRpc: Rpc = {
-        uri: 'https://api.hive.blog/',
+        uri: 'https://api.pixagram.com/',
         testnet: false,
       };
       expect(RpcUtils.isDefault(defaultRpc)).toBe(true);
@@ -73,7 +74,9 @@ describe('rpc.utils tests:\n', () => {
       expect(mockedGetValueFromLocalStorage).toHaveBeenCalledTimes(1);
       expect(mockedGetValueFromLocalStorage).toHaveBeenCalledWith('rpc');
       expect(mockSaveValueInLocalStorage).toHaveBeenCalledTimes(1);
-      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith('rpc', [customRpc]);
+      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith('rpc', [
+        customRpc,
+      ]);
     });
     test('Adding a customRpc into and non empty rpc object in localStorage, must call saveValueInLocalStorage adding the new rpc into that object', async () => {
       const customRpcs: Rpc[] = [
@@ -111,7 +114,10 @@ describe('rpc.utils tests:\n', () => {
         (LocalStorageUtils.saveValueInLocalStorage = jest.fn());
       const result = RpcUtils.deleteCustomRpc(customRpcList, rpcToDelete);
       expect(mockSaveValueInLocalStorage).toHaveBeenCalledTimes(1);
-      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith('rpc', expectedArray);
+      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith(
+        'rpc',
+        expectedArray,
+      );
       expect(result.length).toBe(expectedArray.length);
       expect(result).toEqual(expectedArray);
     });
@@ -122,7 +128,10 @@ describe('rpc.utils tests:\n', () => {
         (LocalStorageUtils.saveValueInLocalStorage = jest.fn());
       const result = RpcUtils.deleteCustomRpc(customRpcList, rpcToDelete);
       expect(mockSaveValueInLocalStorage).toHaveBeenCalledTimes(1);
-      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith('rpc', expectedArray);
+      expect(mockSaveValueInLocalStorage).toHaveBeenCalledWith(
+        'rpc',
+        expectedArray,
+      );
       expect(result.length).toBe(expectedArray.length);
       expect(result).toEqual(expectedArray);
     });
@@ -178,48 +187,51 @@ describe('rpc.utils tests:\n', () => {
     });
   });
 
-  describe('checkRpcStatus tests:\n', () => {
-    const fakeResponse = {
-      status: 'OK',
-      datetime: '2022-05-19T18:14:33.440167',
-      source_commit: '',
-      docker_tag: '',
-      jussi_num: 64517562,
+  describe('checkRpcStatus', () => {
+    const config = {
+      HIVE_CHAIN_ID:
+        '706978616772616d000000000000000000000000000000000000000000000000',
+      HIVE_ADDRESS_PREFIX: 'PIX',
     };
-    const hardCodedUri = 'https://hived.emre.sh';
-    test('Checking on uri "DEFAULT" will hit the default Hive API base URL and return status', async () => {
-      const spyAxiosGet = jest
-        .spyOn(axios, 'get')
-        .mockResolvedValueOnce(fakeResponse);
-      expect(await RpcUtils.checkRpcStatus('DEFAULT')).toBe(true);
-      expect(spyAxiosGet).toHaveBeenCalledTimes(1);
-      expect(spyAxiosGet).toHaveBeenCalledWith('https://api.hive.blog', {
-        timeout: 10000,
-      });
+
+    it.each(['DEFAULT', 'https://custom.example'])(
+      'POSTs get_config to %s and accepts Pixagram',
+      async (uri) => {
+        const post = jest
+          .spyOn(axios, 'post')
+          .mockResolvedValue({ data: { result: config } });
+        await expect(RpcUtils.checkRpcStatus(uri)).resolves.toBe(true);
+        expect(post).toHaveBeenCalledWith(
+          uri === 'DEFAULT' ? 'https://api.pixagram.com' : uri,
+          {
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'condenser_api.get_config',
+            params: [],
+          },
+          { timeout: 10000 },
+        );
+      },
+    );
+
+    it.each([
+      { ...config, HIVE_CHAIN_ID: 'foreign-chain' },
+      { ...config, HIVE_ADDRESS_PREFIX: 'STM' },
+      {},
+    ])('rejects incompatible or missing chain config: %p', async (result) => {
+      jest.spyOn(axios, 'post').mockResolvedValue({ data: { result } });
+      await expect(
+        RpcUtils.checkRpcStatus('https://custom.example'),
+      ).resolves.toBe(false);
     });
-    test('Checking on a hardcoded uri, will check on "uri/health" and return status', async () => {
-      const spyAxiosGet = jest
-        .spyOn(axios, 'get')
-        .mockResolvedValueOnce(fakeResponse);
-      expect(await RpcUtils.checkRpcStatus(hardCodedUri)).toBe(true);
-      expect(spyAxiosGet).toHaveBeenCalledTimes(1);
-      expect(spyAxiosGet).toHaveBeenCalledWith(`${hardCodedUri}/health`, {
-        timeout: 10000,
-      });
-    });
-    test('If the checked uri returns an error, an error will be thrown by the interceptor as "RPC NOK" and will return false', async () => {
-      const error = new Error('RPC NOK');
-      const spyLoggerError = jest.spyOn(Logger, 'error');
-      const spyAxiosGet = jest
-        .spyOn(axios, 'get')
-        .mockImplementationOnce((...args) => Promise.reject(error));
-      expect(await RpcUtils.checkRpcStatus(hardCodedUri)).toBe(false);
-      expect(spyAxiosGet).toHaveBeenCalledTimes(1);
-      expect(spyAxiosGet).toHaveBeenCalledWith(`${hardCodedUri}/health`, {
-        timeout: 10000,
-      });
-      expect(spyLoggerError).toHaveBeenCalledTimes(1);
-      expect(spyLoggerError).toHaveBeenCalledWith('error', error);
+
+    it('returns false and logs when the node cannot be reached', async () => {
+      const error = new Error('RPC unavailable');
+      const post = jest.spyOn(axios, 'post').mockRejectedValue(error);
+      const log = jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      await expect(RpcUtils.checkRpcStatus('DEFAULT')).resolves.toBe(false);
+      expect(post).toHaveBeenCalledTimes(1);
+      expect(log).toHaveBeenCalledWith('error', error);
     });
   });
 });

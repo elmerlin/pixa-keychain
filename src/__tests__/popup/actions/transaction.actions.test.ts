@@ -45,7 +45,7 @@ describe('transaction.actions tests:\n', () => {
       {
         from: 'workerjab1',
         to: 'keychain.tests',
-        amount: '0.001 HIVE',
+        amount: '0.001 PIXA',
         memo: '',
       },
     ],
@@ -62,7 +62,7 @@ describe('transaction.actions tests:\n', () => {
       {
         from: 'workerjab1',
         to: 'keychain.tests',
-        amount: '100.000 HIVE',
+        amount: '100.000 PIXA',
         memo: '',
       },
     ],

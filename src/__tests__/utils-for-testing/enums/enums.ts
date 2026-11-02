@@ -58,6 +58,6 @@ export enum KeyMessage {
 }
 
 export enum CurrencyToUse {
-  HIVE = 'hive',
-  HBD = 'hbd',
+  PIXA = 'hive',
+  PXS = 'hbd',
 }

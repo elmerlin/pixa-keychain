@@ -8,7 +8,7 @@ import AccountUtils from 'src/popup/hive/utils/account.utils';
 import type { WrongKeysOnUser } from 'src/popup/hive/pages/app-container/wrong-key-popup/wrong-key-popup.component';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 
-/** Same derivation as `KeysUtils` (hive-tx); avoids brittle hard-coded STM strings across Jest/jsdom. */
+/** Same derivation as `KeysUtils` (hive-tx); avoids brittle hard-coded PIX strings across Jest/jsdom. */
 const expectedPubFromWif = (wif: string) =>
   PrivateKey.fromString(wif).createPublic().toString();
 
@@ -258,14 +258,14 @@ describe('keys.utils tests:\n', () => {
         posting: {
           weight_threshold: 1,
           account_auths: [],
-          key_auths: [['STM1111111111111111111111111111111114T1Anm', 1]],
+          key_auths: [['PIX1111111111111111111111111111111114T1Anm', 1]],
         },
         active: {
           weight_threshold: 1,
           account_auths: [],
-          key_auths: [['STM1111111111111111111111111111111114T1Anm', 1]],
+          key_auths: [['PIX1111111111111111111111111111111114T1Anm', 1]],
         },
-        memo_key: 'STM1111111111111111111111111111111114T1Anm',
+        memo_key: 'PIX1111111111111111111111111111111114T1Anm',
       } as Account;
 
       expect(
@@ -288,7 +288,7 @@ describe('keys.utils tests:\n', () => {
     });
 
     test('returns false when either side is missing', () => {
-      expect(KeysUtils.isExportable(undefined, 'STMpub')).toBe(false);
+      expect(KeysUtils.isExportable(undefined, 'PIXpub')).toBe(false);
       expect(KeysUtils.isExportable('priv', undefined)).toBe(false);
     });
   });
@@ -310,21 +310,21 @@ describe('keys.utils tests:\n', () => {
 
       KeysUtils.checkWrongKeyOnAccount(
         'activePubkey',
-        'STMwrong',
+        'PIXwrong',
         'alice',
         extended,
         found,
       );
       KeysUtils.checkWrongKeyOnAccount(
         'postingPubkey',
-        'STMwrong2',
+        'PIXwrong2',
         'alice',
         extended,
         found,
       );
       KeysUtils.checkWrongKeyOnAccount(
         'memoPubkey',
-        'STMwrongmemo',
+        'PIXwrongmemo',
         'alice',
         extended,
         found,

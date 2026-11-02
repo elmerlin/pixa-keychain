@@ -10,15 +10,15 @@ import userData, {
 const extended = {
   name: userData.one.username,
   reputation: 100,
-  reward_hbd_balance: '100 HBD',
-  reward_hive_balance: '100 HIVE',
+  reward_pxs_balance: '100 PXS',
+  reward_pixa_balance: '100 PIXA',
   reward_vesting_balance: new Asset(1000, 'VESTS'),
   delegated_vesting_shares: new Asset(100, 'VESTS'),
   received_vesting_shares: new Asset(20000, 'VESTS'),
-  balance: new Asset(1000, 'HIVE'),
-  hbd_balance: new Asset(1000, 'HBD'),
-  savings_balance: new Asset(10000, 'HIVE'),
-  savings_hbd_balance: new Asset(10000, 'HBD'),
+  balance: new Asset(1000, 'PIXA'),
+  pxs_balance: new Asset(1000, 'PXS'),
+  savings_balance: new Asset(10000, 'PIXA'),
+  savings_pxs_balance: new Asset(10000, 'PXS'),
   vesting_shares: new Asset(10000, 'VESTS'),
   proxy: '',
   witness_votes: ['aggroed', 'blocktrades'],
@@ -51,9 +51,9 @@ const extendedStringValues = {
   delegated_vesting_shares: extended.delegated_vesting_shares.toString(),
   received_vesting_shares: extended.received_vesting_shares.toString(),
   balance: extended.balance.toString(),
-  hbd_balance: extended.hbd_balance.toString(),
+  pxs_balance: extended.pxs_balance.toString(),
   savings_balance: extended.savings_balance.toString(),
-  savings_hbd_balance: extended.savings_hbd_balance.toString(),
+  savings_pxs_balance: extended.savings_pxs_balance.toString(),
   vesting_shares: extended.vesting_shares.toString(),
 } as ExtendedAccount;
 
@@ -120,7 +120,7 @@ const twoAccounts = [local.one, local.two];
  * matching `local.justTwoKeys` keys. Regenerate with the same utils + webcrypto if needed.
  */
 const ENCRYPTED_JUST_TWO_KEYS_V2 =
-  '{"version":2,"kdf":"PBKDF2-HMAC-SHA256","iterations":600000,"salt":"m2eFGr3Vm2Wh7ZfA0yiVtw==","iv":"oi6rCEg2SYURxq0s","ciphertext":"fICNRas60Osq1U/+1sNLDQCXPlAkt7+0ov6Z5uqlxGS8JaeM1TqQzDT/u/vK6PyQpYEuaeeqiLLvaD0KKITOsLyq16WsKENQompc84nPQL21ZIkqQh98Z8k+1kFz6NXv5ql2tyAZTOC1ofbBhaqRzWgmcT+ftuVXmsjG7eWL+i7bATuOJ4ArKHyVoMuGLadkimvRwVCk8WA5iF/cPAIhlWNhUno+NoT/L5IcdmRlT9bYsa9E1ARvPhLGp2dimHpXXxFvk0Idqr2pk3YaViqLHBqFmWO26s1+/874SUdKecHgJJnXjlpwkxK++iOSZnarONMCQlO+hUEVFrzqeqCjZuPvNCp+R6JN6xCVZRN41XBGnDqUpqTJxQn19XI6SZpvhBwmF/thryFgpiMI0MlloswbCQWNkOQx1bcJPOyNuua8plwFn9AGODCyjA=="}';
+  '{"version":2,"kdf":"PBKDF2-HMAC-SHA256","iterations":600000,"salt":"a6XE26/Y1O7dnOv6p8QBxQ==","iv":"FrzJmWridnaCs/QJ","ciphertext":"gpIk2PBXqQBtpmlmJb13vMfYszlIwGgW5sl26aKOf/jaQOJnGrnANokUn8+mF04r2cifJGu6tE7m7EtKzTQVslZoAU7RwXyNxNsnfPwo1T2xdOvA1xCqu/MK6ElSmzoEDaymNc+Oz4asMiwVv+B3UP4Bf5qpK4eFqCWGnNYNx9xtd/XEEy6aGPoHGxY7NL5fR2StRVFA05TT0HvL3HBrkhrawmEKoOn1+ieNPwUhF5dnURSg5lG8Ibn4s7i32jb6bIHbtn31QRG9GLrE6CoeSCutkwYjXkOMnFNI7R57wmist20b/njPNP8UbKODu7ai6sLO5/wIuDlz87fZBsvcarb16VJ04uah3djgozh4b0uvMqT2/bTNVXIj//C2aVO+v0nWG6+vN202G1cfec8yT+xp9DhPtcV07HaRTur3Dbh7OknSKz4J5VMiYA=="}';
 
 const encrypted = {
   noHash: {

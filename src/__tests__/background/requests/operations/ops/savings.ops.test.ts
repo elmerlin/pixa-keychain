@@ -10,7 +10,7 @@ describe('broadcastSavings', () => {
     username: 'alice',
     to: 'alice',
     amount: '1.000',
-    currency: 'HBD',
+    currency: 'PXS',
     memo: '',
     request_id: 1,
   };
@@ -40,7 +40,7 @@ describe('broadcastSavings', () => {
     } as any);
 
     expect(deposit).toHaveBeenCalledWith(
-      '1.000 HBD',
+      '1.000 PXS',
       'alice',
       'alice',
       'activeWif',

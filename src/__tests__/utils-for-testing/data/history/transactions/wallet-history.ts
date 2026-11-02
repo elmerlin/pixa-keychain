@@ -25,7 +25,7 @@ const allTypes = [
   {
     from: username,
     to: otherUser,
-    amount: '1000.001 HIVE',
+    amount: '1000.001 PIXA',
     memo: '',
     executions: 1,
     recurrence: 1,
@@ -42,7 +42,7 @@ const allTypes = [
   {
     from: otherUser,
     to: username,
-    amount: '0.1 HIVE',
+    amount: '0.1 PIXA',
     memo: 'Memo.test',
     remainingExecutions: 10,
     type: 'fill_recurrent_transfer',
@@ -57,12 +57,12 @@ const allTypes = [
   } as FillRecurrentTransfer,
   {
     account: username,
-    reward_hive: '10.000 HIVE',
-    reward_hbd: '10.000 HBD',
+    reward_pixa: '10.000 PIXA',
+    reward_pxs: '10.000 PXS',
     reward_vests: '3.660607 VESTS',
-    hbd: '10.000 HBD',
-    hive: '10.000 HIVE',
-    hp: '0.002 HP',
+    hbd: '10.000 PXS',
+    hive: '10.000 PIXA',
+    hp: '0.002 PP',
     type: 'claim_reward_balance',
     timestamp: '2022-05-20T16:17:48',
     key: 'keychain.tests!3',
@@ -77,7 +77,7 @@ const allTypes = [
     vesting_shares: '100000.000 VESTS',
     delegator: username,
     delegatee: 'aggroed',
-    amount: '54.586 HP',
+    amount: '54.586 PP',
     type: 'delegate_vesting_shares',
     timestamp: '2022-05-20T16:17:48',
     key: 'keychain.tests!4',
@@ -107,7 +107,7 @@ const allTypes = [
     vesting_shares: '10000000.000 VESTS',
     type: 'power_up_down',
     subType: 'withdraw_vesting',
-    amount: '5458.634 HP',
+    amount: '5458.634 PP',
     timestamp: '2022-05-20T16:17:48',
     key: 'keychain.tests!6',
     index: 6,
@@ -118,7 +118,7 @@ const allTypes = [
     lastFetched: false,
   } as PowerDown,
   {
-    interest: '6.666 HBD',
+    interest: '6.666 PXS',
     type: 'savings',
     subType: 'interest',
     timestamp: '2022-05-20T16:17:48',
@@ -131,7 +131,7 @@ const allTypes = [
     lastFetched: false,
   } as ReceivedInterests,
   {
-    amount: '100.000 HBD',
+    amount: '100.000 PXS',
     to: username,
     from: username,
     type: 'savings',
@@ -146,7 +146,7 @@ const allTypes = [
     lastFetched: false,
   } as DepositSavings,
   {
-    amount: '100.000 HBD',
+    amount: '100.000 PXS',
     type: 'savings',
     subType: 'transfer_from_savings',
     timestamp: '2022-05-20T16:17:48',
@@ -171,7 +171,7 @@ const allTypes = [
     lastFetched: false,
   } as ClaimAccount,
   {
-    amount: '10.000 HIVE',
+    amount: '10.000 PIXA',
     type: 'convert',
     subType: 'convert',
     timestamp: '2022-05-20T16:17:48',
@@ -184,7 +184,7 @@ const allTypes = [
     lastFetched: false,
   } as Convert,
   {
-    amount: '10000.000 HIVE',
+    amount: '10000.000 PIXA',
     type: 'convert',
     subType: 'collateralized_convert',
     timestamp: '2022-05-20T16:17:48',
@@ -197,7 +197,7 @@ const allTypes = [
     lastFetched: false,
   } as CollateralizedConvert,
   {
-    amount_in: '100.000 HIVE',
+    amount_in: '100.000 PIXA',
     amount_out: '100.000 HDB',
     type: 'convert',
     subType: 'fill_convert_request',
@@ -211,7 +211,7 @@ const allTypes = [
     lastFetched: false,
   } as FillConvert,
   {
-    amount_in: '1000.000 HIVE',
+    amount_in: '1000.000 PIXA',
     amount_out: '1000.000 HDB',
     type: 'convert',
     subType: 'fill_collateralized_convert_request',
@@ -227,7 +227,7 @@ const allTypes = [
   {
     from: 'theghost1980',
     to: username,
-    amount: '9.999 HIVE',
+    amount: '9.999 PIXA',
     memo: 'Memo.test',
     type: 'transfer',
     timestamp: '2022-05-20T16:11:33',
@@ -260,24 +260,24 @@ const rawAllTypes = [
             weight_threshold: 1,
             account_auths: [],
             key_auths: [
-              ['STM83ihcfFW9auBRQXbscSZUZjtweA1Sr1RXWdXeMSVu5FHW43R7x', 1],
+              ['PIX83ihcfFW9auBRQXbscSZUZjtweA1Sr1RXWdXeMSVu5FHW43R7x', 1],
             ],
           },
           active: {
             weight_threshold: 1,
             account_auths: [],
             key_auths: [
-              ['STM622dVYEu3Hiic6F4QiH1JALAXm8yRqfLd5kCq8xs8ZzNRnKGXC', 1],
+              ['PIX622dVYEu3Hiic6F4QiH1JALAXm8yRqfLd5kCq8xs8ZzNRnKGXC', 1],
             ],
           },
           posting: {
             weight_threshold: 1,
             account_auths: [],
             key_auths: [
-              ['STM7KKUZb1CzwRiaN2RQcGeJUpcHM5BmCNudxXW21xqktBe91RpD8', 1],
+              ['PIX7KKUZb1CzwRiaN2RQcGeJUpcHM5BmCNudxXW21xqktBe91RpD8', 1],
             ],
           },
-          memo_key: 'STM8eALyQwyb2C4XhXJ7eZfjfjfSeNeeZREaxPcJRApie1uwzzcuF',
+          memo_key: 'PIX8eALyQwyb2C4XhXJ7eZfjfjfSeNeeZREaxPcJRApie1uwzzcuF',
           json_metadata: '{}',
           extensions: [],
         },
@@ -298,7 +298,7 @@ const rawAllTypes = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: 'unique memo',
         },
       ],
@@ -318,7 +318,7 @@ const rawAllTypes = [
         {
           from: mk.user.one,
           to: 'theghost1980',
-          amount: '1 HIVE',
+          amount: '1 PIXA',
           memo: 'Encrypted memo sample',
           remaining_executions: 1,
           remainingExecutions: 1,
@@ -340,7 +340,7 @@ const rawAllTypes = [
         {
           from: mk.user.one,
           to: 'theghost1980',
-          amount: '1.000 HIVE',
+          amount: '1.000 PIXA',
           memo: 'Encrypted memo sample',
           recurrence: 24,
           executions: 2,
@@ -363,8 +363,8 @@ const rawAllTypes = [
         {
           owner: mk.user.one,
           requestid: 2,
-          amount_in: '0.100 HBD',
-          amount_out: '0.217 HIVE',
+          amount_in: '0.100 PXS',
+          amount_out: '0.217 PIXA',
           type: 'convert',
           subType: 'fill_convert_request',
         },
@@ -385,9 +385,9 @@ const rawAllTypes = [
         {
           owner: mk.user.one,
           requestid: 1,
-          amount_in: '0.047 HIVE',
-          amount_out: '0.021 HBD',
-          excess_collateral: '0.053 HIVE',
+          amount_in: '0.047 PIXA',
+          amount_out: '0.021 PXS',
+          excess_collateral: '0.053 PIXA',
           type: 'convert',
           subType: 'fill_collateralized_convert_request',
         },
@@ -408,7 +408,7 @@ const rawAllTypes = [
         {
           owner: mk.user.one,
           requestid: 2,
-          amount: '0.100 HBD',
+          amount: '0.100 PXS',
           type: 'convert',
           subType: 'convert',
         },
@@ -429,7 +429,7 @@ const rawAllTypes = [
         {
           owner: mk.user.one,
           requestid: 1,
-          amount: '0.100 HIVE',
+          amount: '0.100 PIXA',
           type: 'convert',
           subType: 'collateralized_convert',
         },
@@ -451,7 +451,7 @@ const rawAllTypes = [
           from: mk.user.one,
           request_id: 1262465808,
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
           type: 'savings',
           subType: 'transfer_from_savings',
@@ -475,7 +475,7 @@ const rawAllTypes = [
           vesting_shares: '1.791259 VESTS',
           type: 'power_up_down',
           subType: 'withdraw_vesting',
-          amount: '0.001 HP',
+          amount: '0.001 PP',
         },
       ],
     },
@@ -494,7 +494,7 @@ const rawAllTypes = [
         {
           from: mk.user.one,
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           type: 'power_up_down',
           subType: 'transfer_to_vesting',
         },
@@ -516,7 +516,7 @@ const rawAllTypes = [
           delegator: 'theghost1980',
           delegatee: mk.user.one,
           vesting_shares: '1791.260797 VESTS',
-          amount: '1.008 HP',
+          amount: '1.008 PP',
         },
       ],
     },
@@ -535,7 +535,7 @@ const rawAllTypes = [
         {
           from: mk.user.one,
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           request_id: 405155906,
           memo: '',
           type: 'savings',
@@ -558,7 +558,7 @@ const rawAllTypes = [
         {
           from: mk.user.one,
           to: mk.user.one,
-          amount: '0.002 HIVE',
+          amount: '0.002 PIXA',
           memo: '',
           type: 'savings',
           subType: 'transfer_to_savings',
@@ -579,7 +579,7 @@ const rawAllTypes = [
         'interest',
         {
           owner: mk.user.one,
-          interest: '0.026 HBD',
+          interest: '0.026 PXS',
           is_saved_into_hbd_balance: false,
           type: 'savings',
           subType: 'interest',
@@ -604,7 +604,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -624,7 +624,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -644,7 +644,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -664,7 +664,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -684,7 +684,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -704,7 +704,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -724,7 +724,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -744,7 +744,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -764,7 +764,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -784,7 +784,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -804,7 +804,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -824,7 +824,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -844,7 +844,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -864,7 +864,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],
@@ -884,7 +884,7 @@ const rawTransfers = [
         {
           from: 'workerjab1',
           to: mk.user.one,
-          amount: '0.001 HIVE',
+          amount: '0.001 PIXA',
           memo: '',
         },
       ],

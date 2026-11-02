@@ -49,7 +49,16 @@ const authority = (pub) => ({ weight_threshold: 1, account_auths: [], key_auths:
 // The account answers with our throwaway keys, so the wallet treats them as the right ones.
 const wearKeys = (account) => {
   if (account?.name !== ACCOUNT) return account;
-  return { ...account, owner: authority(keys.owner.pub), active: authority(keys.active.pub), posting: authority(keys.posting.pub), memo_key: keys.memo.pub };
+  return {
+    ...account,
+    owner: authority(keys.owner.pub),
+    active: authority(keys.active.pub),
+    posting: authority(keys.posting.pub),
+    memo_key: keys.memo.pub,
+    // Different numbers, so a screen showing the wrong currency's balance can't pass by accident.
+    balance: '12.345 PIXA',
+    pxs_balance: '67.890 PXS',
+  };
 };
 
 const DAPP = `<!doctype html><meta charset="utf-8"><title>dApp</title><body>dApp</body>`;
@@ -117,7 +126,8 @@ const typeTest = async (page, id, text) => {
 const clickText = async (page, text) => {
   const handle = await page.evaluateHandle((wanted) => {
     const all = [...document.querySelectorAll('button, a, [role="button"], div, span')];
-    const matches = all.filter((el) => el.innerText?.trim() === wanted && el.offsetParent !== null);
+    // innerText follows text-transform, so compare without case.
+    const matches = all.filter((el) => el.innerText?.trim().toLowerCase() === wanted.toLowerCase() && el.getClientRects().length > 0);
     return matches[matches.length - 1] ?? null;
   }, text);
   const element = handle.asElement();
@@ -147,31 +157,37 @@ const run = async () => {
   const extensionId = new URL(worker.url()).host;
   const url = (file) => `chrome-extension://${extensionId}/${file}`;
 
-  // Before any page loads, so nothing starts on the default node.
-  const serviceWorker = await worker.worker();
-  await serviceWorker.evaluate(
-    (proxy) => chrome.storage.local.set({ current_rpc: { uri: proxy, testnet: false } }),
-    PROXY,
-  );
-
   const page = await browser.newPage();
   page.on('pageerror', (error) => problems.push(`page error: ${error.message.slice(0, 200)}`));
   page.on('console', (message) => {
     if (message.type() === 'error' && !/ERR_NAME_NOT_RESOLVED/.test(message.text())) problems.push(`console: ${message.text().slice(0, 200)}`);
   });
 
+  // From an inert page, so the popup never starts on the default node.
+  await page.goto(url('LICENSE.txt'));
+  await page.evaluate(
+    (proxy) => chrome.storage.local.set({ current_rpc: { uri: proxy, testnet: false } }),
+    PROXY,
+  );
+
   let index = 0;
   let theme = THEMES[0];
   const shot = async (name, target = page) => {
     if (ONLY?.length && !ONLY.includes(name)) return;
     index += 1;
-    await sleep(900);
+    await settle(target);
     await target.screenshot({ path: path.join(OUT, `${theme}-${String(index).padStart(2, '0')}-${name}.png`) });
   };
+  // Leaving a page mid-request reads as an RPC failure, and the loader swallows early clicks.
+  const settle = async (target = page) => {
+    await target.waitForNetworkIdle({ idleTime: 600, timeout: 15000 }).catch(() => {});
+    await sleep(1300);
+  };
   const home = async () => {
+    await settle();
     await page.goto(url('popup.html'));
     await page.waitForSelector('[data-testid="clickable-settings"]', { timeout: 20000 });
-    await sleep(700);
+    await settle();
   };
 
   // First run: password, then an account by key.
@@ -182,7 +198,7 @@ const run = async () => {
   await typeTest(page, 'password-input-confirmation', PASSWORD);
   await clickTest(page, 'accept-terms-and-condition');
   await clickTest(page, 'signup-button');
-  await sleep(1500);
+  await settle();
   await shot('add-account');
   await clickTest(page, 'add-by-keys-button').catch(async () => clickText(page, 'Use keys/pwd'));
   await page.waitForSelector('[data-testid="input-username"]', { timeout: 15000 });
@@ -271,7 +287,7 @@ const run = async () => {
     if (!target) throw new Error('no dialog opened');
     const dialog = await target.page();
     await dialog.setViewport(POPUP);
-    await sleep(1800);
+    await settle(dialog);
     return dialog;
   };
   const closeDialog = async (dialog) => {
@@ -298,16 +314,33 @@ const run = async () => {
   }
   await closeDialog(signDialog);
 
+  // So is encrypting a memo. It must decrypt with the matching key.
+  await dapp.evaluate(() => {
+    window.__encoded = new Promise((resolve) => {
+      window.__resolveEncoded = resolve;
+    });
+  });
+  const memoDialog = await dialogFor(`window.pixa_keychain.requestEncodeMessage('${ACCOUNT}', '${ACCOUNT}', '#a memo', 'Memo', (r) => window.__resolveEncoded(r))`);
+  await shot('dialog-encode-memo', memoDialog);
+  await clickTest(memoDialog, 'dialog_confirm-button').catch(() => clickText(memoDialog, 'Confirm'));
+  const encoded = await Promise.race([dapp.evaluate(() => window.__encoded), sleep(8000).then(() => null)]);
+  if (!encoded?.success) problems.push(`memo encoding failed: ${JSON.stringify(encoded)?.slice(0, 200)}`);
+  else if (require('@hiveio/hive-js/lib/auth/memo').decode(keys.memo.wif, encoded.result) !== '#a memo') problems.push('memo did not decrypt');
+  else console.log('ok    a memo encrypts with PIX keys and decrypts');
+  await closeDialog(memoDialog);
+
   // Requests that would broadcast are looked at and cancelled.
-  for (const [name, request] of [
+  for (const [name, request, expected] of [
     ['dialog-vote', `window.pixa_keychain.requestVote('${ACCOUNT}', 'p-1', 'pixa.team', 5000, () => {})`],
-    ['dialog-transfer', `window.pixa_keychain.requestTransfer('${ACCOUNT}', 'pixa.team', '1.000', 'memo', 'PIXA', () => {})`],
+    ['dialog-transfer', `window.pixa_keychain.requestTransfer('${ACCOUNT}', 'pixa.team', '1.000', 'memo', 'PIXA', () => {})`, '12.345 PIXA'],
+    ['dialog-transfer-pxs', `window.pixa_keychain.requestTransfer('${ACCOUNT}', 'pixa.team', '1.000', 'memo', 'PXS', () => {})`, '67.890 PXS'],
     ['dialog-custom-json', `window.pixa_keychain.requestCustomJson('${ACCOUNT}', 'follow', 'Posting', JSON.stringify(['follow',{follower:'${ACCOUNT}',following:'pixa.team',what:['blog']}]), 'Follow pixa.team', () => {})`],
     ['dialog-broadcast', `window.pixa_keychain.requestBroadcast('${ACCOUNT}', [['vote',{voter:'${ACCOUNT}',author:'pixa.team',permlink:'p-1',weight:10000}]], 'Posting', () => {})`],
   ]) {
     try {
       const dialog = await dialogFor(request);
       await shot(name, dialog);
+      if (expected && !(await dialog.evaluate((text) => document.body.innerText.includes(text), expected))) problems.push(`${name} should show ${expected}`);
       await closeDialog(dialog);
     } catch (error) {
       problems.push(`${name}: ${error.message}`);

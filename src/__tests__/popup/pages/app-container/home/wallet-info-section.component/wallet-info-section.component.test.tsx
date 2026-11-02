@@ -30,10 +30,10 @@ describe('wallet-info-section.component tests:\n', () => {
         accounts.asArray.extended[0].savings_balance,
       );
       const hbdBalanceFormatted = FormatUtils.formatCurrencyValue(
-        accounts.asArray.extended[0].hbd_balance,
+        accounts.asArray.extended[0].pxs_balance,
       );
       const hbdSavingsBalanceFormatted = FormatUtils.formatCurrencyValue(
-        accounts.asArray.extended[0].savings_hbd_balance,
+        accounts.asArray.extended[0].savings_pxs_balance,
       );
       const delegationsMainValueFormatted = FormatUtils.formatCurrencyValue(
         FormatUtils.toHP(
@@ -91,10 +91,10 @@ describe('wallet-info-section.component tests:\n', () => {
                     ...accounts.extended,
                     delegated_vesting_shares: new Asset(0, 'VESTS'),
                     received_vesting_shares: new Asset(0, 'VESTS'),
-                    balance: new Asset(0, 'HIVE'),
-                    savings_balance: new Asset(0, 'HBD'),
-                    hbd_balance: new Asset(0, 'HBD'),
-                    savings_hbd_balance: new Asset(0, 'HBD'),
+                    balance: new Asset(0, 'PIXA'),
+                    savings_balance: new Asset(0, 'PXS'),
+                    pxs_balance: new Asset(0, 'PXS'),
+                    savings_pxs_balance: new Asset(0, 'PXS'),
                     vesting_shares: new Asset(0, 'VESTS'),
                   },
                 },

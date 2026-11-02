@@ -37,7 +37,7 @@ describe('anonymous-requests tests:\n', () => {
           data={data}
           domain={'domain'}
           tab={0}
-          rpc={DefaultRpcs[1]}
+          rpc={DefaultRpcs[0]}
         />,
       );
       expect(sUseAnonymousRequest).toHaveBeenLastCalledWith(
@@ -55,7 +55,7 @@ describe('anonymous-requests tests:\n', () => {
           data={data}
           domain={'domain'}
           tab={0}
-          rpc={DefaultRpcs[1]}
+          rpc={DefaultRpcs[0]}
           accounts={accounts.twoAccounts.map((acc) => acc.name)}
         />,
       );

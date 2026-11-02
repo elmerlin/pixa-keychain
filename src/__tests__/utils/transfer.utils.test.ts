@@ -10,7 +10,7 @@ describe('transfer memo review', () => {
     expect(
       TransferUtils.getTransferWarningLabel(
         'recipient',
-        'HIVE',
+        'PIXA',
         prefix + userData.one.nonEncryptKeys.active,
         [],
       ),
@@ -21,7 +21,7 @@ describe('transfer memo review', () => {
     expect(
       TransferUtils.getTransferWarningLabel(
         'recipient',
-        'HIVE',
+        'PIXA',
         'Payment for lunch',
         [],
         true,
@@ -31,7 +31,7 @@ describe('transfer memo review', () => {
 
   it('retains warnings for an explicitly supplied phishing account', () => {
     expect(
-      TransferUtils.getTransferWarningLabel('recipient', 'HIVE', '', [
+      TransferUtils.getTransferWarningLabel('recipient', 'PIXA', '', [
         'recipient',
       ]),
     ).toBe('popup_warning_phishing');

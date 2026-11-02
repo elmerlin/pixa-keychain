@@ -45,7 +45,7 @@ describe('i18n.utils tests:\n', () => {
       expect(sGetURL).toHaveBeenCalledTimes(1);
       expect(sGetURL).toHaveBeenCalledWith('_locales/es/messages.json');
       expect(result).toBe(
-        'Después de ser cancelado, las delegaciones tardan 5 días en volver a tu saldo disponible de Hive Power',
+        'Después de ser cancelado, las delegaciones tardan 5 días en volver a tu saldo disponible de Pixa Power',
       );
     });
 

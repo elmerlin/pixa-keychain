@@ -1,8 +1,8 @@
 const dataTestIdDropdown = {
   arrow: {
-    hive: 'dropdown-arrow-hive',
-    hbd: 'dropdown-arrow-hbd',
-    hp: 'dropdown-arrow-hp',
+    hive: 'dropdown-arrow-pixa',
+    hbd: 'dropdown-arrow-pxs',
+    hp: 'dropdown-arrow-pp',
     preFix: 'dropdown-arrow-',
   },
   span: {

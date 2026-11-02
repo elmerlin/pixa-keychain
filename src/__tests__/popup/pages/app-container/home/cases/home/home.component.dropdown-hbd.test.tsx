@@ -20,7 +20,7 @@ describe('home.component dropdown hbd tests:\n', () => {
     );
   });
 
-  it('Must expand the HBD wallet row when clicking the dropdown arrow', async () => {
+  it('Must expand the PXS wallet row when clicking the dropdown arrow', async () => {
     const row = await screen.findByTestId(dataTestIdDropdown.arrow.hbd);
     await act(async () => {
       await userEvent.click(row);

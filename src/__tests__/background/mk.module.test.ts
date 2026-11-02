@@ -14,7 +14,7 @@ describe('mk.module tests:\n', () => {
         name: 'alice',
         keys: {
           posting: 'posting-key',
-          postingPubkey: 'STM123',
+          postingPubkey: 'PIX123',
         },
       },
     ],

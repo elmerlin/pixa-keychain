@@ -40,7 +40,7 @@ describe('resources-section.component tests:\n', () => {
         chrome.i18n.getMessage('popup_html_vm'),
       );
       expect(vm).toHaveTextContent('%');
-      expect(vm).toHaveTextContent('$');
+      expect(vm).toHaveTextContent('1.00 PXS');
       const rcEl = await screen.findByTestId(dataTestIdDiv.resources.rc);
       expect(rcEl).toHaveTextContent(
         chrome.i18n.getMessage('popup_html_rc'),

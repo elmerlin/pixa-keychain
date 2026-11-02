@@ -84,11 +84,11 @@ describe('account.utils tests:\n', () => {
       { name: 'user2', keys: {} },
     ],
     balances: {
-      hbd_balance: '1.00',
+      pxs_balance: '1.00',
       balance: '1.00',
       vesting_shares: '1.00',
       savings_balance: '1.00',
-      savings_hbd_balance: '1.00',
+      savings_pxs_balance: '1.00',
     } as ExtendedAccount,
     keyTypeArray: [
       {
@@ -110,14 +110,14 @@ describe('account.utils tests:\n', () => {
     active: {
       weight_threshold: 1,
       account_auths: [[userData.one.username, 1]],
-      key_auths: [['STM85Hcqk92kE1AtueigBAtHD2kZRcqji9Gi38ZaiW8xcWcQJLof6', 1]],
+      key_auths: [['PIX85Hcqk92kE1AtueigBAtHD2kZRcqji9Gi38ZaiW8xcWcQJLof6', 1]],
     },
     posting: {
       weight_threshold: 1,
       account_auths: [[userData.one.username, 1]],
-      key_auths: [['STM7cfYmyCU6J45NjBSBUwZAV6c2ttZoNjTeaxkWSYq5HDZDWtzC3', 1]],
+      key_auths: [['PIX7cfYmyCU6J45NjBSBUwZAV6c2ttZoNjTeaxkWSYq5HDZDWtzC3', 1]],
     },
-    memo_key: 'STM5NT27Z4XVgtpxTf6i5uB9pYmXC6syiHUSqzVZvQ1iN8BgJsLC2',
+    memo_key: 'PIX5NT27Z4XVgtpxTf6i5uB9pYmXC6syiHUSqzVZvQ1iN8BgJsLC2',
     json_metadata: '',
     posting_json_metadata: '',
     proxy: '',
@@ -136,21 +136,21 @@ describe('account.utils tests:\n', () => {
     voting_manabar: { current_mana: 10000, last_update_time: 1463973840 },
     downvote_manabar: { current_mana: 0, last_update_time: 1463973840 },
     voting_power: 10000,
-    balance: '1.000 HIVE',
-    savings_balance: '1.000 HIVE',
-    hbd_balance: '1.000 HBD',
-    hbd_seconds: '0',
-    hbd_seconds_last_update: '1970-01-01T00:00:00',
-    hbd_last_interest_payment: '1970-01-01T00:00:00',
-    savings_hbd_balance: '1.000 HBD',
-    savings_hbd_seconds: '0',
-    savings_hbd_seconds_last_update: '1970-01-01T00:00:00',
-    savings_hbd_last_interest_payment: '1970-01-01T00:00:00',
+    balance: '1.000 PIXA',
+    savings_balance: '1.000 PIXA',
+    pxs_balance: '1.000 PXS',
+    pxs_seconds: '0',
+    pxs_seconds_last_update: '1970-01-01T00:00:00',
+    pxs_last_interest_payment: '1970-01-01T00:00:00',
+    savings_pxs_balance: '1.000 PXS',
+    savings_pxs_seconds: '0',
+    savings_pxs_seconds_last_update: '1970-01-01T00:00:00',
+    savings_pxs_last_interest_payment: '1970-01-01T00:00:00',
     savings_withdraw_requests: 0,
-    reward_hbd_balance: '1.000 HBD',
-    reward_hive_balance: '1.000 HIVE',
+    reward_pxs_balance: '1.000 PXS',
+    reward_pixa_balance: '1.000 PIXA',
     reward_vesting_balance: '1.000000 VESTS',
-    reward_vesting_hive: '1.000 HIVE',
+    reward_vesting_pixa: '1.000 PIXA',
     vesting_shares: '1.000 VESTS',
     delegated_vesting_shares: '1.000000 VESTS',
     received_vesting_shares: '1.000000 VESTS',
@@ -173,7 +173,7 @@ describe('account.utils tests:\n', () => {
     governance_vote_expiration_ts: '1969-12-31T23:59:59',
     delayed_votes: [],
     open_recurrent_transfers: 0,
-    vesting_balance: '1.000 HIVE',
+    vesting_balance: '1.000 PIXA',
     reputation: 0,
     transfer_history: [],
     market_history: [],
@@ -445,7 +445,7 @@ describe('account.utils tests:\n', () => {
         await AccountUtils.addKey(
           constants.activeAccountData,
           constants.accounts,
-          'STMAedff334433322',
+          'PIXAedff334433322',
           KeyType.ACTIVE,
           mk.user.one,
         );
@@ -661,7 +661,7 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        AccountValueType.DOLLARS,
+        AccountValueType.PXS,
         { hive: 0, hbd: 0 },
       );
       expect(result).toBe(0);
@@ -676,7 +676,7 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        AccountValueType.DOLLARS,
+        AccountValueType.PXS,
         { hive: 0, hbd: 0 },
       );
       expect(result).toBe(0);
@@ -691,7 +691,7 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        AccountValueType.DOLLARS,
+        AccountValueType.PXS,
         { hive: 0, hbd: 0 },
       );
       expect(result).toBe(1.51);
@@ -706,7 +706,7 @@ describe('account.utils tests:\n', () => {
         next_vesting_withdrawal: '1.00',
       } as ExtendedAccount;
       const globalPropsUsed = {
-        total_vesting_fund_hive: '1.0 HIVE',
+        total_vesting_fund_pixa: '1.0 PIXA',
         total_vesting_shares: '1.0 VESTS',
       } as DynamicGlobalProperties;
       const result_array = AccountUtils.getPowerDown(

@@ -1,4 +1,4 @@
-import { KeychainApi } from '@api/keychain';
+import { config as HiveTxConfig } from 'hive-tx';
 import { ConversionUtils } from '@hiveapp/utils/conversion.utils';
 import { DelegationUtils } from '@hiveapp/utils/delegation.utils';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
@@ -17,7 +17,7 @@ import { GlobalProperties } from 'src/interfaces/global-properties.interface';
 
 describe('hive.utils tests:\n', () => {
   async function resetClient() {
-    await HiveTxUtils.setRpc({ uri: 'https://api.hive.blog' } as Rpc);
+    await HiveTxUtils.setRpc({ uri: 'https://api.pixagram.com' } as Rpc);
   }
   afterEach(async () => {
     jest.clearAllMocks();
@@ -30,16 +30,13 @@ describe('hive.utils tests:\n', () => {
 
   describe('setRpc tests:\n', () => {
     it('Nust set default uri', async () => {
-      const returnedUriValue = 'https://ValueFromHive/rpc/api';
-      KeychainApi.get = jest
-        .fn()
-        .mockResolvedValueOnce({ data: { rpc: returnedUriValue } });
       const fakeRpc: Rpc = {
         uri: 'DEFAULT',
         testnet: true,
       };
       const result = await HiveTxUtils.setRpc(fakeRpc);
       expect(result).toBeUndefined();
+      expect(HiveTxConfig.node).toBe('https://api.pixagram.com');
     });
   });
 
@@ -78,8 +75,8 @@ describe('hive.utils tests:\n', () => {
     const fakeGlobals = {
       globals: dynamic.globalProperties,
       price: {
-        base: '0.294 HBD',
-        quote: '1.000 HIVE',
+        base: '0.294 PXS',
+        quote: '1.000 PIXA',
       },
       rewardFund: dynamic.rewardFund,
     } as unknown as GlobalProperties;
@@ -141,7 +138,7 @@ describe('hive.utils tests:\n', () => {
     it('Must return ordered array', async () => {
       const expectedNewArray = [
         {
-          amount: '22.500 HIVE',
+          amount: '22.500 PIXA',
           collaterized: true,
           conversion_date: '2022-05-10T11:02:09',
           id: 275431,
@@ -149,7 +146,7 @@ describe('hive.utils tests:\n', () => {
           requestid: 1,
         },
         {
-          amount: '2.500 HBD',
+          amount: '2.500 PXS',
           collaterized: false,
           conversion_date: '2022-05-15T11:02:09',
           id: 275431,
@@ -167,7 +164,7 @@ describe('hive.utils tests:\n', () => {
     test('Fetching 1 arrays(hiveConversions) will reestructure hiveConversions Array, and return one new array', async () => {
       const expectedNewArray = [
         {
-          amount: '22.500 HIVE',
+          amount: '22.500 PIXA',
           collaterized: true,
           conversion_date: '2022-05-10T11:02:09',
           id: 275431,

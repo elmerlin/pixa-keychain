@@ -27,7 +27,7 @@ describe('conversion.component tests:\n', () => {
       initialStates.iniStateAs.defaultExistent,
     );
   });
-  describe('HIVE to HBD:\n', () => {
+  describe('PIXA to PXS:\n', () => {
     beforeEach(async () => {
       await act(async () => {
         await userEvent.click(
@@ -39,7 +39,7 @@ describe('conversion.component tests:\n', () => {
       });
     });
 
-    it('Must show conversions page & show HIVE intro', async () => {
+    it('Must show conversions page & show PIXA intro', async () => {
       expect(
         await screen.findByTestId(`${Screen.CONVERSION_PAGE}-page`),
       ).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('conversion.component tests:\n', () => {
       ).toBeInTheDocument();
     });
 
-    it('Must convert HIVE to HBD, with max value & show message', async () => {
+    it('Must convert PIXA to PXS, with max value & show message', async () => {
       ConversionUtils.sendConvert = jest.fn().mockResolvedValue({
         tx_id: 'tx_id',
         id: 'id',
@@ -72,7 +72,7 @@ describe('conversion.component tests:\n', () => {
         await screen.findByText(
           `${FormatUtils.formatCurrencyValue(
             parseFloat(accounts.extended.balance.toString().split(' ')[0]),
-          )} HIVE`,
+          )} PIXA`,
         ),
       ).toBeInTheDocument();
       expect(
@@ -92,7 +92,7 @@ describe('conversion.component tests:\n', () => {
       ).toBeInTheDocument();
     });
 
-    it('Must show error if HIVE convertion fails', async () => {
+    it('Must show error if PIXA convertion fails', async () => {
       ConversionUtils.sendConvert = jest.fn().mockResolvedValue(null);
       await act(async () => {
         await userEvent.clear(screen.getByTestId(dataTestIdInput.amount));
@@ -119,7 +119,7 @@ describe('conversion.component tests:\n', () => {
     it('Must catch error and show message', async () => {
       ConversionUtils.sendConvert = jest
         .fn()
-        .mockRejectedValue(new Error('Error HIVE to HBD'));
+        .mockRejectedValue(new Error('Error PIXA to PXS'));
       await act(async () => {
         await userEvent.clear(screen.getByTestId(dataTestIdInput.amount));
         await userEvent.type(
@@ -135,11 +135,11 @@ describe('conversion.component tests:\n', () => {
           await screen.findByTestId(dataTestIdButton.dialog.confirm),
         );
       });
-      expect(await screen.findByText('Error HIVE to HBD')).toBeInTheDocument();
+      expect(await screen.findByText('Error PIXA to PXS')).toBeInTheDocument();
     });
   });
 
-  describe('HBD to HIVE:\n', () => {
+  describe('PXS to PIXA:\n', () => {
     beforeEach(async () => {
       await act(async () => {
         await userEvent.click(screen.getByTestId(dataTestIdDropdown.arrow.hbd));
@@ -149,7 +149,7 @@ describe('conversion.component tests:\n', () => {
       });
     });
 
-    it('Must show conversions page & show HBD intro', async () => {
+    it('Must show conversions page & show PXS intro', async () => {
       expect(
         await screen.findByTestId(`${Screen.CONVERSION_PAGE}-page`),
       ).toBeInTheDocument();
@@ -160,7 +160,7 @@ describe('conversion.component tests:\n', () => {
       ).toBeInTheDocument();
     });
 
-    it('Must convert HBD to HIVE, with max value & show message', async () => {
+    it('Must convert PXS to PIXA, with max value & show message', async () => {
       ConversionUtils.sendConvert = jest.fn().mockResolvedValue({
         tx_id: 'tx_id',
         id: 'id',
@@ -171,7 +171,7 @@ describe('conversion.component tests:\n', () => {
         await userEvent.type(
           screen.getByTestId(dataTestIdInput.amount),
           parseFloat(
-            accounts.extended.hbd_balance.toString().split(' ')[0],
+            accounts.extended.pxs_balance.toString().split(' ')[0],
           ).toString(),
         );
         await userEvent.click(
@@ -181,8 +181,8 @@ describe('conversion.component tests:\n', () => {
       expect(
         await screen.findByText(
           `${FormatUtils.formatCurrencyValue(
-            parseFloat(accounts.extended.hbd_balance.toString().split(' ')[0]),
-          )} HBD`,
+            parseFloat(accounts.extended.pxs_balance.toString().split(' ')[0]),
+          )} PXS`,
         ),
       ).toBeInTheDocument();
       expect(
@@ -202,14 +202,14 @@ describe('conversion.component tests:\n', () => {
       ).toBeInTheDocument();
     });
 
-    it('Must show error if HBD convertion fails', async () => {
+    it('Must show error if PXS convertion fails', async () => {
       ConversionUtils.sendConvert = jest.fn().mockResolvedValue(null);
       await act(async () => {
         await userEvent.clear(screen.getByTestId(dataTestIdInput.amount));
         await userEvent.type(
           screen.getByTestId(dataTestIdInput.amount),
           parseFloat(
-            accounts.extended.hbd_balance.toString().split(' ')[0],
+            accounts.extended.pxs_balance.toString().split(' ')[0],
           ).toString(),
         );
         await userEvent.click(
@@ -229,13 +229,13 @@ describe('conversion.component tests:\n', () => {
     it('Must catch error and show message', async () => {
       ConversionUtils.sendConvert = jest
         .fn()
-        .mockRejectedValue(new Error('Error HBD to HIVE'));
+        .mockRejectedValue(new Error('Error PXS to PIXA'));
       await act(async () => {
         await userEvent.clear(screen.getByTestId(dataTestIdInput.amount));
         await userEvent.type(
           screen.getByTestId(dataTestIdInput.amount),
           parseFloat(
-            accounts.extended.hbd_balance.toString().split(' ')[0],
+            accounts.extended.pxs_balance.toString().split(' ')[0],
           ).toString(),
         );
         await userEvent.click(
@@ -245,7 +245,7 @@ describe('conversion.component tests:\n', () => {
           await screen.findByTestId(dataTestIdButton.dialog.confirm),
         );
       });
-      expect(await screen.findByText('Error HBD to HIVE')).toBeInTheDocument();
+      expect(await screen.findByText('Error PXS to PIXA')).toBeInTheDocument();
     });
   });
 });

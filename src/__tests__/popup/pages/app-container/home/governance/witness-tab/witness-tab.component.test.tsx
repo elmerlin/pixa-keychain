@@ -36,12 +36,10 @@ describe('witness tab:\n', () => {
                 getExtendedAccount: { ...accounts.extended, proxy: '' },
               },
             },
-            apiRelated: {
-              KeychainApi: {
-                customData: {
-                  witnessRanking: witness.rankingWInactive,
-                },
-              },
+            chain: {
+              getWitnessRanking: jest
+                .fn()
+                .mockResolvedValue(witness.rankingWInactive),
             },
           },
         },
@@ -261,12 +259,10 @@ describe('witness tab:\n', () => {
                 getExtendedAccount: { ...accounts.extended, proxy: '' },
               },
             },
-            apiRelated: {
-              KeychainApi: {
-                customData: {
-                  witnessRanking: '',
-                },
-              },
+            chain: {
+              getWitnessRanking: jest
+                .fn()
+                .mockRejectedValue(new Error('RPC unavailable')),
             },
           },
         },

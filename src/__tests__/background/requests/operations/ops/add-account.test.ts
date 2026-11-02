@@ -16,11 +16,16 @@ import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
 
 describe('add-account tests:\n', () => {
+  const allowedKeys = {
+    posting: userData.one.nonEncryptKeys.posting,
+    active: userData.one.nonEncryptKeys.active,
+    memo: userData.one.nonEncryptKeys.memo,
+  };
   const data = {
     domain: 'domain',
     username: mk.user.one,
     type: KeychainRequestTypes.addAccount,
-    keys: userData.one.nonEncryptKeys as RequestAddAccountKeys,
+    keys: allowedKeys as RequestAddAccountKeys,
     request_id: 1,
   } as RequestAddAccount & RequestId;
 
@@ -98,7 +103,7 @@ describe('add-account tests:\n', () => {
       .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
       .mockResolvedValue([]);
     const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
-    cloneData.keys = userData.one.nonEncryptKeys;
+    cloneData.keys = allowedKeys;
     const requestHandler = new RequestsHandler();
     const result = await addAccount(requestHandler, cloneData);
     const { request_id, ...datas } = cloneData;
@@ -145,7 +150,7 @@ describe('add-account tests:\n', () => {
         .mockResolvedValue([]);
       const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
       cloneData.keys = {
-        ...userData.one.nonEncryptKeys,
+        ...allowedKeys,
         posting: userData.one.encryptKeys.posting,
       };
       const requestHandler = new RequestsHandler();
@@ -154,6 +159,31 @@ describe('add-account tests:\n', () => {
       expect(error).toEqual(new Error('Invalid posting key'));
     }
   });
+
+  it.each(['posting', 'active', 'memo'] as const)(
+    'refuses an owner key in the %s slot even when it also holds that role',
+    async (role) => {
+      const pub = userData.one.encryptKeys[role];
+      jest.spyOn(AccountUtils, 'getExtendedAccount').mockResolvedValue({
+        ...accounts.extended,
+        owner: { ...accounts.extended.owner, key_auths: [[pub, 1]] },
+      });
+      jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
+      jest
+        .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+        .mockResolvedValue([]);
+      const save = jest
+        .spyOn(AccountUtils, 'saveAccounts')
+        .mockResolvedValue(undefined);
+      await expect(
+        addAccount(new RequestsHandler(), {
+          ...data,
+          keys: { [role]: allowedKeys[role] },
+        }),
+      ).rejects.toThrow('Owner keys cannot be added');
+      expect(save).not.toHaveBeenCalled();
+    },
+  );
 
   it('Must add account', async () => {
     AccountUtils.getExtendedAccount = jest
@@ -167,11 +197,26 @@ describe('add-account tests:\n', () => {
       .spyOn(AccountUtils, 'saveAccounts')
       .mockResolvedValue(undefined);
     const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
-    cloneData.keys = userData.one.nonEncryptKeys;
+    cloneData.keys = allowedKeys;
     const requestHandler = new RequestsHandler();
     const result = await addAccount(requestHandler, cloneData);
     const { request_id, ...datas } = cloneData;
     expect(sSaveAccounts).toHaveBeenCalledTimes(1);
+    expect(sSaveAccounts).toHaveBeenCalledWith(
+      [
+        ...accounts.twoAccounts,
+        {
+          name: data.username,
+          keys: {
+            ...allowedKeys,
+            postingPubkey: userData.one.encryptKeys.posting,
+            activePubkey: userData.one.encryptKeys.active,
+            memoPubkey: userData.one.encryptKeys.memo,
+          },
+        },
+      ],
+      mk.user.one,
+    );
     expect(result).toEqual({
       command: DialogCommand.ANSWER_REQUEST,
       msg: {

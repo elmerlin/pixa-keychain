@@ -8,7 +8,7 @@ const array = [
     '1': {
       from: mk.user.one,
       to: 'aggroed',
-      amount: '1.000 HIVE',
+      amount: '1.000 PIXA',
       memo: 'transfer to aggroed',
     },
   },
@@ -28,7 +28,7 @@ const array = [
       receiver: 'keychain',
       start_date: '12/12/2022',
       end_date: '12/12/2023',
-      daily_pay: '200.000 HBD',
+      daily_pay: '200.000 PXS',
       subject: 'subject',
       permlink: 'https://permlink.com',
       extensions: [],
@@ -75,7 +75,7 @@ const array = [
     '1': {
       account: mk.user.one,
       to: 'arcange',
-      amount: '10000.000 HIVE',
+      amount: '10000.000 PIXA',
       memo: 'transfering payment',
       recurrence: 2,
       executions: 2,

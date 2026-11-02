@@ -62,7 +62,7 @@ describe('index tests:\n', () => {
     const sRemoveWindow = jest.spyOn(DialogLifeCycle, 'removeWindow');
     const requestHandler = new RequestsHandler();
     const sReset = jest.spyOn(requestHandler, 'reset');
-    requestHandler.data.rpc = DefaultRpcs[1];
+    requestHandler.data.rpc = DefaultRpcs[0];
     requestHandler.data.windowId = 1;
     await performOperation(requestHandler, data, 0, 'domain', true);
     expect(sLoggerInfo).toHaveBeenCalledWith('-- PERFORMING TRANSACTION --');
@@ -243,7 +243,7 @@ describe('index tests:\n', () => {
       const keychainRequestGeneric = keychainRequest.getWithAllGenericData();
       const requestHandler = new RequestsHandler();
       requestHandler.data.key = userData.one.nonEncryptKeys.active;
-      requestHandler.data.rpc = DefaultRpcs[1];
+      requestHandler.data.rpc = DefaultRpcs[0];
       keychainRequestGeneric.type = RequestTypeList[i] as KeychainRequestTypes;
       await performOperation(
         requestHandler,

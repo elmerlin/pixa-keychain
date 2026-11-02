@@ -1,91 +1,51 @@
-import { KeychainApi } from '@api/keychain';
 import CurrencyPricesUtils from '@hiveapp/utils/currency-prices.utils';
-import bittrexData from 'src/__tests__/utils-for-testing/data/bittrex-data/bittrex-data';
-import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
+import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
+import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
-describe('currency-prices-utils tests', () => {
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-  afterAll(() => {
-    jest.clearAllMocks();
-    jest.restoreAllMocks();
-  });
+describe('Pixagram prices in PXS', () => {
+  afterEach(() => jest.restoreAllMocks());
 
-  describe('getPrices tests:\n', () => {
-    test('Must get prices from Hive API', async () => {
-      const mockedApiReply = {
-        bitcoin: { usd: 79999, usd_24h_change: -9.025204931469629 },
-        hive: { usd: 0.638871, usd_24h_change: -13.100842677149227 },
-        hive_dollar: { usd: 0.972868, usd_24h_change: -0.6982597522799386 },
-      };
-      KeychainApi.get = jest.fn().mockResolvedValueOnce(mockedApiReply);
-      const result = await CurrencyPricesUtils.getPrices();
-      expect(result).toEqual(mockedApiReply);
+  it('reads the median feed, values PXS at one and caches prices', async () => {
+    const getData = jest.spyOn(HiveTxUtils, 'getData').mockResolvedValue({
+      base: '3.000 PXS',
+      quote: '2.000 PIXA',
     });
-    test('If error on request will fall back to last known price from storage', async () => {
-      const lastKnown = {
-        bitcoin: { usd: 1 },
-        hive: { usd: 0.5 },
-        hive_dollar: { usd: 1 },
-      };
-      KeychainApi.get = jest
-        .fn()
-        .mockRejectedValueOnce(new Error('Network Failed'));
-      jest
-        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
-        .mockResolvedValueOnce(lastKnown);
-      const result = await CurrencyPricesUtils.getPrices();
-      expect(result).toEqual(lastKnown);
-    });
+    const save = jest
+      .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+      .mockResolvedValue(undefined);
+    const prices = { bitcoin: {}, hive: { usd: 1.5 }, hive_dollar: { usd: 1 } };
+    await expect(CurrencyPricesUtils.getPrices()).resolves.toEqual(prices);
+    expect(getData).toHaveBeenCalledWith(
+      'condenser_api.get_current_median_history_price',
+      [],
+    );
+    expect(save).toHaveBeenCalledWith(LocalStorageKeyEnum.LAST_PRICE, prices);
   });
 
-  describe('getBittrexCurrency tests:\n', () => {
-    test('Must get BTC price from bittrex', async () => {
-      const mockedBittrexApiReply = {
-        data: {
-          success: true,
-          message: '',
-          result: bittrexData.bittrexResultArray,
-        },
-      };
-      mocksImplementation.mockFetch(bittrexData.bittrexResultArray, 200);
-      const currencyToGet = 'BTC';
-      const result = await CurrencyPricesUtils.getBittrexCurrency(
-        currencyToGet,
-      );
-      const filteredResult = mockedBittrexApiReply.data.result.filter(
-        (currency) => currency.Currency === currencyToGet,
-      )[0];
-      expect(result).toEqual(filteredResult);
-    });
+  it('falls back to the cached price when the RPC fails', async () => {
+    jest
+      .spyOn(HiveTxUtils, 'getData')
+      .mockRejectedValue(new Error('RPC unavailable'));
+    const cached = { bitcoin: {}, hive: { usd: 0.5 }, hive_dollar: { usd: 1 } };
+    const read = jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue(cached);
+    const save = jest
+      .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+      .mockResolvedValue(undefined);
+    await expect(CurrencyPricesUtils.getPrices()).resolves.toEqual(cached);
+    expect(read).toHaveBeenCalledWith(LocalStorageKeyEnum.LAST_PRICE);
+    expect(save).not.toHaveBeenCalled();
+  });
 
-    test('Must return undefined as not found', async () => {
-      mocksImplementation.mockFetch(bittrexData.bittrexResultArray, 200);
-      const currencyToGet = 'HIVEKCH';
-      const result = await CurrencyPricesUtils.getBittrexCurrency(
-        currencyToGet,
-      );
-      expect(result).toBeUndefined();
-    });
-
-    test('Must return null if response not successful', async () => {
-      mocksImplementation.mockFetch({}, 500);
-      const currencyToGet = 'BTC';
-      const result = await CurrencyPricesUtils.getBittrexCurrency(
-        currencyToGet,
-      );
-      expect(result).toBeNull();
-    });
-    test('If error on request will throw an unhandled error', async () => {
-      const errorThrown = new Error('Network Failed');
-      mocksImplementation.mockFetch(errorThrown, 500, true);
-      try {
-        expect(await CurrencyPricesUtils.getBittrexCurrency('BTC')).toBe(1);
-      } catch (error) {
-        expect(error).toEqual(errorThrown);
-      }
-    });
+  it('returns an empty price map when neither the feed nor a cache is available', async () => {
+    jest
+      .spyOn(HiveTxUtils, 'getData')
+      .mockRejectedValue(new Error('RPC unavailable'));
+    jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue(undefined);
+    await expect(CurrencyPricesUtils.getPrices()).resolves.toEqual({});
   });
 });

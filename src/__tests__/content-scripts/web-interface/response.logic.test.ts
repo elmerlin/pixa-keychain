@@ -113,7 +113,7 @@ describe('response.logic tests:\n', () => {
 
       expect(sPostMessage).toHaveBeenCalledWith(
         {
-          type: 'hive_keychain_response',
+          type: 'pixa_keychain_response',
           response,
         },
         window.location.origin,

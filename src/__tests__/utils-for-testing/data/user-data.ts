@@ -50,7 +50,7 @@ const two = {
   username: TEST_USER2_USERNAME,
   keys: {
     posting: '5KCP5JMENP6sRYZzjvYkv1G2qJjgiSsX6knAynEU9HT8qHJ91Xm',
-    postingPubkey: 'STM6iAsgBsNxC6U9XiUxQ9AgpSD3vymdyRyGafJNeVCWh65wY8rL4',
+    postingPubkey: 'PIX6iAsgBsNxC6U9XiUxQ9AgpSD3vymdyRyGafJNeVCWh65wY8rL4',
   } as Keys,
 };
 

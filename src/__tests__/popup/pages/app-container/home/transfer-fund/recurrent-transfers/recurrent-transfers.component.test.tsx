@@ -50,7 +50,7 @@ describe('recurrent-transfers.component:\n', () => {
     const row = {
       from: accounts.active.name!,
       to,
-      amount: '1.000 HIVE',
+      amount: '1.000 PIXA',
       remaining_executions: 5,
       recurrence: 24,
       trigger_date: '2020-01-01T00:00:00',

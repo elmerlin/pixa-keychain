@@ -13,7 +13,7 @@ import Logger from 'src/utils/logger.utils';
 const MEMO_CIPHER_SENDER_WIF =
   '5JdeC9P7Pbd1uGdFVEsJ41EkEnADbbHGq6p1BwFxm6txNBsQnsw';
 const MEMO_CIPHER_RECEIVER_PUB =
-  'STM8m5UgaFAAYQRuaNejYdS8FVLVp9Ss3K1qAVk5de6F8s3HnVbvA';
+  'PIX8m5UgaFAAYQRuaNejYdS8FVLVp9Ss3K1qAVk5de6F8s3HnVbvA';
 
 describe('transaction.utils tests:\n', () => {
   afterEach(() => {
@@ -31,17 +31,15 @@ describe('transaction.utils tests:\n', () => {
       memoKey: MEMO_CIPHER_SENDER_WIF,
     };
 
-    beforeAll(() => {
-      const decodedMemoPlain = ' Encrypted Memo Test';
+    test('Getting data from an account that has transfers, must return a new sorted array with added fields', async () => {
+      // Only the encrypted-transfer case requires the memo codec. Keep unrelated
+      // history tests runnable if encryption is broken.
       transactionHistory.fakeGetAccountHistoryResponse[2][1].op[1].memo =
         HiveUtils.encodeMemo(
-          '#' + decodedMemoPlain,
+          '# Encrypted Memo Test',
           MEMO_CIPHER_SENDER_WIF,
           MEMO_CIPHER_RECEIVER_PUB,
         );
-    });
-
-    test('Getting data from an account that has transfers, must return a new sorted array with added fields', async () => {
       const showOutPutData = false;
       store.getState().hive.globalProperties.globals = dynamic.globalProperties;
       const mockGetAccountHistory = (HiveTxUtils.getData = jest
@@ -151,15 +149,16 @@ describe('transaction.utils tests:\n', () => {
     let fakeTransfer = {
       from: 'workerjab1',
       to: 'keychain.tests',
-      amount: '0.001 HIVE',
+      amount: '0.001 PIXA',
       memo: 'Not encrypted Memo',
     } as Transfer;
     const decodedMemoMsg = ' Encrypted Memo Test';
-    const encodedMemoMsg = HiveUtils.encodeMemo(
-      '#' + decodedMemoMsg,
-      MEMO_CIPHER_SENDER_WIF,
-      MEMO_CIPHER_RECEIVER_PUB,
-    );
+    const encodedMemoMsg = () =>
+      HiveUtils.encodeMemo(
+        '#' + decodedMemoMsg,
+        MEMO_CIPHER_SENDER_WIF,
+        MEMO_CIPHER_RECEIVER_PUB,
+      );
     test('If transfer.memo does not start with #, must return the original transfer', () => {
       const result = TransactionUtils.decodeMemoIfNeeded(
         fakeTransfer,
@@ -168,7 +167,8 @@ describe('transaction.utils tests:\n', () => {
       expect(result).toEqual(fakeTransfer);
     });
     test('If transfer.memo starts with #, but passing memoKey as empty, must call i18n and return transfer with memo field modified', () => {
-      fakeTransfer.memo = encodedMemoMsg;
+      // A fresh memo: the shared fixture is decoded in place by the tests above.
+      fakeTransfer.memo = encodedMemoMsg();
       const messageFromI18n = 'Add your private memo key to read this memo';
       const expectedResult = {
         from: fakeTransfer.from,
@@ -182,12 +182,15 @@ describe('transaction.utils tests:\n', () => {
       const result = TransactionUtils.decodeMemoIfNeeded(fakeTransfer, '');
       expect(result).toEqual(expectedResult);
       expect(mocki18nGetMessage).toHaveBeenCalledTimes(1);
-      expect(mocki18nGetMessage).toHaveBeenCalledWith('popup_accounts_add_memo');
+      expect(mocki18nGetMessage).toHaveBeenCalledWith(
+        'popup_accounts_add_memo',
+      );
       mocki18nGetMessage.mockReset();
       mocki18nGetMessage.mockRestore();
     });
     test('If valid memo, but passing memoKey as wrong password, must catch the error, call logger and return original transfer', () => {
-      fakeTransfer.memo = encodedMemoMsg;
+      // A fresh memo: the shared fixture is decoded in place by the tests above.
+      fakeTransfer.memo = encodedMemoMsg();
       const spyLoggerError = jest.spyOn(Logger, 'error');
       const result = TransactionUtils.decodeMemoIfNeeded(
         fakeTransfer,
@@ -200,7 +203,7 @@ describe('transaction.utils tests:\n', () => {
       spyLoggerError.mockRestore();
     });
     test('If valid memo, and valid memoKey, must return the transfer with the decoded message', () => {
-      fakeTransfer.memo = encodedMemoMsg;
+      fakeTransfer.memo = encodedMemoMsg();
       const expectedResult = {
         from: fakeTransfer.from,
         to: fakeTransfer.to,

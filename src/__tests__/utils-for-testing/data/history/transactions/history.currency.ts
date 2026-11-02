@@ -4,7 +4,7 @@ const transfers = [
   {
     from: 'keychain.tests',
     to: 'workerjab1',
-    amount: '0.001 HIVE',
+    amount: '0.001 PIXA',
     memo: ' Encrypted Memo Test',
     type: 'transfer',
     timestamp: '2022-05-20T16:17:48',
@@ -19,7 +19,7 @@ const transfers = [
   {
     from: 'theghost1980',
     to: 'keychain.tests',
-    amount: '0.100 HIVE',
+    amount: '0.100 PIXA',
     memo: 'Memo.test',
     type: 'transfer',
     timestamp: '2022-05-20T16:11:33',
@@ -34,7 +34,7 @@ const transfers = [
   {
     from: 'workerjab1',
     to: 'keychain.tests',
-    amount: '0.001 HIVE',
+    amount: '0.001 PIXA',
     memo: '',
     type: 'transfer',
     timestamp: '2022-05-18T00:36:36',

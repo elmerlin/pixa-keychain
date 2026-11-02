@@ -1,6 +1,6 @@
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import ProposalUtils from '@hiveapp/utils/proposal.utils';
-import { Asset } from '@hiveio/dhive';
+import { Asset } from 'hive-keychain-commons';
 import { FundedOption } from '@interfaces/proposal.interface';
 import moment from 'moment';
 import dynamic from 'src/__tests__/utils-for-testing/data/dynamic.hive';
@@ -24,10 +24,10 @@ describe('proposal.utils tests:\n', () => {
         receiver: 'keychain',
         startDate: moment('2022-05-15T00:00:00'),
         endDate: moment('2023-05-15T00:00:00'),
-        dailyPay: Asset.fromString('390.000 HBD'),
+        dailyPay: Asset.fromString('390.000 PXS'),
         subject: 'Hive Keychain development',
-        totalVotes: '33.43M HP',
-        link: 'https://peakd.com/proposals/216',
+        totalVotes: '33.43M PP',
+        link: 'https://pixtopia.net/chain/proposal/216',
         proposalId: 216,
         voted: true,
         funded: 'totally_funded',

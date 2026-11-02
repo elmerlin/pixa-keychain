@@ -28,7 +28,7 @@ describe('transfer-fund.component tests:\n', () => {
     jest.resetModules();
     cleanup();
   });
-  describe('HIVE cases:\n', () => {
+  describe('PIXA cases:\n', () => {
     describe('Having all keys:\n', () => {
       beforeEach(async () => {
         await reactTestingLibrary.renderWithConfiguration(
@@ -298,7 +298,7 @@ describe('transfer-fund.component tests:\n', () => {
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_transfer_successful', [
               `@${mk.user.two}`,
-              '0.001 HIVE',
+              '0.001 PIXA',
             ]),
           ),
         ).toBeInTheDocument();
@@ -344,7 +344,7 @@ describe('transfer-fund.component tests:\n', () => {
           await screen.findByText(
             chrome.i18n.getMessage('popup_html_transfer_recurrent_successful', [
               `@${mk.user.two}`,
-              '0.001 HIVE',
+              '0.001 PIXA',
               '24',
               '10',
             ]),

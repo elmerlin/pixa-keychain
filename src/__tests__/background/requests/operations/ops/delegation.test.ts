@@ -23,7 +23,7 @@ describe('delegation tests:\n', () => {
     type: KeychainRequestTypes.delegation,
     delegatee: 'theghost1980',
     amount: '100.000',
-    unit: 'HP',
+    unit: 'PP',
     request_id: 1,
   } as RequestDelegation & RequestId;
 

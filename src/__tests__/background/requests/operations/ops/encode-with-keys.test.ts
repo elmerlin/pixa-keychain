@@ -21,17 +21,17 @@ describe('encodeWithKeys', () => {
     } as any;
 
     const msg = await encodeWithKeys(requestHandler, {
-      publicKeys: ['STM111', 'STM222'],
+      publicKeys: ['PIX111', 'PIX222'],
       message: 'secret',
       request_id: 99,
     } as any);
 
-    expect(encodeSpy).toHaveBeenNthCalledWith(1, 'privWif', 'STM111', 'secret');
-    expect(encodeSpy).toHaveBeenNthCalledWith(2, 'privWif', 'STM222', 'secret');
+    expect(encodeSpy).toHaveBeenNthCalledWith(1, 'privWif', 'PIX111', 'secret');
+    expect(encodeSpy).toHaveBeenNthCalledWith(2, 'privWif', 'PIX222', 'secret');
     expect(msg.msg?.success).toBe(true);
     expect(msg.msg?.result).toEqual({
-      STM111: 'enc-a',
-      STM222: 'enc-b',
+      PIX111: 'enc-a',
+      PIX222: 'enc-b',
     });
   });
 
@@ -43,7 +43,7 @@ describe('encodeWithKeys', () => {
     const requestHandler = { data: { key: 'k' } } as any;
 
     const msg = await encodeWithKeys(requestHandler, {
-      publicKeys: ['STMx'],
+      publicKeys: ['PIXx'],
       message: 'm',
       request_id: 1,
     } as any);

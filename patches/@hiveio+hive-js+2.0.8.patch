@@ -24,3 +24,16 @@ index dbb5d71..e85c741 100644
    "failover_threshold": 3,
    "useAppbaseApi": true
  }
+diff --git a/node_modules/@hiveio/hive-js/lib/auth/memo.js b/node_modules/@hiveio/hive-js/lib/auth/memo.js
+index ef4a14e..7d738b5 100644
+--- a/node_modules/@hiveio/hive-js/lib/auth/memo.js
++++ b/node_modules/@hiveio/hive-js/lib/auth/memo.js
+@@ -148,7 +148,7 @@ function checkEncryption() {
+         encodeTest = true; // prevent infinate looping
+         try {
+             var wif = '5JdeC9P7Pbd1uGdFVEsJ41EkEnADbbHGq6p1BwFxm6txNBsQnsw';
+-            var pubkey = 'STM8m5UgaFAAYQRuaNejYdS8FVLVp9Ss3K1qAVk5de6F8s3HnVbvA';
++            var pubkey = 'PIX8m5UgaFAAYQRuaNejYdS8FVLVp9Ss3K1qAVk5de6F8s3HnVbvA';
+             var cyphertext = encode(wif, pubkey, '#memo爱');
+             plaintext = decode(wif, cyphertext);
+         } catch (e) {

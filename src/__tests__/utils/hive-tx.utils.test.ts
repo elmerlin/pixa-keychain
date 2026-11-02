@@ -1,4 +1,4 @@
-import { KeychainApi } from '@api/keychain';
+import Config from 'src/config';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import { KeysUtils } from '@popup/hive/utils/keys.utils';
 import AccountUtils from '@popup/hive/utils/account.utils';
@@ -26,7 +26,7 @@ describe('hive-tx.utils.ts tests:\n', () => {
       {
         0: 'account_create',
         1: {
-          fee: '1 HIVE',
+          fee: '1 PIXA',
           creator: mk.user.one,
           new_account_name: 'new_account',
           owner: accounts.extended.owner,
@@ -44,7 +44,7 @@ describe('hive-tx.utils.ts tests:\n', () => {
         TransferUtils.getRecurrentTransferOperation(
           'sender',
           'receiver',
-          '1.000 HBD',
+          '1.000 PXS',
           '',
           24,
           2,
@@ -111,17 +111,18 @@ describe('hive-tx.utils.ts tests:\n', () => {
   });
 
   describe('setRpc cases:\n', () => {
-    it('Must set Rpc from KeychainApi', async () => {
-      jest
-        .spyOn(KeychainApi, 'get')
-        .mockResolvedValue({ rpc: DefaultRpcs[1].uri });
+    it('uses the configured Pixagram node for DEFAULT', async () => {
       await HiveTxUtils.setRpc({ uri: 'DEFAULT', testnet: false });
-      expect(HiveTxConfig.node).toEqual(DefaultRpcs[1].uri);
+      expect(HiveTxConfig.node).toBe('https://api.pixagram.com');
+      expect(HiveTxConfig.node).toBe(Config.rpc.DEFAULT.uri);
     });
 
-    it('Must set Rpc', async () => {
-      await HiveTxUtils.setRpc({ ...DefaultRpcs[2], chainId: 'chain_Id' });
-      expect(HiveTxConfig.node).toEqual(DefaultRpcs[2].uri);
+    it('changes the node without allowing legacy node data to override the chain ID', async () => {
+      const chainId = HiveTxConfig.chain_id;
+      const rpc = { uri: 'https://custom.example', testnet: false, chainId: 'foreign-chain' };
+      await HiveTxUtils.setRpc(rpc);
+      expect(HiveTxConfig.node).toBe(rpc.uri);
+      expect(HiveTxConfig.chain_id).toBe(chainId);
     });
   });
 

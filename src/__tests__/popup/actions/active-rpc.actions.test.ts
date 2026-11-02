@@ -1,4 +1,4 @@
-import { KeychainApi } from '@api/keychain';
+import { config as HiveTxConfig } from 'hive-tx';
 import { Rpc } from '@interfaces/rpc.interface';
 import { BackgroundCommand } from '@reference-data/background-message-key.enum';
 import { getFakeStore } from 'src/__tests__/utils-for-testing/fake-store';
@@ -21,6 +21,9 @@ describe('active-rpc.actions tests:\n', () => {
       const fakeStore = getFakeStore(initialEmptyStateStore);
       await fakeStore.dispatch<any>(setActiveRpc(rpc));
       expect(fakeStore.getState().hive.activeRpc).toEqual(rpc);
+      expect(HiveTxConfig.node).toBe(
+        rpc.uri === 'DEFAULT' ? 'https://api.pixagram.com' : rpc.uri,
+      );
       expect(mockChromeRuntimeSendMessage).toHaveBeenCalledTimes(1);
       expect(mockChromeRuntimeSendMessage).toHaveBeenCalledWith({
         command: BackgroundCommand.SAVE_RPC,
@@ -34,18 +37,14 @@ describe('active-rpc.actions tests:\n', () => {
         testnet: true,
         uri: 'DEFAULT',
       } as Rpc;
-      const defaultRpc = {
-        testnet: false,
-        uri: 'https://api.hive.blog',
-      };
-      KeychainApi.get = jest
-        .fn()
-        .mockResolvedValueOnce({ data: { rpc: defaultRpc } });
       const mockChromeRuntimeSendMessage = (chrome.runtime.sendMessage =
         jest.fn());
       const fakeStore = getFakeStore(initialEmptyStateStore);
       await fakeStore.dispatch<any>(setActiveRpc(rpc));
       expect(fakeStore.getState().hive.activeRpc).toEqual(rpc);
+      expect(HiveTxConfig.node).toBe(
+        rpc.uri === 'DEFAULT' ? 'https://api.pixagram.com' : rpc.uri,
+      );
       expect(mockChromeRuntimeSendMessage).toHaveBeenCalledTimes(1);
       expect(mockChromeRuntimeSendMessage).toHaveBeenCalledWith({
         command: BackgroundCommand.SAVE_RPC,

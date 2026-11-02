@@ -27,12 +27,10 @@ describe('delegations.component tests:\n', () => {
         initialStates.iniStateAs.defaultExistent,
         {
           app: {
-            apiRelated: {
-              KeychainApi: {
-                customData: {
-                  delegators: { data: '' },
-                },
-              },
+            chain: {
+              getDelegators: jest
+                .fn()
+                .mockRejectedValue(new Error('RPC unavailable')),
             },
           },
         },
@@ -78,12 +76,12 @@ describe('delegations.component tests:\n', () => {
         dataTestIdButton.delegations.total.incoming,
       );
       expect(incomingHTMLElement.textContent).toContain('+');
-      expect(incomingHTMLElement.textContent).toContain('HP');
+      expect(incomingHTMLElement.textContent).toContain('PP');
       const outgoingTotalHTMLElement = await screen.findByTestId(
         dataTestIdButton.delegations.total.outgoing,
       );
       expect(outgoingTotalHTMLElement.textContent).toContain('-');
-      expect(outgoingTotalHTMLElement.textContent).toContain('HP');
+      expect(outgoingTotalHTMLElement.textContent).toContain('PP');
     });
 
     it('Must navigate to INCOMING_PAGE when clicking incoming', async () => {
