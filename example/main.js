@@ -1,6 +1,6 @@
 // Send Handshake event
 $('#sw-handshake').click(function () {
-  hive_keychain.requestHandshake(function () {
+  pixa_keychain.requestHandshake(function () {
     console.log('Handshake received!');
   });
 });
@@ -9,7 +9,7 @@ $('#sw-handshake').click(function () {
 
 // Send decryption request
 $('#send_decode').click(function () {
-  hive_keychain.requestVerifyKey(
+  pixa_keychain.requestVerifyKey(
     $('#decode_user').val(),
     $('#decode_message').val(),
     $('#decode_method option:selected').text(),
@@ -21,7 +21,7 @@ $('#send_decode').click(function () {
 });
 
 $('#send_encode').click(() => {
-  hive_keychain.requestEncodeMessage(
+  pixa_keychain.requestEncodeMessage(
     $('#encode_user').val(),
     $('#encode_receiver').val(),
     $('#encode_message').val(),
@@ -33,7 +33,7 @@ $('#send_encode').click(() => {
   );
 });
 $('#send_encode_multisig').click(() => {
-  hive_keychain.requestEncodeWithKeys(
+  pixa_keychain.requestEncodeWithKeys(
     $('#encode_user_multisig').val(),
     $('#encode_public_keys_multisig').val().split(','),
     $('#encode_message_multisig').val(),
@@ -47,7 +47,7 @@ $('#send_encode_multisig').click(() => {
 
 // Send post request
 $('#send_post').click(function () {
-  hive_keychain.requestPost(
+  pixa_keychain.requestPost(
     $('#post_username').val(),
     $('#post_title').val(),
     $('#post_body').val(),
@@ -67,7 +67,7 @@ $('#send_post').click(function () {
 
 // Send vote request
 $('#send_vote').click(function () {
-  hive_keychain.requestVote(
+  pixa_keychain.requestVote(
     $('#vote_username').val(),
     $('#vote_perm').val(),
     $('#vote_author').val(),
@@ -83,7 +83,7 @@ $('#send_vote').click(function () {
 // Send Custom JSON request
 $('#send_custom').click(function () {
   console.log('click');
-  hive_keychain.requestCustomJson(
+  pixa_keychain.requestCustomJson(
     $('#custom_username').val(),
     $('#custom_id').val(),
     $('#custom_method option:selected').text(),
@@ -100,7 +100,7 @@ $('#send_custom').click(function () {
 // Send transfer request
 $('#send_tra').click(function () {
   console.log('transfer');
-  hive_keychain.requestTransfer(
+  pixa_keychain.requestTransfer(
     $('#transfer_username').val().length ? $('#transfer_username').val() : null,
     $('#transfer_to').val(),
     $('#transfer_val').val(),
@@ -116,7 +116,7 @@ $('#send_tra').click(function () {
 
 // Send tokens request
 $('#sendTokens').click(function () {
-  hive_keychain.requestSendToken(
+  pixa_keychain.requestSendToken(
     $('#tokens_username').val(),
     $('#tokens_to').val(),
     $('#tokens_qt').val(),
@@ -131,7 +131,7 @@ $('#sendTokens').click(function () {
 
 // Send delegation
 $('#send_delegation').click(function () {
-  hive_keychain.requestDelegation(
+  pixa_keychain.requestDelegation(
     $('#delegation_username').val().length
       ? $('#delegation_username').val()
       : undefined,
@@ -146,7 +146,7 @@ $('#send_delegation').click(function () {
 });
 
 $('#send_signature').click(function () {
-  hive_keychain.requestSignBuffer(
+  pixa_keychain.requestSignBuffer(
     $('#sign_username').val().length ? $('#sign_username').val() : null,
     $('#sign_message').val(),
     $('#sign_method option:selected').text(),
@@ -162,7 +162,7 @@ $('#send_signature').click(function () {
 });
 
 $('#send_sign_tx').click(function () {
-  hive_keychain.requestSignTx(
+  pixa_keychain.requestSignTx(
     $('#tx_username').val(),
     JSON.parse($('#tx').val()),
     $('#tx_type option:selected').text(),
@@ -174,7 +174,7 @@ $('#send_sign_tx').click(function () {
 });
 
 $('#send_addauth').click(function () {
-  hive_keychain.requestAddAccountAuthority(
+  pixa_keychain.requestAddAccountAuthority(
     $('#addauth_username').val(),
     $('#addauth_authorized_username').val(),
     $('#addauth_role option:selected').text(),
@@ -187,7 +187,7 @@ $('#send_addauth').click(function () {
 });
 
 $('#send_removeauth').click(function () {
-  hive_keychain.requestRemoveAccountAuthority(
+  pixa_keychain.requestRemoveAccountAuthority(
     $('#removeauth_username').val(),
     $('#removeauth_authorized_username').val(),
     $('#removeauth_role option:selected').text(),
@@ -200,7 +200,7 @@ $('#send_removeauth').click(function () {
 
 $('#send_addkey').click(function () {
   console.log('add key');
-  hive_keychain.requestAddKeyAuthority(
+  pixa_keychain.requestAddKeyAuthority(
     $('#addkey_username').val(),
     $('#addkey_authorized_key').val(),
     $('#addkey_role option:selected').text(),
@@ -213,7 +213,7 @@ $('#send_addkey').click(function () {
 });
 
 $('#send_removekey').click(function () {
-  hive_keychain.requestRemoveKeyAuthority(
+  pixa_keychain.requestRemoveKeyAuthority(
     $('#removekey_username').val(),
     $('#removekey_authorized_key').val(),
     $('#removekey_role option:selected').text(),
@@ -225,7 +225,7 @@ $('#send_removekey').click(function () {
 });
 
 $('#send_broadcast').click(function () {
-  hive_keychain.requestBroadcast(
+  pixa_keychain.requestBroadcast(
     $('#broadcast_username').val(),
     JSON.parse($('#broadcast_operations').val()),
     $('#broadcast_method option:selected').text(),
@@ -237,7 +237,7 @@ $('#send_broadcast').click(function () {
 });
 
 $('#send_signed_call').click(function () {
-  hive_keychain.requestSignedCall(
+  pixa_keychain.requestSignedCall(
     $('#signed_call_username').val(),
     $('#signed_call_method').val(),
     $('#signed_call_params').val(),
@@ -250,7 +250,7 @@ $('#send_signed_call').click(function () {
 });
 
 $('#send_witness_vote').click(function () {
-  hive_keychain.requestWitnessVote(
+  pixa_keychain.requestWitnessVote(
     $('#witness_username').val().length
       ? $('#witness_username').val()
       : undefined,
@@ -264,7 +264,7 @@ $('#send_witness_vote').click(function () {
 });
 
 $('#send_proxy').click(function () {
-  hive_keychain.requestProxy(
+  pixa_keychain.requestProxy(
     $('#proxy_username').val().length ? $('#proxy_username').val() : undefined,
     $('#proxy').val() ? $('#proxy').val() : '',
     function (response) {
@@ -275,7 +275,7 @@ $('#send_proxy').click(function () {
 });
 
 $('#send_pu').click(function () {
-  hive_keychain.requestPowerUp(
+  pixa_keychain.requestPowerUp(
     $('#pu_username').val(),
     $('#pu_recipient').val(),
     $('#pu_steem').val(),
@@ -287,7 +287,7 @@ $('#send_pu').click(function () {
 });
 
 $('#send_pd').click(function () {
-  hive_keychain.requestPowerDown(
+  pixa_keychain.requestPowerDown(
     $('#pd_username').val(),
     $('#pd_sp').val(),
     function (response) {
@@ -298,7 +298,7 @@ $('#send_pd').click(function () {
 });
 
 $('#send_create_claimed').click(function () {
-  hive_keychain.requestCreateClaimedAccount(
+  pixa_keychain.requestCreateClaimedAccount(
     $('#create_claimed_username').val(),
     $('#create_claimed_new_username').val(),
     $('#create_claimed_owner').val(),
@@ -313,7 +313,7 @@ $('#send_create_claimed').click(function () {
 });
 
 $('#send_cp').click(function () {
-  hive_keychain.requestCreateProposal(
+  pixa_keychain.requestCreateProposal(
     $('#cp_username').val(),
     $('#cp_receiver').val(),
     $('#cp_subject').val(),
@@ -330,7 +330,7 @@ $('#send_cp').click(function () {
 });
 
 $('#send_rp').click(function () {
-  hive_keychain.requestRemoveProposal(
+  pixa_keychain.requestRemoveProposal(
     $('#rp_username').val(),
     $('#rp_proposal_ids').val(),
     $('#cp_extensions').val(),
@@ -342,7 +342,7 @@ $('#send_rp').click(function () {
 });
 
 $('#send_vp').click(function () {
-  hive_keychain.requestUpdateProposalVote(
+  pixa_keychain.requestUpdateProposalVote(
     $('#vp_username').val(),
     JSON.parse($('#vp_proposal_ids').val()),
     $('#vp_approve').is(':checked'),
@@ -355,7 +355,7 @@ $('#send_vp').click(function () {
 });
 
 $('#send_save').click(function () {
-  hive_keychain.requestAddAccount(
+  pixa_keychain.requestAddAccount(
     $('#save_username').val(),
     JSON.parse($('#save_keys').val()),
     function (response) {
@@ -366,7 +366,7 @@ $('#send_save').click(function () {
 });
 
 $('#send_con').click(function () {
-  hive_keychain.requestConversion(
+  pixa_keychain.requestConversion(
     $('#con_username').val(),
     $('#con_amount').val(),
     $('#con_collaterized').is(':checked'),
@@ -378,7 +378,7 @@ $('#send_con').click(function () {
 });
 
 $('#send_rec').click(function () {
-  hive_keychain.requestRecurrentTransfer(
+  pixa_keychain.requestRecurrentTransfer(
     $('#rec_username').val().length ? $('#rec_username').val() : null,
     $('#rec_to').val(),
     $('#rec_amount').val(),

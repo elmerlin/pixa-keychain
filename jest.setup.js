@@ -86,4 +86,6 @@ const defaultFetchImpl = (_url, init) => {
 globalThis.fetch = jest.fn(defaultFetchImpl);
 
 // jsdom does not implement scrolling; wallet row actions use this browser API.
-Element.prototype.scrollIntoView = jest.fn();
+if (typeof Element !== 'undefined') {
+  Element.prototype.scrollIntoView = jest.fn();
+}

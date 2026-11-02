@@ -1,3 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" fill="none" viewBox="0 0 8 7">
-  <path fill="var(--select-icon-color)" d="M3.21 1.055a1.022 1.022 0 0 1 1.77 0L7.061 4.66a1.022 1.022 0 0 1-.885 1.533H2.013a1.022 1.022 0 0 1-.885-1.533l2.081-3.605Z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" color="var(--main-font-color, inherit)"><path d="M20 14h2v2h-2zM2 14h2v2h-2zM18 12h2v2h-2zM4 12h2v2h-2zM16 10h2v2h-2zM6 10h2v2h-2zM14 8h2v2h-2zM8 8h2v2h-2zM10 6h4v2h-4z"/></svg>

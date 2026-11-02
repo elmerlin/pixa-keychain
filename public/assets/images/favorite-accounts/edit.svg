@@ -1,6 +1,1 @@
-
-<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="none" viewBox="0 0 21 19">
-  <rect width="19.236" height="18.233" x=".383" y="-.383" stroke="var(--favorite-account-btn-border)" stroke-width=".767" rx="9.117" transform="matrix(1 0 0 -1 0 18.233)"/>
-  <path stroke="var(--favorite-account-btn-icon)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M10.546 6.042 6.99 9.619a1.23 1.23 0 0 0-.29.589l-.161 1.333c-.056.482.308.811.81.73l1.396-.227c.195-.033.468-.169.602-.309l3.558-3.577c.615-.618.893-1.322-.065-2.182-.954-.852-1.677-.552-2.293.066Z"/>
-  <path stroke="var(--favorite-account-btn-icon)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M9.953 6.639c.186 1.136 1.157 2.004 2.361 2.12M6.1 13.617h7.8"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" color="var(--main-font-color, inherit)"><path d="M16 2h2v2h-2zM14 4h2v2h-2zM18 4h2v2h-2zM12 6h2v2h-2zM20 6h2v2h-2zM10 8h2v2h-2zM14 8h2v2h-2zM18 8h2v2h-2zM8 10h2v2h-2zM16 10h2v2h-2zM6 12h2v2h-2zM14 12h2v2h-2zM4 14h2v2h-2zM12 14h2v2h-2zM4 16h4v2h-4zM10 16h2v2h-2zM4 18h6v2h-6z"/></svg>

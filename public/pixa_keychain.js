@@ -49,7 +49,7 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * This function is called to allow encoding a message with multiple receivers. This is used in the case of multisig
+   * This function is called to allow encoding a message with multiple receivers. Useful when a message has several receivers
    * @example
    * const keychain = window.pixa_keychain;
    * const message = username + Date.now();
@@ -87,7 +87,7 @@ var pixa_keychain = {
    * This function is called to verify that the user has a certain authority over an account, by requesting to decode a message
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestVerifyKey('stoodkev', encodedMessage, 'Posting', (response) => {
+   * keychain.requestVerifyKey('pixtopia', encodedMessage, 'Posting', (response) => {
    *   if (response.success === true) {
    *     const decodedMessage = response.result;
    *   }
@@ -129,11 +129,11 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Requests to add account authority over another account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
+   * Requests to add account authority over another account.
    * @example
-   * // Gives @stoodkev active authority with weight 2 to `account`
+   * // Gives @pixtopia active authority with weight 2 to `account`
    * const keychain = window.pixa_keychain
-   * keychain.requestAddAccountAuthority(account, 'stoodkev', 'Active', 2, (response) => {
+   * keychain.requestAddAccountAuthority(account, 'pixtopia', 'Active', 2, (response) => {
    *   console.log(response);
    * });
    *
@@ -165,11 +165,11 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Requests to remove an account authority over another account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
+   * Requests to remove an account authority over another account.
    * @example
-   * // Removes @stoodkev's active authority from `account`
+   * // Removes @pixtopia's active authority from `account`
    * const keychain = window.pixa_keychain;
-   * keychain.requestRemoveAccountAuthority(account, 'stoodkev', 'Active', (response) => {
+   * keychain.requestRemoveAccountAuthority(account, 'pixtopia', 'Active', (response) => {
    *   console.log(response);
    * });
    *
@@ -198,7 +198,7 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Requests to add a new key authority to an account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
+   * Requests to add a new key authority to an account.
    * @example
    * const keychain = window.pixa_keychain;
    * keychain.requestAddKeyAuthority(username, publicKey, 'Memo', 1, (response) => {
@@ -233,7 +233,7 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Requests to remove a key to an account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
+   * Requests to remove a key to an account.
    * @example
    * const keychain = window.pixa_keychain;
    * keychain.requestRemoveKeyAuthority(username, publicKey, 'Memo', (response) => {
@@ -267,12 +267,12 @@ var pixa_keychain = {
    * Generic broadcast request
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestBroadcast('npfedwards', [
+   * keychain.requestBroadcast('pixa.team', [
    *   [
    *     'account_witness_vote',
    *     {
-   *       account: 'npfedwards',
-   *       witness: 'stoodkev',
+   *       account: 'pixa.team',
+   *       witness: 'pixtopia',
    *       approve: true
    *     }
    *   ]
@@ -303,7 +303,7 @@ var pixa_keychain = {
    * // This example would be done much easier with requestBroadcast
    * import dhive from '@hiveio/dhive';
    *
-   * const client = new dhive.Client(['https://api.hive.blog', 'https://anyx.io', 'https://api.openhive.network']);
+   * const client = new dhive.Client(['https://api.pixagram.com'], { chainId: '706978616772616d000000000000000000000000000000000000000000000000', addressPrefix: 'PIX' });
    * const keychain = window.pixa_keychain;
    *
    * const props = await client.database.getDynamicGlobalProperties();
@@ -365,14 +365,14 @@ var pixa_keychain = {
     // this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
 
-  // Example comment_options: {"author":"stoodkev","permlink":"hi","max_accepted_payout":"100000.000 SBD","percent_steem_dollars":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}
+  // Example comment_options: {"author":"pixtopia","permlink":"hi","max_accepted_payout":"100000.000 PXS","percent_pxs":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}
   /**
    * Requests to broadcast a blog post/comment
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestPost('stoodkev', 'Hello World!', '## This is a blog post \
+   * keychain.requestPost('pixtopia', 'Hello World!', '## This is a blog post \
    * \
-   * And this is some text', 'Blog', null, {format:'markdown',description:'A blog post',tags:['Blog']},'hello-world', {"author":"stoodkev","permlink":"hi","max_accepted_payout":"100000.000 SBD","percent_steem_dollars":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}, (response) => {
+   * And this is some text', 'Blog', null, {format:'markdown',description:'A blog post',tags:['Blog']},'hello-world', {"author":"pixtopia","permlink":"hi","max_accepted_payout":"100000.000 PXS","percent_pxs":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}, (response) => {
    *   console.log(response);
    * });
    *
@@ -383,7 +383,7 @@ var pixa_keychain = {
    * @param {String} parent_account Author of the parent post. Pass null for root post
    * @param {Object} json_metadata Parameters of the call
    * @param {String} permlink Permlink of the blog post
-   * @param {Object} comment_options Options attached to the blog post. Consult Pixagram documentation at <https://developers.hive.io/apidefinitions/#broadcast_ops_comment_options> to learn more about it
+   * @param {Object} comment_options Options attached to the blog post. It takes the comment_options operation's fields to learn more about it
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -418,7 +418,7 @@ var pixa_keychain = {
    * @example
    * // Upvote with 50% weight
    * const keychain = window.pixa_keychain;
-   * keychain.requestVote('npfedwards', 'hello-world', 'stoodkev', 5000, (response) => {
+   * keychain.requestVote('pixa.team', 'hello-world', 'pixtopia', 5000, (response) => {
    *   console.log(response);
    * });
    * @param {String} account Pixagram account to perform the request
@@ -563,7 +563,7 @@ var pixa_keychain = {
    * @example
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestDelegation(null, 'stoodkev', '1.000', 'PP', (response) => {
+   *   keychain.requestDelegation(null, 'pixtopia', '1.000', 'PP', (response) => {
    *     console.log(response);
    *   });
    * } else {
@@ -598,10 +598,10 @@ var pixa_keychain = {
   /**
    * Requests a witness vote broadcast
    * @example
-   * // Unvote our witness vote for @stoodkev
+   * // Unvote our witness vote for @pixtopia
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestWitnessVote(null, 'stoodkev', false, (response) => {
+   *   keychain.requestWitnessVote(null, 'pixtopia', false, (response) => {
    *     console.log(response);
    *   });
    * } else {
@@ -626,10 +626,10 @@ var pixa_keychain = {
   /**
    * Select an account as proxy
    * @example
-   * // Let @stoodkev use our voting power in governance votes
+   * // Let @pixtopia use our voting power in governance votes
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestProxy(null, 'stoodkev', (response) => {
+   *   keychain.requestProxy(null, 'pixtopia', (response) => {
    *     console.log(response);
    *   });
    * } else {
@@ -754,7 +754,7 @@ var pixa_keychain = {
    * @example
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestCreateProposal('keychain', 'keychain', 'Pixtopia Keychain development', 'hive-keychain-proposal-dhf-ran717', '10.000', '2022-03-22', '2023-03-21', JSON.stringify([]), (response) => {
+   *   keychain.requestCreateProposal('pixtopia', 'pixtopia', 'Pixtopia Keychain development', 'pixtopia-keychain-proposal', '10.000', '2022-03-22', '2023-03-21', JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
@@ -940,10 +940,10 @@ var pixa_keychain = {
   /**
    * Request recurrent transfer
    * @example
-   * // Let's send @stoodkev 5 PIXA a day
+   * // Let's send @pixtopia 5 PIXA a day
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestConversion(null, 'stoodkev', '5.000', 'PIXA', memo, 24, 7, (response) => {
+   *   keychain.requestConversion(null, 'pixtopia', '5.000', 'PIXA', memo, 24, 7, (response) => {
    *     console.log(response);
    *   });
    * } else {

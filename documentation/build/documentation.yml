@@ -5,6 +5,6 @@ toc:
     file: USAGE.md
   - name: Operations
     description: |
-      The Hive Keychain extension will inject a "hive_keychain" JavaScript into all web pages opened in the browser while the extension is running. You can therefore check if the current user has the extension installed using the following code:
+      The Pixtopia Keychain extension will inject a "pixa_keychain" JavaScript into all web pages opened in the browser while the extension is running. You can therefore check if the current user has the extension installed using the following code:
     children:
-      - hive_keychain
+      - pixa_keychain

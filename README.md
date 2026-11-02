@@ -1,63 +1,79 @@
-# Hive Keychain Extension
+# Pixtopia Keychain
 
-Secure Hive Wallet Extension.
+A wallet browser extension for the [Pixagram](https://pixagram.com) blockchain. Keep your keys in
+your browser, and let sites ask you to sign without ever seeing them.
 
-Hive Keychain is an extension for accessing Hive-enabled distributed applications, or "dApps" in your Chromium or Firefox browser!
+It's a fork of [Hive Keychain](https://github.com/hive-keychain/hive-keychain-extension), ported to
+Pixagram and restyled for [Pixtopia](https://pixtopia.net).
 
-The extension injects the Hive Keychain API into every website's javascript context, so that dApps can read from the blockchain.
+## Install it
 
-Hive Keychain also lets the user create and manage their own identities, so when a dApp wants to perform a transaction and write to the blockchain, the user gets a secure interface to review the transaction, before approving or rejecting it.
+```bash
+npm install
+npm run build:chromium
+```
 
-## Building locally
+Then open `chrome://extensions`, turn on Developer mode, choose **Load unpacked** and pick
+`dist-prod`. For Firefox, run `npm run build:firefox` and load `dist-prod-firefox/manifest.json`
+from `about:debugging`.
 
-#### Clone the repository
+It can sit next to Hive Keychain in the same browser. They use different names on the page.
 
-`git clone https://github.com/hive-keychain/hive-keychain-extension`
+## Use it from a site
 
-#### Install the modules
+The extension puts `window.pixa_keychain` on every page. See [documentation](documentation/README.md)
+for every request.
 
-`npm i`
+```js
+window.pixa_keychain.requestHandshake(() => {
+  window.pixa_keychain.requestVote(account, permlink, author, 10000, (response) => {
+    console.log(response.success, response.result);
+  });
+});
+```
 
-#### Run the dev server
+Amounts are in `PIXA` and `PXS`, and delegations in `PP` or `VESTS`. A request in `HIVE` or `HBD` is
+refused.
 
-`npm run dev`
-It will create two repositories `dist-dev` and `dist-dev-firefox`.
-Alternatively, you can run the dev server for either browser by using `npm run dev:chromium` or `npm run dev:firefox`
+A site built for Hive Keychain needs its one global renamed. Everything else follows the same
+shape:
 
-#### Make a production build
+```js
+const keychain = window.pixa_keychain;
+```
 
-`npm run build`
-In the same manner, this will create `dist-prod` and `dist-prod-firefox` folders, and you can choose to build for one type of browser only by using `npm run build:chromium` or `npm run build:firefox`
+## What's in it
 
-#### Test your local build
+Accounts by key or master password, transfers and recurring transfers, power up and down,
+delegations, RC delegations, savings, conversions, rewards and auto-claim, witness and proposal
+votes, a proxy, your own witness, account creation and authorities, encrypted export and import, and
+the dialog sites use to ask for a signature.
 
-##### Chromium
+Owner keys are refused. Keep yours offline.
 
-- Go to your browser extension page
-- Activate the developer mode
-- Load unpacked
-- Choose the `dist-dev` folder
+Left out because they can't work here: Hive Engine tokens, swaps, buying coins, multisig, HiveAuth,
+Ledger and PeakD notifications. Nothing calls a Hive service, and there are no analytics.
 
-After making changes to the background, reload the extension.
+## Developing
 
-##### Firefox
+```bash
+npm run dev:chromium     # dist-dev, rebuilds on change
+npm test
+npx tsc --noEmit
+npm run check:chain      # compares every operation's bytes with the node's
+node scripts/e2e.mjs     # drives the real extension and saves screenshots to .e2e
+```
 
-- Go to `about:debugging#/runtime/this-firefox`
-- Load temporary Add-on
-- Choose the `dist-dev-firefox` folder
+Neither of the last two can broadcast. `check:chain` only uses read-only calls, and `e2e.mjs` runs
+the browser behind a local proxy that refuses broadcasts and blocks everything else.
 
-After making changes to the background, reload the extension.
+[AGENTS.md](AGENTS.md) has the chain's differences from Hive and the rules of the codebase.
 
-## Contributing
+To take changes from upstream, `git fetch upstream` and merge. Internal names are left as upstream
+has them (`HiveUtils`, `src/popup/hive`) to keep that cheap. `vendor/hive-tx` and `patches/` hold what
+differs in the signing libraries.
 
-Before contributing to Hive Keychain, contact us on [Discord](https://discord.com/invite/3EM6YfRrGv).
+## License
 
-## Useful links
-
-- [Keychain SDK](https://www.npmjs.com/package/keychain-sdk) and [playground](https://play.hive-keychain.com)
-- [Developers documentation](./documentation/README.md) for how to interact with Hive Keychain from your website
-- [Contribution Guidelines](/CONTRIBUTING.md)
-- [Landing page](https://hive-keychain.com)
-- [Support Discord](https://discord.com/invite/3EM6YfRrGv)
-- [Keychain for Chromium browsers](https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en)
-- [Keychain for Firefox](https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/)
+MIT. See [LICENSE](LICENSE). Hive Keychain is copyright Hive Keychain Ltd., and `hive-tx` is
+copyright its authors (`vendor/hive-tx/LICENSE`).

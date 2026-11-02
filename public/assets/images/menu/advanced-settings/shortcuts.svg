@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="45" height="40" fill="none" viewBox="0 0 45 40">
-  <rect width="43.37" height="38.948" x=".423" y="-.423" stroke="var(--menu-icon-border-color)" stroke-width="var(--menu-icon-border-width)" rx="19.474" transform="matrix(1 0 0 -1 0 38.948)"/>
-  <rect width="22" height="12" x="11.5" y="13.5" stroke="var(--menu-icon-color)" stroke-linecap="round" stroke-linejoin="round" rx="2"/>
-  <path stroke="var(--menu-icon-color)" stroke-linecap="round" stroke-linejoin="round" d="M15 17h2m4 0h2m4 0h2M15 22h6m4 0h6"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="40" viewBox="0 0 24 24" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" color="var(--main-font-color, inherit)"><path d="M2 4h20v2h-20zM2 6h2v2h-2zM20 6h2v2h-2zM2 8h2v2h-2zM6 8h2v2h-2zM10 8h2v2h-2zM14 8h2v2h-2zM20 8h2v2h-2zM2 10h2v2h-2zM20 10h2v2h-2zM2 12h2v2h-2zM6 12h2v2h-2zM10 12h2v2h-2zM14 12h2v2h-2zM20 12h2v2h-2zM2 14h2v2h-2zM20 14h2v2h-2zM2 16h2v2h-2zM8 16h8v2h-8zM20 16h2v2h-2zM2 18h20v2h-20z"/></svg>

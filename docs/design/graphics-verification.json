@@ -1,0 +1,66 @@
+{
+  "build": {
+    "command": "npx webpack --config webpack/chromium/webpack.prod.js",
+    "exit_code": 0,
+    "warnings": "2 bundle-size warnings"
+  },
+  "assets": {
+    "packaged_files_matching_source_bytes": 121,
+    "filled_grid_control_files": 97,
+    "new_grid_masters": 24,
+    "svg_files": 115,
+    "extension_png_sizes": [
+      16,
+      32,
+      48,
+      128
+    ],
+    "necessary_compatibility_pngs": [
+      "placeholders/account-placeholder.png",
+      "background/detached-popup-background.png"
+    ],
+    "all_original_images_replaced_or_deleted": true
+  },
+  "checks": {
+    "manifest_paths_resolve": 17,
+    "all_enum_paths_resolve": true,
+    "deleted_runtime_references": 0,
+    "glyphs_even_grid_fill_only_currentColor": true,
+    "prism_cells_preserved": true,
+    "svg_parse_and_no_old_brand_content": true
+  },
+  "browser": {
+    "engine": "Chrome for Testing 152",
+    "viewport": [
+      1440,
+      1000
+    ],
+    "device_scale": 1,
+    "contact_sheet_pixels": [
+      1440,
+      5041
+    ],
+    "mark_comparison_pixels": [
+      1440,
+      1573
+    ],
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "inspected_sizes": [
+      16,
+      24,
+      32,
+      48,
+      128
+    ],
+    "broken_images": 0,
+    "page_errors": 0,
+    "computed_control_ink": {
+      "dark": "rgb(245, 245, 245)",
+      "light": "rgb(11, 11, 12)"
+    }
+  },
+  "review": "ship; no material graphics issues identified; application CSS follow-ups recorded in graphics-handoff.html"
+}

@@ -201,7 +201,8 @@ const run = async () => {
     await page.waitForSelector('[data-testid="input-username"]', { timeout: 15000 });
   }
   await typeTest(page, 'input-username', ACCOUNT);
-  await typeTest(page, 'input-private-key', keys.posting.wif);
+  // The seed is this run's master password, so all three keys derive from it.
+  await typeTest(page, 'input-private-key', seed);
   await clickTest(page, 'submit-button');
   await sleep(1500);
   // One matching key skips straight to the wallet. Several ask which to keep.
@@ -212,6 +213,7 @@ const run = async () => {
   }
   await page.waitForSelector('[data-testid="clickable-settings"]', { timeout: 20000 });
 
+  // Add more here as [name, [data-testids to click, in order]].
   const screens = [
     ['home', []],
     ['transfer', ['action-button-popup_html_send_transfer']],

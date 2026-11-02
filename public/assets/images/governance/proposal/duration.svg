@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 15 16">
-  <path stroke="var(--proposal-detail-icon)" stroke-linecap="round" stroke-linejoin="round" d="M13.75 7.95c0 3.45-2.8 6.25-6.25 6.25s-6.25-2.8-6.25-6.25S4.05 1.7 7.5 1.7s6.25 2.8 6.25 6.25Z"/>
-  <path stroke="var(--proposal-detail-icon)" stroke-linecap="round" stroke-linejoin="round" d="M9.819 9.936 7.88 8.78c-.337-.2-.612-.681-.612-1.075V5.143"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" color="var(--main-font-color, inherit)"><path d="M8 2h8v2h-8zM4 4h4v2h-4zM16 4h4v2h-4zM4 6h2v2h-2zM10 6h2v2h-2zM18 6h2v2h-2zM2 8h2v2h-2zM10 8h2v2h-2zM20 8h2v2h-2zM2 10h2v2h-2zM10 10h2v2h-2zM20 10h2v2h-2zM2 12h2v2h-2zM10 12h6v2h-6zM20 12h2v2h-2zM2 14h2v2h-2zM20 14h2v2h-2zM4 16h2v2h-2zM18 16h2v2h-2zM4 18h4v2h-4zM16 18h4v2h-4zM8 20h8v2h-8z"/></svg>
