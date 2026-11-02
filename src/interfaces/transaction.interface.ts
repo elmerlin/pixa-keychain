@@ -123,8 +123,8 @@ export interface EscrowTransfer extends Transaction {
   to: string;
   escrow_id: number;
   agent: string;
-  hbd_amount: string;
-  hive_amount: string;
+  pxs_amount: string;
+  pixa_amount: string;
   fee: string;
   ratification_deadline: string;
   escrow_expiration: string;
@@ -152,6 +152,6 @@ export interface EscrowRelease extends Transaction {
   who: string;
   receiver: string;
   agent: string;
-  hbd_amount: string;
-  hive_amount: string;
+  pxs_amount: string;
+  pixa_amount: string;
 }

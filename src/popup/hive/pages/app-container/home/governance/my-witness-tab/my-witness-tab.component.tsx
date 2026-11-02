@@ -36,7 +36,6 @@ const MyWitnessTab = ({
       const result = await WitnessUtils.getWitnessInfo(
         activeAccount.name!,
         globalProperties,
-        currencyPrices,
       );
 
       setWitnessInfo(result);

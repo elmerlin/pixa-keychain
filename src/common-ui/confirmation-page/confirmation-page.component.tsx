@@ -74,11 +74,11 @@ const ConfirmationPage = ({
   };
   const getIcon = (field: ConfirmationPageFields) => {
     switch (field.tokenSymbol) {
-      case 'HIVE':
+      case 'PIXA':
         return SVGIcons.WALLET_HIVE_LOGO;
-      case 'HBD':
+      case 'PXS':
         return SVGIcons.WALLET_HBD_LOGO;
-      case 'HP':
+      case 'PP':
         return SVGIcons.WALLET_HP_LOGO;
       default:
         return undefined;

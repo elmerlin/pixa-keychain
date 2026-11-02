@@ -73,19 +73,19 @@ const iterateClaimRewards = async (users: string[], mk: string) => {
     if (
       activeAccount &&
       RewardsUtils.hasReward(
-        activeAccount.account.reward_hbd_balance as string,
+        activeAccount.account.reward_pxs_balance as string,
         activeAccount.account.reward_vesting_balance
           .toString()
           .replace('VESTS', ''),
-        activeAccount.account.reward_hive_balance as string,
+        activeAccount.account.reward_pixa_balance as string,
       )
     ) {
       Logger.info(`Claiming rewards for @${activeAccount.name}`);
 
       await RewardsUtils.claimRewards(
         activeAccount.name!,
-        userAccount.reward_hive_balance,
-        userAccount.reward_hbd_balance,
+        userAccount.reward_pixa_balance,
+        userAccount.reward_pxs_balance,
         userAccount.reward_vesting_balance,
         activeAccount.keys.posting!,
       );
@@ -120,15 +120,15 @@ const iterateClaimSavings = async (users: string[], mk: string) => {
     if (!activeAccount) continue;
     let baseDate: any =
       new Date(
-        activeAccount?.account.savings_hbd_last_interest_payment!,
+        activeAccount?.account.savings_pxs_last_interest_payment!,
       ).getUTCFullYear() === 1970
-        ? activeAccount?.account.savings_hbd_seconds_last_update
-        : activeAccount?.account.savings_hbd_last_interest_payment;
+        ? activeAccount?.account.savings_pxs_seconds_last_update
+        : activeAccount?.account.savings_pxs_last_interest_payment;
 
     baseDate = moment(baseDate).utcOffset('+0000', true);
     const hasSavingsToClaim =
-      Number(activeAccount?.account.savings_hbd_seconds) > 0 ||
-      Asset.from(activeAccount?.account.savings_hbd_balance! as Asset).amount >
+      Number(activeAccount?.account.savings_pxs_seconds) > 0 ||
+      Asset.from(activeAccount?.account.savings_pxs_balance! as Asset).amount >
         0;
 
     if (!hasSavingsToClaim) {

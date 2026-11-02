@@ -34,7 +34,7 @@ export const convert = async (
   const conversionType = collaterized
     ? ConversionType.CONVERT_HIVE_TO_HBD
     : ConversionType.CONVERT_HBD_TO_HIVE;
-  const currency = collaterized ? BaseCurrencies.HIVE : BaseCurrencies.HBD;
+  const currency = collaterized ? BaseCurrencies.PIXA : BaseCurrencies.PXS;
   const amountS = `${amount} ${CurrencyUtils.getCurrencyLabel(
     currency,
     rpc!.testnet,
@@ -83,7 +83,7 @@ export const convert = async (
 //   if (collaterized) {
 //     try {
 //       const amountS = `${amount} ${CurrencyUtils.getCurrencyLabel(
-//         'HBD',
+//         'PXS',
 //         rpc!.testnet,
 //       )}`;
 //       result = await ConversionUtils.sendConvert(
@@ -116,7 +116,7 @@ export const convert = async (
 //   } else {
 //     try {
 //       const amountS = `${amount} ${CurrencyUtils.getCurrencyLabel(
-//         'HBD',
+//         'PXS',
 //         rpc!.testnet,
 //       )}`;
 //       result = await ConversionUtils.sendConvert(

@@ -84,7 +84,7 @@ const RecurrentTransfer = (props: Props) => {
         amount={FormatUtils.formatCurrencyValue(data.amount)}
         symbol={currencyLabel}
         icon={
-          currencyLabel === 'HIVE'
+          currencyLabel === 'PIXA'
             ? SVGIcons.WALLET_HIVE_LOGO
             : SVGIcons.WALLET_HBD_LOGO
         }

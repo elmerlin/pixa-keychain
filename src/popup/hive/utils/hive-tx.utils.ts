@@ -1,4 +1,3 @@
-import { KeychainApi } from '@api/keychain';
 import type { Operation, Transaction } from '@hiveio/dhive';
 import {
   HiveTxBroadcastErrorResponse,
@@ -23,11 +22,7 @@ import Logger from 'src/utils/logger.utils';
 const MINUTE = 60;
 
 const setRpc = async (rpc: Rpc) => {
-  HiveTxConfig.node =
-    rpc.uri === 'DEFAULT' ? (await KeychainApi.get('hive/rpc')).rpc : rpc.uri;
-  if (rpc.chainId) {
-    HiveTxConfig.chain_id = rpc.chainId;
-  }
+  HiveTxConfig.node = rpc.uri === 'DEFAULT' ? Config.rpc.DEFAULT.uri : rpc.uri;
 };
 const sendOperation = async (
   operations: Operation[],

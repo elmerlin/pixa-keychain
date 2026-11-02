@@ -11,3 +11,4 @@ coverage
 _releases
 .notes
 *.zip
+.e2e

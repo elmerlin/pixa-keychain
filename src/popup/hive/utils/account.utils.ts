@@ -31,6 +31,7 @@ import Logger from 'src/utils/logger.utils';
 import VaultUtils from 'src/utils/vault.utils';
 
 export enum AccountErrorMessages {
+  OWNER_KEY = 'popup_accounts_owner_key_refused',
   INCORRECT_KEY = 'popup_accounts_incorrect_key',
   INCORRECT_USER = 'popup_accounts_incorrect_user',
   MISSING_FIELDS = 'popup_accounts_fill',
@@ -50,6 +51,10 @@ const getKeys = async (username: string, password: string) => {
   if (isWif(password)) {
     let matchingKeys: Keys = {};
     const pubUnknown = KeysUtils.getPublicKeyFromPrivateKeyString(password);
+    // Owner keys are never stored, even when the same key also holds another role.
+    if (KeysUtils.getPubkeyWeight(pubUnknown, hiveAccounts[0].owner)) {
+      throw new Error(AccountErrorMessages.OWNER_KEY);
+    }
     if (pubUnknown === memoKey) {
       matchingKeys = {
         ...matchingKeys,
@@ -91,7 +96,7 @@ const verifyAccount = async (
   password: string,
   existingAccounts: LocalAccount[],
 ): Promise<Keys | null> => {
-  if (password.startsWith('STM')) {
+  if (password.startsWith('PIX')) {
     throw new Error(AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY);
   }
 
@@ -277,7 +282,7 @@ const addKey = async (
     throw new Error(AccountErrorMessages.MISSING_FIELDS);
   }
 
-  if (privateKey.startsWith('STM')) {
+  if (privateKey.startsWith('PIX')) {
     throw new Error(AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY);
   }
   const keys = await AccountUtils.getKeys(activeAccount.name!, privateKey);
@@ -377,11 +382,11 @@ const downloadAccounts = async (acc: LocalAccount[], mk: string) => {
 
 const getAccountValue = (
   {
-    hbd_balance,
+    pxs_balance,
     balance,
     vesting_shares,
     savings_balance,
-    savings_hbd_balance,
+    savings_pxs_balance,
     name,
   }: ExtendedAccount,
   prices: CurrencyPrices,
@@ -396,8 +401,8 @@ const getAccountValue = (
     hiveMarketLockedOpenOrdersValues.hbd * prices.hive_dollar.usd +
     hiveMarketLockedOpenOrdersValues.hive * prices.hive.usd;
   const dollarValue =
-    (parseFloat(hbd_balance as string) +
-      parseFloat(savings_hbd_balance as string)) *
+    (parseFloat(pxs_balance as string) +
+      parseFloat(savings_pxs_balance as string)) *
       prices.hive_dollar.usd +
     (FormatUtils.toHP(vesting_shares as string, props) +
       parseFloat(balance as string) +
@@ -405,7 +410,7 @@ const getAccountValue = (
       prices.hive.usd +
     totalLockedValueInHiveMarket;
   const value =
-    accountValueType === AccountValueType.DOLLARS
+    accountValueType === AccountValueType.PXS
       ? dollarValue
       : dollarValue / prices.hive.usd;
   return FormatUtils.withCommas(value.toString());
@@ -421,7 +426,7 @@ const getPowerDown = (
   globalProperties: DynamicGlobalProperties,
 ) => {
   const totalSteem = Number(
-    globalProperties.total_vesting_fund_hive.toString().split(' ')[0],
+    globalProperties.total_vesting_fund_pixa.toString().split(' ')[0],
   );
   const totalVests = Number(
     globalProperties.total_vesting_shares.toString().split(' ')[0],
@@ -504,7 +509,7 @@ const claimAccounts = async (
           {
             creator: activeAccount.name,
             extensions: [],
-            fee: '0.000 HIVE',
+            fee: '0.000 PIXA',
           },
         ] as ClaimAccountOperation,
       ],

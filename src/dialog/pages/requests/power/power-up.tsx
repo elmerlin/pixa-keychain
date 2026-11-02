@@ -47,7 +47,7 @@ const PowerUp = (props: Props) => {
       <AmountWithLogo
         title="dialog_amount"
         amount={FormatUtils.formatCurrencyValue(data.hive)}
-        symbol={CurrencyUtils.getCurrencyLabel('HIVE', rpc.testnet)}
+        symbol={CurrencyUtils.getCurrencyLabel('PIXA', rpc.testnet)}
         icon={SVGIcons.WALLET_HIVE_LOGO}
       />
     </Operation>

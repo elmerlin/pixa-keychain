@@ -1,10 +1,10 @@
 {
   "keychain": {
-    "message": "Hive Keychain",
+    "message": "Pixtopia Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Portefeuille sécurisé pour Hive.",
+    "message": "Portefeuille sécurisé pour Pixagram.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -72,11 +72,11 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "Le meilleur portefeuille pour Hive<strong>HIVE</strong>!<br/><br/>Gérez vos actifs sur HIVE et connectez-vous aux applications HIVE.<br/><br/>Simple. Léger. Sécurisé.",
+    "message": "Le meilleur portefeuille pour Pixagram<strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur PIXA et connectez-vous aux applications PIXA.<br/><br/>Simple. Léger. Sécurisé.",
     "description": "Text on registration page"
   },
   "popup_html_unlock": {
-    "message": "Le meilleur portefeuille pour <strong>HIVE</strong>!<br/><br/>Gérez vos actifs sur HIVE et connectez-vous aux applications HIVE.<br/><br/>Simple. Léger. Sécurisé.",
+    "message": "Le meilleur portefeuille pour <strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur PIXA et connectez-vous aux applications PIXA.<br/><br/>Simple. Léger. Sécurisé.",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
@@ -124,7 +124,7 @@
   },
   "popup_html_send": {
     "message": "Envoyer $1",
-    "description": "ex: Send HIVE"
+    "description": "ex: Send PIXA"
   },
   "popup_html_pu": {
     "message": "Power up"
@@ -151,16 +151,12 @@
     "message": "valeur du compte",
     "description": "on popup main page"
   },
-  "popup_html_estimation_info_text": {
-    "message": "La valeur estimée du compte est un arrondi de ce que vos fonds valent en USD.<br><br>            Veuillez noter que la valeur ne prend pas en compte les trades latents sur le marché, les virements ou transactions.",
-    "description": "on popup main page, click info near estimated value"
-  },
   "popup_html_wallet_history": {
     "message": "Historique du portefeuille",
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Entrez ci-dessous votre identifiant Hive et soit mot de passe principal de votre compte, soit une de vos clés privées (active ou de publication). Votre mot de passe principal ne sera PAS sauvegardé et ne sera utilisé que pour générer vos clés privées.<br/><br/> Vous pouvez ajouter/supprimer des comptes Hive ou des clés à tout moment. Si vous devez créer un nouveau compte Hive, vous pouvez le faire sur <a href=\"https://signup.hive.io/\" target=\"_blank\" style=\"text-decoration: underline; color: white;\">signup.hive.io/</a>.",
+    "message": "Entrez ci-dessous votre identifiant Pixagram et soit mot de passe principal de votre compte, soit une de vos clés privées (active ou de publication). Votre mot de passe principal ne sera PAS sauvegardé et ne sera utilisé que pour générer vos clés privées.<br/><br/> Vous pouvez ajouter/supprimer des comptes Pixagram ou des clés à tout moment. Si vous devez créer un nouveau compte Pixagram, vous pouvez le faire sur <a href=\"https://signup.hive.io/\" target=\"_blank\" style=\"text-decoration: underline; color: white;\">signup.hive.io/</a>.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -188,7 +184,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Import réussi! <br><br>Veuillez sélectionner les clés que vous souhaitez stocker sur Hive Keychain:",
+    "message": "Import réussi! <br><br>Veuillez sélectionner les clés que vous souhaitez stocker sur Pixtopia Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -333,7 +329,7 @@
   },
   "popup_none": {
     "message": "Vide",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_html_add_key": {
     "message": "Ajouter une clé",
@@ -369,23 +365,23 @@
   },
   "popup_html_transfer_funds": {
     "message": "Transférer des fonds",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_balance": {
     "message": "Solde",
-    "description": "When initiating a HIVE or HBD transfer. $1 is a variable that will be replaced by a currency name."
+    "description": "When initiating a PIXA or PXS transfer. $1 is a variable that will be replaced by a currency name."
   },
   "popup_html_loading": {
     "message": "Chargement...",
-    "description": "When initiating a HIVE or HBD transfer and the balance is loading."
+    "description": "When initiating a PIXA or PXS transfer and the balance is loading."
   },
   "popup_html_memo_optional": {
     "message": "MEMO (facultatif)",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_memo_key_missing": {
     "message": "Veuillez ajouter votre clé de mémo pour chiffrer et déchiffrer les messages.",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_transfer_confirm_text": {
     "message": "Veuillez confirmer votre transfert.<br>Vous ne pourrez pas faire machine arrière.",
@@ -433,14 +429,14 @@
   },
   "popup_html_current": {
     "message": "Solde Actuel",
-    "description": "Main page > Power Up . Current HP balance"
+    "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
-    "message": "Utilisez le Power Up sur votre Hive pour obtenir du Hive Power.",
+    "message": "Utilisez le Power Up sur votre Pixagram pour obtenir du Pixa Power.",
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Utilisez le Power Down sur votre Hive Power pour obtenir du Hive liquide. La procédure de Power Down prendra 13 semaines.",
+    "message": "Utilisez le Power Down sur votre Pixa Power pour obtenir du Pixagram liquide. La procédure de Power Down prendra 13 semaines.",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
@@ -452,16 +448,16 @@
     "description": "Main page > Delegate"
   },
   "popup_html_delegations_text": {
-    "message": "Vous pouvez déléguer votre Hive Power (HP) à un autre utilisateur. Cliquez sur le montant sortant pour examiner ou apporter des modifications.",
+    "message": "Vous pouvez déléguer votre Pixa Power (PP) à un autre utilisateur. Cliquez sur le montant sortant pour examiner ou apporter des modifications.",
     "description": "Main page > Delegate"
   },
   "popup_html_incoming": {
     "message": "$1 Entrants",
-    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be HP)"
+    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be PP)"
   },
   "popup_html_outgoing": {
     "message": "$1 Sortants",
-    "description": "Main page > Delegate. Outgoing delegation ($1=HP)"
+    "description": "Main page > Delegate. Outgoing delegation ($1=PP)"
   },
   "popup_html_delegate_to_user": {
     "message": "Déléguer à l'utilisateur",
@@ -529,11 +525,11 @@
   },
   "popup_empty": {
     "message": "Vide",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_encrypted": {
     "message": "chiffré",
-    "description": "On send HIVE/HBD confirmation page, when memo is encrypted"
+    "description": "On send PIXA/PXS confirmation page, when memo is encrypted"
   },
   "popup_witness_key": {
     "message": "Veuillez ajouter votre clé active pour voter pour les témoins !",
@@ -740,7 +736,7 @@
     "description": "When website request a post"
   },
   "dialog_percentage_hbd": {
-    "message": "Pourcentage de HBD : ",
+    "message": "Pourcentage de PXS : ",
     "description": "When website request a post"
   },
   "dialog_allow_votes": {
@@ -916,7 +912,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Pour pouvoir utiliser Hive Keychain, veuillez créer votre portefeuille. Cliquez sur le logo Hive Keychain en haut à droite de votre navigateur (il peut se trouver dans le menu extension), puis configurez votre mot de passe et importez vos comptes.",
+    "message": "Pour pouvoir utiliser Pixtopia Keychain, veuillez créer votre portefeuille. Cliquez sur le logo Pixtopia Keychain en haut à droite de votre navigateur (il peut se trouver dans le menu extension), puis configurez votre mot de passe et importez vos comptes.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -924,7 +920,7 @@
     "description": "Generic answer to websites when user cancel transaction (in the background so it wont show on screen)"
   },
   "bgd_context_transfer_user": {
-    "message": "Transférer HIVE/HBD vers @%s",
+    "message": "Transférer PIXA/PXS vers @%s",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_user": {
@@ -936,7 +932,7 @@
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_transfer_author": {
-    "message": "Transférer du HIVE/HBD à cet utilisateur",
+    "message": "Transférer du PIXA/PXS à cet utilisateur",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_author": {
@@ -951,22 +947,22 @@
     "message": "Le portefeuille est verrouillé !"
   },
   "bgd_auth_locked_desc": {
-    "message": "Une dApp essaie d'envoyer une requête à l'extension Hive Keychain. Veuillez entrer votre mot de passe ci-dessous pour déverrouiller le portefeuille et continuer."
+    "message": "Une dApp essaie d'envoyer une requête à l'extension Pixtopia Keychain. Veuillez entrer votre mot de passe ci-dessous pour déverrouiller le portefeuille et continuer."
   },
   "bgd_auth_canceled": {
     "message": "La requête a été annulée par l'utilisateur."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à Hive Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Hive Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_auth_no_account": {
-    "message": "Une dApp essaie d'envoyer une requête à l'extension Hive Keychain pour le compte @$1 qui n'a pas été ajouté au portefeuille."
+    "message": "Une dApp essaie d'envoyer une requête à l'extension Pixtopia Keychain pour le compte @$1 qui n'a pas été ajouté au portefeuille."
   },
   "bgd_auth_no_key": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Hive Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_ops_witness_voted": {
     "message": "A voté pour @$1 en tant que witness."
@@ -1026,10 +1022,10 @@
     "message": "Le vote du proposal #$1 a bien été retiré."
   },
   "bgd_ops_pu": {
-    "message": "A Power Up $1 Hive sur @$2."
+    "message": "A Power Up $1 Pixagram sur @$2."
   },
   "bgd_ops_pd": {
-    "message": "Un Power Down de $1 HP a été lancé pour @$2."
+    "message": "Un Power Down de $1 PP a été lancé pour @$2."
   },
   "bgd_ops_pd_stop": {
     "message": "Arrêt du Power Down sur @$1."
@@ -1062,10 +1058,10 @@
     "message": "La transaction a été signée avec succès."
   },
   "bgd_ops_convert": {
-    "message": "La conversion de $1 HBD en HIVE a été lancée avec succès sur le compte @$2."
+    "message": "La conversion de $1 PXS en PIXA a été lancée avec succès sur le compte @$2."
   },
   "bgd_ops_convert_collaterized": {
-    "message": "La conversion de $1 HBD en HIVE a été lancée avec succès sur le compte @$2."
+    "message": "La conversion de $1 PXS en PIXA a été lancée avec succès sur le compte @$2."
   },
   "bgd_ops_create_account": {
     "message": "Compte @$1 créé avec succès."
@@ -1121,7 +1117,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Ajoutez le nouveau compte en spécifiant un compte qui a autorité sur lui, et qui est déjà enregistré sur Hive Keychain.",
+    "message": "Ajoutez le nouveau compte en spécifiant un compte qui a autorité sur lui, et qui est déjà enregistré sur Pixtopia Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1129,7 +1125,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Veuillez enregistrer @$1 sur Hive Keychain Hive avant de l'utiliser en tant que compte autorisé."
+    "message": "Veuillez enregistrer @$1 sur Pixtopia Keychain Pixagram avant de l'utiliser en tant que compte autorisé."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 n'a pas autorité sur @$2.",
@@ -1162,28 +1158,24 @@
     "description": "When trying to transfer to a blacklisted account"
   },
   "popup_html_convert_hbd": {
-    "message": "Convertir HBD",
+    "message": "Convertir PXS",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive": {
-    "message": "Convertir HIVE",
-    "description": "When clicking on the Hbd arrow menu"
-  },
-  "popup_html_convert_hbd_intro": {
-    "message": "Votre HBD prendra 3.5 jours pour être convertis pour environ 1 USD de HIVE, basé sur son prix médian de 3.5 jours.",
+    "message": "Convertir PIXA",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive_intro": {
-    "message": "Vous déposez un collatéral (HIVE), puis vous recevrez des HBD à l'avance d'une valeur de la moitié du montant du collatéral (moins 5% de frais). Votre paiement final officiel est dans 3.5 jours. À ce moment-là, les garanties restantes (HIVE) seront remboursées.",
-    "description": "When clicking on the HIVE arrow menu"
+    "message": "Vous déposez un collatéral (PIXA), puis vous recevrez des PXS à l'avance d'une valeur de la moitié du montant du collatéral (moins 5% de frais). Votre paiement final officiel est dans 3.5 jours. À ce moment-là, les garanties restantes (PIXA) seront remboursées.",
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hive": {
-    "message": "Épargne HIVE",
-    "description": "When clicking on the Hive arrow menu"
+    "message": "Épargne PIXA",
+    "description": "When clicking on the Pixagram arrow menu"
   },
   "popup_html_save_hbd": {
-    "message": "Épargne HBD",
-    "description": "When clicking on the HBD arrow menu"
+    "message": "Épargne PXS",
+    "description": "When clicking on the PXS arrow menu"
   },
   "popup_html_deposit_param": {
     "message": "Dépôt de $1",
@@ -1230,16 +1222,12 @@
     "description": "On savings menu"
   },
   "popup_html_deposit_hbd_text": {
-    "message": "Déposer du HBD sur votre épargne rapporte actuellement un taux de rendement annuel de $1 % déterminé par les witness.",
+    "message": "Déposer du PXS sur votre épargne rapporte actuellement un taux de rendement annuel de $1 % déterminé par les witness.",
     "description": "when withdrawing from savings"
   },
   "popup_html_savings": {
     "message": "Épargne de $1",
     "description": "Saving page title"
-  },
-  "popup_html_buy_intro": {
-    "message": "Choisissez votre méthode préférée et achetez du $1 rapidement et facilement. Hive Keychain ne prend pas de frais supplémentaires sur les transactions.",
-    "description": "When accessing the buy HIVE/HBD page"
   },
   "dialog_keys": {
     "message": "Clés privées",
@@ -1248,10 +1236,6 @@
   "dialog_new_account": {
     "message": "Nouveau Compte",
     "description": "When adding an account by request"
-  },
-  "dialog_header_register": {
-    "message": "Bienvenue sur Hive Keychain",
-    "description": "When registering from request"
   },
   "popup_html_automated_intro": {
     "message": "Configurez des tâches automatisées qui s'exécuteront toutes les heures selon vos spécifications.",
@@ -1270,12 +1254,8 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Réclamez un ticket de création de compte lorsque le pourcentage de votre RC est supérieur à $1 %. Selon votre Hive Power, cette opération peut utiliser une grosse partie de votre RC.",
+    "message": "Réclamez un ticket de création de compte lorsque le pourcentage de votre RC est supérieur à $1 %. Selon votre Pixa Power, cette opération peut utiliser une grosse partie de votre RC.",
     "description": "When on automated tasks page"
-  },
-  "popup_html_proposal_request": {
-    "message": "Soutenir le proposal de développement de Hive Keychain",
-    "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_successful": {
     "message": "À voté !",
@@ -1366,7 +1346,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Vous pouvez choisir quel RPC sera utilisé pour lire les informations et diffuser les transactions de/vers la blockchain Hive.",
+    "message": "Vous pouvez choisir quel RPC sera utilisé pour lire les informations et diffuser les transactions de/vers la blockchain Pixagram.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {
@@ -1474,27 +1454,27 @@
     "description": "General word"
   },
   "popup_html_confirm_hive_to_hbd_conversion": {
-    "message": "Veuillez confirmer votre conversion de HIVE vers HBD",
+    "message": "Veuillez confirmer votre conversion de PIXA vers PXS",
     "description": "Conversion confirm page"
   },
   "popup_html_confirm_hbd_to_hive_conversion": {
-    "message": "Veuillez confirmer votre conversion de HBD vers HIVE",
+    "message": "Veuillez confirmer votre conversion de PXS vers PIXA",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_success": {
-    "message": "Conversion de HIVE à HBD réussie!",
+    "message": "Conversion de PIXA à PXS réussie!",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_fail": {
-    "message": "La conversion de HIVE à HBD a échoué!",
+    "message": "La conversion de PIXA à PXS a échoué!",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_success": {
-    "message": "Conversion de HBD à HIVE réussie!",
+    "message": "Conversion de PXS à PIXA réussie!",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_fail": {
-    "message": "La conversion de HBD vers HIVE a échoué!",
+    "message": "La conversion de PXS vers PIXA a échoué!",
     "description": "Conversion confirm page"
   },
   "popup_html_amount": {
@@ -1549,16 +1529,12 @@
     "message": "Un proxy est actuellement défini, veuillez le retirer afin de pouvoir voter pour un proposal",
     "description": "Governance"
   },
-  "html_popup_currently_using_proxy": {
-    "message": "Vous utilisez actuellement @$1 comme proxy. Ses votes sont affichés ci-dessous.",
-    "description": "Governance"
-  },
   "html_popup_witness_hide_inactive": {
     "message": "Masquer les inactifs",
     "description": "Governance"
   },
   "html_popup_witness_proxy_definition": {
-    "message": "L'ajout d'un compte en tant que proxy signifie que le compte proxy peut utiliser le poids de votre HP en matière de gouvernance (voter pour les witness et les proposals). Cela n'affectera pas vos HP en ce qui concerne la curation, et vous pouvez retirer le proxy à tout moment. ",
+    "message": "L'ajout d'un compte en tant que proxy signifie que le compte proxy peut utiliser le poids de votre PP en matière de gouvernance (voter pour les witness et les proposals). Cela n'affectera pas vos PP en ce qui concerne la curation, et vous pouvez retirer le proxy à tout moment. ",
     "description": "Proxy tab"
   },
   "html_popup_witness_has_proxy": {
@@ -1600,10 +1576,6 @@
   "html_popup_link_to_witness_website": {
     "message": "Pour plus d'informations, cliquez ici pour accéder à la base de données des witness",
     "description": "Link to witness website"
-  },
-  "html_popup_made_with_love_by_stoodkev": {
-    "message": "Fait avec ❤ par l'équipe Keychain",
-    "description": "Footer"
   },
   "html_popup_vote_stoodkev_witness_success": {
     "message": "A voté pour @stoodkev comme witness. Merci pour votre soutien !",
@@ -1675,7 +1647,7 @@
   },
   "html_popup_voting_no_hp": {
     "message": "Veuillez effectuer un Power Up pour obtenir plus de voting mana",
-    "description": "Message when no HP in voting mana section"
+    "description": "Message when no PP in voting mana section"
   },
   "html_popup_delete_key_confirm": {
     "message": "Vous êtes sur le point de supprimer la clé $1 pour le compte @$2.<br/>Assurez-vous d'avoir une copie de cette clé avant de continuer.",

@@ -1,0 +1,169 @@
+diff --git a/node_modules/@hiveio/dhive/lib/chain/account.d.ts b/node_modules/@hiveio/dhive/lib/chain/account.d.ts
+index 475e20b..00b5dd9 100644
+--- a/node_modules/@hiveio/dhive/lib/chain/account.d.ts
++++ b/node_modules/@hiveio/dhive/lib/chain/account.d.ts
+@@ -82,19 +82,19 @@ export interface Account {
+     };
+     balance: string | Asset;
+     savings_balance: string | Asset;
+-    hbd_balance: string | Asset;
+-    hbd_seconds: string;
+-    hbd_seconds_last_update: string;
+-    hbd_last_interest_payment: string;
+-    savings_hbd_balance: string | Asset;
+-    savings_hbd_seconds: string;
+-    savings_hbd_seconds_last_update: string;
+-    savings_hbd_last_interest_payment: string;
++    pxs_balance: string | Asset;
++    pxs_seconds: string;
++    pxs_seconds_last_update: string;
++    pxs_last_interest_payment: string;
++    savings_pxs_balance: string | Asset;
++    savings_pxs_seconds: string;
++    savings_pxs_seconds_last_update: string;
++    savings_pxs_last_interest_payment: string;
+     savings_withdraw_requests: number;
+-    reward_hbd_balance: string | Asset;
+-    reward_hive_balance: string | Asset;
++    reward_pxs_balance: string | Asset;
++    reward_pixa_balance: string | Asset;
+     reward_vesting_balance: string | Asset;
+-    reward_vesting_hive: string | Asset;
++    reward_vesting_pixa: string | Asset;
+     curation_rewards: number | string;
+     posting_rewards: number | string;
+     vesting_shares: string | Asset;
+diff --git a/node_modules/@hiveio/dhive/lib/chain/asset.d.ts b/node_modules/@hiveio/dhive/lib/chain/asset.d.ts
+index 23895b9..9f3d18c 100644
+--- a/node_modules/@hiveio/dhive/lib/chain/asset.d.ts
++++ b/node_modules/@hiveio/dhive/lib/chain/asset.d.ts
+@@ -40,7 +40,7 @@ export interface SMTAsset {
+ /**
+  * Asset symbol string.
+  */
+-export declare type AssetSymbol = 'HIVE' | 'VESTS' | 'HBD' | 'TESTS' | 'TBD' | 'STEEM' | 'SBD';
++export declare type AssetSymbol = 'PIXA' | 'VESTS' | 'PXS' | 'TESTS' | 'TBD' | 'STEEM' | 'SBD';
+ /**
+  * Class representing a hive asset, e.g. `1.000 HIVE` or `12.112233 VESTS`.
+  */
+diff --git a/node_modules/@hiveio/dhive/lib/chain/comment.d.ts b/node_modules/@hiveio/dhive/lib/chain/comment.d.ts
+index 5217fb9..ecc111c 100644
+--- a/node_modules/@hiveio/dhive/lib/chain/comment.d.ts
++++ b/node_modules/@hiveio/dhive/lib/chain/comment.d.ts
+@@ -63,7 +63,7 @@ export interface Comment {
+     net_votes: number;
+     root_comment: number;
+     max_accepted_payout: string;
+-    percent_hbd: number;
++    percent_pxs: number;
+     allow_replies: boolean;
+     allow_votes: boolean;
+     allow_curation_rewards: boolean;
+diff --git a/node_modules/@hiveio/dhive/lib/chain/misc.d.ts b/node_modules/@hiveio/dhive/lib/chain/misc.d.ts
+index 05eae81..b145917 100644
+--- a/node_modules/@hiveio/dhive/lib/chain/misc.d.ts
++++ b/node_modules/@hiveio/dhive/lib/chain/misc.d.ts
+@@ -75,7 +75,7 @@ export interface ChainProperties {
+     /**
+      * The HBD interest percentage rate decided by witnesses, expressed 0 to 10000.
+      */
+-    hbd_interest_rate: number;
++    pxs_interest_rate: number;
+ }
+ export interface VestingDelegation {
+     /**
+@@ -133,12 +133,12 @@ export interface DynamicGlobalProperties {
+      * Total asset held in confidential balances.
+      */
+     confidential_supply: Asset | string;
+-    current_hbd_supply: Asset | string;
++    current_pxs_supply: Asset | string;
+     /**
+      * Total asset held in confidential balances.
+      */
+     confidential_hbd_supply: Asset | string;
+-    total_vesting_fund_hive: Asset | string;
++    total_vesting_fund_pixa: Asset | string;
+     total_vesting_shares: Asset | string;
+     total_reward_fund_hive: Asset | string;
+     /**
+@@ -146,12 +146,12 @@ export interface DynamicGlobalProperties {
+      */
+     total_reward_shares2: string;
+     pending_rewarded_vesting_shares: Asset | string;
+-    pending_rewarded_vesting_hive: Asset | string;
++    pending_rewarded_vesting_pixa: Asset | string;
+     /**
+      * This property defines the interest rate that HBD deposits receive.
+      */
+-    hbd_interest_rate: number;
+-    hbd_print_rate: number;
++    pxs_interest_rate: number;
++    pxs_print_rate: number;
+     /**
+      *  Average block size is updated every block to be:
+      *
+diff --git a/node_modules/@hiveio/dhive/lib/chain/operation.d.ts b/node_modules/@hiveio/dhive/lib/chain/operation.d.ts
+index a67f3e9..cb2782d 100644
+--- a/node_modules/@hiveio/dhive/lib/chain/operation.d.ts
++++ b/node_modules/@hiveio/dhive/lib/chain/operation.d.ts
+@@ -169,8 +169,8 @@ export interface ClaimRewardBalanceOperation extends Operation {
+     0: 'claim_reward_balance';
+     1: {
+         account: string;
+-        reward_hive: string | Asset;
+-        reward_hbd: string | Asset;
++        reward_pixa: string | Asset;
++        reward_pxs: string | Asset;
+         reward_vests: string | Asset;
+     };
+ }
+@@ -205,7 +205,7 @@ export interface CommentOptionsOperation extends Operation {
+         /** HBD value of the maximum payout this post will receive. */
+         max_accepted_payout: Asset | string;
+         /** The percent of Hive Dollars to key, unkept amounts will be received as Hive Power. */
+-        percent_hbd: number;
++        percent_pxs: number;
+         /** Whether to allow post to receive votes. */
+         allow_votes: boolean;
+         /** Whether to allow post to recieve curation rewards. */
+@@ -372,11 +372,11 @@ export interface EscrowReleaseOperation extends Operation {
+         /**
+          * The amount of hbd to release.
+          */
+-        hbd_amount: Asset | string;
++        pxs_amount: Asset | string;
+         /**
+          * The amount of hive to release.
+          */
+-        hive_amount: Asset | string;
++        pixa_amount: Asset | string;
+     };
+ }
+ /**
+@@ -404,8 +404,8 @@ export interface EscrowTransferOperation extends Operation {
+         to: string;
+         agent: string;
+         escrow_id: number;
+-        hbd_amount: Asset | string;
+-        hive_amount: Asset | string;
++        pxs_amount: Asset | string;
++        pixa_amount: Asset | string;
+         fee: Asset | string;
+         ratification_deadline: string;
+         escrow_expiration: string;
+diff --git a/node_modules/@hiveio/dhive/lib/utils.d.ts b/node_modules/@hiveio/dhive/lib/utils.d.ts
+index 59ae3d8..400cb0a 100644
+--- a/node_modules/@hiveio/dhive/lib/utils.d.ts
++++ b/node_modules/@hiveio/dhive/lib/utils.d.ts
+@@ -91,8 +91,8 @@ export interface WitnessProps {
+     key: PublicKey | string;
+     maximum_block_size?: number;
+     new_signing_key?: PublicKey | string | null;
+-    hbd_exchange_rate?: PriceType;
+-    hbd_interest_rate?: number;
++    pxs_exchange_rate?: PriceType;
++    pxs_interest_rate?: number;
+     url?: string;
+ }
+ export declare const buildWitnessUpdateOp: (owner: string, props: WitnessProps) => WitnessSetPropertiesOperation;

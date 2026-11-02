@@ -13,14 +13,14 @@ const getHiveInternalMarketOrders = async (username: string) => {
       [username],
     );
     totals.hive = openMarketOrders
-      .filter((order: any) => order.sell_price.base.includes('HIVE'))
+      .filter((order: any) => order.sell_price.base.includes('PIXA'))
       .reduce(
         (acc: number, openOrder: any) =>
           acc + parseFloat(openOrder.sell_price.base.split(' ')[0]),
         0,
       );
     totals.hbd = openMarketOrders
-      .filter((order: any) => order.sell_price.base.includes('HBD'))
+      .filter((order: any) => order.sell_price.base.includes('PXS'))
       .reduce(
         (acc: number, openOrder: any) =>
           acc + parseFloat(openOrder.sell_price.base.split(' ')[0]),

@@ -130,12 +130,12 @@ const claimSavings = async (
   activeAccount: ActiveAccount,
   options?: TransactionOptions,
 ) => {
-  const { hbd_balance, savings_hbd_balance } = activeAccount.account;
-  const hasHbd = hasBalance(hbd_balance as Asset, 0.001);
-  const hasSavings = hasBalance(savings_hbd_balance as Asset, 0.001);
+  const { pxs_balance, savings_pxs_balance } = activeAccount.account;
+  const hasHbd = hasBalance(pxs_balance as Asset, 0.001);
+  const hasSavings = hasBalance(savings_pxs_balance as Asset, 0.001);
   if (hasHbd) {
     return SavingsUtils.deposit(
-      '0.001 HBD',
+      '0.001 PXS',
       activeAccount.name!,
       activeAccount.name!,
       activeAccount.keys.active!,
@@ -143,7 +143,7 @@ const claimSavings = async (
     );
   } else if (hasSavings) {
     return SavingsUtils.withdraw(
-      '0.001 HBD',
+      '0.001 PXS',
       activeAccount.name!,
       activeAccount.name!,
       activeAccount.keys.active!,
@@ -151,7 +151,7 @@ const claimSavings = async (
     );
   } else {
     Logger.error(
-      `@${activeAccount.name} has no HBD to deposit or savings to withdraw`,
+      `@${activeAccount.name} has no PXS to deposit or savings to withdraw`,
     );
     return false;
   }

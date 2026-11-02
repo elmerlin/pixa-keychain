@@ -36,13 +36,15 @@ global.chrome.runtime.connect = jest.fn((...args) => {
   if (p && p.onMessage && p.onMessage.addListener) return p;
   return vaultPortStub();
 });
-Object.defineProperty(global.self, 'crypto', {
-  value: {
-    subtle: crypto.subtle,
-    getRandomValues: (arr) => crypto.randomBytes(arr.length),
-    randomUUID: crypto.randomUUID,
-  },
-});
+if (global.self) {
+  Object.defineProperty(global.self, 'crypto', {
+    value: {
+      subtle: crypto.subtle,
+      getRandomValues: (arr) => crypto.randomBytes(arr.length),
+      randomUUID: crypto.randomUUID,
+    },
+  });
+}
 
 /** Default fetch: jsdom provides `fetch`, but an empty JSON body breaks hive-tx RPC (`result` missing → throw). */
 const defaultFetchImpl = (_url, init) => {

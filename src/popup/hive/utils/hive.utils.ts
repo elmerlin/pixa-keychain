@@ -1,5 +1,5 @@
 import type { ExtendedAccount, Price } from '@hiveio/dhive';
-import * as hive from '@hiveio/hive-js';
+import { decode, encode } from '@hiveio/hive-js/lib/auth/memo';
 import { Asset } from 'hive-keychain-commons';
 import {
   GlobalProperties,
@@ -9,7 +9,6 @@ import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 
 const signature = require('@hiveio/hive-js/lib/auth/ecc');
 
-const DEFAULT_RPC = 'https://api.hive.blog';
 const HIVE_VOTING_MANA_REGENERATION_SECONDS = 432000;
 const HIVE_100_PERCENT = 10000;
 
@@ -173,11 +172,11 @@ const encodeMemo = (
   privateKey: string,
   receiverPublicKey: string,
 ) => {
-  return hive.memo.encode(privateKey, receiverPublicKey, memo);
+  return encode(privateKey, receiverPublicKey, memo);
 };
 /* istanbul ignore next */
 const decodeMemo = (memo: string, privateKey: string) => {
-  return hive.memo.decode(privateKey, memo);
+  return decode(privateKey, memo);
 };
 
 const signMessage = (message: string, privateKey: string) => {

@@ -1,0 +1,26 @@
+diff --git a/node_modules/@hiveio/hive-js/config.json b/node_modules/@hiveio/hive-js/config.json
+index dbb5d71..e85c741 100644
+--- a/node_modules/@hiveio/hive-js/config.json
++++ b/node_modules/@hiveio/hive-js/config.json
+@@ -1,13 +1,15 @@
+ {
+   "transport": "http",
+-  "websocket": "wss://api.hive.blog:8090",
+-  "uri": "https://api.hive.blog",
+-  "url": "https://api.hive.blog",
++  "websocket": "",
++  "uri": "https://api.pixagram.com",
++  "url": "https://api.pixagram.com",
+   "dev_uri": "",
+   "stage_uri": "",
+-  "address_prefix": "STM",
+-  "chain_id": "beeab0de00000000000000000000000000000000000000000000000000000000",
+-  "alternative_api_endpoints": ["https://api.hive.blog", "https://api.ha.deathwing.me"],
++  "address_prefix": "PIX",
++  "chain_id": "706978616772616d000000000000000000000000000000000000000000000000",
++  "alternative_api_endpoints": [
++    "https://api.pixagram.com"
++  ],
+   "failover_threshold": 3,
+   "useAppbaseApi": true
+ }

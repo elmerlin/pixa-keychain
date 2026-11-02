@@ -14,7 +14,7 @@ export interface ActionButton {
 export const WalletInfoSectionActions = (
   tokenSymbol: string,
 ): ActionButton[] => {
-  if (tokenSymbol === 'HBD') {
+  if (tokenSymbol === 'PXS') {
     return [
       {
         label: 'popup_html_send',
@@ -37,7 +37,7 @@ export const WalletInfoSectionActions = (
         nextScreenParams: { selectedCurrency: 'hbd' },
       },
     ];
-  } else if (tokenSymbol === 'HIVE') {
+  } else if (tokenSymbol === 'PIXA') {
     return [
       {
         label: 'popup_html_send',
@@ -66,7 +66,7 @@ export const WalletInfoSectionActions = (
         nextScreenParams: { selectedCurrency: 'hive' },
       },
     ];
-  } else if (tokenSymbol === 'HP') {
+  } else if (tokenSymbol === 'PP') {
     return [
       {
         label: 'popup_html_delegate_short',

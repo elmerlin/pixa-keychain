@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { config as HiveTxConfig } from 'hive-tx';
+import Config from 'src/config';
 import { Rpc } from 'src/interfaces/rpc.interface';
 import { DefaultRpcs } from 'src/reference-data/default-rpc.list';
 import { LocalStorageKeyEnum } from 'src/reference-data/local-storage-key.enum';
@@ -92,28 +94,24 @@ const findRpc = async (uri: string) => {
   );
 };
 
+// A node is usable only if it says it is on Pixagram. Signing always uses Pixagram's chain ID, so a
+// node on another chain could only ever produce failed transactions.
 const checkRpcStatus = async (uri: string) => {
-  axios.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      throw new Error('RPC NOK ' + uri + ' ' + error);
-    },
-  );
   try {
-    const result = await axios.get(
-      ['DEFAULT', 'https://api.hive.blog'].includes(uri)
-        ? 'https://api.hive.blog'
-        : `${uri}/health`,
+    const result = await axios.post(
+      uri === 'DEFAULT' ? Config.rpc.DEFAULT.uri : uri,
       {
-        timeout: 10000,
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'condenser_api.get_config',
+        params: [],
       },
+      { timeout: 10000 },
     );
-    if (result?.data?.error) {
-      return false;
-    }
-    return true;
+    return (
+      result?.data?.result?.HIVE_CHAIN_ID === HiveTxConfig.chain_id &&
+      result?.data?.result?.HIVE_ADDRESS_PREFIX === HiveTxConfig.address_prefix
+    );
   } catch (err) {
     Logger.error('error', err);
     return false;

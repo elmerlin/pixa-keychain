@@ -55,26 +55,26 @@ const WalletInfoSection = ({
 
   useEffect(() => {
     const pendingHbdConversions = conversions.filter((conv: Conversion) => {
-      return Asset.fromString(conv.amount).symbol === 'HBD';
+      return Asset.fromString(conv.amount).symbol === 'PXS';
     });
     if (pendingHbdConversions.length > 0) {
       // setHbdRowInfoContent(
       //   chrome.i18n.getMessage('popup_html_pending_conversions', [
       //     pendingHbdConversions.length.toString(),
-      //     'HIVE',
+      //     'PIXA',
       //   ]),
       // );
     }
 
     const pendingHiveConversions = conversions.filter((conv: Conversion) => {
-      return Asset.fromString(conv.amount).symbol === 'HIVE';
+      return Asset.fromString(conv.amount).symbol === 'PIXA';
     });
 
     if (pendingHiveConversions.length > 0) {
       // setHiveRowInfoContent(
       //   chrome.i18n.getMessage('popup_html_pending_conversions', [
       //     pendingHiveConversions.length.toString(),
-      //     'HIVE',
+      //     'PIXA',
       //   ]),
       // );
     }
@@ -85,7 +85,7 @@ const WalletInfoSection = ({
       <div className="wallet-background" />
       <div className="wallet-info-section">
         <WalletInfoSectionItemComponent
-          tokenSymbol="HIVE"
+          tokenSymbol="PIXA"
           icon={SVGIcons.WALLET_HIVE_LOGO}
           mainValue={activeAccount.account.balance}
           mainValueLabel={currencyLabels.hive}
@@ -93,15 +93,15 @@ const WalletInfoSection = ({
           subValueLabel={chrome.i18n.getMessage('popup_html_wallet_savings')}
         />
         <WalletInfoSectionItemComponent
-          tokenSymbol="HBD"
+          tokenSymbol="PXS"
           icon={SVGIcons.WALLET_HBD_LOGO}
-          mainValue={activeAccount.account.hbd_balance}
+          mainValue={activeAccount.account.pxs_balance}
           mainValueLabel={currencyLabels.hbd}
-          subValue={activeAccount.account.savings_hbd_balance}
+          subValue={activeAccount.account.savings_pxs_balance}
           subValueLabel={chrome.i18n.getMessage('popup_html_wallet_savings')}
         />
         <WalletInfoSectionItemComponent
-          tokenSymbol="HP"
+          tokenSymbol="PP"
           icon={SVGIcons.WALLET_HP_LOGO}
           mainValue={FormatUtils.toHP(
             activeAccount.account.vesting_shares as string,

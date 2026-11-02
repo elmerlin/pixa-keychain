@@ -45,14 +45,14 @@ const TopBar = ({
     if (!ActiveAccountUtils.isEmpty(activeAccount)) {
       setHasRewardToClaim(
         RewardsUtils.hasReward(
-          activeAccount.account.reward_hbd_balance as string,
+          activeAccount.account.reward_pxs_balance as string,
           FormatUtils.toHP(
             activeAccount.account.reward_vesting_balance
               .toString()
               .replace('VESTS', ''),
             globalProperties.globals,
           ).toString(),
-          activeAccount.account.reward_hive_balance as string,
+          activeAccount.account.reward_pixa_balance as string,
         ),
       );
     }
@@ -70,8 +70,8 @@ const TopBar = ({
       addToLoadingList('popup_html_claiming_rewards');
       const claimResult = await RewardsUtils.claimRewards(
         activeAccount.name!,
-        activeAccount.account.reward_hive_balance,
-        activeAccount.account.reward_hbd_balance,
+        activeAccount.account.reward_pixa_balance,
+        activeAccount.account.reward_pxs_balance,
         activeAccount.account.reward_vesting_balance,
         activeAccount.keys.posting!,
         options,
@@ -87,10 +87,10 @@ const TopBar = ({
                 .replace('VESTS', ''),
               globalProperties.globals,
             ).toString(),
-          ) + ' HP';
+          ) + ' PP';
         let claimedResources = [
-          activeAccount.account.reward_hive_balance,
-          activeAccount.account.reward_hbd_balance,
+          activeAccount.account.reward_pixa_balance,
+          activeAccount.account.reward_pxs_balance,
           rewardHp,
         ].filter(
           (resource) => parseFloat(resource.toString().split(' ')[0]) !== 0,

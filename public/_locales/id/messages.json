@@ -1,10 +1,10 @@
 {
   "keychain": {
-    "message": "Hive Keychain",
+    "message": "Pixtopia Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Ekstensi Dompet Aman Hive.",
+    "message": "Ekstensi Dompet Aman Pixagram.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -88,15 +88,15 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "Solusi Dompet <strong>HIVE</strong> Terbaik Anda.\n<br/><br/>Kelola dan akses aset serta aplikasi Hive <br/><br/> dengan mudah, ringan, dan aman.",
+    "message": "Solusi Dompet <strong>PIXA</strong> Terbaik Anda.\n<br/><br/>Kelola dan akses aset serta aplikasi Pixagram <br/><br/> dengan mudah, ringan, dan aman.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
-    "message": "Solusi Dompet Hive Terbaik",
+    "message": "Solusi Dompet Pixagram Terbaik",
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "Kelola aset HIVE dan terhubung dengan berbagai aplikasi HIVE",
+    "message": "Kelola aset PIXA dan terhubung dengan berbagai aplikasi PIXA",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
@@ -156,7 +156,7 @@
   },
   "popup_html_send": {
     "message": "Kirimkan 1$",
-    "description": "ex: Send HIVE"
+    "description": "ex: Send PIXA"
   },
   "popup_html_pu": {
     "message": "Power Up"
@@ -165,10 +165,10 @@
     "message": "Power down"
   },
   "popup_html_delegate": {
-    "message": "HP delegations "
+    "message": "PP delegations "
   },
   "popup_html_delegate_short": {
-    "message": "HP Deleg.",
+    "message": "PP Deleg.",
     "description": "Keep short, 10 chars max including space and ."
   },
   "popup_html_delegate_rc_short": {
@@ -191,16 +191,12 @@
     "message": "Nilai akun",
     "description": "on popup main page"
   },
-  "popup_html_estimation_info_text": {
-    "message": "Perkiraan nilai akun memberi gambaran kasar tentang total dana Anda.<br><br>Klik nilai yang ditampilkan untuk mengganti tampilan antara USD, HIVE, atau klik nilai yang ditampilkan untuk mengaktifkan mode tersembunyi.",
-    "description": "on popup main page, click info near estimated value"
-  },
   "popup_html_wallet_history": {
     "message": "Riwayat transaksi ",
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Masukkan nama akun Hive dan pilih antara master password, posting key, atau active key Anda.\nMaster Password Anda TIDAK disimpan — hanya digunakan untuk membuat private keys.\n<br/><br/>Anda dapat menambahkan atau menghapus akun maupun kunci Hive kapan saja.\nBelum punya akun? Daftar di <a href=\"https://signup.hive.io\" target=\"_blank\">signup.hive.io</a>.",
+    "message": "Masukkan nama akun Pixagram dan pilih antara master password, posting key, atau active key Anda.\nMaster Password Anda TIDAK disimpan — hanya digunakan untuk membuat private keys.\n<br/><br/>Anda dapat menambahkan atau menghapus akun maupun kunci Pixagram kapan saja.\nBelum punya akun? Daftar di <a href=\"https://signup.hive.io\" target=\"_blank\">signup.hive.io</a>.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -236,7 +232,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Impor berhasil!<br><br>Silakan pilih kunci yang ingin Anda simpan di Hive Keychain:",
+    "message": "Impor berhasil!<br><br>Silakan pilih kunci yang ingin Anda simpan di Pixtopia Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -485,7 +481,7 @@
   },
   "popup_none": {
     "message": "Kosong",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_html_add_key": {
     "message": "Tambahkan kunci",
@@ -529,23 +525,23 @@
   },
   "popup_html_transfer_funds": {
     "message": "Transfer dana",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_balance": {
     "message": "Saldo",
-    "description": "When initiating a HIVE or HBD transfer. $1 is a variable that will be replaced by a currency name."
+    "description": "When initiating a PIXA or PXS transfer. $1 is a variable that will be replaced by a currency name."
   },
   "popup_html_loading": {
     "message": "Sedang memuat...",
-    "description": "When initiating a HIVE or HBD transfer and the balance is loading."
+    "description": "When initiating a PIXA or PXS transfer and the balance is loading."
   },
   "popup_html_memo_optional": {
     "message": "MEMO(optional)",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_memo_key_missing": {
     "message": "Tambahkan kunci memo Anda untuk mengenkripsi dan mendekripsi pesan.",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_transfer_confirm_text": {
     "message": "Silakan konfirmasi transfer Anda.. <br>Setelah dikirim, transaksi tidak bisa dibatalkan.",
@@ -657,14 +653,14 @@
   },
   "popup_html_current": {
     "message": "Saat Ini",
-    "description": "Main page > Power Up . Current HP balance"
+    "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
-    "message": "Power Up HIVE Anda untuk mengubahnya menjadi Hive Power.\n",
+    "message": "Power Up PIXA Anda untuk mengubahnya menjadi Pixa Power.\n",
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Lakukan Power Down Hive Power Anda untuk menerima HIVE. Seluruh proses pencairan akan memakan waktu 13 minggu dan dilakukan secara bertahap.",
+    "message": "Lakukan Power Down Pixa Power Anda untuk menerima PIXA. Seluruh proses pencairan akan memakan waktu 13 minggu dan dilakukan secara bertahap.",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
@@ -676,16 +672,16 @@
     "description": "Main page > Delegate"
   },
   "popup_html_delegations_text": {
-    "message": "Anda dapat mendelegasikan Hive Power (HP) Anda kepada pengguna lain. Klik jumlah Keluar untuk meninjau atau membuat perubahan.\n",
+    "message": "Anda dapat mendelegasikan Pixa Power (PP) Anda kepada pengguna lain. Klik jumlah Keluar untuk meninjau atau membuat perubahan.\n",
     "description": "Main page > Delegate"
   },
   "popup_html_incoming": {
     "message": "Masuk $1",
-    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be HP)"
+    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be PP)"
   },
   "popup_html_outgoing": {
     "message": "Keluar $1",
-    "description": "Main page > Delegate. Outgoing delegation ($1=HP)"
+    "description": "Main page > Delegate. Outgoing delegation ($1=PP)"
   },
   "popup_html_delegate_to_user": {
     "message": "Delegasikan ke pengguna",
@@ -773,11 +769,11 @@
   },
   "popup_empty": {
     "message": "kosong",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_encrypted": {
     "message": "terenskripsi",
-    "description": "On send HIVE/HBD confirmation page, when memo is encrypted"
+    "description": "On send PIXA/PXS confirmation page, when memo is encrypted"
   },
   "popup_witness_key": {
     "message": "Silakan masukkan active keys Anda untuk memilih witnesses!",
@@ -996,7 +992,7 @@
     "description": "When website request a post"
   },
   "dialog_percentage_hbd": {
-    "message": "Persentase HBD :",
+    "message": "Persentase PXS :",
     "description": "When website request a post"
   },
   "dialog_allow_votes": {
@@ -1061,10 +1057,6 @@
   },
   "dialog_title_encode": {
     "message": "Enkode Pesan",
-    "description": "Website request title"
-  },
-  "dialog_title_encode_multisig": {
-    "message": "Enkode Multisig",
     "description": "Website request title"
   },
   "dialog_public_keys": {
@@ -1180,7 +1172,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Untuk menggunakan Hive Keychain, silakan atur dompet Anda. Klik logo Hive Keychain di pojok kanan atas peramban Anda (mungkin tersembunyi di menu ekstensi), lalu atur kata sandi dan impor akun Anda.",
+    "message": "Untuk menggunakan Pixtopia Keychain, silakan atur dompet Anda. Klik logo Pixtopia Keychain di pojok kanan atas peramban Anda (mungkin tersembunyi di menu ekstensi), lalu atur kata sandi dan impor akun Anda.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1188,7 +1180,7 @@
     "description": "Generic answer to websites when user cancel transaction (in the background so it wont show on screen)"
   },
   "bgd_context_transfer_user": {
-    "message": "Transfer HIVE/HBD ke @%s",
+    "message": "Transfer PIXA/PXS ke @%s",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_user": {
@@ -1200,7 +1192,7 @@
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_transfer_author": {
-    "message": "Transfer HIVE/HBD ke penulis ini",
+    "message": "Transfer PIXA/PXS ke penulis ini",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_author": {
@@ -1215,22 +1207,22 @@
     "message": "Dompet terkunci!"
   },
   "bgd_auth_locked_desc": {
-    "message": "Situs web ini sedang mengirimkan permintaan ke ekstensi Hive Keychain di peramban Anda. Masukkan kata sandi Anda untuk membuka dompet dan melanjutkan proses."
+    "message": "Situs web ini sedang mengirimkan permintaan ke ekstensi Pixtopia Keychain di peramban Anda. Masukkan kata sandi Anda untuk membuka dompet dan melanjutkan proses."
   },
   "bgd_auth_canceled": {
     "message": "Permintaan dibatalkan oleh pengguna."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "Situs web saat ini mencoba mengirim permintaan transfer ke ekstensi browser Hive Keychain untuk akun @$1 menggunakan active key, yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan transfer ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan active key, yang belum ditambahkan ke dompet."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Hive Keychain untuk akun @$1 menggunakan memo key yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan memo key yang belum ditambahkan ke dompet."
   },
   "bgd_auth_no_account": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Hive Keychain untuk akun @$1 yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 yang belum ditambahkan ke dompet."
   },
   "bgd_auth_no_key": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Hive Keychain untuk akun @$1 menggunakan kunci $2, yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan kunci $2, yang belum ditambahkan ke dompet."
   },
   "bgd_ops_witness_voted": {
     "message": "Berhasil memilih @$1 untuk witness."
@@ -1290,7 +1282,7 @@
     "message": "Berhasil membatalkan pemungutan suara proposal #$1"
   },
   "bgd_ops_pu": {
-    "message": "Power up $1 HIVE pada @$2."
+    "message": "Power up $1 PIXA pada @$2."
   },
   "bgd_ops_pd": {
     "message": "Memulai $1 power down pada @$2."
@@ -1326,10 +1318,10 @@
     "message": "Transaksi berhasil ditandatangani"
   },
   "bgd_ops_convert": {
-    "message": "Proses konversi $1 HBD ke HIVE pada akun @$2 telah berhasil dimulai."
+    "message": "Proses konversi $1 PXS ke PIXA pada akun @$2 telah berhasil dimulai."
   },
   "bgd_ops_convert_collaterized": {
-    "message": "Berhasil mengonversi $1 HIVE ke HBD pada akun @$2."
+    "message": "Berhasil mengonversi $1 PIXA ke PXS pada akun @$2."
   },
   "bgd_ops_create_account": {
     "message": "Berhasil membuat akun @$1."
@@ -1385,7 +1377,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Tambahkan akun baru melalui akun berotoritas yang telah tersimpan di Hive Keychain.",
+    "message": "Tambahkan akun baru melalui akun berotoritas yang telah tersimpan di Pixtopia Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1393,7 +1385,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Harap simpan @$1 di Hive Keychain untuk menggunakannya sebagai akun terotorisasi."
+    "message": "Harap simpan @$1 di Pixtopia Keychain untuk menggunakannya sebagai akun terotorisasi."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 tidak memiliki otoritas yang cukup atas @$2",
@@ -1404,7 +1396,7 @@
     "description": "Title of import keys popup"
   },
   "import_html_text": {
-    "message": "Impor kunci Anda dari instalasi Hive Keychain lain menggunakan file .kc.<br/><br/>Anda perlu menggunakan master password yang sama pada keduanya untuk mengaksesnya. "
+    "message": "Impor kunci Anda dari instalasi Pixtopia Keychain lain menggunakan file .kc.<br/><br/>Anda perlu menggunakan master password yang sama pada keduanya untuk mengaksesnya. "
   },
   "import_html_success": {
     "message": "Anda berhasil mengimpor kunci Anda!"
@@ -1416,7 +1408,7 @@
     "message": "Pengaturan impor"
   },
   "import_permissions_html_text": {
-    "message": "Impor pengaturan Anda dari instalasi Hive Keychain lain menggunakan file .kc.json."
+    "message": "Impor pengaturan Anda dari instalasi Pixtopia Keychain lain menggunakan file .kc.json."
   },
   "bgd_auth_no_active": {
     "message": "Tidak ada akun dengan otoritas aktif"
@@ -1438,36 +1430,32 @@
     "description": "Convert"
   },
   "popup_html_convert_hbd": {
-    "message": "Konversi HBD",
+    "message": "Konversi PXS",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive": {
-    "message": "Konversi Hive ",
-    "description": "When clicking on the Hbd arrow menu"
-  },
-  "popup_html_convert_hbd_intro": {
-    "message": "HBD Anda akan dikonversi menjadi HIVE senilai ~1 USD dalam waktu 3,5 hari, mengikuti harga median selama periode tersebut.",
+    "message": "Konversi Pixagram ",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive_intro": {
-    "message": "Dengan menyetorkan HIVE sebagai agunan, Anda langsung menerima HBD senilai setengahnya (dipotong biaya 5%). Sisa HIVE akan dikembalikan setelah 3,5 hari.",
-    "description": "When clicking on the HIVE arrow menu"
+    "message": "Dengan menyetorkan PIXA sebagai agunan, Anda langsung menerima PXS senilai setengahnya (dipotong biaya 5%). Sisa PIXA akan dikembalikan setelah 3,5 hari.",
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_proposal_funded_option_hive": {
-    "message": "Konversi ke HBD ",
+    "message": "Konversi ke PXS ",
     "description": "When converting"
   },
   "popup_html_proposal_funded_option_hbd": {
-    "message": "Konversi ke HIVE",
+    "message": "Konversi ke PIXA",
     "description": "When converting"
   },
   "popup_html_save_hive": {
-    "message": "Hive Savings ",
-    "description": "When clicking on the Hive arrow menu"
+    "message": "Pixagram Savings ",
+    "description": "When clicking on the Pixagram arrow menu"
   },
   "popup_html_save_hbd": {
-    "message": "HBD Savings ",
-    "description": "When clicking on the HBD arrow menu"
+    "message": "PXS Savings ",
+    "description": "When clicking on the PXS arrow menu"
   },
   "popup_html_deposit_param": {
     "message": "Penyetoran $1",
@@ -1518,16 +1506,12 @@
     "description": "On savings menu"
   },
   "popup_html_deposit_hbd_text": {
-    "message": "Menyimpan HBD di tabungan saat ini dapat  memberikan imbal hasil $1% APR, sesuai keputusan witness. ",
+    "message": "Menyimpan PXS di tabungan saat ini dapat  memberikan imbal hasil $1% APR, sesuai keputusan witness. ",
     "description": "when withdrawing from savings"
   },
   "popup_html_savings": {
     "message": "Simpanan",
     "description": "Saving page title"
-  },
-  "popup_html_buy_intro": {
-    "message": "Pilih metode favorit Anda dan beli $1 dengan cepat dan mudah",
-    "description": "When accessing the buy HIVE/HBD page"
   },
   "dialog_keys": {
     "message": "Private Keys",
@@ -1537,16 +1521,12 @@
     "message": "Akun Baru",
     "description": "When adding an account by request"
   },
-  "dialog_header_register": {
-    "message": "Selamat datang di Hive Keychain",
-    "description": "When registering from request"
-  },
   "popup_html_automated_intro": {
     "message": "Setel jadwal tugas otomatis berdasarkan aturan yang Anda tetapkan.",
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Hive",
+    "message": "Pixagram",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1562,16 +1542,12 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Klaim tiket akun gratis jika RC Anda lebih dari $1%. Konsumsi RC bergantung pada Hive Power dan bisa memakan hampir seluruh RC Anda.",
+    "message": "Klaim tiket akun gratis jika RC Anda lebih dari $1%. Konsumsi RC bergantung pada Pixa Power dan bisa memakan hampir seluruh RC Anda.",
     "description": "When on automated tasks page"
   },
   "popup_html_insufficient_hp_claim_accounts": {
-    "message": "HP tidak cukup untuk mengklaim akun.",
+    "message": "PP tidak cukup untuk mengklaim akun.",
     "description": "When on automated tasks page"
-  },
-  "popup_html_proposal_request": {
-    "message": "Support pengembangan Hive Keychain",
-    "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_successful": {
     "message": "Voting berhasil!",
@@ -1662,7 +1638,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Pilih node RPC yang akan digunakan untuk mengakses data dan menyiarkan transaksi dari dan ke Hive Blockchain.",
+    "message": "Pilih node RPC yang akan digunakan untuk mengakses data dan menyiarkan transaksi dari dan ke Pixagram Blockchain.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {
@@ -1782,27 +1758,27 @@
     "description": "General word"
   },
   "popup_html_confirm_hive_to_hbd_conversion": {
-    "message": "Harap konfirmasi konversi Anda dari HIVE ke HBD",
+    "message": "Harap konfirmasi konversi Anda dari PIXA ke PXS",
     "description": "Conversion confirm page"
   },
   "popup_html_confirm_hbd_to_hive_conversion": {
-    "message": "Harap konfirmasi konversi Anda dari HBD ke HIVE",
+    "message": "Harap konfirmasi konversi Anda dari PXS ke PIXA",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_success": {
-    "message": "Konversi dari HIVE ke HBD berhasil!",
+    "message": "Konversi dari PIXA ke PXS berhasil!",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_fail": {
-    "message": "Konversi dari HIVE ke HBD gagal!",
+    "message": "Konversi dari PIXA ke PXS gagal!",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_success": {
-    "message": "Konversi dari HBD ke HIVE berhasil!",
+    "message": "Konversi dari PXS ke PIXA berhasil!",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_fail": {
-    "message": "Konversi dari HBD ke HIVE gagal!",
+    "message": "Konversi dari PXS ke PIXA gagal!",
     "description": "Conversion confirm page"
   },
   "popup_html_amount": {
@@ -1865,16 +1841,12 @@
     "message": "Proksi saat ini sudah ditetapkan, harap hapus proksi sebelum memilih proposal",
     "description": "Governance"
   },
-  "html_popup_currently_using_proxy": {
-    "message": "Anda saat ini menggunakan @$1 sebagai proxy. Voting mereka akan ditampilkan.",
-    "description": "Governance"
-  },
   "html_popup_witness_hide_inactive": {
     "message": "Sembunyikan yang tidak aktif",
     "description": "Governance"
   },
   "html_popup_witness_proxy_definition": {
-    "message": "Menambahkan akun sebagai proksi berarti akun tersebut dapat menggunakan HP Anda untuk keperluan tata kelola, seperti voting witness dan proposal. Ini tidak memengaruhi hak kurasi Anda, dan Anda bisa menghapus proksi kapan saja. ",
+    "message": "Menambahkan akun sebagai proksi berarti akun tersebut dapat menggunakan PP Anda untuk keperluan tata kelola, seperti voting witness dan proposal. Ini tidak memengaruhi hak kurasi Anda, dan Anda bisa menghapus proksi kapan saja. ",
     "description": "Proxy tab"
   },
   "html_popup_witness_has_proxy": {
@@ -1920,10 +1892,6 @@
   "html_popup_link_to_witness_website": {
     "message": "Untuk informasi lebih lanjut, klik disini untuk mengakses kumpulan database witness",
     "description": "Link to witness website"
-  },
-  "html_popup_made_with_love_by_stoodkev": {
-    "message": "Dibuat dengan cinta oleh tim Keychain",
-    "description": "Footer"
   },
   "html_popup_vote_witness_error_30_votes": {
     "message": "Anda sudah memilih 30 witness. Mohon hapus satu saksi sebelum memilih lagi.",
@@ -2075,7 +2043,7 @@
   },
   "html_popup_voting_no_hp": {
     "message": "Silakan power up untuk mendapatkan voting mana",
-    "description": "Message when no HP in voting mana section"
+    "description": "Message when no PP in voting mana section"
   },
   "html_popup_delete_key_confirm": {
     "message": "Anda akan menghapus kunci $1 untuk akun @$2.<br/>Pastikan Anda memiliki salinan kunci ini sebelum melanjutkan.",
@@ -2446,7 +2414,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_savings_info": {
-    "message": "Untuk mengklaim bunga savings, Keychain akan menyetor atau menarik 0,001 HBD ke/dari tabungan Anda setiap 30 hari.",
+    "message": "Untuk mengklaim bunga savings, Keychain akan menyetor atau menarik 0,001 PXS ke/dari tabungan Anda setiap 30 hari.",
     "description": "When on automated tasks page"
   },
   "html_popup_url_not_valid": {
@@ -2460,10 +2428,6 @@
   "popup_html_vesting_routes_title": {
     "message": "Rute vesting Anda telah berubah",
     "description": "Vesting shares popup title"
-  },
-  "popup_html_vesting_routes_warning_message": {
-    "message": "ika Anda tidak mengubahnya, silakan minta bantuan di <a href=\"https://discord.gg/UpXnBQtJw7\" target=\"_blank\">channel Discord Hive</a>.",
-    "description": "Vesting shares popup warning message"
   },
   "popup_html_vesting_routes_handled_successfully": {
     "message": "Rute vesting berhasil diamankan!",
@@ -2562,11 +2526,11 @@
     "description": "claim account ticket (one word)"
   },
   "html_popup_account_creation_not_enough_found": {
-    "message": "Anda tidak memiliki cukup HIVE untuk membeli akun",
+    "message": "Anda tidak memiliki cukup PIXA untuk membeli akun",
     "description": "claim account ticket (one word)"
   },
   "html_popup_create_account_buy_method_message": {
-    "message": "Saya bersedia untuk membayar $1 HIVE dengan akun @$2 untuk membuat akun ini",
+    "message": "Saya bersedia untuk membayar $1 PIXA dengan akun @$2 untuk membuat akun ini",
     "description": "Create account payment message"
   },
   "html_popup_create_account_claim_account_method_message": {
@@ -2602,7 +2566,7 @@
     "description": "Pending undelegate"
   },
   "popup_html_undelegation_pending_until_message": {
-    "message": "Delegasi akan kembali ke saldo Hive Power Anda dalam 5 hari setelah dibatalkan.",
+    "message": "Delegasi akan kembali ke saldo Pixa Power Anda dalam 5 hari setelah dibatalkan.",
     "description": "Delegation list item pending until date"
   },
   "popup_html_withdraw_savings_until_message": {
@@ -2767,7 +2731,7 @@
     "description": "Proxy already set"
   },
   "power_down_hp_not_sufficient_error": {
-    "message": "Hive Power tidak cukup untuk Power Down",
+    "message": "Pixa Power tidak cukup untuk Power Down",
     "description": "Error while trying to power down"
   },
   "already_has_authority_error": {
@@ -2898,10 +2862,6 @@
     "message": "Tutup",
     "description": "Message container success title"
   },
-  "accept_terms_and_condition": {
-    "message": "Saya telah membaca dan menyetujui <a target='__blank' href='https://hive-keychain.com/#/terms'>Persyaratan Layanan</a> Hive Keychain serta<a target='__blank' href='https://hive-keychain.com/#/privacy'>Kebijakan Privasi</a>",
-    "description": "Accept terms and conditions text"
-  },
   "delete_label": {
     "message": "Hapus",
     "description": "General message: delete"
@@ -2965,10 +2925,6 @@
   "popup_html_pref_export_transactions_loading_caption": {
     "message": "$1%",
     "description": "Caption for download data"
-  },
-  "popup_html_proposal_vote": {
-    "message": "Support pengembangan Hive Keychain",
-    "description": "Proposal vote"
   },
   "error_otp_not_verified": {
     "message": "OTP salah, silakan mencoba lagi",

@@ -23,6 +23,7 @@ import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { setAccounts } from 'src/popup/hive/actions/account.actions';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import ActiveAccountUtils from 'src/popup/hive/utils/active-account.utils';
+import Config from 'src/config';
 
 export interface AuthoritiesListItemProps {
   authority: AuthorityType;
@@ -41,7 +42,7 @@ const AccountAuthoritiesListItem = ({
   goBack,
 }: PropsType) => {
   const goTo = (accountName: string) => {
-    window.open(`https://hive.blog/@${accountName}`);
+    window.open(`${Config.explorer.baseURL}/account/${accountName}`);
   };
 
   const handleClickOnRemoveAccountAuth = async (

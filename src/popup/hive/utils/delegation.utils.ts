@@ -1,4 +1,3 @@
-import { KeychainApi } from '@api/keychain';
 import type { DelegateVestingSharesOperation } from '@hiveio/dhive';
 import {
   Delegator,
@@ -7,15 +6,33 @@ import {
 import { Key, TransactionOptions } from '@interfaces/keys.interface';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 
+// The chain only lists delegations by who lends, so this reads them all and keeps the ones to this
+// account. The list runs by account id, and `miners` is the first account there is.
 const getDelegators = async (name: string) => {
-  const delegators = (await KeychainApi.get(
-    `hive/delegators/${name}`,
-  )) as Delegator[];
-  return delegators
-    ? delegators
-        .filter((e) => e.vesting_shares !== 0)
-        .sort((a, b) => b.vesting_shares - a.vesting_shares)
-    : null;
+  const LIMIT = 1000;
+  const delegators = new Map<string, Delegator>();
+  let start = ['miners', ''];
+  for (;;) {
+    const { delegations } = await HiveTxUtils.getData(
+      'database_api.list_vesting_delegations',
+      { start, limit: LIMIT, order: 'by_delegation' },
+    );
+    for (const delegation of delegations) {
+      if (delegation.delegatee === name) {
+        delegators.set(delegation.delegator, {
+          delegator: delegation.delegator,
+          vesting_shares: Number(delegation.vesting_shares.amount) / 1000000,
+          delegation_date: delegation.min_delegation_time,
+        });
+      }
+    }
+    const last = delegations[delegations.length - 1];
+    if (delegations.length < LIMIT || !last) break;
+    start = [last.delegator, last.delegatee];
+  }
+  return [...delegators.values()]
+    .filter((e) => e.vesting_shares !== 0)
+    .sort((a, b) => b.vesting_shares - a.vesting_shares);
 };
 
 const getDelegatees = async (name: string) => {

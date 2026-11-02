@@ -1,0 +1,225 @@
+diff --git a/node_modules/hive-keychain-commons/lib/utils/assets.utils.d.ts b/node_modules/hive-keychain-commons/lib/utils/assets.utils.d.ts
+index b786462..247eb0e 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/assets.utils.d.ts
++++ b/node_modules/hive-keychain-commons/lib/utils/assets.utils.d.ts
+@@ -4,7 +4,7 @@ export declare class Asset {
+     symbol: AssetSymbol;
+     constructor(amount: number, symbol: AssetSymbol);
+     /**
+-     * Create a new Asset instance from a string, e.g. `42.000 HIVE`.
++     * Create a new Asset instance from a string, e.g. `42.000 PIXA`.
+      */
+     static fromString: (str: string, expectedSymbol?: AssetSymbol) => Asset;
+     /**
+@@ -26,7 +26,7 @@ export declare class Asset {
+      */
+     getPrecision: () => 3 | 6;
+     /**
+-     * Return a string representation of this asset, e.g. `42.000 HIVE`.
++     * Return a string representation of this asset, e.g. `42.000 PIXA`.
+      */
+     toString: () => string;
+     /**
+diff --git a/node_modules/hive-keychain-commons/lib/utils/assets.utils.js b/node_modules/hive-keychain-commons/lib/utils/assets.utils.js
+index 81ac175..ebe23e4 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/assets.utils.js
++++ b/node_modules/hive-keychain-commons/lib/utils/assets.utils.js
+@@ -8,19 +8,15 @@ class Asset {
+          */
+         this.getPrecision = () => {
+             switch (this.symbol) {
+-                case 'TESTS':
+-                case 'TBD':
+-                case 'HIVE':
+-                case 'HBD':
+-                case 'SBD':
+-                case 'STEEM':
++                case 'PIXA':
++                case 'PXS':
+                     return 3;
+                 case 'VESTS':
+                     return 6;
+             }
+         };
+         /**
+-         * Return a string representation of this asset, e.g. `42.000 HIVE`.
++         * Return a string representation of this asset, e.g. `42.000 PIXA`.
+          */
+         this.toString = () => {
+             return this.amount.toFixed(this.getPrecision()) + ' ' + this.symbol;
+@@ -75,13 +71,13 @@ class Asset {
+ }
+ exports.Asset = Asset;
+ /**
+- * Create a new Asset instance from a string, e.g. `42.000 HIVE`.
++ * Create a new Asset instance from a string, e.g. `42.000 PIXA`.
+  */
+ Asset.fromString = (str, expectedSymbol) => {
+     const _a = str.split(' ');
+     const amountString = _a[0];
+     const symbol = _a[1];
+-    if (!['HIVE', 'VESTS', 'HBD', 'TESTS', 'TBD', 'SBD', 'STEEM'].includes(symbol)) {
++    if (!['PIXA', 'PXS', 'VESTS'].includes(symbol)) {
+         throw new Error(`Invalid asset symbol: ${symbol}`);
+     }
+     if (expectedSymbol && symbol !== expectedSymbol) {
+diff --git a/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.d.ts b/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.d.ts
+index 3d009c7..3589c3d 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.d.ts
++++ b/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.d.ts
+@@ -8,8 +8,8 @@ export interface EscrowTransferLike {
+     to: string;
+     escrow_id: number;
+     agent?: string;
+-    hbd_amount?: string;
+-    hive_amount?: string;
++    pxs_amount?: string;
++    pixa_amount?: string;
+     fee?: string;
+ }
+ export interface EscrowApproveLike {
+@@ -34,8 +34,8 @@ export interface EscrowReleaseLike {
+     who: string;
+     receiver: string;
+     agent?: string;
+-    hbd_amount?: string;
+-    hive_amount?: string;
++    pxs_amount?: string;
++    pixa_amount?: string;
+ }
+ export declare const EscrowHistoryUtils: {
+     formatEscrowAmount: (hiveAmount?: string, hbdAmount?: string) => string;
+diff --git a/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.js b/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.js
+index f1a40ec..4e8aa57 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.js
++++ b/node_modules/hive-keychain-commons/lib/utils/escrow-history.utils.js
+@@ -25,10 +25,10 @@ const formatEscrowAmount = (hiveAmount, hbdAmount) => {
+         return amounts.join(' + ');
+     }
+     const fallback = hiveAmount || hbdAmount;
+-    return fallback ? format_utils_1.FormatUtils.withCommas(fallback, 3) : '0.000 HIVE';
++    return fallback ? format_utils_1.FormatUtils.withCommas(fallback, 3) : '0.000 PIXA';
+ };
+ const getEscrowTransferHistoryMessage = (activeAccountName, transaction) => {
+-    const amount = formatEscrowAmount(transaction.hive_amount, transaction.hbd_amount);
++    const amount = formatEscrowAmount(transaction.pixa_amount, transaction.pxs_amount);
+     if (activeAccountName === transaction.from) {
+         return {
+             key: 'wallet_info_escrow_transfer_out',
+@@ -75,7 +75,7 @@ const getEscrowDisputeHistoryMessage = (activeAccountName, transaction) => {
+     };
+ };
+ const getEscrowReleaseHistoryMessage = (activeAccountName, transaction) => {
+-    const amount = formatEscrowAmount(transaction.hive_amount, transaction.hbd_amount);
++    const amount = formatEscrowAmount(transaction.pixa_amount, transaction.pxs_amount);
+     const escrowId = `${transaction.escrow_id}`;
+     const isSelf = activeAccountName === transaction.who;
+     return {
+@@ -89,8 +89,8 @@ const getEscrowReleaseHistoryMessage = (activeAccountName, transaction) => {
+ };
+ const filterEscrowTransfer = (escrow, filterValue) => {
+     const searchValue = filterValue.toLowerCase();
+-    return (includesSearchValue(escrow.hive_amount, searchValue) ||
+-        includesSearchValue(escrow.hbd_amount, searchValue) ||
++    return (includesSearchValue(escrow.pixa_amount, searchValue) ||
++        includesSearchValue(escrow.pxs_amount, searchValue) ||
+         includesSearchValue(escrow.fee, searchValue) ||
+         includesSearchValue(escrow.from, searchValue) ||
+         includesSearchValue(escrow.to, searchValue) ||
+@@ -115,8 +115,8 @@ const filterEscrowDispute = (escrow, filterValue) => {
+ };
+ const filterEscrowRelease = (escrow, filterValue) => {
+     const searchValue = filterValue.toLowerCase();
+-    return (includesSearchValue(escrow.hive_amount, searchValue) ||
+-        includesSearchValue(escrow.hbd_amount, searchValue) ||
++    return (includesSearchValue(escrow.pixa_amount, searchValue) ||
++        includesSearchValue(escrow.pxs_amount, searchValue) ||
+         includesSearchValue(escrow.from, searchValue) ||
+         includesSearchValue(escrow.to, searchValue) ||
+         includesSearchValue(escrow.who, searchValue) ||
+diff --git a/node_modules/hive-keychain-commons/lib/utils/export-transactions.utils.js b/node_modules/hive-keychain-commons/lib/utils/export-transactions.utils.js
+index a2d3ef4..bd46a9f 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/export-transactions.utils.js
++++ b/node_modules/hive-keychain-commons/lib/utils/export-transactions.utils.js
+@@ -189,10 +189,10 @@ const fetchTransactions = (username, startDate, endDate, feedBack) => __awaiter(
+                         break;
+                     }
+                     case 'claim_reward_balance': {
+-                        let asset = index_1.Asset.fromString(operationPayload.reward_hive.toString());
++                        let asset = index_1.Asset.fromString(operationPayload.reward_pixa.toString());
+                         if (asset.amount > 0)
+                             operations.push(Object.assign(Object.assign({}, operation), { to: operationPayload.account, amount: asset.amount, currency: asset.symbol }));
+-                        asset = index_1.Asset.fromString(operationPayload.reward_hbd.toString());
++                        asset = index_1.Asset.fromString(operationPayload.reward_pxs.toString());
+                         if (asset.amount > 0)
+                             operations.push(Object.assign(Object.assign({}, operation), { to: operationPayload.account, amount: asset.amount, currency: asset.symbol }));
+                         asset = index_1.Asset.fromString(operationPayload.reward_vests.toString());
+@@ -201,10 +201,10 @@ const fetchTransactions = (username, startDate, endDate, feedBack) => __awaiter(
+                         break;
+                     }
+                     case 'escrow_release': {
+-                        let asset = index_1.Asset.fromString(operationPayload.hbd_amount.toString());
++                        let asset = index_1.Asset.fromString(operationPayload.pxs_amount.toString());
+                         if (asset.amount > 0)
+                             operations.push(Object.assign(Object.assign({}, operation), { to: operationPayload.to, from: operationPayload.from, amount: asset.amount, currency: asset.symbol }));
+-                        asset = index_1.Asset.fromString(operationPayload.hive_amount.toString());
++                        asset = index_1.Asset.fromString(operationPayload.pixa_amount.toString());
+                         if (asset.amount > 0)
+                             operations.push(Object.assign(Object.assign({}, operation), { to: operationPayload.to, from: operationPayload.from, amount: asset.amount, currency: asset.symbol }));
+                         break;
+diff --git a/node_modules/hive-keychain-commons/lib/utils/format.utils.d.ts b/node_modules/hive-keychain-commons/lib/utils/format.utils.d.ts
+index 9732653..51083af 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/format.utils.d.ts
++++ b/node_modules/hive-keychain-commons/lib/utils/format.utils.d.ts
+@@ -11,7 +11,7 @@ export declare const FormatUtils: {
+     nFormatter: (num: number, digits: number) => string;
+     hasMoreThanXDecimal: (nb: number, decimal: number) => boolean;
+     toNumber: (value: string | Asset) => number;
+-    getSymbol: (nai: string) => "HIVE" | "HBD" | "HP" | undefined;
++    getSymbol: (nai: string) => "PIXA" | "PXS" | "PP" | undefined;
+     getAmountFromNai: (obj: any) => number;
+     fromNaiAndSymbol: (obj: any) => string;
+     removeHtmlTags: (str: string) => string;
+diff --git a/node_modules/hive-keychain-commons/lib/utils/format.utils.js b/node_modules/hive-keychain-commons/lib/utils/format.utils.js
+index cf9fc63..b422740 100644
+--- a/node_modules/hive-keychain-commons/lib/utils/format.utils.js
++++ b/node_modules/hive-keychain-commons/lib/utils/format.utils.js
+@@ -21,19 +21,19 @@ const withCommas = (nb, decimals = 3, removeTrailingZeros = false) => {
+     return finalNumber;
+ };
+ const toHP = (vests, props) => props
+-    ? (parseFloat(vests) * parseFloat(props.total_vesting_fund_hive + '')) /
++    ? (parseFloat(vests) * parseFloat(props.total_vesting_fund_pixa + '')) /
+         parseFloat(props.total_vesting_shares + '')
+     : 0;
+ const toFormattedHP = (vests, props) => {
+-    return `${toHP(vests.toString(), props).toFixed(3)} HP`;
++    return `${toHP(vests.toString(), props).toFixed(3)} PP`;
+ };
+-const fromHP = (hp, props) => (parseFloat(hp) / parseFloat(props.total_vesting_fund_hive + '')) *
++const fromHP = (hp, props) => (parseFloat(hp) / parseFloat(props.total_vesting_fund_pixa + '')) *
+     parseFloat(props.total_vesting_shares + '');
+ const formatCurrencyValue = (value, digits = 3, removeTrailingZeros = false) => {
+     if (value === undefined || value === null) {
+         return '...';
+     }
+-    return withCommas(value.toString().replace('HBD', '').replace('HIVE', '').trim(), digits, removeTrailingZeros);
++    return withCommas(value.toString().replace('PXS', '').replace('PIXA', '').trim(), digits, removeTrailingZeros);
+ };
+ const nFormatter = (num, digits) => {
+     const si = [
+@@ -84,11 +84,11 @@ const toNumber = (value) => {
+ };
+ const getSymbol = (nai) => {
+     if (nai === '@@000000013')
+-        return 'HBD';
++        return 'PXS';
+     if (nai === '@@000000021')
+-        return 'HIVE';
++        return 'PIXA';
+     if (nai === '@@000000037')
+-        return 'HP';
++        return 'PP';
+ };
+ const fromNaiAndSymbol = (obj) => {
+     return `${(obj.amount / 1000).toFixed(obj.precision)} ${exports.FormatUtils.getSymbol(obj.nai)}`;

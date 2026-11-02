@@ -68,7 +68,10 @@ const config = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: 'public', to: '.' }],
+      patterns: [
+        { from: 'public', to: '.' },
+        { from: 'LICENSE', to: 'LICENSE.txt' },
+      ],
     }),
 
     new NodePolyfillPlugin(),

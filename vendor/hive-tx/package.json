@@ -1,0 +1,29 @@
+{
+  "name": "hive-tx",
+  "version": "4.3.1",
+  "description": "hive-tx 4.3.1 (hive-keychain fork) configured for the Pixagram chain",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "hive",
+    "tx",
+    "transaction",
+    "sign",
+    "broadcast",
+    "blockchain",
+    "hive-tx"
+  ],
+  "author": "Mahdi Yari",
+  "license": "MIT",
+  "dependencies": {
+    "bs58": "^5.0.0",
+    "bytebuffer": "^5.0.1",
+    "crypto-js": "^4.2.0",
+    "secp256k1": "^3.8.0"
+  },
+  "homepage": "https://github.com/mahdiyari/hive-tx-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mahdiyari/hive-tx-js.git"
+  }
+}

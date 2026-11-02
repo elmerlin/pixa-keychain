@@ -68,12 +68,6 @@ const GovernanceRenewal = ({
     setForceHide(true);
   };
 
-  const navigateToArticle = () => {
-    chrome.tabs.create({
-      url: 'https://peakd.com/hive/@hiveio/hive-hardfork-25-is-on-the-way-hive-to-reach-equilibrium-on-june-30th-2021#governance-expiration',
-    });
-  };
-
   return (
     <PopupContainer
       className={`governance-renewal ${forceHide ? 'force-hide' : ''}`}>
@@ -100,9 +94,6 @@ const GovernanceRenewal = ({
           ))}
         </div>
       )}
-      <a className="read-more-link" onClick={() => navigateToArticle()}>
-        {chrome.i18n.getMessage('html_popup_governance_expiration_read_more')}
-      </a>
       <div className="popup-footer">
         <ButtonComponent
           label={

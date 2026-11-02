@@ -24,19 +24,19 @@ let req: KeychainRequest | null = null;
 const setupInjection = () => {
   try {
     var scriptTag = document.createElement('script');
-    scriptTag.src = chrome.runtime.getURL('./hive_keychain.js');
+    scriptTag.src = chrome.runtime.getURL('./pixa_keychain.js');
     var container = document.head || document.documentElement;
     container.insertBefore(scriptTag, container.children[0]);
   } catch (e) {
-    Logger.error('Hive Keychain injection failed.', e);
+    Logger.error('Pixtopia Keychain injection failed.', e);
   }
 };
 setupInjection();
 // Answering the handshakes
-document.addEventListener('swHandshake_hive', () => {
+document.addEventListener('swHandshake_pixa', () => {
   window.postMessage(
     {
-      type: 'hive_keychain_handshake',
+      type: 'pixa_keychain_handshake',
     },
     window.location.origin,
   );
@@ -46,7 +46,7 @@ document.addEventListener('swHandshake_hive', () => {
 type KeychainRequestWrapper = {
   detail: KeychainRequest;
 };
-document.addEventListener('swRequest_hive', (request: object) => {
+document.addEventListener('swRequest_pixa', (request: object) => {
   const prevReq = req;
   req = (request as KeychainRequestWrapper).detail;
   const validation = validateRequest(req);

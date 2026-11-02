@@ -15,6 +15,7 @@ import { BackgroundCommand } from 'src/reference-data/background-message-key.enu
 import FileUtils from 'src/utils/file.utils';
 import { HtmlUtils } from 'src/utils/html.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
+import './import-file.scss';
 
 interface PropsType {
   title: string;

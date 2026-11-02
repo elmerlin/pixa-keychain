@@ -21,6 +21,7 @@ import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import ProposalUtils from 'src/popup/hive/utils/proposal.utils';
 import ProxyUtils from 'src/popup/hive/utils/proxy.utils';
 import FormatUtils from 'src/utils/format.utils';
+import Config from 'src/config';
 
 interface ProposalItemProps {
   proposal: Proposal;
@@ -68,7 +69,7 @@ const ProposalItem = ({
   };
 
   const goToCreator = (creator: Proposal['creator']) => {
-    chrome.tabs.create({ url: `https://peakd.com/@${creator}` });
+    chrome.tabs.create({ url: `${Config.explorer.baseURL}/account/${creator}` });
   };
 
   const processToggleSupport = async (

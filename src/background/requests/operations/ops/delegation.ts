@@ -29,10 +29,10 @@ export const broadcastDelegation = async (
     const global =
       await DynamicGlobalPropertiesUtils.getDynamicGlobalProperties();
     let delegatedVests = null;
-    if (data.unit === 'HP') {
-      const totalHive = global.total_vesting_fund_hive
-        ? Number((global.total_vesting_fund_hive as string).split(' ')[0])
-        : Number(global.total_vesting_fund_hive.split(' ')[0]);
+    if (data.unit === 'PP') {
+      const totalHive = global.total_vesting_fund_pixa
+        ? Number((global.total_vesting_fund_pixa as string).split(' ')[0])
+        : Number(global.total_vesting_fund_pixa.split(' ')[0]);
       const totalVests = Number(
         (global.total_vesting_shares as string).split(' ')[0],
       );

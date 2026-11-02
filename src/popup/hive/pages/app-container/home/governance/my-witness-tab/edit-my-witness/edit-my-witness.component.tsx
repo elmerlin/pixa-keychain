@@ -52,7 +52,7 @@ const EditMyWitness = ({
   });
 
   const handleUpdateWitnessProps = async () => {
-    if (!(formParams.signingKey as string).startsWith('STM')) {
+    if (!(formParams.signingKey as string).startsWith('PIX')) {
       setErrorMessage('popup_html_public_key_needed');
       return;
     }
@@ -106,7 +106,7 @@ const EditMyWitness = ({
         <InputComponent
           label="popup_html_currency"
           type={InputType.TEXT}
-          value={BaseCurrencies.HIVE.toUpperCase()}
+          value={BaseCurrencies.PIXA.toUpperCase()}
           onChange={() => null}
           disabled
         />

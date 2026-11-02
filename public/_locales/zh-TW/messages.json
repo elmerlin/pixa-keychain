@@ -1,10 +1,10 @@
 {
   "keychain": {
-    "message": "Hive Keychain",
+    "message": "Pixtopia Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "安全 Hive 錢包擴充",
+    "message": "安全 Pixagram 錢包擴充",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -68,11 +68,11 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "<strong> HIVE </strong>錢包。<br/><br/>管理HIVE資產，並連接到HIVE應用程式。<br/><br/>簡單。 輕巧。 安全。",
+    "message": "<strong> PIXA </strong>錢包。<br/><br/>管理HIVE資產，並連接到HIVE應用程式。<br/><br/>簡單。 輕巧。 安全。",
     "description": "Text on registration page"
   },
   "popup_html_unlock": {
-    "message": "<strong> HIVE </strong>錢包。<br/><br/>管理HIVE資產，並連接到HIVE應用程式。<br/><br/>簡單。 輕巧。 安全。",
+    "message": "<strong> PIXA </strong>錢包。<br/><br/>管理HIVE資產，並連接到HIVE應用程式。<br/><br/>簡單。 輕巧。 安全。",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
@@ -120,7 +120,7 @@
   },
   "popup_html_send": {
     "message": "發送$1",
-    "description": "ex: Send HIVE"
+    "description": "ex: Send PIXA"
   },
   "popup_html_pu": {
     "message": "Power Up"
@@ -146,10 +146,6 @@
   "popup_html_estimation_info": {
     "message": "賬戶價值",
     "description": "on popup main page"
-  },
-  "popup_html_estimation_info_text": {
-    "message": "帳戶的預估值是您的資金以美元價值計算粗估的概念。<br> <br>請注意，該值不考慮暫掛市場交易，轉讓，或交易。",
-    "description": "on popup main page, click info near estimated value"
   },
   "popup_html_wallet_history": {
     "message": "錢包歷史紀錄",
@@ -184,7 +180,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "導入成功！<br><br>請選擇您要與Hive Keychain一起儲存的金鑰：",
+    "message": "導入成功！<br><br>請選擇您要與Pixtopia Keychain一起儲存的金鑰：",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -329,7 +325,7 @@
   },
   "popup_none": {
     "message": "無",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_html_add_key": {
     "message": "新增金鑰",
@@ -365,23 +361,23 @@
   },
   "popup_html_transfer_funds": {
     "message": "轉帳",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_balance": {
     "message": "餘額",
-    "description": "When initiating a HIVE or HBD transfer. $1 is a variable that will be replaced by a currency name."
+    "description": "When initiating a PIXA or PXS transfer. $1 is a variable that will be replaced by a currency name."
   },
   "popup_html_loading": {
     "message": "載入中...",
-    "description": "When initiating a HIVE or HBD transfer and the balance is loading."
+    "description": "When initiating a PIXA or PXS transfer and the balance is loading."
   },
   "popup_html_memo_optional": {
     "message": "備註（可選）",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_memo_key_missing": {
     "message": "請添加您的備忘錄密鑰以加密和解密訊息。",
-    "description": "When initiating a HIVE or HBD transfer"
+    "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_transfer_confirm_text": {
     "message": "請確認您的轉移。此操作無法撤消。",
@@ -429,7 +425,7 @@
   },
   "popup_html_current": {
     "message": "目前的",
-    "description": "Main page > Power Up . Current HP balance"
+    "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
     "message": "Power Up您的HIVE，以將其轉換為HIVE Power。",
@@ -448,16 +444,16 @@
     "description": "Main page > Delegate"
   },
   "popup_html_delegations_text": {
-    "message": "您可以將Hive Power (HP) 委託給另一個用戶。 點擊支付金額以查看或進行更改。",
+    "message": "您可以將Pixa Power (PP) 委託給另一個用戶。 點擊支付金額以查看或進行更改。",
     "description": "Main page > Delegate"
   },
   "popup_html_incoming": {
     "message": "傳入$1",
-    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be HP)"
+    "description": "Main page > Delegate. Incoming delegations ($1 is a variable, should be PP)"
   },
   "popup_html_outgoing": {
     "message": "傳出$1",
-    "description": "Main page > Delegate. Outgoing delegation ($1=HP)"
+    "description": "Main page > Delegate. Outgoing delegation ($1=PP)"
   },
   "popup_html_delegate_to_user": {
     "message": "委託給用戶",
@@ -521,11 +517,11 @@
   },
   "popup_empty": {
     "message": "清空",
-    "description": "On send HIVE/HBD confirmation page, when memo is empty"
+    "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_encrypted": {
     "message": "已加密",
-    "description": "On send HIVE/HBD confirmation page, when memo is encrypted"
+    "description": "On send PIXA/PXS confirmation page, when memo is encrypted"
   },
   "popup_witness_key": {
     "message": "請新增您的活躍金鑰以投票給見證人！",
@@ -732,7 +728,7 @@
     "description": "When website request a post"
   },
   "dialog_percentage_hbd": {
-    "message": "HBD 百分比： ",
+    "message": "PXS 百分比： ",
     "description": "When website request a post"
   },
   "dialog_allow_votes": {
@@ -908,7 +904,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "為了能夠使用 Hive Keychain，請設定您的錢包。 點擊瀏覽器右上角的 Hive keychain標誌(它可能隱藏在擴展清單中)，然後設定您的密碼並導入您的帳號。",
+    "message": "為了能夠使用 Pixtopia Keychain，請設定您的錢包。 點擊瀏覽器右上角的 Pixagram keychain標誌(它可能隱藏在擴展清單中)，然後設定您的密碼並導入您的帳號。",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -916,7 +912,7 @@
     "description": "Generic answer to websites when user cancel transaction (in the background so it wont show on screen)"
   },
   "bgd_context_transfer_user": {
-    "message": "將 HIVE/HBD 轉移到 @%s",
+    "message": "將 PIXA/PXS 轉移到 @%s",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_user": {
@@ -928,7 +924,7 @@
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_transfer_author": {
-    "message": "將 HIVE/HBD 轉移給該創辦者",
+    "message": "將 PIXA/PXS 轉移給該創辦者",
     "description": "Context menu (when right click on a username on steemit)"
   },
   "bgd_context_memo_author": {
@@ -943,22 +939,22 @@
     "message": "錢包已上鎖！"
   },
   "bgd_auth_locked_desc": {
-    "message": "目前網站正在嘗試向 Hive Keychain 瀏覽器擴充功能發送請求。 請在下面輸入密碼以解鎖錢包並繼續。"
+    "message": "目前網站正在嘗試向 Pixtopia Keychain 瀏覽器擴充功能發送請求。 請在下面輸入密碼以解鎖錢包並繼續。"
   },
   "bgd_auth_canceled": {
     "message": "用戶已取消請求。"
   },
   "bgd_auth_transfer_no_active": {
-    "message": "目前網站正嘗試使用活躍金鑰向帳戶 @$1 的 Hive Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
+    "message": "目前網站正嘗試使用活躍金鑰向帳戶 @$1 的 Pixtopia Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "目前網站正嘗試使用備註金鑰向帳戶 @$1 的 Hive Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
+    "message": "目前網站正嘗試使用備註金鑰向帳戶 @$1 的 Pixtopia Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
   },
   "bgd_auth_no_account": {
-    "message": "目前網站正嘗試 Hive Keychain 瀏覽器擴充功能發送請求，該帳戶@$1尚未新增到錢包。"
+    "message": "目前網站正嘗試 Pixtopia Keychain 瀏覽器擴充功能發送請求，該帳戶@$1尚未新增到錢包。"
   },
   "bgd_auth_no_key": {
-    "message": "目前網站正嘗試使用 $2 金鑰向帳戶 @$1 的 Hive Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
+    "message": "目前網站正嘗試使用 $2 金鑰向帳戶 @$1 的 Pixtopia Keychain 瀏覽器擴充功能發送轉移請求，該鑰尚未新增到錢包中。"
   },
   "bgd_ops_witness_voted": {
     "message": "成功投票通過@$1作為見證人。"
@@ -1018,10 +1014,10 @@
     "message": "未投票成功的提案#$1。"
   },
   "bgd_ops_pu": {
-    "message": "在 @$2 上Powered up $1 HIVE。"
+    "message": "在 @$2 上Powered up $1 PIXA。"
   },
   "bgd_ops_pd": {
-    "message": "在 @$2 上啟動 $1 HP power down。"
+    "message": "在 @$2 上啟動 $1 PP power down。"
   },
   "bgd_ops_pd_stop": {
     "message": "在@$1上停止Power Down。"
@@ -1054,10 +1050,10 @@
     "message": "交易簽名已成功。"
   },
   "bgd_ops_convert": {
-    "message": "以@$2 的帳號成功開始將 $1 HBD 轉換為 HIVE。"
+    "message": "以@$2 的帳號成功開始將 $1 PXS 轉換為 PIXA。"
   },
   "bgd_ops_convert_collaterized": {
-    "message": "以@$2 的帳號成功開始將 $1 HIVE 轉換為 HBD。"
+    "message": "以@$2 的帳號成功開始將 $1 PIXA 轉換為 PXS。"
   },
   "bgd_ops_create_account": {
     "message": "已成功建立帳戶@$1。"
@@ -1113,7 +1109,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "通過指定對具有權限的帳戶添加新帳戶，該帳戶已經保存在 Hive Keychain 中。",
+    "message": "通過指定對具有權限的帳戶添加新帳戶，該帳戶已經保存在 Pixtopia Keychain 中。",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1121,7 +1117,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "請在 Hive Keychain 串中保存 @$1，以將其用作授權帳戶。"
+    "message": "請在 Pixtopia Keychain 串中保存 @$1，以將其用作授權帳戶。"
   },
   "popup_accounts_no_auth": {
     "message": "@$1 的權限不超過 @$2。",
@@ -1154,28 +1150,24 @@
     "description": "When trying to transfer to a blacklisted account"
   },
   "popup_html_convert_hbd": {
-    "message": "轉換 HBD",
+    "message": "轉換 PXS",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive": {
-    "message": "轉換 HIVE",
-    "description": "When clicking on the Hbd arrow menu"
-  },
-  "popup_html_convert_hbd_intro": {
-    "message": "根據 3.5 天的中間價格，您的 HBD 需要 3.5 天才能轉換為價值約 1 USD的 HIVE 代幣。",
+    "message": "轉換 PIXA",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive_intro": {
-    "message": "您存入抵押品(HIVE)，然後您將獲得價值一半的抵押品金額的 HBD(減去 5% 的費用)。 您的正式最終付款將在 3.5 天內完成。 此時剩餘的抵押品(HIVE) 將被退回。",
-    "description": "When clicking on the HIVE arrow menu"
+    "message": "您存入抵押品(PIXA)，然後您將獲得價值一半的抵押品金額的 PXS(減去 5% 的費用)。 您的正式最終付款將在 3.5 天內完成。 此時剩餘的抵押品(PIXA) 將被退回。",
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hive": {
     "message": "HIVE存款",
-    "description": "When clicking on the Hive arrow menu"
+    "description": "When clicking on the Pixagram arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "HBD存款",
-    "description": "When clicking on the HBD arrow menu"
+    "description": "When clicking on the PXS arrow menu"
   },
   "popup_html_deposit_param": {
     "message": "存款 $1",
@@ -1222,16 +1214,12 @@
     "description": "On savings menu"
   },
   "popup_html_deposit_hbd_text": {
-    "message": "見證人確定將 HBD 存入儲蓄目前會產生 1% 的 APR。",
+    "message": "見證人確定將 PXS 存入儲蓄目前會產生 1% 的 APR。",
     "description": "when withdrawing from savings"
   },
   "popup_html_savings": {
     "message": "$1儲蓄",
     "description": "Saving page title"
-  },
-  "popup_html_buy_intro": {
-    "message": "選擇您最喜歡的方式，快速輕鬆地購買 $1。 Keychain 不會對交易收取任何額外費用。",
-    "description": "When accessing the buy HIVE/HBD page"
   },
   "dialog_keys": {
     "message": "私密金鑰",
@@ -1240,10 +1228,6 @@
   "dialog_new_account": {
     "message": "新帳號",
     "description": "When adding an account by request"
-  },
-  "dialog_header_register": {
-    "message": "歡迎來到Keychain",
-    "description": "When registering from request"
   },
   "popup_html_automated_intro": {
     "message": "如果適合您的條件，設置將每小時執行自動化任務。",
@@ -1262,12 +1246,8 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "當您的 RC 百分比超過 1% 時，索取免費帳號券。 根據您的 Hive Power，這可能會耗盡您的 RC 的很大一部分。",
+    "message": "當您的 RC 百分比超過 1% 時，索取免費帳號券。 根據您的 Pixa Power，這可能會耗盡您的 RC 的很大一部分。",
     "description": "When on automated tasks page"
-  },
-  "popup_html_proposal_request": {
-    "message": "支援 Keychain 開發提案",
-    "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_successful": {
     "message": "投票成功！",
@@ -1358,7 +1338,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "您可以選擇使用 RPC 節點從 Hive 區塊鏈讀取訊息和廣播交易。",
+    "message": "您可以選擇使用 RPC 節點從 Pixagram 區塊鏈讀取訊息和廣播交易。",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {
@@ -1466,27 +1446,27 @@
     "description": "General word"
   },
   "popup_html_confirm_hive_to_hbd_conversion": {
-    "message": "請確認您從 HIVE 轉換為 HBD",
+    "message": "請確認您從 PIXA 轉換為 PXS",
     "description": "Conversion confirm page"
   },
   "popup_html_confirm_hbd_to_hive_conversion": {
-    "message": "請確認您從 HBD 轉換為 HIVE",
+    "message": "請確認您從 PXS 轉換為 PIXA",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_success": {
-    "message": "從 HIVE 到 HBD 轉換成功！",
+    "message": "從 PIXA 到 PXS 轉換成功！",
     "description": "Conversion confirm page"
   },
   "popup_html_hive_to_hbd_conversion_fail": {
-    "message": "從 HIVE 到 HBD 轉換失敗！",
+    "message": "從 PIXA 到 PXS 轉換失敗！",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_success": {
-    "message": "從 HBD 到 HIVE 轉換成功！",
+    "message": "從 PXS 到 PIXA 轉換成功！",
     "description": "Conversion confirm page"
   },
   "popup_html_hbd_to_hive_conversion_fail": {
-    "message": "從 HBD 到 HIVE 轉換失敗！",
+    "message": "從 PXS 到 PIXA 轉換失敗！",
     "description": "Conversion confirm page"
   },
   "popup_html_amount": {
@@ -1537,16 +1517,12 @@
     "message": "目前已設定代理，請在投票給見證人之前清除代理",
     "description": "Governance"
   },
-  "html_popup_currently_using_proxy": {
-    "message": "您目前正在使用 @$1 作為代理。 顯示他/她的投票。",
-    "description": "Governance"
-  },
   "html_popup_witness_hide_inactive": {
     "message": "隱藏不活動",
     "description": "Governance"
   },
   "html_popup_witness_proxy_definition": {
-    "message": "添加帳號作為代理這表示代理帳號可以在管理事務(投票給見證人和提案) 中使用您的 HP 的影響力。 這不會影響您在管理方面的 HP，並且您可以在任何給定時刻刪除代理。 ",
+    "message": "添加帳號作為代理這表示代理帳號可以在管理事務(投票給見證人和提案) 中使用您的 PP 的影響力。 這不會影響您在管理方面的 PP，並且您可以在任何給定時刻刪除代理。 ",
     "description": "Proxy tab"
   },
   "html_popup_witness_has_proxy": {
@@ -1588,10 +1564,6 @@
   "html_popup_link_to_witness_website": {
     "message": "欲了解更多訊息，請點擊此處訪問見證數據庫",
     "description": "Link to witness website"
-  },
-  "html_popup_made_with_love_by_stoodkev": {
-    "message": "Keychain Team 用 ❤ 製作",
-    "description": "Footer"
   },
   "html_popup_vote_stoodkev_witness_success": {
     "message": "成功投票給@stoodkev 作為見證人。 謝謝您的支持！",
@@ -1663,7 +1635,7 @@
   },
   "html_popup_voting_no_hp": {
     "message": "請power up以獲得投票mana",
-    "description": "Message when no HP in voting mana section"
+    "description": "Message when no PP in voting mana section"
   },
   "html_popup_delete_key_confirm": {
     "message": "您即將刪除帳號 @$2 的 $1 密鑰。<br/>在繼續之前，請確保您擁有此密鑰的副本。",

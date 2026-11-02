@@ -168,7 +168,7 @@ const createPayingAccount = (
       [
         'account_create',
         {
-          fee: `${price.toFixed(3)} HIVE`,
+          fee: `${price.toFixed(3)} PIXA`,
           creator: parentUsername,
           new_account_name: newUsername,
           json_metadata: '{}',

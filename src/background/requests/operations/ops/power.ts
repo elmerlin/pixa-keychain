@@ -31,7 +31,7 @@ export const broadcastPowerUp = async (
     result = await PowerUtils.powerUp(
       data.username!,
       data.recipient,
-      `${data.hive} HIVE`,
+      `${data.hive} PIXA`,
       key!,
       options,
     );
@@ -66,9 +66,9 @@ export const broadcastPowerDown = async (
     const res = await DynamicGlobalPropertiesUtils.getDynamicGlobalProperties();
 
     let vestingShares = null;
-    const totalSteem = res.total_vesting_fund_hive
-      ? Number((res.total_vesting_fund_hive as string).split(' ')[0])
-      : Number(res.total_vesting_fund_hive.split(' ')[0]);
+    const totalSteem = res.total_vesting_fund_pixa
+      ? Number((res.total_vesting_fund_pixa as string).split(' ')[0])
+      : Number(res.total_vesting_fund_pixa.split(' ')[0]);
     const totalVests = Number(
       (res.total_vesting_shares as string).split(' ')[0],
     );

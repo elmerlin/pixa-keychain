@@ -105,7 +105,7 @@ const Conversion = ({
       activeAccount.account.balance as string,
     );
     const hbdBalance = FormatUtils.toNumber(
-      activeAccount.account.hbd_balance as string,
+      activeAccount.account.pxs_balance as string,
     );
 
     setAvailable(

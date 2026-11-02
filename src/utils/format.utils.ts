@@ -27,16 +27,16 @@ const withCommas = (nb: string, decimals = 3, removeTrailingZeros = false) => {
 
 const toHP = (vests: string, props?: DynamicGlobalProperties) =>
   props
-    ? (parseFloat(vests) * parseFloat(props.total_vesting_fund_hive + '')) /
+    ? (parseFloat(vests) * parseFloat(props.total_vesting_fund_pixa + '')) /
       parseFloat(props.total_vesting_shares + '')
     : 0;
 
 const toFormattedHP = (vests: number, props?: DynamicGlobalProperties) => {
-  return `${toHP(vests.toString(), props).toFixed(3)} HP`;
+  return `${toHP(vests.toString(), props).toFixed(3)} PP`;
 };
 
 const fromHP = (hp: string, props: DynamicGlobalProperties) =>
-  (parseFloat(hp) / parseFloat(props.total_vesting_fund_hive + '')) *
+  (parseFloat(hp) / parseFloat(props.total_vesting_fund_pixa + '')) *
   parseFloat(props.total_vesting_shares + '');
 
 const formatCurrencyValue = (
@@ -48,7 +48,7 @@ const formatCurrencyValue = (
     return '...';
   }
   return withCommas(
-    value.toString().replace('HBD', '').replace('HIVE', '').trim(),
+    value.toString().replace('PXS', '').replace('PIXA', '').trim(),
     digits,
     removeTrailingZeros,
   );
@@ -105,9 +105,9 @@ const toNumber = (value: string | Asset) => {
 };
 
 const getSymbol = (nai: string) => {
-  if (nai === '@@000000013') return 'HBD';
-  if (nai === '@@000000021') return 'HIVE';
-  if (nai === '@@000000037') return 'HP';
+  if (nai === '@@000000013') return 'PXS';
+  if (nai === '@@000000021') return 'PIXA';
+  if (nai === '@@000000037') return 'PP';
 };
 
 const fromNaiAndSymbol = (obj: any) => {
@@ -135,17 +135,6 @@ const trimUselessZero = (number: number, precision: number) => {
   if (n.split('.').length > 0 && n.split('.')[1]?.length > 3)
     return FormatUtils.withCommas(n);
   else return FormatUtils.withCommas(parseFloat(n).toFixed(3));
-};
-
-const getUSDFromVests = (
-  vestAmount: Number,
-  globalProperties: GlobalProperties,
-  currencyPrices: CurrencyPrices,
-) => {
-  return (
-    FormatUtils.toHP(vestAmount.toString(), globalProperties.globals!) *
-    currencyPrices.hive.usd!
-  ).toFixed(2);
 };
 
 const getOrdinalLabelTranslation = (active_rank: string) => {
@@ -177,7 +166,6 @@ const FormatUtils = {
   removeHtmlTags,
   getValFromString,
   trimUselessZero,
-  getUSDFromVests,
   getOrdinalLabelTranslation,
 };
 

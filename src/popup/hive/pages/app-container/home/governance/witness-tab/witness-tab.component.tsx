@@ -27,6 +27,7 @@ import BlockchainTransactionUtils from 'src/popup/hive/utils/blockchain.utils';
 import ProxyUtils from 'src/popup/hive/utils/proxy.utils';
 import WitnessUtils from 'src/popup/hive/utils/witness.utils';
 import * as ValidUrl from 'valid-url';
+import Config from 'src/config';
 
 const MAX_WITNESS_VOTE = 30;
 
@@ -108,7 +109,7 @@ const WitnessTab = ({
               !displayVotedOnly) &&
             ((hideNonActive &&
               witness.signing_key !==
-                'STM1111111111111111111111111111111114T1Anm') ||
+                'PIX1111111111111111111111111111111114T1Anm') ||
               !hideNonActive)
           );
         }),
@@ -205,7 +206,7 @@ const WitnessTab = ({
           className={
             'name ' +
             (witness.signing_key ===
-            'STM1111111111111111111111111111111114T1Anm'
+            'PIX1111111111111111111111111111111114T1Anm'
               ? 'not-active'
               : '')
           }>
@@ -263,7 +264,7 @@ const WitnessTab = ({
       <div
         data-testid="link-to-arcange"
         onClick={() =>
-          chrome.tabs.create({ url: 'https://hive.arcange.eu/witnesses/' })
+          chrome.tabs.create({ url: `${Config.explorer.baseURL}/witnesses` })
         }
         className="link-to-arcange">
         <div>

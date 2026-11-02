@@ -1,5 +1,5 @@
 export enum AccountValueType {
-  DOLLARS = 'DOLLARS',
-  HIVE = 'HIVE',
+  PXS = 'PXS',
+  PIXA = 'PIXA',
   HIDDEN = 'HIDDEN',
 }

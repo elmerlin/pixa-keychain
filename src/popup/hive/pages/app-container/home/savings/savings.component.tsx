@@ -141,13 +141,13 @@ const SavingsPage = ({
       fetchCurrentWithdrawingList();
     }
     const hbdSavings = FormatUtils.toNumber(
-      activeAccount.account.savings_hbd_balance as string,
+      activeAccount.account.savings_pxs_balance as string,
     );
     const hiveSavings = FormatUtils.toNumber(
       activeAccount.account.savings_balance as string,
     );
     const hbd = FormatUtils.toNumber(
-      activeAccount.account.hbd_balance as string,
+      activeAccount.account.pxs_balance as string,
     );
     const hive = FormatUtils.toNumber(activeAccount.account.balance as string);
 
@@ -169,7 +169,7 @@ const SavingsPage = ({
     if (watch('type') === SavingOperationType.DEPOSIT) {
       if (watch('currency') === 'hbd') {
         text = chrome.i18n.getMessage('popup_html_deposit_hbd_text', [
-          Number(globalProperties.globals?.hbd_interest_rate) / 100 + '',
+          Number(globalProperties.globals?.pxs_interest_rate) / 100 + '',
         ]);
       }
     } else {

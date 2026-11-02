@@ -1,7 +1,7 @@
 {
-  "name": "hive-keychain",
-  "version": "3.15.7",
-  "description": "Hive Keychain extension",
+  "name": "pixtopia-keychain",
+  "version": "0.1.0",
+  "description": "Pixtopia Keychain: a wallet browser extension for the Pixagram blockchain",
   "main": "index.js",
   "directories": {
     "example": "example"
@@ -16,29 +16,29 @@
     "analyze": "concurrently \"npm:analyze:*\"",
     "analyze:chromium": "npx webpack --profile --json > stats.json --config webpack/chromium/webpack.prod.js",
     "analyze:firefox": "npx webpack --profile --json > stats.json --config webpack/firefox/webpack.prod.js",
-    "doc": "documentation build public/hive_keychain.js -f md -c documentation/build/documentation.yml -o documentation/README.md",
+    "doc": "documentation build public/pixa_keychain.js -f md -c documentation/build/documentation.yml -o documentation/README.md",
     "test": "jest --verbose",
     "test:detect": "jest --verbose --detectOpenHandles",
     "test:watch": "jest --verbose --watch",
     "test:cov": "jest --verbose --coverage",
     "check-installed-libs": "node scripts/check-installed-libs.js",
-    "git:archive": "rm -rf hive-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"hive-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'"
+    "git:archive": "rm -rf pixtopia-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"pixtopia-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'",
+    "postinstall": "patch-package",
+    "check:chain": "node scripts/check-serializer.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stoodkev/hive-keychain.git"
+    "url": "git+https://github.com/elmerlin/pixtopia-keychain.git"
   },
   "keywords": [
-    "hive",
+    "pixagram",
+    "pixtopia",
     "keychain",
     "extension"
   ],
-  "author": "stoodkev",
+  "author": "elmerlin",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/stoodkev/hive-keychain/issues"
-  },
-  "homepage": "https://github.com/stoodkev/hive-keychain#readme",
+  "homepage": "https://pixtopia.net",
   "dependencies": {
     "@hiveio/hive-js": "2.0.8",
     "@hookform/resolvers": "3.1.1",
@@ -50,7 +50,7 @@
     "decimal.js": "10.4.3",
     "flatlist-react": "1.5.0",
     "hive-keychain-commons": "^1.13.3",
-    "hive-tx": "github:hive-keychain/hive-tx-js",
+    "hive-tx": "file:vendor/hive-tx",
     "hotkeys-js": "^4.0.0",
     "joi": "17.13.3",
     "locate-path": "7.1.1",
@@ -123,7 +123,8 @@
     "jest-chrome": "0.7.2",
     "jest-environment-jsdom": "30.3.0",
     "npm-force-resolutions": "0.0.10",
-    "patch-package": "^8.0.1",
+    "patch-package": "8.0.0",
+    "puppeteer-core": "^24.43.1",
     "react-hot-loader": "4.13.0",
     "redux-mock-store": "1.5.4",
     "sass-loader": "13.0.2",
@@ -146,12 +147,14 @@
     "sass-graph": {
       "scss-tokenizer": "$scss-tokenizer"
     },
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "hive-tx": "$hive-tx"
   },
   "browser": {
     "crypto": false
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "private": true
 }

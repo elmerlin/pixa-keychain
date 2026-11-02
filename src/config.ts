@@ -12,7 +12,11 @@ const Config = {
 
   MIN_LOADING_TIME: 1000,
   rpc: {
-    DEFAULT: { uri: 'https://api.hive.blog', testnet: false },
+    DEFAULT: { uri: 'https://api.pixagram.com', testnet: false },
+  },
+  treasuryAccount: 'pixa.omnibus',
+  explorer: {
+    baseURL: 'https://pixtopia.net/chain',
   },
   governanceReminderDelayInSeconds: 30 * 24 * 3600, //days
 

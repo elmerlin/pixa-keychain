@@ -1,9 +1,7 @@
-import { KeychainApi } from '@api/keychain';
 import type {
   AccountWitnessVoteOperation,
   WitnessUpdateOperation,
 } from '@hiveio/dhive';
-import { CurrencyPrices } from '@interfaces/bittrex.interface';
 import { GlobalProperties } from '@interfaces/global-properties.interface';
 import { Key, TransactionOptions } from '@interfaces/keys.interface';
 import {
@@ -21,7 +19,7 @@ import FormatUtils from 'src/utils/format.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
 export const WITNESS_DISABLED_KEY =
-  'STM1111111111111111111111111111111114T1Anm';
+  'PIX1111111111111111111111111111111114T1Anm';
 
 /* istanbul ignore next */
 const voteWitness = async (
@@ -139,11 +137,11 @@ const getWitnessAccountUpdateOperation = (
       props: {
         account_creation_fee: `${Number(
           witnessParamsForm.accountCreationFee,
-        ).toFixed(3)} HIVE`,
+        ).toFixed(3)} PIXA`,
         maximum_block_size: Number(witnessParamsForm.maximumBlockSize),
-        hbd_interest_rate: Number(witnessParamsForm.hbdInterestRate) * 100,
+        pxs_interest_rate: Number(witnessParamsForm.hbdInterestRate) * 100,
       },
-      fee: '0.000 HIVE',
+      fee: '0.000 PIXA',
     },
   ] as WitnessUpdateOperation;
 };
@@ -166,37 +164,73 @@ const updateWitnessParameters = async (
   );
 };
 
+// Everyone ranked by votes. Only witnesses that are still signing count towards the active rank.
+const getWitnessRanking = async (): Promise<Witness[]> => {
+  const witnesses = await HiveTxUtils.getData(
+    'condenser_api.get_witnesses_by_vote',
+    [null, 1000],
+  );
+  let activeRank = 0;
+  return witnesses.map((witness: any, index: number) => ({
+    name: witness.owner,
+    rank: `${index + 1}`,
+    active_rank:
+      witness.signing_key === WITNESS_DISABLED_KEY
+        ? undefined
+        : `${++activeRank}`,
+    votes: witness.votes,
+    signing_key: witness.signing_key,
+    url: witness.url,
+  }));
+};
+
+const getWitnessVotesCount = async (username: string) => {
+  const LIMIT = 1000;
+  const voters = new Set<string>();
+  let start = [username, ''];
+  for (;;) {
+    const { votes } = await HiveTxUtils.getData(
+      'database_api.list_witness_votes',
+      { start, limit: LIMIT, order: 'by_witness_account' },
+    );
+    const forWitness = votes.filter((vote: any) => vote.witness === username);
+    forWitness.forEach((vote: any) => voters.add(vote.account));
+    if (votes.length < LIMIT || forWitness.length < votes.length) break;
+    const last = votes[votes.length - 1];
+    start = [last.witness, last.account];
+  }
+  return voters.size;
+};
+
 const getWitnessInfo = async (
   username: string,
   globalProperties: GlobalProperties,
-  currencyPrices: CurrencyPrices,
 ): Promise<WitnessInfo> => {
-  let resultFromAPI, resultFromBlockchain;
-  [resultFromAPI, resultFromBlockchain] = await Promise.all([
-    await KeychainApi.get(`hive/witness/${username}`),
-    await HiveTxUtils.getData('database_api.find_witnesses', {
+  const [votesCount, witnesses] = await Promise.all([
+    getWitnessVotesCount(username),
+    HiveTxUtils.getData('database_api.find_witnesses', {
       owners: [username],
     }),
   ]);
-  resultFromBlockchain = resultFromBlockchain.witnesses[0];
+  const resultFromBlockchain = witnesses.witnesses[0];
 
-  const lastFeedUpdate = `${resultFromBlockchain.last_hbd_exchange_update}Z`;
+  const lastFeedUpdate = `${resultFromBlockchain.last_pxs_exchange_update}Z`;
 
   const witnessInfo: WitnessInfo = {
     username: resultFromBlockchain.owner,
-    votesCount: resultFromAPI.votes_count,
+    votesCount,
     voteValueInHP: FormatUtils.nFormatter(
       FormatUtils.toHP(
-        (Number(resultFromAPI.votes) / 1000000).toString(),
+        (Number(resultFromBlockchain.votes) / 1000000).toString(),
         globalProperties.globals,
       ),
       3,
     ),
     blockMissed: resultFromBlockchain.total_missed,
     lastBlock: resultFromBlockchain.last_confirmed_block_num,
-    lastBlockUrl: `https://hivehub.dev/b/${resultFromBlockchain.last_confirmed_block_num}`,
+    lastBlockUrl: `${Config.explorer.baseURL}/block/${resultFromBlockchain.last_confirmed_block_num}`,
     priceFeed: FormatUtils.fromNaiAndSymbol(
-      resultFromBlockchain.hbd_exchange_rate.base,
+      resultFromBlockchain.pxs_exchange_rate.base,
     ),
     priceFeedUpdatedAt: moment(lastFeedUpdate),
     priceFeedUpdatedAtWarning: wasUpdatedAfterThreshold(moment(lastFeedUpdate)),
@@ -212,39 +246,7 @@ const getWitnessInfo = async (
         resultFromBlockchain.props.account_creation_fee,
       ),
       maximumBlockSize: resultFromBlockchain.props.maximum_block_size,
-      hbdInterestRate: resultFromBlockchain.props.hbd_interest_rate / 100,
-    },
-    rewards: {
-      lastMonthValue: resultFromAPI.lastMonthValue,
-      lastMonthInHP: FormatUtils.toFormattedHP(
-        resultFromAPI.lastMonthValue,
-        globalProperties.globals!,
-      ),
-      lastMonthInUSD: FormatUtils.getUSDFromVests(
-        resultFromAPI.lastMonthValue,
-        globalProperties,
-        currencyPrices,
-      ),
-      lastWeekValue: resultFromAPI.lastWeekValue,
-      lastWeekInHP: FormatUtils.toFormattedHP(
-        resultFromAPI.lastWeekValue,
-        globalProperties.globals!,
-      ),
-      lastWeekInUSD: FormatUtils.getUSDFromVests(
-        resultFromAPI.lastWeekValue,
-        globalProperties,
-        currencyPrices,
-      ),
-      lastYearValue: resultFromAPI.lastYearValue,
-      lastYearInHP: FormatUtils.toFormattedHP(
-        resultFromAPI.lastYearValue,
-        globalProperties.globals!,
-      ),
-      lastYearInUSD: FormatUtils.getUSDFromVests(
-        resultFromAPI.lastYearValue,
-        globalProperties,
-        currencyPrices,
-      ),
+      hbdInterestRate: resultFromBlockchain.props.pxs_interest_rate / 100,
     },
   };
   return witnessInfo;
@@ -281,6 +283,7 @@ const saveLastSigningKeyForWitness = async (username: string, key: string) => {
 };
 
 const WitnessUtils = {
+  getWitnessRanking,
   unvoteWitness,
   voteWitness,
   getWitnessVoteOperation,

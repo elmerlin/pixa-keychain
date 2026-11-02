@@ -47,7 +47,7 @@ export const sendIncompleteDataResponse = (
 export const sendResponse = (response: RequestResponse) => {
   window.postMessage(
     {
-      type: 'hive_keychain_response',
+      type: 'pixa_keychain_response',
       response,
     },
     window.location.origin,

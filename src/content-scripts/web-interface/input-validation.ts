@@ -11,7 +11,7 @@ const authority = Joi.string()
   .valid('Posting', 'Active', 'posting', 'active')
   .required();
 const message = Joi.string().required().min(2).regex(/^#/);
-const currency = Joi.string().valid('HIVE', 'HBD', 'TESTS', 'TBD').required();
+const currency = Joi.string().valid('PIXA', 'PXS').required();
 const savingsOperation = Joi.string().valid('deposit', 'withdraw').required();
 const amount = Joi.string()
   .regex(/^\d+(\.\d{3})$/)
@@ -23,9 +23,9 @@ const amountVests = Joi.string()
   .required()
   .error(new Error('Amount requires a string with 6 decimals'));
 const daily_pay = Joi.string()
-  .regex(/^\d+(\.\d{3}) HBD$/)
+  .regex(/^\d+(\.\d{3}) PXS$/)
   .required()
-  .error(new Error('Wrong daily_pay format. Ex: "1.000 HBD"'));
+  .error(new Error('Wrong daily_pay format. Ex: "1.000 PXS"'));
 const rpc = Joi.string().allow(null);
 const date = Joi.string()
   .regex(/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d/)
@@ -90,7 +90,7 @@ const post = Joi.object({
   //   author: username,
   //   permlink: Joi.string().required(),
   //   max_accepted_payout: Joi.string().required(),
-  //   percent_steem_dollars: Joi.number(),
+  //   percent_pxs: Joi.number(),
   //   allow_votes: Joi.boolean().required(),
   //   allow_curation_rewards: Joi.boolean().required(),
   //   extensions: Joi.array().items(
@@ -106,7 +106,7 @@ const post = Joi.object({
   //       }),
   //     ),
   //   ),
-  // }).rename('percent_hbd', 'percent_seteem_dollars'),
+  // }).rename('percent_pxs', 'percent_seteem_dollars'),
   rpc,
 });
 
@@ -196,7 +196,7 @@ const delegation = Joi.object({
     then: amountVests,
     otherwise: amount,
   }),
-  unit: Joi.string().required().valid('HP', 'VESTS', 'TP'),
+  unit: Joi.string().required().valid('PP', 'VESTS'),
   rpc,
 });
 

@@ -16,7 +16,7 @@ const EstimatedAccountValueSection = ({
 }: PropsFromRedux) => {
   const [accountValue, setAccountValue] = useState<string | number>('...');
   const [accountValueType, setAccountValueType] = useState<AccountValueType>(
-    AccountValueType.DOLLARS,
+    AccountValueType.PXS,
   );
 
   const [
@@ -32,7 +32,7 @@ const EstimatedAccountValueSection = ({
     setAccountValueType(
       (await LocalStorageUtils.getValueFromLocalStorage(
         LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
-      )) || AccountValueType.DOLLARS,
+      )) || AccountValueType.PXS,
     );
   };
 
@@ -75,22 +75,19 @@ const EstimatedAccountValueSection = ({
 
   const onClickEstimatedValue = () => {
     const newAccountValueType =
-      accountValueType === AccountValueType.DOLLARS
-        ? AccountValueType.HIVE
-        : accountValueType === AccountValueType.HIVE
+      accountValueType === AccountValueType.PXS
+        ? AccountValueType.PIXA
+        : accountValueType === AccountValueType.PIXA
         ? AccountValueType.HIDDEN
-        : AccountValueType.DOLLARS;
+        : AccountValueType.PXS;
     setAccountValueType(newAccountValueType);
     LocalStorageUtils.saveValueInLocalStorage(
       LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
       newAccountValueType,
     );
   };
-  const getPrefix = () => {
-    return accountValueType === AccountValueType.DOLLARS ? '$' : '';
-  };
   const getSuffix = () => {
-    return accountValueType === AccountValueType.HIVE ? 'HIVE' : '';
+    return accountValueType === AccountValueType.HIDDEN ? '' : accountValueType;
   };
 
   return (
@@ -116,7 +113,7 @@ const EstimatedAccountValueSection = ({
             }`}
             onClick={onClickEstimatedValue}>
             {accountValue
-              ? `${getPrefix()} ${accountValue} ${getSuffix()}`
+              ? `${accountValue} ${getSuffix()}`.trim()
               : '...'}
           </div>
         </div>

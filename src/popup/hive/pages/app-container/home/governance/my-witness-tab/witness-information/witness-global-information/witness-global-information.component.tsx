@@ -54,36 +54,6 @@ const WitnessGlobalInformation = ({
           value={witnessInfo.version}
         />
       </div>
-
-      <div className="witness-rewards-panel">
-        <div className="title">
-          {chrome.i18n.getMessage(
-            'popup_html_witness_information_rewards_label',
-          )}
-        </div>
-        <div className="rewards-row">
-          <div className="label">
-            {chrome.i18n.getMessage(
-              'popup_html_witness_information_reward_panel_last_week_label',
-            )}
-          </div>
-          <div className="hp-value">{witnessInfo.rewards.lastWeekInHP}</div>
-          <div className="usd-value">
-            ≈ ${witnessInfo.rewards.lastWeekInUSD}
-          </div>
-        </div>
-        <div className="rewards-row">
-          <div className="label">
-            {chrome.i18n.getMessage(
-              'popup_html_witness_information_reward_panel_last_month_label',
-            )}
-          </div>
-          <div className="hp-value">{witnessInfo.rewards.lastMonthInHP}</div>
-          <div className="usd-value">
-            ≈ ${witnessInfo.rewards.lastMonthInUSD}
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -5,20 +5,15 @@ export interface CurrencyLabels {
 }
 
 export enum BaseCurrencies {
-  HIVE = 'hive',
-  HBD = 'hbd',
+  PIXA = 'hive',
+  PXS = 'hbd',
 }
 
 const getCurrencyLabels = (isTestnet: boolean): CurrencyLabels => {
-  // return {
-  //   hive: isTestnet ? 'TESTS' : 'HIVE',
-  //   hbd: isTestnet ? 'TBD' : 'HBD',
-  //   hp: isTestnet ? 'TP' : 'HP',
-  // };
   return {
-    hive: 'HIVE',
-    hbd: 'HBD',
-    hp: 'HP',
+    hive: 'PIXA',
+    hbd: 'PXS',
+    hp: 'PP',
   };
 };
 

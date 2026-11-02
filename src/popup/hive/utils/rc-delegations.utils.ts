@@ -72,7 +72,7 @@ const getRcDelegationOperation = (
 
 const getHivePerVests = (properties: GlobalProperties) => {
   const totalVestingFund = Asset.fromString(
-    properties.globals?.total_vesting_fund_hive.toString()!,
+    properties.globals?.total_vesting_fund_pixa.toString()!,
   ).amount;
   const totalVestingShares = Asset.fromString(
     properties.globals?.total_vesting_shares.toString()!,

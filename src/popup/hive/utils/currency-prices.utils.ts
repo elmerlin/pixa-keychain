@@ -1,52 +1,37 @@
-import { KeychainApi } from '@api/keychain';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
+import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
 
+// Pixagram has no outside price. PIXA is valued through the witnesses' median feed, so the amounts
+// here are in PXS, whatever the field names say.
 const getPrices = async () => {
-  let prices;
   try {
-    prices = await KeychainApi.get('hive/v2/price');
-    if (prices) {
-      await LocalStorageUtils.saveValueInLocalStorage(
-        LocalStorageKeyEnum.LAST_PRICE,
-        prices,
-      );
-    } else {
-      Logger.error('Cannot fetch prices from API. Using last known price...');
-      prices = await LocalStorageUtils.getValueFromLocalStorage(
-        LocalStorageKeyEnum.LAST_PRICE,
-      );
-    }
-  } catch (err) {
-    Logger.error(
-      'Cannot fetch prices from API. Using last known price...',
-      err,
+    const { base, quote } = await HiveTxUtils.getData(
+      'condenser_api.get_current_median_history_price',
+      [],
     );
-    prices = await LocalStorageUtils.getValueFromLocalStorage(
+    const prices = {
+      bitcoin: {},
+      hive: { usd: parseFloat(base) / parseFloat(quote) },
+      hive_dollar: { usd: 1 },
+    };
+    await LocalStorageUtils.saveValueInLocalStorage(
       LocalStorageKeyEnum.LAST_PRICE,
+      prices,
     );
-  } finally {
-    return prices ?? {};
+    return prices;
+  } catch (err) {
+    Logger.error('Cannot read the price feed. Using last known price...', err);
+    return (
+      (await LocalStorageUtils.getValueFromLocalStorage(
+        LocalStorageKeyEnum.LAST_PRICE,
+      )) ?? {}
+    );
   }
-};
-
-const getBittrexCurrency = async (currency: string) => {
-  const response = await fetch(
-    'https://api.bittrex.com/api/v1.1/public/getcurrencies',
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    },
-  );
-  if (response.status === 200) {
-    return (await response.json()).find((c: any) => c.Currency == currency);
-  }
-  return null;
 };
 
 const CurrencyPricesUtils = {
-  getBittrexCurrency,
   getPrices,
 };
 

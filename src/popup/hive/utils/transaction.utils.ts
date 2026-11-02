@@ -29,6 +29,7 @@ import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import HiveUtils from 'src/popup/hive/utils/hive.utils';
 import FormatUtils from 'src/utils/format.utils';
 import Logger from 'src/utils/logger.utils';
+import Config from 'src/config';
 
 export const NB_TRANSACTION_FETCHED = 1000;
 export const HAS_IN_OUT_TRANSACTIONS = ['transfer', 'delegate_vesting_shares'];
@@ -133,12 +134,12 @@ const getAccountTransactions = async (
           }
           case 'claim_reward_balance': {
             specificTransaction = e[1].op[1] as ClaimReward;
-            specificTransaction.hbd = e[1].op[1].reward_hbd;
-            specificTransaction.hive = e[1].op[1].reward_hive;
+            specificTransaction.hbd = e[1].op[1].reward_pxs;
+            specificTransaction.hive = e[1].op[1].reward_pixa;
             specificTransaction.hp = `${FormatUtils.toHP(
               e[1].op[1].reward_vests,
               globals,
-            ).toFixed(3)} HP`;
+            ).toFixed(3)} PP`;
             break;
           }
           case 'delegate_vesting_shares': {
@@ -146,7 +147,7 @@ const getAccountTransactions = async (
             specificTransaction.amount = `${FormatUtils.toHP(
               e[1].op[1].vesting_shares,
               globals,
-            ).toFixed(3)} HP`;
+            ).toFixed(3)} PP`;
             break;
           }
           case 'transfer_to_vesting': {
@@ -162,7 +163,7 @@ const getAccountTransactions = async (
             specificTransaction.amount = `${FormatUtils.toHP(
               e[1].op[1].vesting_shares,
               globals,
-            ).toFixed(3)} HP`;
+            ).toFixed(3)} PP`;
             break;
           }
           case 'interest': {
@@ -252,8 +253,8 @@ const getAccountTransactions = async (
           blockNumber: e[1].block,
           url:
             e[1].trx_id === '0000000000000000000000000000000000000000'
-              ? `https://hivehub.dev/b/${e[1].block}#${e[1].trx_id}`
-              : `https://hivehub.dev/tx/${e[1].trx_id}`,
+              ? `${Config.explorer.baseURL}/block/${e[1].block}`
+              : `${Config.explorer.baseURL}/tx/${e[1].trx_id}`,
           last: false,
           lastFetched: false,
         };

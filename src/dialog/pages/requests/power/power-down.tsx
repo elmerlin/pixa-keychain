@@ -28,7 +28,7 @@ const PowerDown = (props: Props) => {
       <AmountWithLogo
         title="dialog_amount"
         amount={FormatUtils.formatCurrencyValue(data.hive_power)}
-        symbol={CurrencyUtils.getCurrencyLabel('HP', rpc.testnet)}
+        symbol={CurrencyUtils.getCurrencyLabel('PP', rpc.testnet)}
         icon={SVGIcons.WALLET_HP_LOGO}
       />
     </Operation>

@@ -19,8 +19,8 @@ const claimRewards = async (
         'claim_reward_balance',
         {
           account: username,
-          reward_hive: rewardHive,
-          reward_hbd: rewardHBD,
+          reward_pixa: rewardHive,
+          reward_pxs: rewardHBD,
           reward_vests: rewardVests,
         },
       ] as ClaimRewardBalanceOperation,
@@ -32,31 +32,31 @@ const claimRewards = async (
 };
 
 const hasReward = (
-  reward_hbd: string,
+  reward_pxs: string,
   reward_hp: string,
-  reward_hive: string,
+  reward_pixa: string,
 ): boolean => {
   return (
-    FormatUtils.getValFromString(reward_hbd) !== 0 ||
+    FormatUtils.getValFromString(reward_pxs) !== 0 ||
     FormatUtils.getValFromString(reward_hp) !== 0 ||
-    FormatUtils.getValFromString(reward_hive) !== 0
+    FormatUtils.getValFromString(reward_pixa) !== 0
   );
 };
 
 const getAvailableRewards = (activeAccount: ActiveAccount) => {
-  let reward_hbd = activeAccount.account.reward_hbd_balance;
+  let reward_pxs = activeAccount.account.reward_pxs_balance;
   let reward_vests = activeAccount.account.reward_vesting_balance;
-  const reward_hp = FormatUtils.toHP(reward_vests as string) + ' HP';
-  let reward_hive = activeAccount.account.reward_hive_balance;
+  const reward_hp = FormatUtils.toHP(reward_vests as string) + ' PP';
+  let reward_pixa = activeAccount.account.reward_pixa_balance;
   let rewardText = chrome.i18n.getMessage('popup_account_redeem') + ':<br>';
   if (FormatUtils.getValFromString(reward_hp) != 0)
     rewardText += reward_hp + ' / ';
-  if (FormatUtils.getValFromString(reward_hbd as string) != 0)
-    rewardText += reward_hbd + ' / ';
-  if (FormatUtils.getValFromString(reward_hive as string) != 0)
-    rewardText += reward_hive + ' / ';
+  if (FormatUtils.getValFromString(reward_pxs as string) != 0)
+    rewardText += reward_pxs + ' / ';
+  if (FormatUtils.getValFromString(reward_pixa as string) != 0)
+    rewardText += reward_pixa + ' / ';
   rewardText = rewardText.slice(0, -3);
-  return [reward_hbd, reward_hp, reward_hive, rewardText];
+  return [reward_pxs, reward_hp, reward_pixa, rewardText];
 };
 
 export const RewardsUtils = {

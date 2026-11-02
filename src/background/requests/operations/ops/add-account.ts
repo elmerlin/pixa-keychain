@@ -16,6 +16,19 @@ export const addAccount = async (
   const accounts = (await AccountUtils.getAccountsFromLocalStorage(mk)) || [];
   const account = await AccountUtils.getExtendedAccount(username);
   if (account) {
+    // Owner keys are never stored, even when the same key also holds another role.
+    for (const key of [keys.posting, keys.active, keys.memo]) {
+      if (
+        key &&
+        !key.startsWith('@') &&
+        KeysUtils.getPubkeyWeight(
+          KeysUtils.getPublicKeyFromPrivateKeyString(key),
+          account.owner,
+        )
+      ) {
+        throw new Error('Owner keys cannot be added');
+      }
+    }
     const savedKeys: Keys = { ...keys };
     if (keys.memo) savedKeys.memoPubkey = account.memo_key;
     if (keys.active) {

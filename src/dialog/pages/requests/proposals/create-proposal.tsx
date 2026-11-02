@@ -41,7 +41,7 @@ const CreateProposal = (props: Props) => {
       <AmountWithLogo
         title="dialog_daily_pay"
         amount={data.daily_pay}
-        symbol={CurrencyUtils.getCurrencyLabel('HBD', rpc.testnet)}
+        symbol={CurrencyUtils.getCurrencyLabel('PXS', rpc.testnet)}
         icon={SVGIcons.WALLET_HBD_LOGO}
       />
     </Operation>

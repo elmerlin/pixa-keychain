@@ -1,4 +1,3 @@
-import { KeychainApi } from '@api/keychain';
 import { Witness } from '@interfaces/witness.interface';
 import { setErrorMessage } from '@popup/multichain/actions/message.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
@@ -12,6 +11,7 @@ import { MyWitnessTabComponent } from 'src/popup/hive/pages/app-container/home/g
 import { ProposalTabComponent } from 'src/popup/hive/pages/app-container/home/governance/proposal-tab/proposal-tab.component';
 import { ProxyTabComponent } from 'src/popup/hive/pages/app-container/home/governance/proxy-tab/proxy-tab.component';
 import { WitnessTabComponent } from 'src/popup/hive/pages/app-container/home/governance/witness-tab/witness-tab.component';
+import WitnessUtils from 'src/popup/hive/utils/witness.utils';
 import { Screen } from 'src/reference-data/screen.enum';
 
 const Governance = ({
@@ -32,11 +32,11 @@ const Governance = ({
   }, []);
 
   const init = async () => {
-    let requestResult;
-    requestResult = await KeychainApi.get('hive/v2/witnesses-ranks');
-    const ranking: Witness[] = requestResult;
+    let ranking: Witness[] = [];
     let hasError = false;
-    if (!requestResult || requestResult.length === 0) {
+    try {
+      ranking = await WitnessUtils.getWitnessRanking();
+    } catch (err) {
       hasError = true;
       setErrorMessage('popup_html_error_retrieving_witness_ranking');
     }

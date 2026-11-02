@@ -39,9 +39,9 @@ const RequestBalance = ({ rpc, username, amount, currency }: Props) => {
     );
     const currentBalance = FormatUtils.formatCurrencyValue(
       (
-        (cur === BaseCurrencies.HIVE
+        (cur === BaseCurrencies.PIXA
           ? account.balance
-          : account.hbd_balance) as string
+          : account.pxs_balance) as string
       ).split(' ')[0],
     );
     const newBalance = FormatUtils.formatCurrencyValue(

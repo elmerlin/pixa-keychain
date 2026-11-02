@@ -132,12 +132,12 @@ const Shortcuts = ({
   const currencyOptions = useMemo<OptionItem[]>(
     () => [
       {
-        label: 'HIVE',
+        label: 'PIXA',
         value: 'hive',
         img: '/assets/images/wallet/hive-logo.svg',
       },
       {
-        label: 'HBD',
+        label: 'PXS',
         value: 'hbd',
         img: '/assets/images/wallet/hbd-logo.svg',
       },

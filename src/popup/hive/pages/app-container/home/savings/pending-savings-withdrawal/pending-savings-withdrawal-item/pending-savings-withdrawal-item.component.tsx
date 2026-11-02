@@ -103,9 +103,9 @@ const PendingSavingsWithdrawalItem = ({
             amount={item.amount}
             symbol={currency}
             icon={
-              currency === 'HP'
+              currency === 'PP'
                 ? SVGIcons.WALLET_HP_LOGO
-                : currency === 'HBD'
+                : currency === 'PXS'
                 ? SVGIcons.WALLET_HBD_LOGO
                 : undefined
             }

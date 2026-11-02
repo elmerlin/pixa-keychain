@@ -11,6 +11,7 @@ import moment from 'moment';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import FormatUtils from 'src/utils/format.utils';
+import Config from 'src/config';
 
 const hasVotedForProposal = async (
   username: string,
@@ -160,7 +161,7 @@ const getProposalList = async (
       subject: p.subject,
       receiver: p.receiver,
       dailyPay: dailyPay,
-      link: `https://peakd.com/proposals/${p.proposal_id}`,
+      link: `${Config.explorer.baseURL}/proposal/${p.proposal_id}`,
       startDate: moment(p.start_date),
       endDate: moment(p.end_date),
       totalVotes: `${FormatUtils.nFormatter(
@@ -169,7 +170,7 @@ const getProposalList = async (
           globals,
         ),
         2,
-      )} HP`,
+      )} PP`,
       voted:
         listProposalVotes.find(
           (votedProposal: any) => votedProposal.proposal_id === p.proposal_id,
@@ -187,7 +188,7 @@ const getProposalList = async (
 const getProposalDailyBudget = async () => {
   return (
     parseFloat(
-      (await AccountUtils.getExtendedAccount('hive.fund')).hbd_balance
+      (await AccountUtils.getExtendedAccount(Config.treasuryAccount)).pxs_balance
         .toString()
         .split(' ')[0],
     ) / 100

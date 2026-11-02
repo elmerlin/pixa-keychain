@@ -83,22 +83,6 @@ const checkAndUpdateLocalStorage = async () => {
   } else {
     switch (localStorageVersion) {
       case 2: {
-        let activeRpc: Rpc = await LocalStorageUtils.getValueFromLocalStorage(
-          LocalStorageKeyEnum.CURRENT_RPC,
-        );
-        if (
-          [
-            'https://anyx.io',
-            'https://api.pharesim.me/',
-            'https://rpc.ausbit.dev',
-            'https://hived.privex.io/',
-          ].includes(activeRpc.uri)
-        ) {
-          LocalStorageUtils.saveValueInLocalStorage(
-            LocalStorageKeyEnum.CURRENT_RPC,
-            { uri: 'https://api.hive.blog', testnet: false } as Rpc,
-          );
-        }
         saveNewLocalStorageVersion(3);
       }
       case 3: {

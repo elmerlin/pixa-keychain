@@ -35,7 +35,7 @@ const ResourcesSection = ({
 
       if (hasMana) {
         setVotingMana(mana?.toFixed(2)!);
-        setVotingValue(`$${voting.toFixed(2)}`);
+        setVotingValue(`${voting.toFixed(2)} PXS`);
       } else {
         setVotingMana('--');
         setVotingValue(null);

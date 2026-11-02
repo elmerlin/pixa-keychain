@@ -103,7 +103,7 @@ const RecurrentTransferItemComponent = ({
     const success = await TransferUtils.sendTransfer(
       from,
       to,
-      '0.000 HIVE',
+      '0.000 PIXA',
       '',
       true,
       2,

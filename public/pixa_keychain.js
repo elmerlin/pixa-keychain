@@ -1,7 +1,7 @@
 /**
- * Use the `hive_keychain` methods listed below to issue requests to the Hive blockchain.
+ * Use the `pixa_keychain` methods listed below to issue requests to the Pixagram blockchain.
  */
-var hive_keychain = {
+var pixa_keychain = {
   current_id: 1,
   requests: {},
   handshake_callback: null,
@@ -16,13 +16,13 @@ var hive_keychain = {
    */
   requestHandshake: function (callback) {
     this.handshake_callback = callback;
-    this.dispatchCustomEvent('swHandshake_hive', '');
+    this.dispatchCustomEvent('swHandshake_pixa', '');
   },
 
   /**
    * This function is called to verify that the user has a certain authority over an account, by requesting to decode a message
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * const message = username + Date.now();
    * keychain.requestEncodeMessage(username, myUsername, message, 'Memo', (response) => {
    *   if (response.success) {
@@ -31,7 +31,7 @@ var hive_keychain = {
    *   }
    * });
    *
-   * @param {String} [username=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [username=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} receiver Account that will decode the string
    * @param {String} message Message to be encrypted
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
@@ -46,12 +46,12 @@ var hive_keychain = {
       method: key,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * This function is called to allow encoding a message with multiple receivers. This is used in the case of multisig
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * const message = username + Date.now();
    * keychain.requestEncodeMessage(username, [pubKey1, pubKey2], message, 'Memo', (response) => {
    *   if (response.success) {
@@ -60,7 +60,7 @@ var hive_keychain = {
    *   }
    * });
    *
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {Array<String>} publicKeys Key that can decode the string
    * @param {String} message Message to be encrypted
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
@@ -81,18 +81,18 @@ var hive_keychain = {
       method: key,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * This function is called to verify that the user has a certain authority over an account, by requesting to decode a message
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestVerifyKey('stoodkev', encodedMessage, 'Posting', (response) => {
    *   if (response.success === true) {
    *     const decodedMessage = response.result;
    *   }
    * });
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} message Message to be decoded by the account
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -105,11 +105,11 @@ var hive_keychain = {
       method: key,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a message to be signed with proper authority
-   * @param {String} [account=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [account=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} message Message to be signed by the account
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -126,18 +126,18 @@ var hive_keychain = {
       title,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests to add account authority over another account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
    * @example
    * // Gives @stoodkev active authority with weight 2 to `account`
-   * const keychain = window.hive_keychain
+   * const keychain = window.pixa_keychain
    * keychain.requestAddAccountAuthority(account, 'stoodkev', 'Active', 2, (response) => {
    *   console.log(response);
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} authorizedUsername Authorized account
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {number} weight Weight of the authority
@@ -162,18 +162,18 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests to remove an account authority over another account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
    * @example
    * // Removes @stoodkev's active authority from `account`
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestRemoveAccountAuthority(account, 'stoodkev', 'Active', (response) => {
    *   console.log(response);
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} authorizedUsername Account to lose authority
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -195,17 +195,17 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests to add a new key authority to an account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestAddKeyAuthority(username, publicKey, 'Memo', 1, (response) => {
    *   console.log(response);
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} authorizedKey New public key to be associated with the account
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {number} weight Weight of the key authority
@@ -230,16 +230,16 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests to remove a key to an account. For more information about multisig, please read https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestRemoveKeyAuthority(username, publicKey, 'Memo', (response) => {
    *   console.log(response);
    * });
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} authorizedKey Key to be removed (public key).
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'.
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -261,12 +261,12 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Generic broadcast request
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestBroadcast('npfedwards', [
    *   [
    *     'account_witness_vote',
@@ -280,7 +280,7 @@ var hive_keychain = {
    *   console.log(response);
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {Array} operations Array of operations to be broadcasted
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -295,7 +295,7 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests to sign a transaction with a given authority
@@ -304,7 +304,7 @@ var hive_keychain = {
    * import dhive from '@hiveio/dhive';
    *
    * const client = new dhive.Client(['https://api.hive.blog', 'https://anyx.io', 'https://api.openhive.network']);
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    *
    * const props = await client.database.getDynamicGlobalProperties();
    * const headBlockNumber = props.head_block_number;
@@ -325,7 +325,7 @@ var hive_keychain = {
    *   }
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {Object} tx Unsigned transaction
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -340,12 +340,12 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a signed call
    * @deprecated
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} method Method of the call
    * @param {String} params Parameters of the call
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
@@ -362,28 +362,28 @@ var hive_keychain = {
     //   typeWif: key,
     //   rpc,
     // };
-    // this.dispatchCustomEvent('swRequest_hive', request, callback);
+    // this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
 
   // Example comment_options: {"author":"stoodkev","permlink":"hi","max_accepted_payout":"100000.000 SBD","percent_steem_dollars":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}
   /**
    * Requests to broadcast a blog post/comment
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestPost('stoodkev', 'Hello World!', '## This is a blog post \
    * \
    * And this is some text', 'Blog', null, {format:'markdown',description:'A blog post',tags:['Blog']},'hello-world', {"author":"stoodkev","permlink":"hi","max_accepted_payout":"100000.000 SBD","percent_steem_dollars":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}, (response) => {
    *   console.log(response);
    * });
    *
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} title Title of the blog post
    * @param {String} body Content of the blog post
    * @param {String} parent_perm Permlink of the parent post. Main tag for a root post
    * @param {String} parent_account Author of the parent post. Pass null for root post
    * @param {Object} json_metadata Parameters of the call
    * @param {String} permlink Permlink of the blog post
-   * @param {Object} comment_options Options attached to the blog post. Consult Hive documentation at <https://developers.hive.io/apidefinitions/#broadcast_ops_comment_options> to learn more about it
+   * @param {Object} comment_options Options attached to the blog post. Consult Pixagram documentation at <https://developers.hive.io/apidefinitions/#broadcast_ops_comment_options> to learn more about it
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -411,17 +411,17 @@ var hive_keychain = {
       comment_options,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a vote
    * @example
    * // Upvote with 50% weight
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestVote('npfedwards', 'hello-world', 'stoodkev', 5000, (response) => {
    *   console.log(response);
    * });
-   * @param {String} account Hive account to perform the request
+   * @param {String} account Pixagram account to perform the request
    * @param {String} permlink Permlink of the blog post
    * @param {String} author Author of the blog post
    * @param {Number} weight Weight of the vote, comprised between -10,000 (-100%) and 10,000 (100%)
@@ -438,16 +438,16 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a custom JSON broadcast
    * @example
-   * const keychain = window.hive_keychain;
+   * const keychain = window.pixa_keychain;
    * keychain.requestCustomJson(null, 'sm_market_rent', 'Active', JSON.stringify({items:["9292cd44ccaef8b73a607949cc787f1679ede10b-93"],currency:"DEC",days:1}), 'Rent 1 card on Splinterlands', (response) => {
    *   console.log(response);
    * });
-   * @param {String} [account=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [account=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} id Type of custom_json to be broadcasted
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {String} json Stringified custom json
@@ -473,21 +473,21 @@ var hive_keychain = {
       display_msg: display_msg,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a transfer
    * @example
-   * const keychain = window.hive_keychain;
-   * keychain.requestTransfer(username, toUsername, amount.toFixed(3),'','HIVE',(response) => {
+   * const keychain = window.pixa_keychain;
+   * keychain.requestTransfer(username, toUsername, amount.toFixed(3),'','PIXA',(response) => {
    *   console.log(response)
    * }, true);
    *
-   * @param {String} account Hive account to perform the request
-   * @param {String} to Hive account to receive the transfer
+   * @param {String} account Pixagram account to perform the request
+   * @param {String} to Pixagram account to receive the transfer
    * @param {String} amount Amount to be transfered. Requires 3 decimals.
    * @param {String} memo The memo will be automatically encrypted if starting by '#' and the memo key is available on Keychain. It will also overrule the account to be enforced, regardless of the 'enforce' parameter
-   * @param {String} currency 'HIVE' or 'HBD'
+   * @param {String} currency 'PIXA' or 'PXS'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {boolean} [enforce=false] If set to true, user cannot chose to make the transfer from another account
    * @param {String} [rpc=null] Override user's RPC settings
@@ -512,20 +512,20 @@ var hive_keychain = {
       currency,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a savings operation (deposit or withdraw)
    * @example
-   * const keychain = window.hive_keychain;
-   * keychain.requestSavingsOperation(username, toUsername, '1.000', 'HBD', 'deposit', 'test memo', (response) => {
+   * const keychain = window.pixa_keychain;
+   * keychain.requestSavingsOperation(username, toUsername, '1.000', 'PXS', 'deposit', 'test memo', (response) => {
    *   console.log(response);
    * });
    *
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} to Account to receive the savings transfer
    * @param {String} amount Amount to be transferred. Requires 3 decimals.
-   * @param {String} currency 'HIVE' or 'HBD'
+   * @param {String} currency 'PIXA' or 'PXS'
    * @param {String} operation 'deposit' or 'withdraw'
    * @param {String} [memo=''] Memo attached to the savings operation
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -556,24 +556,24 @@ var hive_keychain = {
       memo: memo || '',
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a delegation broadcast
    * @example
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
-   *   keychain.requestDelegation(null, 'stoodkev', '1.000', 'HP', (response) => {
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
+   *   keychain.requestDelegation(null, 'stoodkev', '1.000', 'PP', (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
    *
-   * @param {String} [username=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [username=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} delegatee Account to receive the delegation
-   * @param {String} amount Amount to be transfered. Requires 3 decimals for HP, 6 for VESTS.
-   * @param {String} unit HP or VESTS
+   * @param {String} amount Amount to be transfered. Requires 3 decimals for PP, 6 for VESTS.
+   * @param {String} unit PP or VESTS
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -593,21 +593,21 @@ var hive_keychain = {
       unit,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Requests a witness vote broadcast
    * @example
    * // Unvote our witness vote for @stoodkev
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestWitnessVote(null, 'stoodkev', false, (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} [username=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [username=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} witness Account to receive the witness vote
    * @param {boolean} vote Set to true to vote for the witness, false to unvote
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -621,14 +621,14 @@ var hive_keychain = {
       vote,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Select an account as proxy
    * @example
    * // Let @stoodkev use our voting power in governance votes
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestProxy(null, 'stoodkev', (response) => {
    *     console.log(response);
    *   });
@@ -637,15 +637,15 @@ var hive_keychain = {
    * }
    * @example
    * // Remove voting proxy
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestProxy(null, '', (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} [username=null] Hive account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} [username=null] Pixagram account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} proxy Account to become the proxy. Empty string ('') to remove a proxy
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
@@ -657,23 +657,23 @@ var hive_keychain = {
       proxy,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request a power up
    * @example
-   * // Power up 5 HP
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * // Power up 5 PP
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestPowerUp(username, username, '5.000', (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} recipient Account to receive the power up
-   * @param {String} hive Amount of HIVE to be powered up
+   * @param {String} hive Amount of PIXA to be powered up
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -685,22 +685,22 @@ var hive_keychain = {
       hive,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request a power down
    * @example
-   * // Power down 5 HP
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * // Power down 5 PP
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestPowerDown(username, '5.000', (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} username Hive account to perform the request
-   * @param {String} hive_power Amount of HIVE to be powered down
+   * @param {String} username Pixagram account to perform the request
+   * @param {String} hive_power Amount of PIXA to be powered down
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -711,11 +711,11 @@ var hive_keychain = {
       hive_power,
       rpc,
     };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request the creation of an account using claimed tokens
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} new_account New account to be created
    * @param {object} owner owner authority object
    * @param {object} active active authority object
@@ -745,22 +745,22 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
 
   //HF21
   /**
    * Request the creation of a DHF proposal
    * @example
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
-   *   keychain.requestCreateProposal('keychain', 'keychain', 'Hive Keychain development', 'hive-keychain-proposal-dhf-ran717', '10.000', '2022-03-22', '2023-03-21', JSON.stringify([]), (response) => {
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
+   *   keychain.requestCreateProposal('keychain', 'keychain', 'Pixtopia Keychain development', 'hive-keychain-proposal-dhf-ran717', '10.000', '2022-03-22', '2023-03-21', JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} receiver Account receiving the funding if the proposal is voted
    * @param {String} subject Title of the DAO
    * @param {String} permlink Permlink to the proposal description
@@ -796,20 +796,20 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request the removal of a DHF proposal
    * @example
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestRemoveProposal(username, JSON.stringify([216]), JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} proposal_ids Stringified Array of ids of the proposals to be removed
    * @param {String} extensions Stringified Array of extensions
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -830,14 +830,14 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Vote/Unvote a DHF proposal
    * @example
    * // Approve a proposal
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestUpdateProposalVote(username, JSON.stringify([216]), true, JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
@@ -846,15 +846,15 @@ var hive_keychain = {
    * }
    * @example
    * // Unapprove a proposal
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestUpdateProposalVote(username, JSON.stringify([216]), false, JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} proposal_ids Stringified Array of Ids of the proposals to be voted
    * @param {boolean} approve Set to true to support the proposal, false to remove a vote
    * @param {String} extensions Stringified Array of extensions
@@ -878,14 +878,14 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Add a new account to Keychain
    * @example
-   * if (window.hive_keychain) {
+   * if (window.pixa_keychain) {
    *   const postingKey = '...';
-   *   const keychain = window.hive_keychain;
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestConversion(username, {
    *     posting: postingKey
    *   }, (response) => {
@@ -905,14 +905,14 @@ var hive_keychain = {
       keys,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request currency conversion
    * @example
-   * // Convert 5 HIVE to HBD
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
+   * // Convert 5 PIXA to PXS
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
    *   keychain.requestConversion(username, '5.000', true, (response) => {
    *     console.log(response);
    *   });
@@ -920,9 +920,9 @@ var hive_keychain = {
    *   alert('You do not have hive keychain installed');
    * }
    *
-   * @param {String} username Hive account to perform the request
+   * @param {String} username Pixagram account to perform the request
    * @param {String} amount amount to be converted.
-   * @param {Boolean} collaterized true to convert HIVE to HBD. false to convert HBD to HIVE.
+   * @param {Boolean} collaterized true to convert PIXA to PXS. false to convert PXS to PIXA.
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Override user's RPC settings
    */
@@ -935,24 +935,24 @@ var hive_keychain = {
       rpc,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
    * Request recurrent transfer
    * @example
-   * // Let's send @stoodkev 5 HIVE a day
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
-   *   keychain.requestConversion(null, 'stoodkev', '5.000', 'HIVE', memo, 24, 7, (response) => {
+   * // Let's send @stoodkev 5 PIXA a day
+   * if (window.pixa_keychain) {
+   *   const keychain = window.pixa_keychain;
+   *   keychain.requestConversion(null, 'stoodkev', '5.000', 'PIXA', memo, 24, 7, (response) => {
    *     console.log(response);
    *   });
    * } else {
    *   alert('You do not have hive keychain installed');
    * }
-   * @param {String} [username=null] Hive account to perform the request
-   * @param {String} to Hive account receiving the transfers.
+   * @param {String} [username=null] Pixagram account to perform the request
+   * @param {String} to Pixagram account receiving the transfers.
    * @param {String} amount amount to be sent on each execution.
-   * @param {String} currency HIVE or HBD on mainnet.
+   * @param {String} currency PIXA or PXS on mainnet.
    * @param {String} memo transfer memo
    * @param {Number} recurrence How often will the payment be triggered (in hours) - minimum 24.
    * @param {Number} executions The times the recurrent payment will be executed - minimum 2.
@@ -985,7 +985,7 @@ var hive_keychain = {
       pair_id,
     };
 
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
+    this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
 
   // Send the customEvent
@@ -1012,20 +1012,20 @@ window.addEventListener(
     // We only accept messages from ourselves
     if (event.source != window) return;
 
-    if (event.data.type && event.data.type == 'hive_keychain_response') {
+    if (event.data.type && event.data.type == 'pixa_keychain_response') {
       const response = event.data.response;
       if (response && response.request_id) {
-        if (hive_keychain.requests[response.request_id]) {
-          hive_keychain.requests[response.request_id](response);
-          delete hive_keychain.requests[response.request_id];
+        if (pixa_keychain.requests[response.request_id]) {
+          pixa_keychain.requests[response.request_id](response);
+          delete pixa_keychain.requests[response.request_id];
         }
       }
     } else if (
       event.data.type &&
-      event.data.type == 'hive_keychain_handshake'
+      event.data.type == 'pixa_keychain_handshake'
     ) {
-      if (hive_keychain.handshake_callback) {
-        hive_keychain.handshake_callback();
+      if (pixa_keychain.handshake_callback) {
+        pixa_keychain.handshake_callback();
       }
     }
   },
