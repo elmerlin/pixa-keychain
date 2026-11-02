@@ -38,7 +38,7 @@ const CreateAccountStepOne = ({
   const [accountOptions, setAccountOptions] = useState<AccountItemOption[]>();
   const [selectedAccount, setSelectedAccount] = useState<AccountItemOption>();
   const [accountName, setAccountName] = useState('');
-  const [price, setPrice] = useState(3);
+  const [fee, setFee] = useState<number>();
   const [creationType, setCreationType] = useState<AccountCreationType>();
 
   useEffect(() => {
@@ -50,7 +50,13 @@ const CreateAccountStepOne = ({
   }, []);
 
   const initPrice = async () => {
-    setPrice(await HiveUtils.getAccountPrice());
+    try {
+      const accountPrice = await HiveUtils.getAccountPrice();
+      setFee(accountPrice);
+      return accountPrice;
+    } catch {
+      return undefined;
+    }
   };
 
   useEffect(() => {
@@ -89,13 +95,11 @@ const CreateAccountStepOne = ({
     }
     const account = (await AccountUtils.getExtendedAccount(username)) as any;
 
-    if (account.pending_claimed_accounts > 0) {
-      setPrice(0);
-      setCreationType(AccountCreationType.USING_TICKET);
-    } else {
-      setPrice(3);
-      setCreationType(AccountCreationType.BUYING);
-    }
+    setCreationType(
+      account.pending_claimed_accounts > 0
+        ? AccountCreationType.USING_TICKET
+        : AccountCreationType.BUYING,
+    );
   };
 
   const validateAccountName = async () => {
@@ -133,7 +137,7 @@ const CreateAccountStepOne = ({
   const getPriceLabel = () => {
     switch (creationType) {
       case AccountCreationType.BUYING:
-        return `${price} ${currencyLabels.hive}`;
+        return fee === undefined ? '' : `${fee} ${currencyLabels.hive}`;
       case AccountCreationType.USING_TICKET:
         return chrome.i18n.getMessage('html_popup_ticket', ['1']);
     }
@@ -141,13 +145,20 @@ const CreateAccountStepOne = ({
 
   const goToNextPage = async () => {
     if (await validateAccountName()) {
+      const usingTicket = creationType === AccountCreationType.USING_TICKET;
+      const price = usingTicket ? 0 : fee ?? (await initPrice());
+      if (price === undefined) {
+        setErrorMessage('network_error_timeout');
+        return;
+      }
       const account = await AccountUtils.getExtendedAccount(
         selectedAccount?.value!,
       );
       const balance = Asset.fromString(account.balance.toString());
       if (
-        creationType === AccountCreationType.USING_TICKET ||
-        (creationType === AccountCreationType.BUYING && balance.amount >= 3)
+        usingTicket ||
+        (creationType === AccountCreationType.BUYING &&
+          balance.amount >= price)
       ) {
         navigateToWithParams(Screen.CREATE_ACCOUNT_PAGE_STEP_TWO, {
           usedAccount: accounts.find(
