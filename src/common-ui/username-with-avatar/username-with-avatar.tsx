@@ -31,9 +31,9 @@ export const UsernameAvatar = ({ username }: { username: string }) => {
   return (
     <PreloadedImage
       className="user-avatar"
-      src={`https://images.hive.blog/u/${username}/avatar`}
-      alt={'/assets/images/accounts.png'}
-      placeholder={'/assets/images/accounts.png'}
+      src={'/assets/images/placeholders/account-placeholder.png'}
+      alt={'/assets/images/placeholders/account-placeholder.png'}
+      placeholder={'/assets/images/placeholders/account-placeholder.png'}
       addBackground
     />
   );

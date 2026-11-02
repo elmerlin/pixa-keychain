@@ -80,13 +80,6 @@ const sendBackImportedFileContent = async (fileContent: any) => {
         );
       }
 
-      if (importedSettings.keychainify_enabled) {
-        await LocalStorageUtils.saveValueInLocalStorage(
-          LocalStorageKeyEnum.KEYCHAINIFY_ENABLED,
-          importedSettings.keychainify_enabled,
-        );
-      }
-
       if (importedSettings.no_confirm) {
         let existingNoConfirm: NoConfirm =
           await LocalStorageUtils.getValueFromLocalStorage(
@@ -154,53 +147,6 @@ const sendBackImportedFileContent = async (fileContent: any) => {
         await LocalStorageUtils.saveValueInLocalStorage(
           LocalStorageKeyEnum.CURRENT_RPC,
           importedSettings.current_rpc,
-        );
-      }
-      if (importedSettings.hidden_tokens) {
-        const currentHiddenTokens =
-          await LocalStorageUtils.getValueFromLocalStorage(
-            LocalStorageKeyEnum.HIDDEN_TOKENS,
-          );
-        await LocalStorageUtils.saveValueInLocalStorage(
-          LocalStorageKeyEnum.HIDDEN_TOKENS,
-          ArrayUtils.mergeWithoutDuplicate(
-            currentHiddenTokens ?? [],
-            importedSettings.hidden_tokens,
-          ),
-        );
-      }
-
-      if (importedSettings.HIVE_ENGINE_ACTIVE_CONFIG) {
-        await LocalStorageUtils.saveValueInLocalStorage(
-          LocalStorageKeyEnum.HIVE_ENGINE_ACTIVE_CONFIG,
-          importedSettings.HIVE_ENGINE_ACTIVE_CONFIG,
-        );
-      }
-
-      if (importedSettings.HIVE_ENGINE_CUSTOM_ACCOUNT_HISTORY_API) {
-        const currentHECustomAccountHistoryApi =
-          await LocalStorageUtils.getValueFromLocalStorage(
-            LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_ACCOUNT_HISTORY_API,
-          );
-        await LocalStorageUtils.saveValueInLocalStorage(
-          LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_ACCOUNT_HISTORY_API,
-          ArrayUtils.mergeWithoutDuplicate(
-            currentHECustomAccountHistoryApi ?? [],
-            importedSettings.hidden_tokens,
-          ),
-        );
-      }
-      if (importedSettings.HIVE_ENGINE_CUSTOM_RPC_LIST) {
-        const currentHECustomRpcList =
-          await LocalStorageUtils.getValueFromLocalStorage(
-            LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_RPC_LIST,
-          );
-        await LocalStorageUtils.saveValueInLocalStorage(
-          LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_RPC_LIST,
-          ArrayUtils.mergeWithoutDuplicate(
-            currentHECustomRpcList ?? [],
-            importedSettings.hidden_tokens,
-          ),
         );
       }
     }

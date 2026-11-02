@@ -71,7 +71,11 @@ describe('index tests:\n', () => {
       0,
       `mocked message for ${KeychainRequestTypes.addAccount}`,
     );
-    expect(sAddToWhitelist).toHaveBeenCalledWith(data.username!, 'domain', data.type);
+    expect(sAddToWhitelist).toHaveBeenCalledWith(
+      data.username!,
+      'domain',
+      data.type,
+    );
     expect(sRemoveWindow).toHaveBeenCalledWith(requestHandler.data.windowId);
     expect(sReset).toHaveBeenCalledWith(false);
   });
@@ -166,12 +170,6 @@ describe('index tests:\n', () => {
       .mockImplementation(() =>
         cbImplementation(KeychainRequestTypes.powerDown),
       );
-    const SendTokenOpModule = require('src/background/requests/operations/ops/send-token.ts');
-    jest
-      .spyOn(SendTokenOpModule, 'broadcastSendToken')
-      .mockImplementation(() =>
-        cbImplementation(KeychainRequestTypes.sendToken),
-      );
     const ProposalsOpModule = require('src/background/requests/operations/ops/proposals.ts');
     jest
       .spyOn(ProposalsOpModule, 'broadcastCreateProposal')
@@ -225,25 +223,16 @@ describe('index tests:\n', () => {
     const SavingsOpModule = require('src/background/requests/operations/ops/savings.ts');
     jest
       .spyOn(SavingsOpModule, 'broadcastSavings')
-      .mockImplementation(() =>
-        cbImplementation(KeychainRequestTypes.savings),
-      );
+      .mockImplementation(() => cbImplementation(KeychainRequestTypes.savings));
     const EncodeWithKeysOpModule = require('src/background/requests/operations/ops/encode-with-keys.ts');
     jest
       .spyOn(EncodeWithKeysOpModule, 'encodeWithKeys')
       .mockImplementation(() =>
         cbImplementation(KeychainRequestTypes.encodeWithKeys),
       );
-    const SwapOpModule = require('src/background/requests/operations/ops/swap.ts');
-    jest
-      .spyOn(SwapOpModule, 'broadcastSwap')
-      .mockImplementation(() =>
-        cbImplementation(KeychainRequestTypes.swap),
-      );
 
     const RequestTypeList = Object.keys(KeychainRequestTypes).filter(
-      (requestType) =>
-        requestType !== 'signedCall' && !requestType.startsWith('vsc'),
+      (requestType) => requestType !== 'signedCall',
     );
 
     const sSendMessage = jest

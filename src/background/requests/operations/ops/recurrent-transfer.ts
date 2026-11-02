@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { encode } from '@hiveio/hive-js/lib/auth/memo';
@@ -7,12 +6,10 @@ import {
   RequestId,
   RequestRecurrentTransfer,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import CurrencyUtils from 'src/popup/hive/utils/currency.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import Logger from 'src/utils/logger.utils';
 
@@ -50,45 +47,18 @@ export const recurrentTransfer = async (
       memo = encode(memoKey, memoReceiver, memo);
     }
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await TransferUtils.getTransferTransaction(
-          username!,
-          to,
-          `${amount} ${currency}`,
-          memo || '',
-          true,
-          executions,
-          recurrence,
-        );
-
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await TransferUtils.sendTransfer(
-          username!,
-          to,
-          `${amount} ${currency}`,
-          memo || '',
-          true,
-          executions,
-          recurrence,
-          key,
-          options,
-          pair_id,
-        );
-        break;
-      }
-    }
+    result = await TransferUtils.sendTransfer(
+      username!,
+      to,
+      `${amount} ${currency}`,
+      memo || '',
+      true,
+      executions,
+      recurrence,
+      key,
+      options,
+      pair_id,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

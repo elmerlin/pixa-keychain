@@ -5,8 +5,8 @@ import {
 } from '@interfaces/keychain.interface';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import {
-  RCDelegationValue,
   RcDelegation,
+  RCDelegationValue,
 } from '@interfaces/rc-delegation.interface';
 import { ResourceItemComponent } from '@popup/hive/pages/app-container/home/resources-section/resource-item/resource-item.component';
 import {
@@ -28,7 +28,7 @@ import { Screen } from '@reference-data/screen.enum';
 import Joi from 'joi';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
@@ -233,9 +233,7 @@ const RCDelegations = ({
               form.delegatee,
               activeAccount,
             );
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else if (!isCancel) {
+            if (!isCancel) {
               setSuccessMessage('popup_html_rc_delegation_successful', [
                 `@${form.delegatee}`,
               ]);

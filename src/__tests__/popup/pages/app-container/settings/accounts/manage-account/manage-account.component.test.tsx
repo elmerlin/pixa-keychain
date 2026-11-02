@@ -68,43 +68,6 @@ describe('manage-account.component tests:\n', () => {
       ).toHaveTextContent(mk.user.two);
     });
 
-    it('Must show/hide QR code', async () => {
-      Element.prototype.scrollIntoView = jest.fn();
-      await act(async () => {
-        await userEvent.click(
-          screen.getByTestId(dataTestIdButton.qrCode.toogle),
-        );
-      });
-      const confirmCheck = (messageKey: string) => {
-        const label = screen.getByText(chrome.i18n.getMessage(messageKey));
-        const panel = label.closest('.checkbox-panel');
-        expect(panel).toBeTruthy();
-        return userEvent.click(
-          panel!.querySelector('.custom-checkbox-container')!,
-        );
-      };
-      await act(async () => {
-        await confirmCheck('popup_html_qr_check1');
-        await confirmCheck('popup_html_qr_check2');
-        await userEvent.click(
-          screen.getByRole('button', {
-            name: chrome.i18n.getMessage('popup_html_qr_exported_show_button'),
-          }),
-        );
-      });
-      expect(
-        await screen.findByTestId(dataTestIdSvg.qrcode),
-      ).toBeInTheDocument();
-      await act(async () => {
-        await userEvent.click(
-          screen.getByTestId(dataTestIdButton.qrCode.toogle),
-        );
-      });
-      expect(
-        screen.queryByTestId(dataTestIdSvg.qrcode),
-      ).not.toBeInTheDocument();
-    });
-
     it('Must close page and go home', async () => {
       await act(async () => {
         await userEvent.click(screen.getByTestId(dataTestIdIcon.closePage));

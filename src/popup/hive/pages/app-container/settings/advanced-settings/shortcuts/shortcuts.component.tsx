@@ -1,6 +1,12 @@
-import { ShortcutActionType, ShortcutDefinition, ShortcutParams } from '@interfaces/shortcut.interface';
-import { Token, TokenBalance } from '@interfaces/tokens.interface';
-import { setErrorMessage, setSuccessMessage } from '@popup/multichain/actions/message.actions';
+import {
+  ShortcutActionType,
+  ShortcutDefinition,
+  ShortcutParams,
+} from '@interfaces/shortcut.interface';
+import {
+  setErrorMessage,
+  setSuccessMessage,
+} from '@popup/multichain/actions/message.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
 import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
@@ -12,8 +18,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
-import ButtonComponent, { ButtonType } from 'src/common-ui/button/button.component';
+import { connect, ConnectedProps } from 'react-redux';
+import ButtonComponent, {
+  ButtonType,
+} from 'src/common-ui/button/button.component';
 import {
   ComplexeCustomSelect,
   OptionItem,
@@ -25,18 +33,13 @@ import { SelectAccountSectionComponent } from 'src/common-ui/select-account-sect
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
 import { loadActiveAccount } from 'src/popup/hive/actions/active-account.actions';
-import { DelegationType } from 'src/popup/hive/pages/app-container/home/delegations/delegation-type.enum';
 import { PowerType } from 'src/popup/hive/pages/app-container/home/power-up-down/power-type.enum';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import ShortcutsUtils from 'src/utils/shortcuts.utils';
 
-
-
 const Shortcuts = ({
   accounts,
   activeAccount,
-  userTokens,
-  tokens,
   loadActiveAccount,
   setErrorMessage,
   setSuccessMessage,
@@ -56,10 +59,6 @@ const Shortcuts = ({
   const [selectedCurrency, setSelectedCurrency] = useState<'hive' | 'hbd'>(
     'hive',
   );
-  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState('');
-  const [selectedDelegationType, setSelectedDelegationType] = useState<
-    DelegationType
-  >(DelegationType.OUTGOING);
 
   // `combo` is stored normalized for binding (e.g. "shift+command+w").
   // We format it only for display (e.g. "⇧+⌘+W").
@@ -106,7 +105,9 @@ const Shortcuts = ({
   };
 
   const screenOptions = useMemo<OptionItem[]>(() => {
-    const uniqueScreens = Array.from(new Set(ShortcutsUtils.NAVIGATION_SCREENS));
+    const uniqueScreens = Array.from(
+      new Set(ShortcutsUtils.NAVIGATION_SCREENS),
+    );
     return uniqueScreens.map((screen) => ({
       label: ShortcutsUtils.formatScreenLabel(screen),
       value: screen,
@@ -144,43 +145,6 @@ const Shortcuts = ({
     [],
   );
 
-  const tokenOptions = useMemo<OptionItem[]>(() => {
-    if (!userTokens?.list || userTokens.list.length === 0) {
-      return [
-        {
-          label: chrome.i18n.getMessage('popup_html_tokens_no_tokens'),
-          value: '',
-        },
-      ];
-    }
-    return userTokens.list.map((tokenBalance: TokenBalance) => {
-      const tokenInfo = tokens.find(
-        (token: Token) => token.symbol === tokenBalance.symbol,
-      );
-      return {
-        label: tokenBalance.symbol,
-        value: tokenBalance.symbol,
-        subLabel: tokenInfo?.name,
-        img: tokenInfo?.metadata?.icon,
-        imgBackup: '/assets/images/wallet/hive-engine.svg',
-      };
-    });
-  }, [userTokens, tokens]);
-
-  const delegationOptions = useMemo<OptionItem[]>(
-    () => [
-      {
-        label: chrome.i18n.getMessage(DelegationType.OUTGOING),
-        value: DelegationType.OUTGOING,
-      },
-      {
-        label: chrome.i18n.getMessage(DelegationType.INCOMING),
-        value: DelegationType.INCOMING,
-      },
-    ],
-    [],
-  );
-
   const actionOptions = useMemo<OptionItem[]>(() => {
     return [
       {
@@ -209,20 +173,6 @@ const Shortcuts = ({
     [actionType, target],
   );
 
-  const requiresToken = useMemo(
-    () =>
-      actionType === ShortcutActionType.NAVIGATE &&
-      ShortcutsUtils.TOKEN_REQUIRED_SCREENS.includes(target as Screen),
-    [actionType, target],
-  );
-
-  const requiresDelegationType = useMemo(
-    () =>
-      actionType === ShortcutActionType.NAVIGATE &&
-      ShortcutsUtils.DELEGATION_REQUIRED_SCREENS.includes(target as Screen),
-    [actionType, target],
-  );
-
   useEffect(() => {
     const optionMatch = targetOptions.find((item) => item.value === target);
     if (!optionMatch) {
@@ -246,21 +196,7 @@ const Shortcuts = ({
     if (requiresCurrency && !selectedCurrency) {
       setSelectedCurrency('hive');
     }
-    if (requiresToken && !selectedTokenSymbol) {
-      setSelectedTokenSymbol(tokenOptions[0]?.value ?? '');
-    }
-    if (requiresDelegationType && !selectedDelegationType) {
-      setSelectedDelegationType(DelegationType.OUTGOING);
-    }
-  }, [
-    requiresCurrency,
-    requiresToken,
-    requiresDelegationType,
-    tokenOptions,
-    selectedCurrency,
-    selectedTokenSymbol,
-    selectedDelegationType,
-  ]);
+  }, [requiresCurrency, selectedCurrency]);
 
   const selectedActionOption = useMemo<OptionItem>(() => {
     return (
@@ -285,32 +221,12 @@ const Shortcuts = ({
     );
   }, [currencyOptions, selectedCurrency]);
 
-  const selectedTokenOption = useMemo<OptionItem>(() => {
-    if (selectedTokenSymbol) {
-      const option = tokenOptions.find(
-        (item) => item.value === selectedTokenSymbol,
-      );
-      if (option) return option;
-      return { label: selectedTokenSymbol, value: selectedTokenSymbol };
-    }
-    return tokenOptions[0];
-  }, [selectedTokenSymbol, tokenOptions]);
-
-  const selectedDelegationOption = useMemo<OptionItem>(() => {
-    return (
-      delegationOptions.find(
-        (option) => option.value === selectedDelegationType,
-      ) ?? delegationOptions[0]
-    );
-  }, [delegationOptions, selectedDelegationType]);
-
   const resetForm = useCallback(() => {
     setCombo('');
     setActionType(ShortcutActionType.NAVIGATE);
     setTarget('');
     setSelectedCurrency('hive');
-    setSelectedTokenSymbol('');
-    setSelectedDelegationType(DelegationType.OUTGOING);
+
     setEditingShortcutId(null);
     setFormVisible(false);
   }, []);
@@ -336,15 +252,12 @@ const Shortcuts = ({
       setErrorMessage('popup_html_shortcuts_missing_target');
       return false;
     }
-    if (requiresToken && !selectedTokenSymbol) {
-      setErrorMessage('popup_html_shortcuts_missing_target');
-      return false;
-    }
+
     const normalizedCombo = ShortcutsUtils.normalizeShortcutCombo(combo);
     const isDuplicate = shortcuts.some(
       (shortcut) =>
-        ShortcutsUtils.normalizeShortcutCombo(shortcut.combo) === normalizedCombo &&
-        shortcut.id !== editingShortcutId,
+        ShortcutsUtils.normalizeShortcutCombo(shortcut.combo) ===
+          normalizedCombo && shortcut.id !== editingShortcutId,
     );
     if (isDuplicate) {
       setErrorMessage('popup_html_shortcuts_duplicate');
@@ -360,12 +273,7 @@ const Shortcuts = ({
     if (requiresCurrency) {
       params.selectedCurrency = selectedCurrency;
     }
-    if (requiresToken) {
-      params.tokenSymbol = selectedTokenSymbol;
-    }
-    if (requiresDelegationType) {
-      params.delegationType = selectedDelegationType;
-    }
+
     if (target === Screen.POWER_UP_PAGE) {
       params.powerType = PowerType.POWER_UP;
     } else if (target === Screen.POWER_DOWN_PAGE) {
@@ -379,7 +287,9 @@ const Shortcuts = ({
       params: Object.keys(params).length ? params : undefined,
     };
     const updatedShortcuts = editingShortcutId
-      ? shortcuts.map((item) => (item.id === editingShortcutId ? shortcut : item))
+      ? shortcuts.map((item) =>
+          item.id === editingShortcutId ? shortcut : item,
+        )
       : [...shortcuts, shortcut];
     saveShortcuts(updatedShortcuts);
     setSuccessMessage('popup_html_save_successful');
@@ -392,11 +302,7 @@ const Shortcuts = ({
     setActionType(shortcut.actionType);
     setTarget(shortcut.target);
     setSelectedCurrency(shortcut.params?.selectedCurrency ?? 'hive');
-    setSelectedTokenSymbol(shortcut.params?.tokenSymbol ?? '');
-    setSelectedDelegationType(
-      (shortcut.params?.delegationType as DelegationType) ??
-        DelegationType.OUTGOING,
-    );
+
     if (shortcut.actionType === ShortcutActionType.CHANGE_ACCOUNT) {
       const account = accounts?.find(
         (item: LocalAccount) => item.name === shortcut.target,
@@ -422,8 +328,7 @@ const Shortcuts = ({
     setActionType(ShortcutActionType.NAVIGATE);
     setTarget(screenOptions[0]?.value ?? '');
     setSelectedCurrency('hive');
-    setSelectedTokenSymbol(tokenOptions[0]?.value ?? '');
-    setSelectedDelegationType(DelegationType.OUTGOING);
+
     setFormVisible(true);
     setTimeout(() => keyInputRef.current?.focus(), 0);
   };
@@ -436,14 +341,7 @@ const Shortcuts = ({
       return chrome.i18n.getMessage('dialog_title_powerdown');
     }
     if (!shortcut.params) return '';
-    if (shortcut.params.tokenSymbol) {
-      const delegationLabel = shortcut.params.delegationType
-        ? chrome.i18n.getMessage(shortcut.params.delegationType)
-        : '';
-      return delegationLabel
-        ? `${shortcut.params.tokenSymbol} · ${delegationLabel}`
-        : shortcut.params.tokenSymbol;
-    }
+
     if (shortcut.params.selectedCurrency) {
       return shortcut.params.selectedCurrency.toUpperCase();
     }
@@ -453,14 +351,20 @@ const Shortcuts = ({
   const getShortcutDisplayParts = (shortcut: ShortcutDefinition) => {
     if (shortcut.actionType === ShortcutActionType.CHANGE_ACCOUNT) {
       return {
-        firstLine: chrome.i18n.getMessage('popup_html_shortcuts_action_change_account'),
+        firstLine: chrome.i18n.getMessage(
+          'popup_html_shortcuts_action_change_account',
+        ),
         secondLine: `@${shortcut.target}`,
       };
     }
 
     // For NAVIGATE actions
-    const actionLabel = chrome.i18n.getMessage('popup_html_shortcuts_action_navigate');
-    const screenLabel = ShortcutsUtils.formatScreenLabel(shortcut.target as Screen);
+    const actionLabel = chrome.i18n.getMessage(
+      'popup_html_shortcuts_action_navigate',
+    );
+    const screenLabel = ShortcutsUtils.formatScreenLabel(
+      shortcut.target as Screen,
+    );
     const extraLabel = getShortcutExtraLabel(shortcut);
 
     const parts: string[] = [actionLabel, screenLabel];
@@ -519,13 +423,9 @@ const Shortcuts = ({
           return (
             <div key={shortcut.id} className="shortcut-item">
               <div className="shortcut-details">
-                <div className="shortcut-combo">
-                  {displayParts.firstLine}
-                </div>
+                <div className="shortcut-combo">{displayParts.firstLine}</div>
                 {displayParts.secondLine && (
-                  <div className="shortcut-meta">
-                    {displayParts.secondLine}
-                  </div>
+                  <div className="shortcut-meta">{displayParts.secondLine}</div>
                 )}
               </div>
               <div className="shortcut-actions">
@@ -535,7 +435,9 @@ const Shortcuts = ({
                 <div
                   className="shortcut-action-icon"
                   onClick={() => handleEdit(shortcut)}
-                  title={chrome.i18n.getMessage('html_popup_button_edit_label')}>
+                  title={chrome.i18n.getMessage(
+                    'html_popup_button_edit_label',
+                  )}>
                   <SVGIcon icon={SVGIcons.FAVORITE_ACCOUNTS_EDIT} />
                 </div>
                 <div
@@ -598,26 +500,7 @@ const Shortcuts = ({
               }
             />
           )}
-          {requiresToken && (
-            <ComplexeCustomSelect
-              label="popup_html_tokens"
-              skipLabelTranslation={false}
-              options={tokenOptions}
-              selectedItem={selectedTokenOption}
-              setSelectedItem={(option) => setSelectedTokenSymbol(option.value)}
-            />
-          )}
-          {requiresDelegationType && (
-            <ComplexeCustomSelect
-              label="popup_html_shortcuts_delegation_type"
-              skipLabelTranslation={false}
-              options={delegationOptions}
-              selectedItem={selectedDelegationOption}
-              setSelectedItem={(option) =>
-                setSelectedDelegationType(option.value as DelegationType)
-              }
-            />
-          )}
+
           <div className="shortcut-form-actions">
             <ButtonComponent
               dataTestId="shortcuts-save-button"
@@ -642,8 +525,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     accounts: state.hive.accounts,
     activeAccount: state.hive.activeAccount,
-    userTokens: state.hive.userTokens,
-    tokens: state.hive.tokens,
   };
 };
 

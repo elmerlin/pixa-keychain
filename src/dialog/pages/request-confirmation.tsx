@@ -1,4 +1,3 @@
-import { HiveEngineConfig } from '@interfaces/hive-engine-rpc.interface';
 import {
   KeychainRequest,
   KeychainRequestTypes,
@@ -28,10 +27,8 @@ import UpdateProposalVote from 'src/dialog/pages/requests/proposals/update-propo
 import Proxy from 'src/dialog/pages/requests/proxy';
 import RecurrentTransfer from 'src/dialog/pages/requests/recurrent-transfer';
 import Savings from 'src/dialog/pages/requests/savings';
-import SendToken from 'src/dialog/pages/requests/send-token';
 import SignBuffer from 'src/dialog/pages/requests/sign-buffer';
 import SignTx from 'src/dialog/pages/requests/sign-tx';
-import Swap from 'src/dialog/pages/requests/swap';
 import Transfer from 'src/dialog/pages/requests/transfer';
 import Vote from 'src/dialog/pages/requests/vote';
 import WitnessVote from 'src/dialog/pages/requests/witness-vote';
@@ -47,7 +44,6 @@ type RequestMessage = {
   tab: number;
   domain: string;
   accounts?: string[];
-  hiveEngineConfig: HiveEngineConfig;
 };
 
 const RequestConfirmation = ({ data }: Props) => {
@@ -100,16 +96,14 @@ const RequestConfirmation = ({ data }: Props) => {
       return <CreateProposal {...data} data={data.data} />;
     case KeychainRequestTypes.removeProposal:
       return <RemoveProposal {...data} data={data.data} />;
-    case KeychainRequestTypes.sendToken:
-      return <SendToken {...data} data={data.data} />;
+
     case KeychainRequestTypes.createClaimedAccount:
       return <CreateClaimedAccount {...data} data={data.data} />;
     case KeychainRequestTypes.post:
       return <Post {...data} data={data.data} />;
     case KeychainRequestTypes.broadcast:
       return <Broadcast {...data} data={data.data} />;
-    case KeychainRequestTypes.swap:
-      return <Swap {...data} data={data.data} />;
+
     default:
       return null;
   }

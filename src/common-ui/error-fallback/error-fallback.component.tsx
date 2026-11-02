@@ -2,7 +2,6 @@ import React from 'react';
 import ButtonComponent from 'src/common-ui/button/button.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
-import Config from 'src/config';
 
 export const ErrorFallback = ({ error, theme, chain }: any) => {
   const formattedErrorMessage = `
@@ -14,7 +13,6 @@ export const ErrorFallback = ({ error, theme, chain }: any) => {
 
   const handleClickOnCopy = async () => {
     await navigator.clipboard.writeText(formattedErrorMessage);
-    chrome.tabs.create({ url: Config.social.discord });
   };
 
   return (

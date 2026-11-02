@@ -83,60 +83,6 @@
         padding: 0px;
         padding-left: 8px;
       }
-
-      .auto-stake-token-list {
-        max-height: 200px;
-        overflow-y: scroll;
-        border: unset;
-        border-radius: 12px;
-        background: var(--input-background);
-
-        .option {
-          &:has(~ .option > .custom-select-item:hover) {
-            .separator {
-              background: var(--separator-color) !important;
-            }
-          }
-          .custom-select-item {
-            display: flex;
-            align-items: center;
-            column-gap: 12px;
-            padding: 10px 6px;
-            box-sizing: border-box;
-
-            .left-image {
-              height: 32px;
-              width: 32px;
-              border-radius: 50%;
-              margin-left: 10px;
-              &.shimmer {
-                @include icon-size(32px);
-              }
-            }
-
-            .item-label {
-              @include poppins500(14px);
-              flex: 1;
-              color: var(--main-font-color) !important;
-            }
-            .right-action-icon {
-              display: none;
-              svg {
-                color: var(--main-font-color) !important;
-              }
-            }
-            &:hover {
-              .right-action-icon {
-                display: block;
-                margin-right: 10px;
-              }
-              .separator {
-                background: var(--separator-color) !important;
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

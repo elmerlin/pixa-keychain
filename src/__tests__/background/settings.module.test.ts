@@ -32,7 +32,10 @@ describe('settings.module tests:\n', () => {
     await SettingsModule.sendBackImportedFileContent(settings.all);
     expect(sSendMessage).toHaveBeenCalledWith({
       command: BackgroundCommand.IMPORT_SETTINGS_CALLBACK,
-      value: { success: false, message: 'html_popup_import_settings_error' },
+      value: {
+        success: false,
+        message: 'html_popup_import_settings_error',
+      },
     });
   });
 
@@ -88,6 +91,6 @@ describe('settings.module tests:\n', () => {
         message: 'html_popup_import_settings_successful',
       },
     });
-    expect(sSaveValueInLocalStorage).toHaveBeenCalledTimes(9);
+    expect(sSaveValueInLocalStorage).toHaveBeenCalledTimes(8);
   });
 });

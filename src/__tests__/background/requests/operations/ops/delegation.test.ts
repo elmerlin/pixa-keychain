@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { broadcastDelegation } from '@background/requests/operations/ops/delegation';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { DynamicGlobalPropertiesUtils } from '@hiveapp/utils/dynamic-global-properties.utils';
@@ -16,7 +15,6 @@ import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 
 describe('delegation tests:\n', () => {
   const data = {
@@ -93,51 +91,6 @@ describe('delegation tests:\n', () => {
       requestHandler.data.key = userData.one.nonEncryptKeys.active;
       const result = await broadcastDelegation(requestHandler, data);
       const { request_id, ...datas } = data;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_delegate', [
-            `${datas.amount} ${datas.unit}`,
-            datas.delegatee,
-            datas.username!,
-          ]),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
-  });
-
-  describe('Using ledger cases:\n', () => {
-    it('Must return success', async () => {
-      jest
-        .spyOn(DynamicGlobalPropertiesUtils, 'getDynamicGlobalProperties')
-        .mockResolvedValueOnce(dynamic.globalProperties);
-      mockHiveTxCreateTransactionForLedger();
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValueOnce({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledgerKEY12345';
-      const clonedData = objects.clone(data) as RequestDelegation & RequestId;
-      clonedData.unit = 'VESTS';
-      const result = await broadcastDelegation(requestHandler, clonedData);
-      const { request_id, ...datas } = clonedData;
       expect(result).toEqual({
         command: DialogCommand.ANSWER_REQUEST,
         msg: {

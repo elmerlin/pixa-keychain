@@ -4,10 +4,8 @@ import { RootState } from '@popup/multichain/store';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { CustomTooltip } from 'src/common-ui/custom-tooltip/custom-tooltip.component';
-import { SVGIcons } from 'src/common-ui/icons.enum';
-import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
@@ -15,46 +13,27 @@ const EstimatedAccountValueSection = ({
   activeAccount,
   currencyPrices,
   globalProperties,
-  userTokensLoading,
-  tokensBalance,
-  tokensMarket,
-  tokens,
 }: PropsFromRedux) => {
   const [accountValue, setAccountValue] = useState<string | number>('...');
   const [accountValueType, setAccountValueType] = useState<AccountValueType>(
     AccountValueType.DOLLARS,
   );
-  const [hiddenTokensList, setHiddenTokensList] = useState<string[]>();
+
   const [
     hiveMarketLockedOpenOrdersValues,
     setHiveMarketLockedOpenOrdersValues,
   ] = useState<HiveInternalMarketLockedInOrders>({ hive: 0, hbd: 0 });
 
   useEffect(() => {
-    loadHiddenTokensList();
+    initAccountValueType();
   }, []);
 
-  useEffect(() => {
-    initAccountValueType();
-  }, [userTokensLoading]);
-
-  const loadHiddenTokensList = async () => {
-    const hiddenTokensList = await LocalStorageUtils.getValueFromLocalStorage(
-      LocalStorageKeyEnum.HIDDEN_TOKENS,
-    );
-    setHiddenTokensList(hiddenTokensList ?? []);
-  };
-
   const initAccountValueType = async () => {
-    if (!userTokensLoading) {
-      setAccountValueType(
-        (await LocalStorageUtils.getValueFromLocalStorage(
-          LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
-        )) || AccountValueType.DOLLARS,
-      );
-    } else {
-      setAccountValueType(AccountValueType.HIDDEN);
-    }
+    setAccountValueType(
+      (await LocalStorageUtils.getValueFromLocalStorage(
+        LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
+      )) || AccountValueType.DOLLARS,
+    );
   };
 
   const loadHiveInternalMarketOrders = async (username: string) => {
@@ -74,22 +53,15 @@ const EstimatedAccountValueSection = ({
       activeAccount &&
       currencyPrices &&
       globalProperties?.globals &&
-      tokensBalance &&
-      tokensMarket &&
-      hiveMarketLockedOpenOrdersValues &&
-      hiddenTokensList
+      hiveMarketLockedOpenOrdersValues
     ) {
       setAccountValue(
         AccountUtils.getAccountValue(
           activeAccount.account,
           currencyPrices,
           globalProperties.globals!,
-          tokensBalance,
-          tokensMarket,
           accountValueType,
-          tokens,
           hiveMarketLockedOpenOrdersValues,
-          hiddenTokensList,
         ),
       );
     }
@@ -97,18 +69,9 @@ const EstimatedAccountValueSection = ({
     activeAccount,
     currencyPrices,
     globalProperties,
-    tokensBalance,
-    tokensMarket,
     accountValueType,
     hiveMarketLockedOpenOrdersValues,
-    hiddenTokensList,
   ]);
-
-  const openPortfolio = async () => {
-    chrome.tabs.create({
-      url: `portfolio.html`,
-    });
-  };
 
   const onClickEstimatedValue = () => {
     const newAccountValueType =
@@ -156,11 +119,6 @@ const EstimatedAccountValueSection = ({
               ? `${getPrefix()} ${accountValue} ${getSuffix()}`
               : '...'}
           </div>
-          <SVGIcon
-            className={`portfolio-icon `}
-            icon={SVGIcons.PORTOLIO}
-            onClick={openPortfolio}
-          />
         </div>
       </div>
     </>
@@ -172,10 +130,6 @@ const mapStateToProps = (state: RootState) => {
     activeAccount: state.hive.activeAccount,
     currencyPrices: state.hive.currencyPrices,
     globalProperties: state.hive.globalProperties,
-    userTokensLoading: state.hive.userTokens.loading,
-    tokensBalance: state.hive.userTokens.list,
-    tokensMarket: state.hive.tokenMarket,
-    tokens: state.hive.tokens,
   };
 };
 

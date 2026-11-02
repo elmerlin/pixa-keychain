@@ -24,7 +24,7 @@ import { RootState } from '@popup/multichain/store';
 import Joi from 'joi';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
@@ -42,7 +42,6 @@ import CurrencyUtils, {
 } from 'src/popup/hive/utils/currency.utils';
 import { FavoriteUserUtils } from 'src/popup/hive/utils/favorite-user.utils';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
-import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import { Screen } from 'src/reference-data/screen.enum';
 import { FormUtils } from 'src/utils/form.utils';
 import FormatUtils from 'src/utils/format.utils';
@@ -243,11 +242,6 @@ const SavingsPage = ({
       parseFloat(form.amount.toString()),
     )} ${currencyLabels[watch('currency') as keyof CurrencyLabels]}`;
 
-    let warning = TransferUtils.getTransferFromToSavingsValidationWarning(
-      form.username,
-      watch('type'),
-    );
-
     navigateToWithParams(Screen.CONFIRMATION_PAGE, {
       method: KeychainKeyTypes.active,
       message: chrome.i18n.getMessage(
@@ -256,7 +250,6 @@ const SavingsPage = ({
           : 'popup_html_confirm_savings_deposit',
         [currencyLabels[watch('currency') as keyof CurrencyLabels]],
       ),
-      warningMessage: warning,
       skipWarningTranslation: true,
       title: operationString,
       skipTitleTranslation: true,
@@ -309,16 +302,12 @@ const SavingsPage = ({
               form.username,
               activeAccount,
             );
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else {
-              setSuccessMessage(
-                watch('type') === SavingOperationType.DEPOSIT
-                  ? 'popup_html_deposit_success'
-                  : 'popup_html_withdraw_success',
-                [stringifiedAmount],
-              );
-            }
+            setSuccessMessage(
+              watch('type') === SavingOperationType.DEPOSIT
+                ? 'popup_html_deposit_success'
+                : 'popup_html_withdraw_success',
+              [stringifiedAmount],
+            );
           } else {
             setErrorMessage(
               watch('type') === SavingOperationType.DEPOSIT

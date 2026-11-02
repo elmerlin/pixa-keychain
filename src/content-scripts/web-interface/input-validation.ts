@@ -12,17 +12,11 @@ const authority = Joi.string()
   .required();
 const message = Joi.string().required().min(2).regex(/^#/);
 const currency = Joi.string().valid('HIVE', 'HBD', 'TESTS', 'TBD').required();
-const savingsOperation = Joi.string()
-  .valid('deposit', 'withdraw')
-  .required();
+const savingsOperation = Joi.string().valid('deposit', 'withdraw').required();
 const amount = Joi.string()
   .regex(/^\d+(\.\d{3})$/)
   .required()
   .error(new Error('Amount requires a string with 3 decimals'));
-
-const amountToken = Joi.string()
-  .regex(/^\d+(\.\d{1,8})?$/)
-  .required();
 
 const amountVests = Joi.string()
   .regex(/^\d+(\.\d{6})$/)
@@ -238,15 +232,6 @@ const savings = Joi.object({
   rpc,
 });
 
-const sendToken = Joi.object({
-  username: optionalUsername,
-  to: username,
-  amount: amountToken,
-  currency: Joi.string().required(),
-  memo: Joi.string().allow(''),
-  rpc,
-});
-
 const powerUp = Joi.object({
   username: optionalUsername,
   recipient: username,
@@ -313,18 +298,6 @@ const convert = Joi.object({
   rpc,
 });
 
-const swap = Joi.object({
-  username: Joi.string().allow(null),
-  amount: Joi.number().required(),
-  startToken: Joi.string().required(),
-  endToken: Joi.string().required(),
-  slippage: Joi.number().required(),
-  rpc,
-  steps: Joi.array(),
-  partnerUsername: Joi.string(),
-  partnerFee: Joi.number(),
-});
-
 const recurrentTransfer = Joi.object({
   username: Joi.string().allow(null),
   to: username,
@@ -343,12 +316,7 @@ const recurrentTransfer = Joi.object({
   pair_id: Joi.number().integer(),
 });
 
-const encodeMultisig = Joi.object({
-  username,
-});
-
 const schemas = {
-  encodeMultisig,
   decode,
   encode,
   encodeWithKeys,
@@ -368,7 +336,6 @@ const schemas = {
   delegation,
   transfer,
   savings,
-  sendToken,
   powerUp,
   powerDown,
   createClaimedAccount,
@@ -378,7 +345,6 @@ const schemas = {
   addAccount,
   convert,
   recurrentTransfer,
-  swap,
 };
 
 export const commonRequestParams = {

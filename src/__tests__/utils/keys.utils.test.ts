@@ -44,7 +44,6 @@ describe('keys.utils tests:\n', () => {
       const result = KeysUtils.getPublicKeyFromPrivateKeyString('');
       expect(result).toBe(null);
     });
-
   });
 
   describe('getPubkeyWeight tests:\n', () => {
@@ -279,137 +278,7 @@ describe('keys.utils tests:\n', () => {
     });
   });
 
-  describe('isUsingLedger / requireManualConfirmation', () => {
-    test('ledger-prefixed keys are treated as hardware keys', () => {
-      expect(KeysUtils.isUsingLedger(null)).toBe(false);
-      expect(KeysUtils.isUsingLedger('#' + 'ledgerRef')).toBe(true);
-      expect(KeysUtils.requireManualConfirmation('#' + 'ledgerRef')).toBe(true);
-    });
-  });
-
-  describe('isUsingMultisig', () => {
-    test('detects partial weight on active authority (below threshold)', () => {
-      const priv = userData.one.nonEncryptKeys.active;
-      const pub = KeysUtils.getPublicKeyFromPrivateKeyString(priv)!;
-      const extended = {
-        name: 'alice',
-        active: {
-          weight_threshold: 100,
-          account_auths: [],
-          key_auths: [[pub, 5]],
-        },
-        posting: {
-          weight_threshold: 1,
-          account_auths: [],
-          key_auths: [],
-        },
-      } as ExtendedAccount;
-
-      expect(
-        KeysUtils.isUsingMultisig(
-          priv,
-          extended,
-          'initiator',
-          KeychainKeyTypesLC.active,
-        ),
-      ).toBe(true);
-    });
-
-    test('returns false when active key weight meets threshold', () => {
-      const priv = userData.one.nonEncryptKeys.active;
-      const pub = KeysUtils.getPublicKeyFromPrivateKeyString(priv)!;
-      const extended = {
-        name: 'alice',
-        active: {
-          weight_threshold: 1,
-          account_auths: [],
-          key_auths: [[pub, 1]],
-        },
-        posting: {
-          weight_threshold: 1,
-          account_auths: [],
-          key_auths: [],
-        },
-      } as ExtendedAccount;
-
-      expect(
-        KeysUtils.isUsingMultisig(
-          priv,
-          extended,
-          'initiator',
-          KeychainKeyTypesLC.active,
-        ),
-      ).toBe(false);
-    });
-
-    test('detects partial weight on posting authority', () => {
-      const priv = userData.one.nonEncryptKeys.posting;
-      const pub = KeysUtils.getPublicKeyFromPrivateKeyString(priv)!;
-      const extended = {
-        name: 'alice',
-        active: {
-          weight_threshold: 1,
-          account_auths: [],
-          key_auths: [],
-        },
-        posting: {
-          weight_threshold: 50,
-          account_auths: [],
-          key_auths: [[pub, 10]],
-        },
-      } as ExtendedAccount;
-
-      expect(
-        KeysUtils.isUsingMultisig(
-          priv,
-          extended,
-          'initiator',
-          KeychainKeyTypesLC.posting,
-        ),
-      ).toBe(true);
-    });
-  });
-
-  describe('getKeyType', () => {
-    test('classifies multisig when partial authority weight applies', () => {
-      const priv = userData.one.nonEncryptKeys.active;
-      const pub = KeysUtils.getPublicKeyFromPrivateKeyString(priv)!;
-      const transactionAccount = {
-        name: 'alice',
-        active: {
-          weight_threshold: 100,
-          account_auths: [],
-          key_auths: [[pub, 3]],
-        },
-        posting: {
-          weight_threshold: 1,
-          account_auths: [],
-          key_auths: [],
-        },
-      } as ExtendedAccount;
-      const initiator = { name: 'bob' } as ExtendedAccount;
-
-      expect(
-        KeysUtils.getKeyType(
-          priv,
-          pub,
-          transactionAccount,
-          initiator,
-          KeychainKeyTypesLC.active,
-        ),
-      ).toBe(PrivateKeyType.MULTISIG);
-    });
-
-    test('classifies ledger and authorized-account markers', () => {
-      expect(KeysUtils.getKeyType('#ledger', null)).toBe(PrivateKeyType.LEDGER);
-      expect(KeysUtils.getKeyType('priv', '@pub')).toBe(
-        PrivateKeyType.AUTHORIZED_ACCOUNT,
-      );
-      expect(
-        KeysUtils.getKeyType(userData.one.nonEncryptKeys.active, null),
-      ).toBe(PrivateKeyType.PRIVATE_KEY);
-    });
-  });
+  describe('getKeyType', () => {});
 
   describe('isExportable', () => {
     test('allows export for normal private vs public key pairs', () => {
@@ -500,21 +369,6 @@ describe('keys.utils tests:\n', () => {
       expect(spy).toHaveBeenCalledWith('condenser_api.get_key_references', [
         [userData.one.encryptKeys.active],
       ]);
-    });
-  });
-
-  describe('isKeyActiveOrPosting', () => {
-    test('returns active when stored local key matches active WIF', async () => {
-      const active = userData.one.nonEncryptKeys.active;
-      jest.spyOn(AccountUtils, 'getAccountFromLocalStorage').mockResolvedValue({
-        name: 'alice',
-        keys: { active, posting: userData.one.nonEncryptKeys.posting },
-      } as any);
-
-      const { KeychainKeyTypes } = await import('hive-keychain-commons');
-      await expect(
-        KeysUtils.isKeyActiveOrPosting(active, { name: 'alice' } as ExtendedAccount),
-      ).resolves.toBe(KeychainKeyTypes.active);
     });
   });
 });

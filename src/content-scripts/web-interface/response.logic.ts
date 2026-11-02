@@ -3,7 +3,6 @@ import {
   KeychainRequest,
   RequestResponse,
 } from 'src/interfaces/keychain.interface';
-import KeychainifyUtils from 'src/utils/keychainify.utils';
 
 export const cancelPreviousRequest = (prevReq: KeychainRequest) => {
   const response = {
@@ -46,21 +45,11 @@ export const sendIncompleteDataResponse = (
 };
 /* istanbul ignore next */
 export const sendResponse = (response: RequestResponse) => {
-  if (
-    response.data.redirect_uri &&
-    KeychainifyUtils.isRedirectUriAcceptable(
-      response.data.redirect_uri,
-      window.location.href,
-    )
-  ) {
-    window.location.href = response.data.redirect_uri;
-  } else {
-    window.postMessage(
-      {
-        type: 'hive_keychain_response',
-        response,
-      },
-      window.location.origin,
-    );
-  }
+  window.postMessage(
+    {
+      type: 'hive_keychain_response',
+      response,
+    },
+    window.location.origin,
+  );
 };

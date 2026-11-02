@@ -559,46 +559,6 @@ var hive_keychain = {
     this.dispatchCustomEvent('swRequest_hive', request, callback);
   },
   /**
-   * Requests a token transfer
-   * @example
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
-   *   keychain.requestSendToken(username, toUsername, amount.toFixed(3), memo, 'DEC', (response) => {
-   *     console.log(response);
-   *   });
-   * } else {
-   *   alert('You do not have hive keychain installed');
-   * }
-   *
-   * @param {String} account Hive account to perform the request
-   * @param {String} to Hive account to receive the transfer
-   * @param {String} amount Amount to be transferred. Requires 3 decimals.
-   * @param {String} memo Memo attached to the transfer
-   * @param {String} currency Token to be sent
-   * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
-   */
-  requestSendToken: function (
-    account,
-    to,
-    amount,
-    memo,
-    currency,
-    callback,
-    rpc,
-  ) {
-    var request = {
-      type: 'sendToken',
-      username: account,
-      to,
-      amount,
-      memo,
-      currency,
-      rpc,
-    };
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
-  },
-  /**
    * Requests a delegation broadcast
    * @example
    * if (window.hive_keychain) {
@@ -1023,60 +983,6 @@ var hive_keychain = {
       executions,
       rpc,
       pair_id,
-    };
-
-    this.dispatchCustomEvent('swRequest_hive', request, callback);
-  },
-
-  /**
-   * Request swap
-   * @example
-   * // Let's swap 5 HIVE to DEC
-   * // Estimated steps can be obtained via KeychainSDK.swaps.getEstimation()
-   *
-   * if (window.hive_keychain) {
-   *   const keychain = window.hive_keychain;
-   *   keychain.requestSwap('keychain', 'HIVE', 'DEC', 5, 1, estimatedSteps, (response) => {
-   *     console.log(response);
-   *   });
-   * } else {
-   *   alert('You do not have hive keychain installed');
-   * }
-   * @param {String} [username=null] Hive account to perform the request
-   * @param {String} startToken Incoming token
-   * @param {String} endToken Outgoing token
-   * @param {number} amount Amount of tokens to be swapped
-   * @param {number} slippage Max slippage
-   * @param {Object} steps Steps returned by KeychainSDK.swaps.getEstimation(), of type IStep[]
-   * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
-   * @param {string} [partnerUsername=null] Partner Hive account hosting the widget
-   * @param {number} [partnerFee=null] Fee received when executing & hosting a Keychain Swap. 0 - 1%
-  
-   */
-  requestSwap: function (
-    username,
-    startToken,
-    endToken,
-    amount,
-    slippage,
-    steps,
-    callback,
-    rpc,
-    partnerUsername,
-    partnerFee,
-  ) {
-    const request = {
-      type: 'swap',
-      username,
-      startToken,
-      endToken,
-      amount,
-      slippage,
-      steps,
-      partnerUsername,
-      partnerFee,
-      rpc,
     };
 
     this.dispatchCustomEvent('swRequest_hive', request, callback);

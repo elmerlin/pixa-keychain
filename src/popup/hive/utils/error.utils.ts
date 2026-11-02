@@ -12,12 +12,6 @@ enum BlockchainErrorType {
   MISSING_AUTHORITY = 'verify_authority',
 }
 
-enum HiveEngineErrorType {
-  OVERDRAW_BALANCE = 'overdrawn balance',
-  TOKEN_NOT_EXISTING = 'symbol does not exist',
-  USER_NOT_EXISTING = 'invalid to',
-}
-
 const parse = (error: any) => {
   Logger.log(error);
   const stack = error?.data?.stack[0];
@@ -121,70 +115,4 @@ const parse = (error: any) => {
   return new KeychainError('html_popup_error_while_broadcasting', [], error);
 };
 
-const parseHiveEngine = (error: string, payload: any) => {
-  if (error.includes(HiveEngineErrorType.OVERDRAW_BALANCE)) {
-    return new KeychainError('hive_engine_overdraw_balance_error', [
-      payload.symbol,
-    ]);
-  }
-  if (error.includes(HiveEngineErrorType.TOKEN_NOT_EXISTING)) {
-    return new KeychainError('hive_engine_not_existing_token_error', [
-      payload.symbol,
-    ]);
-  }
-  if (error.includes(HiveEngineErrorType.USER_NOT_EXISTING)) {
-    return new KeychainError('hive_engine_not_existing_user_error', [
-      payload.to,
-    ]);
-  }
-  return new KeychainError('bgd_ops_hive_engine_confirmation_error', [error]);
-};
-
-const parseLedger = (error: any) => {
-  if (error instanceof KeychainError) {
-    return error;
-  }
-
-  const hexErrCode = `0x${parseInt(error.statusCode)
-    .toString(16)
-    .toLowerCase()}`;
-  switch (hexErrCode) {
-    case '0xb003':
-      return new KeychainError('error_ledger_failed_to_parse_transaction');
-    case '0xb004':
-      return new KeychainError('error_ledger_bad_state');
-    case '0xb005':
-      return new KeychainError('html_ledger_error_while_signing');
-    case '0xb007':
-    case '0xb008':
-      return new KeychainError('error_ledger_sign_hash');
-    case '0x530c':
-      return new KeychainError('error_ledger_locked');
-    case '0x6985':
-      return new KeychainError('error_ledger_denied_by_user', [], error);
-    case '0x6a87':
-      return new KeychainError('error_ledger_internal_error');
-    case '0x6d00':
-      return new KeychainError('error_ledger_version_not_supported');
-    case '0x6e00':
-      return new KeychainError('error_ledger_app_not_supported');
-    case '0x6e01':
-      return new KeychainError('error_ledger_hive_app_not_opened');
-    default: {
-      Logger.log(error);
-      if (
-        error.name === 'DisconnectedDeviceDuringOperation' ||
-        error.name === 'TransportOpenUserCancelled'
-      ) {
-        return new KeychainError('popup_html_ledger_not_detected');
-      } else if (
-        error.toString().includes('Ledger error: Unable to claim interface')
-      ) {
-        return new KeychainError('ledger_reboot_with_ledger_live_error');
-      }
-      return new KeychainError('popup_html_ledger_unknown_error');
-    }
-  }
-};
-
-export const ErrorUtils = { parse, parseHiveEngine, parseLedger };
+export const ErrorUtils = { parse };

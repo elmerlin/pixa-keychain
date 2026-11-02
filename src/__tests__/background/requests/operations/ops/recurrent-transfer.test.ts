@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { recurrentTransfer } from '@background/requests/operations/ops/recurrent-transfer';
 import { RequestsHandler } from '@background/requests/request-handler';
 import * as HiveMemo from '@hiveio/hive-js/lib/auth/memo';
@@ -15,7 +14,6 @@ import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 import { KeychainError } from 'src/keychain-error';
 
 describe('recurrent-transfer tests:\n', () => {
@@ -77,45 +75,6 @@ describe('recurrent-transfer tests:\n', () => {
       } as TransactionResult);
       const requestHandler = new RequestsHandler();
       requestHandler.data.key = userData.one.nonEncryptKeys.active;
-      const result = await recurrentTransfer(requestHandler, data);
-      const { request_id, ...datas } = data;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_recurrent_transfer'),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
-
-    it('Must return sucess on start recurrent, using ledger', async () => {
-      mockHiveTxCreateTransactionForLedger();
-      jest.spyOn(HiveTxUtils, 'sendOperation').mockResolvedValueOnce({
-        id: 'id',
-        confirmed: true,
-        tx_id: 'tx_id',
-      } as TransactionResult);
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledgerKEY1234';
       const result = await recurrentTransfer(requestHandler, data);
       const { request_id, ...datas } = data;
       expect(result).toEqual({

@@ -13,15 +13,9 @@ const LIST_ALLOWED_TAGS = ['ul', 'li'];
 
 const LINK_ENABLED_I18N_KEYS = new Set([
   'accept_terms_and_condition',
-  'ledger_import_account_has_ledger',
-  'popup_html_about_text',
-  'popup_html_multisig_intro',
   'popup_html_setup_text',
-  'popup_html_tokens_settings_text',
   'popup_html_vesting_routes_warning_message',
 ]);
-
-const LIST_ENABLED_I18N_KEYS = new Set(['popup_html_about_text']);
 
 interface SanitizeHtmlOptions {
   allowLinks?: boolean;
@@ -74,7 +68,6 @@ const sanitizeHtml = (html: string, options?: SanitizeHtmlOptions) => {
 const getSafeI18nHtml = (message: string, params?: unknown | unknown[]) =>
   sanitizeHtml(chrome.i18n.getMessage(message, escapeHtmlParams(params)), {
     allowLinks: LINK_ENABLED_I18N_KEYS.has(message),
-    allowLists: LIST_ENABLED_I18N_KEYS.has(message),
   });
 
 export const HtmlUtils = {

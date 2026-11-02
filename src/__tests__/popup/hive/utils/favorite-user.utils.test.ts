@@ -1,26 +1,9 @@
 import BgdAccountsUtils from '@background/utils/accounts.utils';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
-import { VaultKey } from '@reference-data/vault-message-key.enum';
+import { FavoriteUserListName } from '@interfaces/favorite-user.interface';
 import { FavoriteUserUtils } from 'src/popup/hive/utils/favorite-user.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import VaultUtils from 'src/utils/vault.utils';
-
-jest.mock('hive-keychain-commons', () => {
-  const actual = jest.requireActual('hive-keychain-commons');
-  return {
-    ...actual,
-    ExchangesUtils: {
-      getExchanges: () => [
-        {
-          username: 'blocked_exchange',
-          name: 'X',
-          acceptedCoins: ['HIVE'],
-        },
-        { username: '', name: 'NoName', acceptedCoins: ['HIVE'] },
-      ],
-    },
-  };
-});
 
 describe('FavoriteUserUtils', () => {
   beforeEach(() => {
@@ -28,55 +11,67 @@ describe('FavoriteUserUtils', () => {
   });
 
   describe('getAutocompleteList', () => {
-    it('returns other local accounts and favorite users not matching exchange or local names', async () => {
-      jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue({
-        alice: ['bob', 'blocked_exchange', 'carol'],
-      });
-
-      const list = await FavoriteUserUtils.getAutocompleteList('alice', [
-        { name: 'alice', keys: {} },
-        { name: 'bob', keys: {} },
-        { name: 'dave', keys: {} },
-      ] as any);
-
-      const values = list.map((i) => i.value).sort();
-      expect(values).toEqual(['bob', 'carol', 'dave']);
+    it('combines saved favorites and other local accounts without injecting recipients', async () => {
+      jest
+        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+        .mockResolvedValue({
+          alice: ['bob', 'carol'],
+        });
+      expect(
+        await FavoriteUserUtils.getAutocompleteList('alice', [
+          { name: 'alice', keys: {} },
+          { name: 'bob', keys: {} },
+        ]),
+      ).toEqual([{ value: 'carol' }, { value: 'bob' }]);
     });
 
-    it('adds exchanges when addExchanges is true, optionally filtered by token', async () => {
-      jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue(null);
-
-      const all = await FavoriteUserUtils.getAutocompleteList(
-        'alice',
-        [{ name: 'alice', keys: {} }] as any,
-        { addExchanges: true },
-      );
-      expect(all.some((e) => e.value === 'blocked_exchange')).toBe(true);
-
-      const filtered = await FavoriteUserUtils.getAutocompleteList(
-        'alice',
-        [{ name: 'alice', keys: {} }] as any,
-        { addExchanges: true, token: 'HBD' },
-      );
-      expect(filtered.some((e) => e.value === 'blocked_exchange')).toBe(false);
+    it('returns no suggestions when there are no saved recipients', async () => {
+      jest
+        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+        .mockResolvedValue(undefined);
+      expect(
+        await FavoriteUserUtils.getAutocompleteList('alice', [
+          { name: 'alice', keys: {} },
+        ]),
+      ).toEqual([]);
     });
   });
 
   describe('getAutocompleteListByCategories', () => {
-    it('groups favorites, locals, and exchanges into categories', async () => {
-      jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue({
-        alice: ['fav1'],
+    it('includes only saved favorites and other local accounts', async () => {
+      jest
+        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+        .mockResolvedValue({
+          alice: [{ value: 'carol', subLabel: '' }],
+        });
+      expect(
+        await FavoriteUserUtils.getAutocompleteListByCategories('alice', [
+          { name: 'alice', keys: {} },
+          { name: 'bob', keys: {} },
+        ]),
+      ).toEqual({
+        categories: [
+          {
+            title: FavoriteUserListName.USERS,
+            translateTitle: true,
+            values: [{ value: 'carol', subLabel: '' }],
+          },
+          {
+            title: FavoriteUserListName.LOCAL_ACCOUNTS,
+            translateTitle: true,
+            values: [{ value: 'bob', subLabel: '' }],
+          },
+        ],
       });
+    });
 
-      const out = await FavoriteUserUtils.getAutocompleteListByCategories(
-        'alice',
-        [{ name: 'alice', keys: {} }, { name: 'other', keys: {} }] as any,
-        { addExchanges: true, token: 'HIVE' },
-      );
-
-      expect(out.categories.length).toBeGreaterThanOrEqual(2);
-      const titles = out.categories.map((c) => c.title);
-      expect(titles.some((t) => String(t).length > 0)).toBe(true);
+    it('does not create empty categories', async () => {
+      jest
+        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+        .mockResolvedValue(undefined);
+      expect(
+        await FavoriteUserUtils.getAutocompleteListByCategories('alice', []),
+      ).toEqual({ categories: [] });
     });
   });
 
@@ -96,53 +91,43 @@ describe('FavoriteUserUtils', () => {
       expect(save).toHaveBeenCalledWith(
         LocalStorageKeyEnum.FAVORITE_USERS,
         expect.objectContaining({
-          u1: expect.arrayContaining([expect.objectContaining({ value: 'plain' })]),
+          u1: expect.arrayContaining([
+            expect.objectContaining({ value: 'plain' }),
+          ]),
         }),
       );
     });
 
     it('ensures each user key maps to an array', async () => {
-      jest.spyOn(LocalStorageUtils, 'saveValueInLocalStorage').mockResolvedValue(undefined);
+      jest
+        .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+        .mockResolvedValue(undefined);
 
-      const fixed = await FavoriteUserUtils.fixFavoriteList({ u: 'not-array' as any });
+      const fixed = await FavoriteUserUtils.fixFavoriteList({
+        u: 'not-array' as any,
+      });
 
       expect(Array.isArray((fixed as any).u)).toBe(true);
     });
   });
 
   describe('saveFavoriteUser', () => {
-    it('appends username when not already favorited and not exchange/local account', async () => {
+    it('does not duplicate an existing favorite', async () => {
       jest.spyOn(VaultUtils, 'getValueFromVault').mockResolvedValue('mk');
-      jest.spyOn(BgdAccountsUtils, 'getAccountsFromLocalStorage').mockResolvedValue([
-        { name: 'alice' },
-      ] as any);
-      jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue({
-        alice: [],
-      });
-      const save = jest
-        .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
-        .mockResolvedValue(undefined);
+      jest
+        .spyOn(BgdAccountsUtils, 'getAccountsFromLocalStorage')
+        .mockResolvedValue([]);
+      jest
+        .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+        .mockResolvedValue({
+          alice: [{ value: 'dup', subLabel: '' }],
+        });
+      const save = jest.spyOn(LocalStorageUtils, 'saveValueInLocalStorage');
 
-      await FavoriteUserUtils.saveFavoriteUser('newpal', {
+      await FavoriteUserUtils.saveFavoriteUser('dup', {
         name: 'alice',
         keys: {},
       } as any);
-
-      expect(save).toHaveBeenCalledWith(LocalStorageKeyEnum.FAVORITE_USERS, {
-        alice: [{ value: 'newpal', subLabel: '' }],
-      });
-      expect(VaultUtils.getValueFromVault).toHaveBeenCalledWith(VaultKey.__MK);
-    });
-
-    it('does not duplicate an existing favorite', async () => {
-      jest.spyOn(VaultUtils, 'getValueFromVault').mockResolvedValue('mk');
-      jest.spyOn(BgdAccountsUtils, 'getAccountsFromLocalStorage').mockResolvedValue([]);
-      jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue({
-        alice: [{ value: 'dup', subLabel: '' }],
-      });
-      const save = jest.spyOn(LocalStorageUtils, 'saveValueInLocalStorage');
-
-      await FavoriteUserUtils.saveFavoriteUser('dup', { name: 'alice', keys: {} } as any);
 
       expect(save).toHaveBeenCalledWith(
         LocalStorageKeyEnum.FAVORITE_USERS,

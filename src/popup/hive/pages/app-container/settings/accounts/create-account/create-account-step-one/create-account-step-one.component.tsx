@@ -10,7 +10,7 @@ import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
 import { Asset } from 'hive-keychain-commons';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import ButtonComponent from 'src/common-ui/button/button.component';
 import {
   ComplexeCustomSelect,
@@ -58,7 +58,7 @@ const CreateAccountStepOne = ({
       label: `@${activeAccount.name!}`,
       value: activeAccount.name!,
       canDelete: false,
-      img: `https://images.hive.blog/u/${activeAccount.name!}/avatar`,
+      img: '/assets/images/placeholders/account-placeholder.png',
     });
   }, [activeAccount]);
 
@@ -72,7 +72,7 @@ const CreateAccountStepOne = ({
       options.push({
         label: `@${account.name!}`,
         value: account.name!,
-        img: `https://images.hive.blog/u/${account.name!}/avatar`,
+        img: '/assets/images/placeholders/account-placeholder.png',
         canDelete: false,
       });
     }

@@ -7,7 +7,6 @@ import type {
 } from '@hiveio/dhive/lib/index-browser';
 import { CurrencyPrices } from '@interfaces/bittrex.interface';
 import { HiveInternalMarketLockedInOrders } from '@interfaces/hive-market.interface';
-import { Token, TokenBalance, TokenMarket } from '@interfaces/tokens.interface';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
 import { isWif } from 'hive-keychain-commons';
@@ -27,10 +26,8 @@ import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import { LocalStorageKeyEnum } from 'src/reference-data/local-storage-key.enum';
 import FormatUtils from 'src/utils/format.utils';
-import { LedgerUtils } from 'src/utils/ledger.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
-import { PortfolioUtils } from 'src/utils/porfolio.utils';
 import VaultUtils from 'src/utils/vault.utils';
 
 export enum AccountErrorMessages {
@@ -389,29 +386,12 @@ const getAccountValue = (
   }: ExtendedAccount,
   prices: CurrencyPrices,
   props: DynamicGlobalProperties,
-  tokensBalance: TokenBalance[],
-  tokensMarket: TokenMarket[],
   accountValueType: AccountValueType,
-  tokens: Token[],
   hiveMarketLockedOpenOrdersValues: HiveInternalMarketLockedInOrders,
-  hiddenTokensList: string[],
 ) => {
   if (accountValueType === AccountValueType.HIDDEN) return '⁎ ⁎ ⁎';
   if (!prices.hive_dollar?.usd || !prices.hive?.usd) return 0;
-  const userLayerTwoPortfolio = PortfolioUtils.generateUserLayerTwoPortolio(
-    {
-      username: name,
-      tokensBalance: tokensBalance,
-    },
-    prices,
-    tokensMarket,
-    tokens,
-    hiddenTokensList,
-  );
-  const layerTwoTokensTotalValue = userLayerTwoPortfolio.reduce(
-    (acc, curr) => acc + curr.usdValue,
-    0,
-  );
+
   const totalLockedValueInHiveMarket =
     hiveMarketLockedOpenOrdersValues.hbd * prices.hive_dollar.usd +
     hiveMarketLockedOpenOrdersValues.hive * prices.hive.usd;
@@ -423,7 +403,6 @@ const getAccountValue = (
       parseFloat(balance as string) +
       parseFloat(savings_balance as string)) *
       prices.hive.usd +
-    layerTwoTokensTotalValue +
     totalLockedValueInHiveMarket;
   const value =
     accountValueType === AccountValueType.DOLLARS
@@ -504,39 +483,7 @@ const getRCMana = async (username: string) => {
   };
 };
 
-const addKeyFromLedger = async (username: string, keys: Keys) => {
-  const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
-  let accounts = await AccountUtils.getAccountsFromLocalStorage(mk);
-  let account = accounts.find(
-    (account: LocalAccount) => account.name === username,
-  );
-
-  if (account) {
-    account.keys = { ...account.keys, ...keys };
-  }
-  return await AccountUtils.saveAccounts(accounts, mk);
-};
 /* istanbul ignore next */
-const generateQRCode = (account: LocalAccount, includePublicKey = true) => {
-  let acc: LocalAccount = { name: account.name, keys: {} };
-  if (KeysUtils.isExportable(account.keys.active, account.keys.activePubkey)) {
-    acc.keys.active = account.keys.active;
-    if (includePublicKey || account.keys.activePubkey?.startsWith('@'))
-      acc.keys.activePubkey = account.keys.activePubkey;
-  }
-  if (
-    KeysUtils.isExportable(account.keys.posting, account.keys.postingPubkey)
-  ) {
-    acc.keys.posting = account.keys.posting;
-    if (includePublicKey || account.keys.postingPubkey?.startsWith('@'))
-      acc.keys.postingPubkey = account.keys.postingPubkey;
-  }
-  if (KeysUtils.isExportable(account.keys.memo, account.keys.memoPubkey)) {
-    acc.keys.memo = account.keys.memo;
-    if (includePublicKey) acc.keys.memoPubkey = account.keys.memoPubkey;
-  }
-  return acc;
-};
 
 const claimAccounts = async (
   rc: RC,
@@ -657,15 +604,6 @@ const reorderAccounts = (
   const [removed] = list.splice(start, 1);
   list.splice(end, 0, removed);
   return list;
-};
-
-const getAccountFromKey = async (key: Key) => {
-  const isLedger = key?.startsWith('#');
-  const pubKey = isLedger
-    ? await LedgerUtils.getKeyFromDerivationPath(key!.replace('#', ''))
-    : KeysUtils.getPublicKeyFromPrivateKeyString(key!.toString());
-  const accountName = (await KeysUtils.getKeyReferences([pubKey!]))[0];
-  return AccountUtils.getExtendedAccount(accountName[0]);
 };
 
 const processAuthorityUpdate = async (
@@ -789,7 +727,7 @@ const AccountUtils = {
   hasStoredAccounts,
   addAuthorizedAccount,
   addKey,
-  addKeyFromLedger,
+
   addMultipleAccounts,
   deleteKey,
   isAccountListIdentical,
@@ -806,7 +744,7 @@ const AccountUtils = {
   isAccountNameAlreadyExisting,
   getRCMana,
   getAccount,
-  generateQRCode,
+
   encryptAccounts,
   claimAccounts,
   updateAccount,
@@ -815,7 +753,6 @@ const AccountUtils = {
   addAccount,
   reorderAccounts,
   addAuthorizedKey,
-  getAccountFromKey,
   processAuthorityUpdate,
   processAuthorityRemoval,
   processKeyAuthorityUpdate,

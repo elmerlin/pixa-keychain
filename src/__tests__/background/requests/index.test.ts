@@ -3,7 +3,6 @@ import { DefaultRpcs } from '@reference-data/default-rpc.list';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { KeychainRequestWrapper } from 'hive-keychain-commons';
 import accounts from 'src/__tests__/utils-for-testing/data/accounts';
-import { HiveEngineConfigData } from 'src/__tests__/utils-for-testing/data/hive-engine-config';
 import keychainRequest from 'src/__tests__/utils-for-testing/data/keychain-request';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import * as DialogLifeCycle from 'src/background/requests/dialog-lifecycle';
@@ -30,9 +29,6 @@ describe('index tests:\n', () => {
       confirmed: false,
       isWaitingForConfirmation: false,
     });
-    expect(keychainRequest.requestHandler.hiveEngineConfig).toEqual(
-      Config.hiveEngine,
-    );
   });
 
   it('Must return handler if no values on local storage', async () => {
@@ -64,9 +60,6 @@ describe('index tests:\n', () => {
       {},
     );
     expect(requestHandler.data.accounts).toEqual(accounts.twoAccounts);
-    expect(requestHandler.hiveEngineConfig).toEqual(
-      HiveEngineConfigData.byDefault,
-    );
   });
 
   it('Must not reset resetWinId and reset data', () => {

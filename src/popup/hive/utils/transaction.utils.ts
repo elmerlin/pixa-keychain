@@ -25,7 +25,6 @@ import {
   WithdrawSavings,
 } from '@interfaces/transaction.interface';
 import { HistoryFiltersUtils } from 'hive-keychain-commons';
-import { KeychainError } from 'src/keychain-error';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import HiveUtils from 'src/popup/hive/utils/hive.utils';
 import FormatUtils from 'src/utils/format.utils';
@@ -331,11 +330,6 @@ const decodeMemoIfNeeded = (transfer: Transfer, memoKey: string) => {
         const decodedMemo = HiveUtils.decodeMemo(memo, memoKey);
         transfer.memo = decodedMemo.substring(1);
       } catch (e) {
-        if (e instanceof KeychainError) {
-          transfer.memo = chrome.i18n.getMessage(
-            'decode_with_memo_key_in_ledger',
-          );
-        }
         Logger.error('Error while decoding', '');
       }
     } else {

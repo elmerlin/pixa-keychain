@@ -1,8 +1,6 @@
-import { BgdHiveEngineConfigModule } from '@background/hive-engine-config.module';
 import MkModule from '@background/mk.module';
 import init from '@background/requests/init';
 import RpcUtils from '@hiveapp/utils/rpc.utils';
-import { HiveEngineConfig } from '@interfaces/hive-engine-rpc.interface';
 import {
   KeychainKeyTypesLC,
   KeychainRequest,
@@ -40,13 +38,6 @@ describe('init tests:\n', () => {
     },
   };
 
-  const hiveEngineConfigByDefault = {
-    rpc: 'https://api.hive-engine.com/rpc',
-    mainnet: 'ssc-mainnet-hive',
-    accountHistoryApi: 'https://history.hive-engine.com/',
-    maxSpread: 100,
-  } as HiveEngineConfig;
-
   /** Legacy ciphertext still used by the unlock-wallet path (empty mk). */
   const legacyAccountsEncryptMsg = _accounts.encrypt.msg;
 
@@ -75,9 +66,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
 
     await init(
       cloneKeychainRequestData,
@@ -106,9 +94,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -140,9 +125,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -172,9 +154,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -207,9 +186,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -243,9 +219,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -281,9 +254,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     delete cloneKeychainRequestData.username;
     await init(
       cloneKeychainRequestData,
@@ -316,9 +286,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestData,
       0,
@@ -347,9 +314,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestDecodeData,
       0,
@@ -384,9 +348,6 @@ describe('init tests:\n', () => {
         },
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     await init(
       cloneKeychainRequestPostData,
       0,
@@ -417,9 +378,6 @@ describe('init tests:\n', () => {
         no_confirm: {},
       });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
-    BgdHiveEngineConfigModule.getActiveConfig = jest
-      .fn()
-      .mockResolvedValue(hiveEngineConfigByDefault);
     cloneKeychainRequestPostData.username = mk.user.one;
     await init(
       cloneKeychainRequestPostData,

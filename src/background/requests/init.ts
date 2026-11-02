@@ -11,7 +11,6 @@ import { Rpc } from '@interfaces/rpc.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import Config from 'src/config';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import RpcUtils from 'src/popup/hive/utils/rpc.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
@@ -32,12 +31,10 @@ export default async (
     accounts: string;
     current_rpc?: Rpc;
     no_confirm: NoConfirm;
-    KEYLESS_KEYCHAIN_ENABLED: boolean;
   } = await LocalStorageUtils.getMultipleValueFromLocalStorage([
     LocalStorageKeyEnum.ACCOUNTS,
     LocalStorageKeyEnum.NO_CONFIRM,
     LocalStorageKeyEnum.CURRENT_RPC,
-    LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED,
   ]);
   let rpc = items.current_rpc || Config.rpc.DEFAULT;
   if (request.rpc) {
@@ -49,21 +46,15 @@ export default async (
   const { username, type } = request;
   const mk = await MkModule.getMk();
   Logger.info('Initializing request logic');
-  if (
-    !items.accounts &&
-    type !== KeychainRequestTypes.addAccount &&
-    !items.KEYLESS_KEYCHAIN_ENABLED
-  ) {
+  if (!items.accounts && type !== KeychainRequestTypes.addAccount) {
     // Wallet not initialized
     Logic.initializeWallet(requestHandler, tab!, request);
-  } else if (!items.accounts && !mk && !items.KEYLESS_KEYCHAIN_ENABLED) {
+  } else if (!items.accounts && !mk) {
     // Wallet not initialized for adding first account
     Logic.addAccountToEmptyWallet(requestHandler, tab!, request, domain);
   } else if (!mk) {
     // if locked
     Logic.unlockWallet(requestHandler, tab!, request, domain);
-  } else if (items.KEYLESS_KEYCHAIN_ENABLED) {
-    Logic.keylessKeychainRequest(requestHandler, tab!, request, domain);
   } else {
     const decryptedAccounts = items.accounts
       ? await EncryptUtils.decryptToJson(items.accounts, mk!)
@@ -127,10 +118,7 @@ export default async (
           const key = account.keys[typeWif];
           requestHandler.setKeys(key!, publicKey!);
 
-          if (
-            !isWhitelisted(items.no_confirm, req, domain, rpc) ||
-            KeysUtils.requireManualConfirmation(key!)
-          ) {
+          if (!isWhitelisted(items.no_confirm, req, domain, rpc)) {
             Logic.requestWithConfirmation(
               requestHandler,
               tab!,

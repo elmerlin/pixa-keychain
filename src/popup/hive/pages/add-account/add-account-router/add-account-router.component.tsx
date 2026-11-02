@@ -1,4 +1,3 @@
-import { KeylessKeychainComponent } from '@popup/hive/pages/add-account/keyless-keychain/keyless-keychain.component';
 import { navigateTo } from '@popup/multichain/actions/navigation.actions';
 import { RootState } from '@popup/multichain/store';
 import React from 'react';
@@ -25,8 +24,6 @@ const AddAccountRouter = ({
         return <ImportKeysComponent />;
       case Screen.ACCOUNT_PAGE_SELECT_KEYS:
         return <SelectKeysComponent />;
-      case Screen.ACCOUNT_PAGE_KEYLESS_KEYCHAIN:
-        return <KeylessKeychainComponent />;
     }
   };
 

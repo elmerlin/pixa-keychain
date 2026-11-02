@@ -7,7 +7,6 @@ export interface FavoriteUserItems {
 export enum FavoriteUserListName {
   USERS = 'users',
   LOCAL_ACCOUNTS = 'local_accounts',
-  EXCHANGES = 'exchanges',
 }
 export interface FavoriteUserList {
   name: FavoriteUserListName;

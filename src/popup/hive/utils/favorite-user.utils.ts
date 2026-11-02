@@ -12,20 +12,12 @@ import {
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
-import { ExchangesUtils } from 'hive-keychain-commons';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import VaultUtils from 'src/utils/vault.utils';
 
-export interface AutocompleteListOption {
-  addExchanges?: boolean;
-  addSwaps?: boolean;
-  token?: string;
-}
-const exchanges = ExchangesUtils.getExchanges();
 const getAutocompleteList = async (
   username: string,
   localAccounts: LocalAccount[],
-  options?: AutocompleteListOption,
 ): Promise<AutoCompleteValue[]> => {
   const favoriteUsers: FavoriteUserItems =
     await LocalStorageUtils.getValueFromLocalStorage(
@@ -34,10 +26,7 @@ const getAutocompleteList = async (
   const autoCompleteList: AutoCompleteValue[] = [];
   if (favoriteUsers && favoriteUsers[username]) {
     for (const fav of favoriteUsers[username]) {
-      if (
-        !exchanges.find((exchange) => exchange.username === fav) &&
-        !localAccounts.find((localAccount) => localAccount.name === fav)
-      )
+      if (!localAccounts.find((localAccount) => localAccount.name === fav))
         autoCompleteList.push({ value: fav });
     }
   }
@@ -48,18 +37,7 @@ const getAutocompleteList = async (
       });
     }
   }
-  if (options?.addExchanges)
-    for (const exchange of exchanges) {
-      if (
-        ((options?.token && exchange.acceptedCoins.includes(options.token)) ||
-          !options?.token) &&
-        exchange.username.length > 0
-      )
-        autoCompleteList.push({
-          value: exchange.username,
-          subLabel: exchange.name,
-        });
-    }
+
   return autoCompleteList;
 };
 
@@ -88,7 +66,6 @@ const saveFavoriteUser = async (
 
   if (
     !found &&
-    !exchanges.find((exchange) => exchange.username === username) &&
     !localAccounts.find((localAccount) => localAccount.name === username)
   ) {
     favoriteUser[activeAccount.name!].push({
@@ -105,7 +82,6 @@ const saveFavoriteUser = async (
 const getAutocompleteListByCategories = async (
   username: string,
   localAccounts: LocalAccount[],
-  options?: AutocompleteListOption,
 ): Promise<AutoCompleteValues> => {
   const favoriteUsers: {
     [key: string]: any[];
@@ -124,21 +100,14 @@ const getAutocompleteListByCategories = async (
     translateTitle: true,
     values: [],
   };
-  const favoriteExchangesList: AutoCompleteCategory = {
-    title: FavoriteUserListName.EXCHANGES,
-    translateTitle: true,
-    values: [],
-  };
+
   const favoriteUsersCompleteList: AutoCompleteValues = {
     categories: [],
   };
 
   if (favoriteUsers && favoriteUsers[username]) {
     for (const fav of favoriteUsers[username]) {
-      if (
-        !exchanges.find((exchange) => exchange.username === fav) &&
-        !localAccounts.find((localAccount) => localAccount.name === fav)
-      )
+      if (!localAccounts.find((localAccount) => localAccount.name === fav))
         favoriteUsersList.values.push(fav);
     }
   }
@@ -151,27 +120,14 @@ const getAutocompleteListByCategories = async (
       });
     }
   }
-  if (options?.addExchanges)
-    for (const exchange of exchanges) {
-      if (
-        ((options?.token && exchange.acceptedCoins.includes(options.token)) ||
-          !options?.token) &&
-        exchange.username.length > 0
-      )
-        favoriteExchangesList.values.push({
-          value: exchange.username,
-          subLabel: exchange.name,
-        });
-    }
+
   if (favoriteUsersList.values.length > 0) {
     favoriteUsersCompleteList.categories.push(favoriteUsersList);
   }
   if (favoriteLocalAccountsList.values.length > 0) {
     favoriteUsersCompleteList.categories.push(favoriteLocalAccountsList);
   }
-  if (favoriteExchangesList.values.length > 0) {
-    favoriteUsersCompleteList.categories.push(favoriteExchangesList);
-  }
+
   return favoriteUsersCompleteList;
 };
 

@@ -1,13 +1,4 @@
 import {
-  DefaultAccountHistoryApis,
-  DefaultHiveEngineRpcs,
-} from '@interfaces/hive-engine-rpc.interface';
-import {
-  setHEActiveAccountHistoryApi,
-  setHEActiveRpc,
-} from '@popup/hive/actions/hive-engine-config.actions';
-import { HiveEngineConfigUtils } from '@popup/hive/utils/hive-engine-config.utils';
-import {
   setErrorMessage,
   setSuccessMessage,
 } from '@popup/multichain/actions/message.actions';
@@ -16,7 +7,7 @@ import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { Screen } from '@reference-data/screen.enum';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { CheckboxPanelComponent } from 'src/common-ui/checkbox/checkbox-panel/checkbox-panel.component';
 import CheckboxComponent from 'src/common-ui/checkbox/checkbox/checkbox.component';
 import {
@@ -31,7 +22,6 @@ import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { Rpc } from 'src/interfaces/rpc.interface';
 import { setActiveRpc } from 'src/popup/hive/actions/active-rpc.actions';
 import RpcUtils from 'src/popup/hive/utils/rpc.utils';
-import ArrayUtils from 'src/utils/array.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import * as ValidUrl from 'valid-url';
 
@@ -44,11 +34,7 @@ interface RpcListItem {
 
 const RpcNodes = ({
   activeRpc,
-  activeAccountHistoryApi,
-  activeHERpc,
   setActiveRpc,
-  setHEActiveAccountHistoryApi,
-  setHEActiveRpc,
   setErrorMessage,
   setSuccessMessage,
   setTitleContainerProperties,
@@ -74,78 +60,6 @@ const RpcNodes = ({
       };
     }),
   );
-
-  // Hive Engine RPC
-  const [hiveEngineRpcOptions, setHiveEngineRpcOptions] = useState<
-    OptionItem[]
-  >([]);
-  const [newHERpc, setNewHERpc] = useState('');
-  const [isNewHERpcPanelOpened, setIsNewHERpcPanelOpened] = useState(false);
-  const [setNewHeRpcAsActive, setSetNewHeRpcAsActive] = useState(false);
-
-  const deleteHeRpc = async (option: OptionItem, event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-    await HiveEngineConfigUtils.deleteCustomRpc(option.value);
-    initLayer2();
-  };
-
-  // Hive Engine account history
-  const [accountHistoryApiOptions, setAccountHistoryApiOptions] = useState<
-    OptionItem[]
-  >([]);
-  const [isNewAccountHistoryPanelOpened, setIsNewAccountHistoryPanelOpened] =
-    useState(false);
-  const [newAccountHistory, setNewAccountHistory] = useState('');
-  const [setNewAccountHistoryAsActive, setSetNewAccountHistoryAsActive] =
-    useState(false);
-
-  const deleteAccountHistoryApi = async (option: OptionItem, event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    await HiveEngineConfigUtils.deleteCustomAccountHistoryApi(option.value);
-    initLayer2();
-  };
-
-  useEffect(() => {
-    initLayer2();
-  }, []);
-
-  const initLayer2 = async () => {
-    const customRpcs = await HiveEngineConfigUtils.getCustomRpcs();
-    const rpcFullList = ArrayUtils.mergeWithoutDuplicate(
-      customRpcs,
-      DefaultHiveEngineRpcs,
-    );
-
-    const rpcOpts = rpcFullList.map((rpc) => {
-      return {
-        panelType: 'rpc',
-        label: rpc.replace('http://', '').replace('https://', '').split('/')[0],
-        value: rpc,
-        canDelete: !HiveEngineConfigUtils.isRpcDefault(rpc),
-      };
-    });
-    setHiveEngineRpcOptions(rpcOpts);
-
-    const customAccountHistoryApi =
-      await HiveEngineConfigUtils.getCustomAccountHistoryApi();
-    const accountHistoryApiFullList = ArrayUtils.mergeWithoutDuplicate(
-      customAccountHistoryApi,
-      DefaultAccountHistoryApis,
-    );
-    const accountHistoryApiOpts = accountHistoryApiFullList.map((api) => {
-      return {
-        panelType: 'account-history-api',
-        label: api.replace('http://', '').replace('https://', '').split('/')[0],
-        value: api,
-        canDelete: !HiveEngineConfigUtils.isAccountHistoryApiDefault(api),
-      };
-    });
-
-    setAccountHistoryApiOptions(accountHistoryApiOpts);
-  };
 
   useEffect(() => {
     displayedRpcs = [...allRpc, ...customRpcs];
@@ -231,38 +145,6 @@ const RpcNodes = ({
     }
   };
 
-  const saveAccountHistory = async () => {
-    if (accountHistoryApiOptions.find((e) => e.value === newAccountHistory)) {
-      setErrorMessage('html_popup_rpc_already_exist');
-      return;
-    }
-    if (ValidUrl.isWebUri(newAccountHistory)) {
-      await HiveEngineConfigUtils.addCustomAccountHistoryApi(newAccountHistory);
-      setNewAccountHistory('');
-      setIsNewAccountHistoryPanelOpened(false);
-      setSuccessMessage('html_popup_new_account_history_save_success');
-      initLayer2();
-    } else {
-      setErrorMessage('html_popup_url_not_valid');
-    }
-  };
-
-  const saveHiveEngineRpc = async () => {
-    if (hiveEngineRpcOptions.find((e) => e.value === newHERpc)) {
-      setErrorMessage('html_popup_rpc_already_exist');
-      return;
-    }
-    if (ValidUrl.isWebUri(newHERpc)) {
-      setSuccessMessage('html_popup_new_rpc_save_success');
-      await HiveEngineConfigUtils.addCustomRpc(newHERpc);
-      setNewHERpc('');
-      setIsNewHERpcPanelOpened(false);
-      initLayer2();
-    } else {
-      setErrorMessage('html_popup_url_not_valid');
-    }
-  };
-
   return (
     <div
       data-testid={`${Screen.SETTINGS_RPC_NODES}-page`}
@@ -272,9 +154,7 @@ const RpcNodes = ({
       </div>
 
       <div className="rpc-form-container">
-        <div
-          className="rpc-section hive-rpc"
-          data-testid="section-hive-rpc">
+        <div className="rpc-section hive-rpc" data-testid="section-hive-rpc">
           <div className="title">Hive RPC</div>
           <CheckboxPanelComponent
             dataTestId="checkbox-rpc-nodes-automatic-mode"
@@ -360,131 +240,6 @@ const RpcNodes = ({
             </div>
           )}
         </div>
-
-        <div
-          className="rpc-section hive-engine-rpc"
-          data-testid="section-hive-engine-rpc">
-          <div className="title">Hive-Engine RPC</div>
-          <div className="select-rpc-panel">
-            <ComplexeCustomSelect
-              options={hiveEngineRpcOptions}
-              selectHandleDataTestId="hive-engine-rpc-select-handle"
-              selectedItem={
-                {
-                  value: activeHERpc,
-                  label: activeHERpc
-                    .replace('http://', '')
-                    .replace('https://', '')
-                    .split('/')[0],
-                } as OptionItem
-              }
-              setSelectedItem={(item: OptionItem) => {
-                setHEActiveRpc(item.value);
-              }}
-              background="white"
-              onDelete={deleteHeRpc}
-            />
-            <div
-              className={`round-button ${
-                isNewHERpcPanelOpened ? 'close-button' : 'add-button'
-              }`}
-              data-testid="button-hive-engine-rpc-add"
-              onClick={() => setIsNewHERpcPanelOpened(!isNewHERpcPanelOpened)}>
-              <SVGIcon icon={SVGIcons.MENU_RPC_ADD_BUTTON} />
-            </div>
-          </div>
-          {isNewHERpcPanelOpened && (
-            <div className="add-rpc-panel">
-              <div className="add-rpc-caption">
-                <span>{chrome.i18n.getMessage('popup_html_add_rpc_text')}</span>
-                <SVGIcon
-                  dataTestId="button-hive-engine-rpc-save"
-                  icon={SVGIcons.MENU_RPC_SAVE_BUTTON}
-                  onClick={() => saveHiveEngineRpc()}
-                />
-              </div>
-              <Separator type="horizontal" />
-              <InputComponent
-                dataTestId="input-hive-engine-rpc-uri"
-                type={InputType.TEXT}
-                value={newHERpc}
-                onChange={setNewHERpc}
-                placeholder={'popup_html_rpc_node'}
-                onEnterPress={saveHiveEngineRpc}
-              />
-
-              <CheckboxComponent
-                dataTestId="checkbox-set-new-he-rpc-as-active"
-                title="popup_html_set_new_rpc_as_active"
-                checked={setNewHeRpcAsActive}
-                onChange={setSetNewHeRpcAsActive}></CheckboxComponent>
-            </div>
-          )}
-        </div>
-        <div
-          className="rpc-section hive-engine-account-history"
-          data-testid="section-hive-engine-account-history">
-          <div className="title">Hive-Engine account history API</div>
-          <div className="select-rpc-panel">
-            <ComplexeCustomSelect
-              options={accountHistoryApiOptions}
-              selectHandleDataTestId="hive-account-history-api-select-handle"
-              selectedItem={
-                {
-                  value: activeAccountHistoryApi,
-                  label: activeAccountHistoryApi
-                    .replace('http://', '')
-                    .replace('https://', '')
-                    .split('/')[0],
-                } as OptionItem
-              }
-              setSelectedItem={(item: OptionItem) => {
-                setHEActiveAccountHistoryApi(item.value);
-              }}
-              background="white"
-              onDelete={deleteAccountHistoryApi}
-            />
-            <div
-              className={`round-button ${
-                isNewAccountHistoryPanelOpened ? 'close-button' : 'add-button'
-              }`}
-              data-testid="button-account-history-api-add"
-              onClick={() =>
-                setIsNewAccountHistoryPanelOpened(
-                  !isNewAccountHistoryPanelOpened,
-                )
-              }>
-              <SVGIcon icon={SVGIcons.MENU_RPC_ADD_BUTTON} />
-            </div>
-          </div>
-          {isNewAccountHistoryPanelOpened && (
-            <div className="add-rpc-panel">
-              <div className="add-rpc-caption">
-                <span>{chrome.i18n.getMessage('popup_html_add_rpc_text')}</span>
-                <SVGIcon
-                  dataTestId="button-account-history-api-save"
-                  icon={SVGIcons.MENU_RPC_SAVE_BUTTON}
-                  onClick={() => saveAccountHistory()}
-                />
-              </div>
-              <Separator type="horizontal" />
-              <InputComponent
-                dataTestId="input-account-history-api-uri"
-                type={InputType.TEXT}
-                value={newAccountHistory}
-                onChange={setNewAccountHistory}
-                placeholder={'html_popup_new_account_history'}
-                onEnterPress={saveAccountHistory}
-              />
-
-              <CheckboxComponent
-                dataTestId="checkbox-set-new-account-history-as-active"
-                title="popup_html_set_new_rpc_as_active"
-                checked={setNewAccountHistoryAsActive}
-                onChange={setSetNewAccountHistoryAsActive}></CheckboxComponent>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );
@@ -493,15 +248,11 @@ const RpcNodes = ({
 const mapStateToProps = (state: RootState) => {
   return {
     activeRpc: state.hive.activeRpc,
-    activeHERpc: state.hive.hiveEngineConfig.rpc,
-    activeAccountHistoryApi: state.hive.hiveEngineConfig.accountHistoryApi,
   };
 };
 
 const connector = connect(mapStateToProps, {
   setActiveRpc,
-  setHEActiveAccountHistoryApi,
-  setHEActiveRpc,
   setErrorMessage,
   setTitleContainerProperties,
   setSuccessMessage,

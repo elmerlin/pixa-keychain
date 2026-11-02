@@ -1,9 +1,8 @@
 import { navigateTo } from '@popup/multichain/actions/navigation.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
 import { RootState } from '@popup/multichain/store';
-import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { BackgroundMessage } from 'src/background/background-message.interface';
 import ButtonComponent, {
   ButtonType,
@@ -12,14 +11,12 @@ import { setAccounts } from 'src/popup/hive/actions/account.actions';
 import { BackgroundCommand } from 'src/reference-data/background-message-key.enum';
 import { Screen } from 'src/reference-data/screen.enum';
 import { HtmlUtils } from 'src/utils/html.utils';
-import LocalStorageUtils from 'src/utils/localStorage.utils';
 
 const AddAccountMain = ({
   navigateTo,
   accounts,
   setAccounts,
   setTitleContainerProperties,
-  isLedgerSupported,
 }: PropsFromRedux) => {
   const [importWindow, setImportWindow] = useState<number>();
 
@@ -68,21 +65,6 @@ const AddAccountMain = ({
     }
   };
 
-  const handleAddFromLedger = async () => {
-    const extensionId = (await chrome.management.getSelf()).id;
-    chrome.tabs.create({
-      url: `chrome-extension://${extensionId}/add-accounts-from-ledger.html`,
-    });
-  };
-
-  const handleSetupKeylessKeychain = async () => {
-    await LocalStorageUtils.saveValueInLocalStorage(
-      LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED,
-      true,
-    );
-    navigateTo(Screen.ACCOUNT_PAGE_KEYLESS_KEYCHAIN);
-  };
-
   return (
     <div
       className="add-account-page"
@@ -114,22 +96,6 @@ const AddAccountMain = ({
           onClick={handleImportKeys}
           type={ButtonType.ALTERNATIVE}
         />
-        {isLedgerSupported && (
-          <ButtonComponent
-            dataTestId="import-keys-button"
-            label={'popup_html_add_account_with_ledger'}
-            onClick={handleAddFromLedger}
-            type={ButtonType.ALTERNATIVE}
-          />
-        )}
-        {accounts.length === 0 && (
-          <ButtonComponent
-            dataTestId="keyless-keychain-setup-button"
-            label={'popup_html_setup_keyless_keychain'}
-            onClick={handleSetupKeylessKeychain}
-            type={ButtonType.ALTERNATIVE}
-          />
-        )}
       </div>
     </div>
   );
@@ -138,7 +104,6 @@ const AddAccountMain = ({
 const mapStateToProps = (state: RootState) => {
   return {
     accounts: state.hive.accounts,
-    isLedgerSupported: state.hive.appStatus.isLedgerSupported,
   };
 };
 

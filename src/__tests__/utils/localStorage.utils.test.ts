@@ -8,44 +8,56 @@ describe('localStorage.utils tests:\n', () => {
   });
 
   it('getValueFromLocalStorage resolves the value for the requested key', async () => {
-    jest.spyOn(chrome.storage.local, 'get').mockImplementation((keys: any, cb: any) => {
-      cb({ [LocalStorageKeyEnum.CURRENT_RPC]: { uri: 'https://node' } });
-    });
+    jest
+      .spyOn(chrome.storage.local, 'get')
+      .mockImplementation((keys: any, cb: any) => {
+        cb({ [LocalStorageKeyEnum.CURRENT_RPC]: { uri: 'https://node' } });
+      });
 
     await expect(
-      LocalStorageUtils.getValueFromLocalStorage(LocalStorageKeyEnum.CURRENT_RPC),
+      LocalStorageUtils.getValueFromLocalStorage(
+        LocalStorageKeyEnum.CURRENT_RPC,
+      ),
     ).resolves.toEqual({ uri: 'https://node' });
   });
 
   it('getMultipleValueFromLocalStorage resolves the full result object', async () => {
-    jest.spyOn(chrome.storage.local, 'get').mockImplementation((keys: any, cb: any) => {
-      cb({
-        [LocalStorageKeyEnum.CURRENT_RPC]: { uri: 'a' },
-        [LocalStorageKeyEnum.HIDDEN_TOKENS]: ['X'],
+    jest
+      .spyOn(chrome.storage.local, 'get')
+      .mockImplementation((keys: any, cb: any) => {
+        cb({
+          [LocalStorageKeyEnum.CURRENT_RPC]: { uri: 'a' },
+          [LocalStorageKeyEnum.FAVORITE_USERS]: ['X'],
+        });
       });
-    });
 
     await expect(
       LocalStorageUtils.getMultipleValueFromLocalStorage([
         LocalStorageKeyEnum.CURRENT_RPC,
-        LocalStorageKeyEnum.HIDDEN_TOKENS,
+        LocalStorageKeyEnum.FAVORITE_USERS,
       ]),
     ).resolves.toEqual({
       [LocalStorageKeyEnum.CURRENT_RPC]: { uri: 'a' },
-      [LocalStorageKeyEnum.HIDDEN_TOKENS]: ['X'],
+      [LocalStorageKeyEnum.FAVORITE_USERS]: ['X'],
     });
   });
 
   it('removeFromLocalStorage delegates to chrome.storage.local.remove', () => {
-    const remove = jest.spyOn(chrome.storage.local, 'remove').mockImplementation();
+    const remove = jest
+      .spyOn(chrome.storage.local, 'remove')
+      .mockImplementation();
 
-    LocalStorageUtils.removeFromLocalStorage(LocalStorageKeyEnum.HIDDEN_TOKENS);
+    LocalStorageUtils.removeFromLocalStorage(
+      LocalStorageKeyEnum.FAVORITE_USERS,
+    );
 
-    expect(remove).toHaveBeenCalledWith(LocalStorageKeyEnum.HIDDEN_TOKENS);
+    expect(remove).toHaveBeenCalledWith(LocalStorageKeyEnum.FAVORITE_USERS);
   });
 
   it('clearLocalStorage delegates to chrome.storage.local.clear', () => {
-    const clear = jest.spyOn(chrome.storage.local, 'clear').mockImplementation();
+    const clear = jest
+      .spyOn(chrome.storage.local, 'clear')
+      .mockImplementation();
 
     LocalStorageUtils.clearLocalStorage();
 
@@ -62,14 +74,14 @@ describe('localStorage.utils tests:\n', () => {
       ) {
         expect(this).toBe(chrome.storage.local);
         expect(items).toEqual({
-          [LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED]: true,
+          [LocalStorageKeyEnum.SWITCH_RPC_AUTO]: true,
         });
         callback?.();
       });
 
     await expect(
       LocalStorageUtils.saveValueInLocalStorage(
-        LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED,
+        LocalStorageKeyEnum.SWITCH_RPC_AUTO,
         true,
       ),
     ).resolves.toBeUndefined();

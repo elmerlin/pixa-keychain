@@ -93,21 +93,6 @@ describe('operations.utils tests:\n', () => {
         },
       });
     });
-
-    it('uses multisig pending message when tx is routed to signers', async () => {
-      const multisigMsg = chrome.i18n.getMessage(
-        'multisig_transaction_sent_to_signers',
-      );
-      const result = await createMessage(
-        null,
-        { isUsingMultisig: true, tx_id: '' },
-        datas,
-        'would-be-success',
-        'would-be-fail',
-      );
-      expect(result.msg.success).toBe(true);
-      expect(result.msg.message).toBe(multisigMsg);
-    });
   });
 
   describe('beautifyErrorMessage cases:\n', () => {

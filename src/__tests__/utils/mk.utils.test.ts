@@ -30,31 +30,5 @@ describe('mk.utils tests:\n', () => {
       const result = await MkUtils.login('right_password');
       expect(result).toBe(true);
     });
-    test('Passing a valid password with only v2 keyless storage must return true', async () => {
-      const keylessPayload = await EncryptUtils.encryptJson(
-        {
-          list: {
-            alice: [{ appName: 'peakd.com', authKey: 'auth-key' }],
-          },
-        },
-        mk.user.one,
-      );
-
-      AccountUtils.getAccountsFromLocalStorage = jest
-        .fn()
-        .mockResolvedValueOnce(undefined);
-      LocalStorageUtils.getValueFromLocalStorage = jest
-        .fn()
-        .mockResolvedValueOnce(keylessPayload);
-      LocalStorageUtils.getMultipleValueFromLocalStorage = jest
-        .fn()
-        .mockResolvedValueOnce({
-          [LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED]: true,
-          [LocalStorageKeyEnum.KEYLESS_KEYCHAIN_AUTH_DATA_USER_DICT]: keylessPayload,
-        });
-
-      const result = await MkUtils.login(mk.user.one);
-      expect(result).toBe(true);
-    });
   });
 });

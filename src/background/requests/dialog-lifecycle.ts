@@ -57,29 +57,17 @@ chrome.windows.onRemoved.addListener(async (id: number) => {
     request_id,
     tab,
     confirmed,
-    isMultisig,
     isWaitingForConfirmation,
-    isKeyless,
   } = requestHandler.data;
   if (id == windowId && !confirmed && tab) {
-    const HiveAuthUtils = (await import('src/utils/hive-auth.utils')).default;
-    HiveAuthUtils.cancelPreCorrelationRequest(requestHandler);
-
-    if (request?.type?.includes('vsc') && isWaitingForConfirmation) {
-      return;
-    }
     chrome.tabs.sendMessage(tab!, {
       command: DialogCommand.ANSWER_REQUEST,
       msg: {
         success: false,
-        error: isMultisig ? 'pending_multisig' : 'user_cancel',
+        error: 'user_cancel',
         result: null,
         data: request,
-        message: await chrome.i18n.getMessage(
-          `bgd_lifecycle_request_${
-            isMultisig ? 'pending_multisig' : 'canceled'
-          }`,
-        ),
+        message: await chrome.i18n.getMessage('bgd_lifecycle_request_canceled'),
         request_id,
       },
     });

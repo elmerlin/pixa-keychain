@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import {
@@ -6,12 +5,10 @@ import {
   RequestDelegation,
   RequestId,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import { DelegationUtils } from 'src/popup/hive/utils/delegation.utils';
 import { DynamicGlobalPropertiesUtils } from 'src/popup/hive/utils/dynamic-global-properties.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import Logger from 'src/utils/logger.utils';
 
 export const broadcastDelegation = async (
@@ -46,35 +43,13 @@ export const broadcastDelegation = async (
       delegatedVests = data.amount + ' VESTS';
     }
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await DelegationUtils.getDelegationTransaction(
-          data.delegatee,
-          data.username!,
-          delegatedVests,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await DelegationUtils.delegateVestingShares(
-          data.username!,
-          data.delegatee,
-          delegatedVests,
-          key,
-          options,
-        );
-        break;
-      }
-    }
+    result = await DelegationUtils.delegateVestingShares(
+      data.username!,
+      data.delegatee,
+      delegatedVests,
+      key,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

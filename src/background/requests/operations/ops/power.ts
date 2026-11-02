@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import {
@@ -7,11 +6,9 @@ import {
   RequestPowerDown,
   RequestPowerUp,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import { DynamicGlobalPropertiesUtils } from 'src/popup/hive/utils/dynamic-global-properties.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import { PowerUtils } from 'src/popup/hive/utils/power.utils';
 import Logger from 'src/utils/logger.utils';
 
@@ -31,35 +28,13 @@ export const broadcastPowerUp = async (
   let result, err, err_message;
 
   try {
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await PowerUtils.getPowerUpTransaction(
-          data.username!,
-          data.recipient,
-          `${data.hive} HIVE`,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await PowerUtils.powerUp(
-          data.username!,
-          data.recipient,
-          `${data.hive} HIVE`,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await PowerUtils.powerUp(
+      data.username!,
+      data.recipient,
+      `${data.hive} HIVE`,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -101,33 +76,12 @@ export const broadcastPowerDown = async (
     vestingShares = vestingShares.toFixed(6);
     vestingShares = vestingShares.toString() + ' VESTS';
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await PowerUtils.getPowerDownTransaction(
-          data.username,
-          vestingShares,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await PowerUtils.powerDown(
-          data.username,
-          vestingShares,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await PowerUtils.powerDown(
+      data.username,
+      vestingShares,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

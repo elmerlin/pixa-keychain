@@ -11,14 +11,8 @@ const exportSettings = async () => {
     LocalStorageKeyEnum.NO_CONFIRM,
     LocalStorageKeyEnum.FAVORITE_USERS,
     LocalStorageKeyEnum.RPC_LIST,
-    LocalStorageKeyEnum.KEYCHAINIFY_ENABLED,
     LocalStorageKeyEnum.CURRENT_RPC,
     LocalStorageKeyEnum.SWITCH_RPC_AUTO,
-
-    LocalStorageKeyEnum.HIDDEN_TOKENS,
-    LocalStorageKeyEnum.HIVE_ENGINE_ACTIVE_CONFIG,
-    LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_ACCOUNT_HISTORY_API,
-    LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_RPC_LIST,
   ]);
 
   var data = new Blob([JSON.stringify(val)], {

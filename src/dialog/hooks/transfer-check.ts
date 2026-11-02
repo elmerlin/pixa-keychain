@@ -1,7 +1,4 @@
-import {
-  RequestSendToken,
-  RequestTransfer,
-} from '@interfaces/keychain.interface';
+import { RequestTransfer } from '@interfaces/keychain.interface';
 import { Rpc } from '@interfaces/rpc.interface';
 import { useEffect, useState } from 'react';
 import CurrencyUtils, {
@@ -10,10 +7,7 @@ import CurrencyUtils, {
 import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import PhishingUtils from 'src/utils/phishing.utils';
 
-export const useTransferCheck = (
-  data: RequestTransfer | RequestSendToken,
-  rpc: Rpc,
-) => {
+export const useTransferCheck = (data: RequestTransfer, rpc: Rpc) => {
   const [header, setHeader] = useState<string | undefined>(undefined);
   useEffect(() => {
     PhishingUtils.getPhishingAccounts().then((accs: string[]) => {

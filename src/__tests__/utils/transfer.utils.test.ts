@@ -1,79 +1,39 @@
 import TransferUtils from '@hiveapp/utils/transfer.utils';
+import userData from 'src/__tests__/utils-for-testing/data/user-data';
 
-describe('transfer.utils tests:\n', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetModules();
+describe('transfer memo review', () => {
+  beforeEach(() => {
+    chrome.i18n.getMessage = jest.fn((key) => key);
   });
-  describe('getTransferWarningLabel tests:\n', () => {
-    test('Trying to transfer to exchange account with recurrent transfer should return warning', () => {
-      const messageFromI18n = `Most exchanges do not accept recurrent transfers. If you proceed, your funds may be lost.`;
-      chrome.i18n.getMessage = jest.fn().mockReturnValueOnce(messageFromI18n);
-      expect(
-        TransferUtils.getTransferWarningLabel(
-          'user.dunamu',
-          'HIVE',
-          'memo',
-          [],
-          true,
-        ),
-      ).toBe(messageFromI18n);
-    });
-    test('Trying to get a non existent exchange account must return undefined', () => {
-      expect(
-        TransferUtils.getTransferWarningLabel(
-          'leo.exchange',
-          'HIVE',
-          '',
-          [],
-          false,
-        ),
-      ).toBeUndefined();
-    });
-    test('If an exchange account exists but the currency is not supported, must call i18n and return that message', () => {
-      const i18nMessageName = 'popup_warning_exchange_deposit';
-      const currencyToCheck = 'SPS';
-      const messageFromI18n = `This exchange account does not accept ${currencyToCheck} deposits.`;
-      const mocki18nGetMessage = (chrome.i18n.getMessage = jest
-        .fn()
-        .mockReturnValueOnce(messageFromI18n));
-      expect(
-        TransferUtils.getTransferWarningLabel(
-          'user.dunamu',
-          currencyToCheck,
-          'memo',
-          [],
-          false,
-        ),
-      ).toBe(messageFromI18n);
-      expect(mocki18nGetMessage).toHaveBeenCalledTimes(1);
-      expect(mocki18nGetMessage).toHaveBeenCalledWith(i18nMessageName, [
-        currencyToCheck,
-      ]);
-      mocki18nGetMessage.mockReset();
-      mocki18nGetMessage.mockRestore();
-    });
-    test('If an exchange account exists and currency is supported but hasMemo is false, must call i18n and return that message', () => {
-      const i18nMessageName = 'popup_warning_exchange_memo';
-      const currencyToCheck = 'HBD';
-      const messageFromI18n =
-        'Make sure you add a memo when transfering to an exchange account.';
-      const mocki18nGetMessage = (chrome.i18n.getMessage = jest
-        .fn()
-        .mockReturnValueOnce(messageFromI18n));
-      expect(
-        TransferUtils.getTransferWarningLabel(
-          'user.dunamu',
-          currencyToCheck,
-          '',
-          [],
-          false,
-        ),
-      ).toBe(messageFromI18n);
-      expect(mocki18nGetMessage).toHaveBeenCalledTimes(1);
-      expect(mocki18nGetMessage).toHaveBeenCalledWith(i18nMessageName);
-      mocki18nGetMessage.mockReset();
-      mocki18nGetMessage.mockRestore();
-    });
+
+  it.each(['', '#'])('warns about private keys in %s memos', (prefix) => {
+    expect(
+      TransferUtils.getTransferWarningLabel(
+        'recipient',
+        'HIVE',
+        prefix + userData.one.nonEncryptKeys.active,
+        [],
+      ),
+    ).toBe('popup_warning_private_key_in_memo');
+  });
+
+  it('allows ordinary memos without a remote account list', () => {
+    expect(
+      TransferUtils.getTransferWarningLabel(
+        'recipient',
+        'HIVE',
+        'Payment for lunch',
+        [],
+        true,
+      ),
+    ).toBeUndefined();
+  });
+
+  it('retains warnings for an explicitly supplied phishing account', () => {
+    expect(
+      TransferUtils.getTransferWarningLabel('recipient', 'HIVE', '', [
+        'recipient',
+      ]),
+    ).toBe('popup_warning_phishing');
   });
 });

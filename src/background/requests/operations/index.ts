@@ -28,10 +28,8 @@ import {
 import { broadcastProxy } from '@background/requests/operations/ops/proxy';
 import { recurrentTransfer } from '@background/requests/operations/ops/recurrent-transfer';
 import { broadcastSavings } from '@background/requests/operations/ops/savings';
-import { broadcastSendToken } from '@background/requests/operations/ops/send-token';
 import { signBuffer } from '@background/requests/operations/ops/sign-buffer';
 import { signTx } from '@background/requests/operations/ops/sign-tx';
-import { broadcastSwap } from '@background/requests/operations/ops/swap';
 import { broadcastTransfer } from '@background/requests/operations/ops/transfer';
 import { broadcastVote } from '@background/requests/operations/ops/vote';
 import { broadcastWitnessVote } from '@background/requests/operations/ops/witness-vote';
@@ -124,9 +122,7 @@ export const performOperation = async (
       case KeychainRequestTypes.powerDown:
         message = await broadcastPowerDown(requestHandler, data, options);
         break;
-      case KeychainRequestTypes.sendToken:
-        message = await broadcastSendToken(requestHandler, data, options);
-        break;
+
       case KeychainRequestTypes.createProposal:
         message = await broadcastCreateProposal(requestHandler, data, options);
         break;
@@ -160,9 +156,6 @@ export const performOperation = async (
         break;
       case KeychainRequestTypes.recurrentTransfer:
         message = await recurrentTransfer(requestHandler, data, options);
-        break;
-      case KeychainRequestTypes.swap:
-        message = await broadcastSwap(requestHandler, data, options);
         break;
     }
     chrome.tabs.sendMessage(tab, message);

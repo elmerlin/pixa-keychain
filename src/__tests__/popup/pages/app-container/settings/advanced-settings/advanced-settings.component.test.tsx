@@ -21,25 +21,7 @@ describe('advanced-settings.component tests:\n', () => {
     const base = initialStates.iniStateAs.defaultExistent;
     await reactTestingLibrary.renderWithConfiguration(
       <HiveAppComponent />,
-      {
-        ...base,
-        hive: {
-          ...base.hive,
-          appStatus: {
-            ...base.hive.appStatus,
-            isLedgerSupported: true,
-          },
-        },
-      },
-      {
-        app: {
-          ledgerRelated: {
-            LedgerUtils: {
-              isLedgerSupported: true,
-            },
-          },
-        },
-      },
+      base,
     );
     await act(async () => {
       await userEvent.click(screen.getByTestId(dataTestIdButton.menu));
@@ -56,7 +38,7 @@ describe('advanced-settings.component tests:\n', () => {
   });
 
   it('Must load advance settings items', () => {
-    const advanceMenuItems = getAdvancedSettingsMenuItems(true);
+    const advanceMenuItems = getAdvancedSettingsMenuItems();
     for (let i = 0; i < advanceMenuItems.length; i++) {
       expect(
         screen.getByTestId(
@@ -67,7 +49,7 @@ describe('advanced-settings.component tests:\n', () => {
   });
 
   it('Must open each menu page with no actions', async () => {
-    const menuItems = getAdvancedSettingsMenuItems(false);
+    const menuItems = getAdvancedSettingsMenuItems();
     for (let i = 0; i < menuItems.length; i++) {
       await act(async () => {
         await userEvent.click(
@@ -79,21 +61,5 @@ describe('advanced-settings.component tests:\n', () => {
         await userEvent.click(screen.getByTestId(dataTestIdIcon.arrowBack));
       });
     }
-  });
-
-  it('Must call tabs.create when opening ledger menu', async () => {
-    const tabId = 'unique-ID';
-    chrome.management.getSelf = jest.fn().mockResolvedValue({ id: tabId });
-    const ledgerMenuItem = getAdvancedSettingsMenuItems(true).filter(
-      (item) => item.label === 'ledger_link_ledger_device',
-    )[0];
-    await act(async () => {
-      await userEvent.click(
-        screen.getByTestId(dataTestIdButton.menuPreFix + ledgerMenuItem.icon),
-      );
-    });
-    expect(jest.spyOn(chrome.tabs, 'create')).toHaveBeenCalledWith({
-      url: `chrome-extension://${tabId}/link-ledger-device.html`,
-    });
   });
 });

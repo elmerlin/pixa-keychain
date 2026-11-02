@@ -14,13 +14,11 @@ import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { Screen } from '@reference-data/screen.enum';
 import { KeychainKeyTypesLC } from 'hive-keychain-commons';
-import React, { useEffect, useRef, useState } from 'react';
-import QRCode from 'react-qr-code';
-import { ConnectedProps, connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import ButtonComponent, {
   ButtonType,
 } from 'src/common-ui/button/button.component';
-import { CheckboxPanelComponent } from 'src/common-ui/checkbox/checkbox-panel/checkbox-panel.component';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
 import { KeyType } from 'src/interfaces/keys.interface';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
@@ -43,17 +41,10 @@ const AccountKeysList = ({
   addToLoadingList,
   removeFromLoadingList,
 }: PropsType & AccountKeysListProps) => {
-  const [qrCodeDisplayed, setQRCodeDisplayed] = useState(false);
   const [account, setAccount] = useState<LocalAccount>();
   const [canDeleteKey, setCanDeleteKey] = useState(true);
 
-  const [check1, setCheck1] = useState<boolean>(false);
-  const [check2, setCheck2] = useState<boolean>(false);
-  const [showQR, setShowQR] = useState<boolean>(false);
-  const qrCodeRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    setQRCodeDisplayed(false);
     const acc = accounts.find(
       (account: LocalAccount) => account.name === activeAccount.name,
     );
@@ -148,15 +139,6 @@ const AccountKeysList = ({
     } as ConfirmationPageParams);
   };
 
-  const toggleQRCode = () => {
-    setQRCodeDisplayed(!qrCodeDisplayed);
-    setTimeout(() => {
-      if (qrCodeRef && qrCodeRef.current) {
-        qrCodeRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
-  };
-
   return (
     <div className="account-keys-list">
       <div className="keys-panel">
@@ -185,80 +167,6 @@ const AccountKeysList = ({
           isWrongKey={isWrongKey(KeychainKeyTypesLC.memo)}
         />
       </div>
-
-      <ButtonComponent
-        dataTestId="button-toogle-qr-code"
-        label={qrCodeDisplayed ? 'popup_html_hide_qr' : 'popup_html_show_qr'}
-        onClick={() => toggleQRCode()}
-        type={ButtonType.ALTERNATIVE}
-      />
-      {qrCodeDisplayed && (
-        <div className="qr-code">
-          <div className="overlay"></div>
-          <div className="qr-code-popup">
-            <div>
-              <h3>{chrome.i18n.getMessage('popup_html_qr_title')}</h3>
-              <div className="qr-code-disclaimer">
-                <span>
-                  {chrome.i18n.getMessage('popup_html_qr_disclaimer1') + ' '}
-                </span>
-                <span>
-                  {chrome.i18n.getMessage('popup_html_qr_disclaimer2')}
-                </span>
-              </div>
-            </div>
-            {!showQR ? (
-              <div>
-                <div className="qr-code-popup-checkbox-container">
-                  <CheckboxPanelComponent
-                    text="popup_html_qr_check1"
-                    onChange={(checked) => {
-                      setCheck1(checked);
-                    }}
-                    checked={check1}
-                  />
-                  <CheckboxPanelComponent
-                    text="popup_html_qr_check2"
-                    onChange={(checked) => {
-                      setCheck2(checked);
-                    }}
-                    checked={check2}
-                  />
-                </div>
-                <div className="submit-button-container">
-                  <ButtonComponent
-                    label="popup_html_qr_exported_show_button"
-                    onClick={() => {
-                      if (check1 && check2) setShowQR(true);
-                    }}
-                    type={ButtonType.IMPORTANT}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="qr-code-container">
-                  <div ref={qrCodeRef}></div>
-                  <QRCode
-                    data-testid="qrcode"
-                    className="qrcode"
-                    size={240}
-                    value={`keychain://add_account=${JSON.stringify(
-                      AccountUtils.generateQRCode(account!),
-                    )}`}
-                    bgColor="var(--qrcode-background-color)"
-                    fgColor="var(--qrcode-foreground-color)"
-                  />
-                </div>
-                <ButtonComponent
-                  label="popup_html_close"
-                  onClick={() => setQRCodeDisplayed(false)}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {accounts.length > 1 && (
         <ButtonComponent

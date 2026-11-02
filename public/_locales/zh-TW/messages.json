@@ -139,10 +139,6 @@
     "message": "歷史紀錄",
     "description": "on popup main page"
   },
-  "popup_html_tokens": {
-    "message": "代幣",
-    "description": "on popup main page"
-  },
   "popup_html_witness": {
     "message": "見證人",
     "description": "on popup main page"
@@ -243,10 +239,6 @@
     "message": "自動鎖定",
     "description": "on settings page"
   },
-  "popup_html_keychainify": {
-    "message": "Keychainify",
-    "description": "on settings page"
-  },
   "popup_html_import_export_settings": {
     "message": "匯入/匯出設定",
     "description": "on settings page"
@@ -261,10 +253,6 @@
   },
   "popup_html_operation_popup": {
     "message": "操作視窗彈出",
-    "description": "on settings page"
-  },
-  "popup_html_about": {
-    "message": "關於Hive Keychain",
     "description": "on settings page"
   },
   "popup_html_clear": {
@@ -295,18 +283,6 @@
     "message": "在浏览器窗口閒置指定的分钟数後，自动锁定Keychain。",
     "description": "on autolock settings"
   },
-  "popup_html_keychainify_text": {
-    "message": "此功能允許您在點擊網頁上支援的連結或直接在瀏覽器標籤頁中存取 URL 時觸發 Keychain 操作。 目前支持以下 Hivesigner 連結：轉讓、委託、自定義 JSON、見證代理和投票。",
-    "description": "on keychainify settings"
-  },
-  "popup_html_enable_keychainify_title": {
-    "message": "啟用Keychainify",
-    "description": "on keychainify settings"
-  },
-  "popup_html_enable_keychainify_info": {
-    "message": "啟用後，當您點擊支援的連結時，此功能將開啟Keychain彈出視窗。",
-    "description": "on keychainify settings"
-  },
   "popup_html_import": {
     "message": "匯入",
     "description": "on import / export settings"
@@ -319,10 +295,6 @@
     "message": "匯出設定",
     "description": "on import / export settings"
   },
-  "popup_html_about_text": {
-    "message": "Hive Keychain 團隊由開發人員<a href=\"https://peakd.com/@stoodkev\" target=\"_blank\">@stoodkev</a>和 Hive 見證人，包括 3 個全職開發人員帶領。我們還受益於 Splinterlands 的創意總監 <a href=\"https://peakd.com/@nateaguila\" target=\"_blank\">@nateaguila</a> 和許多其他社區成員的幫助。<br>< br>該項目目前由去中心化 Hive 基金 (DHF) 資助，最初的想法和資金是由 <a href=\"https://peakd.com/@aggroed\" target=\"_blank\">@aggroed</a> 和 <a href=\"https://peakd.com/@yabapmatt\" target=\"_blank\">@yabapmatt</a>(見證人)透過他們共同經營的 Splinterlands，這是一款基於區塊鏈的可收藏集換式卡牌遊戲建立在 Hive 區塊鏈。請務必查看 <a href=\"https://splinterlands.io\" target=\"_blank\">https://splinterlands.io</a>!<br/><br/>有關更多我們的產品訊息(瀏覽器擴展和行動應用程式)，請訪問我們的<a href='https://hive-keychain.com' target='__blank'>登錄頁面</a>。",
-    "description": "on about keychain"
-  },
   "popup_html_delete_account": {
     "message": "從Keychain中移除",
     "description": "on manage accounts"
@@ -331,21 +303,9 @@
     "message": "您即將從Keychain中刪除 @$1。 如果不重新導入您的密鑰，將無法撤消。 請確認繼續。",
     "description": "on manage accounts"
   },
-  "popup_html_show_qr": {
-    "message": "顯示 QR 代碼",
-    "description": "on manage accounts"
-  },
-  "popup_html_hide_qr": {
-    "message": "隐藏QR代碼",
-    "description": "on manage accounts"
-  },
   "popup_html_set_new_rpc_as_active": {
     "message": "將新的 RPC 節點設置為活動狀態",
     "description": "in add rpc node screen"
-  },
-  "popup_html_notif_pref": {
-    "message": "通知喜好設定",
-    "description": "on preferences"
   },
   "popup_html_pref_info": {
     "message": "為了獲得更好的體驗，您可以在 dApp 請求時將非活動權限操作列入白名單。 您不會收到這些操作的確認提示。",
@@ -463,29 +423,9 @@
     "message": "剩餘票數：$1",
     "description": "On witness page"
   },
-  "popup_html_tokens_available": {
-    "message": "可用代幣",
-    "description": "On tokens page"
-  },
-  "popup_html_tokens_settings_text": {
-    "message": "查看代幣資訊並選擇要顯示的代幣。 在<a href=\"https://hive-engine.com\" target=\"_blank\">https://hive-engine.com</a>上了解有關Hive區塊鏈上訂製代幣的更多訊息。",
-    "description": "On tokens page"
-  },
   "popup_html_available": {
     "message": "可用",
     "description": "On tokens page"
-  },
-  "popup_html_tokens_send_text": {
-    "message": "發送代幣可能最多需要30秒才能確認，請耐心等待。",
-    "description": "On tokens page > Send"
-  },
-  "popup_html_tokens_operation_text": {
-    "message": "代幣操作可能需要30秒才能確認，請耐心等待。",
-    "description": "On tokens page > Send"
-  },
-  "popup_html_token_confirm_text": {
-    "message": "請確認您的轉移。此操作無法撤消。",
-    "description": "On tokens page > Send > Confirm"
   },
   "popup_html_current": {
     "message": "目前的",
@@ -607,10 +547,6 @@
     "message": "編碼訊息",
     "description": "On preferences, list of rights that were given to some websites."
   },
-  "popup_broadcast": {
-    "message": "播送",
-    "description": "On preferences, list of rights that were given to some websites."
-  },
   "popup_add_auth": {
     "message": "新增帳戶授權",
     "description": "On preferences, list of rights that were given to some websites."
@@ -647,30 +583,6 @@
     "message": "投票",
     "description": "On preferences, list of rights that were given to some websites."
   },
-  "popup_token_issued_by": {
-    "message": "從@$1",
-    "description": "tokens > setting wheel"
-  },
-  "popup_token_supply": {
-    "message": "提供",
-    "description": "tokens > setting wheel"
-  },
-  "popup_view_tokens_balance": {
-    "message": "查看您的自定代幣餘額。 您可以隱藏某些代幣並通過點擊設定來查看更多資訊。",
-    "description": "on tokens page "
-  },
-  "popup_no_tokens": {
-    "message": "查看您的自定代幣餘額。 您可以隱藏某些代幣並通過點擊設定來查看更多資訊。",
-    "description": "on tokens page when you dont have any"
-  },
-  "popup_no_such_account": {
-    "message": "該用戶名未在區塊鏈上註冊！",
-    "description": "on tokens page when trying to send tokens to a non existing user"
-  },
-  "popup_token_timeout": {
-    "message": "交易超時無回應。 請再次檢查您的代幣餘額，然後再嘗試發送。",
-    "description": "on tokens page when transaction timed out"
-  },
   "popup_proxy": {
     "message": "代理伺服器",
     "description": "on witness page "
@@ -693,10 +605,6 @@
   },
   "popup_success_proxy": {
     "message": "成功選擇@$1作為代理。",
-    "description": "on tokens page when chosing a proxy"
-  },
-  "popup_error_proxy": {
-    "message": "將 @$1 設定為代理時出錯。",
     "description": "on tokens page when chosing a proxy"
   },
   "bgd_ops_unproxy": {
@@ -931,10 +839,6 @@
     "message": "選擇代理伺服器",
     "description": "Website request title"
   },
-  "dialog_title_token": {
-    "message": "發送代幣",
-    "description": "Website request title"
-  },
   "dialog_title_powerup": {
     "message": "Power Up",
     "description": "Website request title"
@@ -1074,9 +978,6 @@
   "bgd_ops_transfer_get_account": {
     "message": "找不到帳戶@$1。"
   },
-  "bgd_ops_error_broadcasting": {
-    "message": "播送此交易時出錯，請稍後再試。"
-  },
   "bgd_ops_error": {
     "message": "播送此交易時出錯："
   },
@@ -1091,9 +992,6 @@
   },
   "bgd_ops_transfer_success": {
     "message": "已成功將$1 $2從@$3轉移到@$4。"
-  },
-  "bgd_ops_tokens": {
-    "message": "交易已成功播送。 請檢查您的餘額以確認過程是否已成功。"
   },
   "bgd_ops_sign_success": {
     "message": "訊息簽署已成功。"
@@ -1255,26 +1153,6 @@
     "message": "@$1 已被列為潛在的網絡釣魚帳號，請檢查拼寫並確保它是您要轉移到的帳號。",
     "description": "When trying to transfer to a blacklisted account"
   },
-  "popup_warning_exchange_deposit": {
-    "message": "此兌換帳戶不接受$1的儲存。",
-    "description": "When trying to transfer to an exchange that does not accept this currency."
-  },
-  "popup_warning_exchange_memo": {
-    "message": "確保轉移到交換帳戶時添加了備忘錄。",
-    "description": "When forgetting memo to transfer to exchange."
-  },
-  "popup_warning_exchange_wallet": {
-    "message": "警告：此交易所禁止存款/取款。",
-    "description": "When wallet is disabled on exchange."
-  },
-  "popup_html_buy_hive": {
-    "message": "購買 HIVE",
-    "description": "When clicking on the Hive arrow menu"
-  },
-  "popup_html_buy_hbd": {
-    "message": "購買HBD",
-    "description": "When clicking on the Hbd arrow menu"
-  },
   "popup_html_convert_hbd": {
     "message": "轉換 HBD",
     "description": "When clicking on the Hbd arrow menu"
@@ -1355,14 +1233,6 @@
     "message": "選擇您最喜歡的方式，快速輕鬆地購買 $1。 Keychain 不會對交易收取任何額外費用。",
     "description": "When accessing the buy HIVE/HBD page"
   },
-  "popup_html_buy_swap_title": {
-    "message": "快速交易",
-    "description": "When accessing the buy HIVE/HBD page"
-  },
-  "popup_html_buy_exchanges_title": {
-    "message": "傳統交易所",
-    "description": "When accessing the buy HIVE/HBD page"
-  },
   "dialog_keys": {
     "message": "私密金鑰",
     "description": "When adding an account by request"
@@ -1397,10 +1267,6 @@
   },
   "popup_html_proposal_request": {
     "message": "支援 Keychain 開發提案",
-    "description": "When user doesnt vote for proposal"
-  },
-  "popup_html_kc_proposal_vote_successful": {
-    "message": "投票成功！ 感謝您通過我們的 DHF 提案支援 Keychain 開發",
     "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_successful": {
@@ -1450,10 +1316,6 @@
   "popup_html_shortcuts_target": {
     "message": "Target",
     "description": "Shortcut target label"
-  },
-  "popup_html_shortcuts_delegation_type": {
-    "message": "Delegation type",
-    "description": "Shortcut delegation type label"
   },
   "popup_html_shortcuts_power_type": {
     "message": "Power type",
@@ -1651,14 +1513,6 @@
     "message": "請確認您要將 $1委託給 $2",
     "description": "Withdraw savings confirmation message"
   },
-  "popup_html_tokens_history": {
-    "message": "$1 歷史紀錄",
-    "description": "Tokens history title"
-  },
-  "popup_html_tokens_no_tokens": {
-    "message": "您目前沒有任何自定代幣。 點擊設定輪以獲取有關可用代幣的訊息。",
-    "description": "If no tokens"
-  },
   "popup_html_governance": {
     "message": "管理",
     "description": "Governance"
@@ -1735,17 +1589,9 @@
     "message": "欲了解更多訊息，請點擊此處訪問見證數據庫",
     "description": "Link to witness website"
   },
-  "html_popup_vote_for_witness": {
-    "message": "投票@stoodkev 作為見證人",
-    "description": "On main page, in the vote witness section"
-  },
   "html_popup_made_with_love_by_stoodkev": {
     "message": "Keychain Team 用 ❤ 製作",
     "description": "Footer"
-  },
-  "html_popup_vote_stoodkev_witness_error_30_votes": {
-    "message": "您已經為 30 位證人投票。 請在為@stoodkev 投票之前刪除一個",
-    "description": "Error message when vote for stoodkev as witness with 30 votes"
   },
   "html_popup_vote_stoodkev_witness_success": {
     "message": "成功投票給@stoodkev 作為見證人。 謝謝您的支持！",
@@ -1783,14 +1629,6 @@
     "message": "轉移資金",
     "description": "Transfer fund operation"
   },
-  "html_popup_transfer_token_operation": {
-    "message": "轉移代幣",
-    "description": "Transfer token operation"
-  },
-  "html_popup_loading_tokens_operation": {
-    "message": "正在載入代幣",
-    "description": "Loading tokens operation"
-  },
   "html_popup_deposit_to_savings_operation": {
     "message": "存入儲蓄",
     "description": "Deposit to savings operation"
@@ -1818,10 +1656,6 @@
   "html_popup_power_down": {
     "message": "Power down",
     "description": "Power down"
-  },
-  "html_popup_read": {
-    "message": "已讀",
-    "description": "read"
   },
   "html_popup_vote": {
     "message": "投票",
@@ -1863,10 +1697,6 @@
     "message": "委託",
     "description": "Delegation"
   },
-  "popup_html_transfer_tokens": {
-    "message": "轉移代幣",
-    "description": "Transfer tokens"
-  },
   "popup_html_fill_form_error": {
     "message": "請填寫表格",
     "description": "Error of missing fields in form"
@@ -1899,10 +1729,6 @@
     "message": "將始終為您選擇最佳 RPC 節點",
     "description": "Node Rpc auto selection hint"
   },
-  "popup_html_proxy_suggestion": {
-    "message": "被管理投票壓得喘不過氣來？ 將@keychain 設置為代理以自動關注 Keychain 團隊見證和提案投票。 您可以隨時從管理清單中更改此設置。",
-    "description": "If no witness voted"
-  },
   "popup_html_setting_proxy": {
     "message": "設置代理",
     "description": "in proxy suggestion popup"
@@ -1910,14 +1736,6 @@
   "popup_html_clearing_proxy": {
     "message": "清除代理",
     "description": "in proxy suggestion popup"
-  },
-  "popup_html_close": {
-    "message": "關閉",
-    "description": "general"
-  },
-  "popup_html_contact_support": {
-    "message": "聯繫支援",
-    "description": "Contact support"
   },
   "popup_html_wallet_info_transfer_in": {
     "message": "已從@$2接收$1",
@@ -2139,102 +1957,6 @@
     "message": "檢視匯入委託時發生錯誤。 請稍後再試。",
     "description": "Error while retrieving witness ranking, hivesql not down"
   },
-  "popup_html_token_stake": {
-    "message": "抵押",
-    "description": "token action"
-  },
-  "popup_html_token_unstake": {
-    "message": "解除抵押",
-    "description": "token action"
-  },
-  "popup_html_token_delegate": {
-    "message": "委託",
-    "description": "token action"
-  },
-  "popup_html_token_staking": {
-    "message": "抵押",
-    "description": "token action"
-  },
-  "popup_html_token_pending_unstake": {
-    "message": "待取消抵押",
-    "description": "token action"
-  },
-  "popup_html_token_delegation_out": {
-    "message": "委託出",
-    "description": "token action"
-  },
-  "popup_html_token_delegation_in": {
-    "message": "委派出進",
-    "description": "token action"
-  },
-  "popup_html_token_pending_undelegation": {
-    "message": "待取消授權",
-    "description": "token action"
-  },
-  "popup_html_stake_tokens": {
-    "message": "抵押代幣",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens": {
-    "message": "取消抵押代幣",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens": {
-    "message": "委託代幣",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens": {
-    "message": "取消代幣委託",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_failed": {
-    "message": "無法抵押代幣",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_failed": {
-    "message": "無法開始取消抵押代幣",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_failed": {
-    "message": "代幣委託失敗",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_failed": {
-    "message": "無法取消代幣委託",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_success": {
-    "message": "成功抵押代幣",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_success": {
-    "message": "成功開始解除抵押",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_success": {
-    "message": "代幣委託成功",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_success": {
-    "message": "成功取消委託",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_confirm_text": {
-    "message": "請確認您要抵押您的代幣。",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_confirm_text": {
-    "message": "請確認您要取消抵押您的代幣。",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_confirm_text": {
-    "message": "請確認您要委託您的代幣。",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_confirm_text": {
-    "message": "請確認您要取消代幣的委託。",
-    "description": "delegate token title"
-  },
   "popup_html_load_more": {
     "message": "點擊加載更多",
     "description": "on wallet history"
@@ -2275,88 +1997,8 @@
     "message": "沒有資助",
     "description": "Proposal funded option"
   },
-  "popup_html_hive_engine_error": {
-    "message": "Hive 引擎錯誤：$1",
-    "description": "Hive engine error template"
-  },
   "html_popup_ok": {
     "message": "好的！",
     "description": "general word"
-  },
-  "popup_html_token_wallet_info_transfer_in": {
-    "message": "從@$2 收到 $1",
-    "description": "token wallet information transfer in"
-  },
-  "popup_html_token_wallet_info_transfer_out": {
-    "message": "向@$2 發送了 $1",
-    "description": "token wallet information transfer out"
-  },
-  "popup_html_token_wallet_info_mining_lottery": {
-    "message": "從採礦彩券中($2) 獲得 $1",
-    "description": "token wallet information mining lottery"
-  },
-  "popup_html_token_wallet_info_author_reward": {
-    "message": "獲得 $1作為作者獎勵",
-    "description": "wallet information author reward"
-  },
-  "popup_html_token_wallet_info_comment_curation_reward": {
-    "message": "收到 $1作為評論管理獎勵",
-    "description": "wallet information curation reward"
-  },
-  "popup_html_token_wallet_info_delegation_in": {
-    "message": "@$1 委託 $2",
-    "description": "wallet information delegation in"
-  },
-  "popup_html_token_wallet_info_delegation_out": {
-    "message": "將 $1委託給 @$2",
-    "description": "wallet information delegation out"
-  },
-  "popup_html_token_wallet_info_cancel_delegation_out": {
-    "message": "取消了對@$2 的 $1 委託",
-    "description": "Token wallet information canceled delegation out "
-  },
-  "popup_html_token_wallet_info_cancel_delegation_in": {
-    "message": "@$1 取消了 $2 委託",
-    "description": "Token wallet information canceled delegation in"
-  },
-  "popup_html_token_wallet_info_start_cancel_delegation_out": {
-    "message": "取消了對@$2 的 $1 委託",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_start_cancel_delegation_in": {
-    "message": "取消了對@$2 的 $1 委託",
-    "description": "Token wallet information start canceling delegation in"
-  },
-  "popup_html_token_wallet_info_stake": {
-    "message": "押注 $1",
-    "description": "Token wallet information stake"
-  },
-  "popup_html_token_wallet_info_stake_other_user": {
-    "message": "@$1 以 $2 換取 @$3",
-    "description": "Token wallet information stake for other user"
-  },
-  "popup_html_token_wallet_info_unstake_done": {
-    "message": "$1未下注",
-    "description": "Token wallet information canceled delegation in"
-  },
-  "popup_html_token_wallet_info_start_unstake": {
-    "message": "開始取消下注 $1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_issue": {
-    "message": "已發行$1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_pegged_buy": {
-    "message": "買了 $1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_undelegation_cooldown_disclaimer": {
-    "message": "移除 $1的委託後，投注的代幣將在 $2 天的冷卻後可用。",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_unstake_cooldown_disclaimer": {
-    "message": "取消這個代幣將需要 $1 天。",
-    "description": "Token wallet information start canceling delegation out"
   }
 }

@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { signTx } from '@background/requests/operations/ops/sign-tx';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { Operation, Transaction } from '@hiveio/dhive';
@@ -64,22 +63,6 @@ describe('sign-tx tests:\n', () => {
     it('Must return success', async () => {
       const requestHandler = new RequestsHandler();
       requestHandler.data.key = userData.one.nonEncryptKeys.active;
-      const signedTx = await signTx(requestHandler, data);
-      expect(signedTx.msg.success).toBe(true);
-      expect(signedTx.msg.error).toBeUndefined();
-      expect(signedTx.msg.message).toBe(
-        chrome.i18n.getMessage('bgd_ops_sign_tx'),
-      );
-    });
-  });
-
-  describe('Using ledger cases:\n', () => {
-    it('Must return success', async () => {
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValue('signed!');
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledger123456';
       const signedTx = await signTx(requestHandler, data);
       expect(signedTx.msg.success).toBe(true);
       expect(signedTx.msg.error).toBeUndefined();

@@ -16,7 +16,7 @@ import { RootState } from '@popup/multichain/store';
 import { KeychainKeyTypes } from 'hive-keychain-commons';
 import moment from 'moment';
 import React from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import AmountWithLogo from 'src/common-ui/amount-with-logo/amount-with-logo';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
@@ -71,14 +71,10 @@ const PendingSavingsWithdrawalItem = ({
           );
           navigateTo(Screen.HOME_PAGE, true);
           if (success) {
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else {
-              setSuccessMessage(
-                'popup_html_cancel_withdraw_savings_successful',
-                [item.amount, currency],
-              );
-            }
+            setSuccessMessage('popup_html_cancel_withdraw_savings_successful', [
+              item.amount,
+              currency,
+            ]);
           } else {
             setErrorMessage('popup_html_cancel_withdraw_savings_fail', [
               currency,

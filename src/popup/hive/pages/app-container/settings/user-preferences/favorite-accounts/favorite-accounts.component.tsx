@@ -11,7 +11,7 @@ import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { Screen } from '@reference-data/screen.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { SelectAccountSectionComponent } from 'src/common-ui/select-account-section/select-account-section.component';
 import { loadActiveAccount } from 'src/popup/hive/actions/active-account.actions';
 import { FavoriteAccountsListComponent } from 'src/popup/hive/pages/app-container/settings/user-preferences/favorite-accounts/favorite-accounts-list/favorite-accounts-list.component';
@@ -84,10 +84,10 @@ const FavoriteAccounts = ({
   //         selectProps.methods.dropDown('close');
   //       }}>
   //       <img
-  //         src={`https://images.hive.blog/u/${selectedLocalAccount}/avatar`}
+  //         src={'/assets/images/placeholders/account-placeholder.png'}
   //         onError={(e: any) => {
   //           e.target.onError = null;
-  //           e.target.src = '/assets/images/accounts.png';
+  //           e.target.src = '/assets/images/placeholders/account-placeholder.png';
   //         }}
   //       />
   //       <div className="selected-account-name">{selectedLocalAccount}</div>
@@ -108,10 +108,10 @@ const FavoriteAccounts = ({
   //         selectProps.methods.dropDown('close');
   //       }}>
   //       <img
-  //         src={`https://images.hive.blog/u/${selectProps.item.label}/avatar`}
+  //         src={'/assets/images/placeholders/account-placeholder.png'}
   //         onError={(e: any) => {
   //           e.target.onError = null;
-  //           e.target.src = '/assets/images/accounts.png';
+  //           e.target.src = '/assets/images/placeholders/account-placeholder.png';
   //         }}
   //       />
   //       <div className="account-name">{selectProps.item.label}</div>
@@ -174,9 +174,6 @@ const FavoriteAccounts = ({
     <div
       data-testid={`${Screen.SETTINGS_FAVORITE_ACCOUNTS}-page`}
       className="favorite-accounts-page">
-      <div className="intro">
-        {chrome.i18n.getMessage('popup_html_favorite_accounts_intro')}
-      </div>
       <SelectAccountSectionComponent background="white" fullSize />
       <FavoriteAccountsListComponent
         key={`${Math.random().toFixed(6).toString()}-${

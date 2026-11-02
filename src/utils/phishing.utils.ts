@@ -1,12 +1,6 @@
-import { KeychainApi } from '@api/keychain';
+const getPhishingAccounts = async (): Promise<string[]> => [];
 
-const getPhishingAccounts = async () => {
-  return await KeychainApi.get('hive/phishingAccounts');
-};
-
-const getBlacklistedDomains = async () => {
-  return await KeychainApi.get('hive/blacklistedDomains');
-};
+const getBlacklistedDomains = async (): Promise<string[]> => [];
 
 const PhishingUtils = {
   getPhishingAccounts,

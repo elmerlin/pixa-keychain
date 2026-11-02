@@ -11,22 +11,6 @@
     "message": "Chave errada. Por favor, use $1",
     "description": "while using wrong private key"
   },
-  "popup_html_tutorial_popup_title": {
-    "message": "Bem-vindo(a) ao Keychain!",
-    "description": "tutorial popup"
-  },
-  "popup_html_tutorial_popup_description": {
-    "message": "Se você é novo no Keychain, ou na Hive em geral, por favor confira nosso tutorial de iniciantes.<br/>Você sempre pode acessá-lo mais tarde em Configurações > Ajuda > Tutorial",
-    "description": "tutorial popup"
-  },
-  "popup_html_tutorial_popup_show_label": {
-    "message": "Exibir",
-    "description": "tutorial popup"
-  },
-  "popup_html_tutorial_popup_skip_label": {
-    "message": "Pular",
-    "description": "tutorial popup"
-  },
   "popup_html_wrong_key_active": {
     "message": "Chave incorreta. Por favor, use a chave active",
     "description": "while using wrong private key"
@@ -199,10 +183,6 @@
     "message": "Histórico",
     "description": "on popup main page"
   },
-  "popup_html_tokens": {
-    "message": "Tokens",
-    "description": "on popup main page"
-  },
   "popup_html_witness": {
     "message": "Testemunhas",
     "description": "on popup main page"
@@ -274,10 +254,6 @@
   "popup_html_authority_active": {
     "message": "Autoridade Ativa",
     "description": "on manage authorities list item"
-  },
-  "popup_html_master": {
-    "message": "Chave-Mestra",
-    "description": "When adding an account via master key"
   },
   "popup_html_authority_posting": {
     "message": "Autoridade de Posting",
@@ -363,10 +339,6 @@
     "message": "Bloqueio automático",
     "description": "on settings page"
   },
-  "popup_html_keychainify": {
-    "message": "Keychainify",
-    "description": "on settings page"
-  },
   "popup_html_import_export_settings": {
     "message": "Configurações de importação/exportação",
     "description": "on settings page"
@@ -393,10 +365,6 @@
   },
   "popup_html_operation_popup": {
     "message": "Popup de Operação",
-    "description": "on settings page"
-  },
-  "popup_html_about": {
-    "message": "Sobre o Hive Keychain",
     "description": "on settings page"
   },
   "popup_html_clear": {
@@ -427,18 +395,6 @@
     "message": "Bloqueio automático do Keychain após a janela estar ociosa por um determinado número de minutos.",
     "description": "on autolock settings"
   },
-  "popup_html_keychainify_text": {
-    "message": "Este recurso permite que você acione uma operação do Hive Keychain ao clicar em um link suportado em uma página da web ou acessar a URL diretamente em uma aba do navegador. Atualmente suporta os seguintes links do Hivesigner: transferências, delegação, JSON, proxy de testemunhas e votos.",
-    "description": "on keychainify settings"
-  },
-  "popup_html_enable_keychainify_title": {
-    "message": "Habilitar Keychainify",
-    "description": "on keychainify settings"
-  },
-  "popup_html_enable_keychainify_info": {
-    "message": "Quando ativado, este recurso irá abrir um Keychain pop ao clicar em links suportados.",
-    "description": "on keychainify settings"
-  },
   "popup_html_import": {
     "message": "Importar",
     "description": "on import / export settings"
@@ -451,17 +407,9 @@
     "message": "Exportar como arquivo criptografado",
     "description": "on import / export settings"
   },
-  "popup_html_exported_accounts_QR": {
-    "message": "Exportar Contas por Código QR",
-    "description": "on account / export settings"
-  },
   "popup_html_export_permissions": {
     "message": "Exportar configurações",
     "description": "on import / export settings"
-  },
-  "popup_html_about_text": {
-    "message": "<ul><li><span class='text'>O time do Hive Keychain team é liderado por <a href=\"https://peakd.com/@stoodkev\" target=\"_blank\">@stoodkev</a>, um desenvolvedor full-stack e testemunha da Hive, e por mais dois desenvolvedores em tempo integral, <a href=\"https://peakd.com/@cedricguillas\" target=\"_blank\">@cedricguillas</a> e <a href=\"https://peakd.com/@theghost1980\" target=\"_blank\">@theghost1980</a>, e <a href=\"https://peakd.com/@manuphotos\" target=\"_blank\">@manuphotos</a>, nosso Gerente na Comunidade. Nosso trabalho é financiado pela DHF, obrigado a comunidade pelo suporte.</span></li><div class='separator horizontal'></div><li><span class='text'>Além dessa extenção, nós fornecemos carteiras da Hive para Android e iOS, varias ferramentas para Hive, e Keychain Store, um App mobile para empresas físicas que desejam adicionar Hive e HBD como meios de pagamento.</span></li><div class='separator horizontal'></div><li><span class='text'>Para mais informações dos nossos produtos (extenção de navegador e Apps mobile), visite nossa <a href='https://hive-keychain.com' target='__blank'>página</a>.</></li></ul>",
-    "description": "on about keychain"
   },
   "popup_html_delete_account": {
     "message": "Remover do Keychain",
@@ -491,54 +439,6 @@
     "message": "Você está prestes a habilitar a conta da testemunha @$1. Por favor, confirme para prosseguir.",
     "description": "on my witness"
   },
-  "popup_html_show_qr": {
-    "message": "Mostrar Código QR",
-    "description": "on manage accounts"
-  },
-  "popup_html_qr_title": {
-    "message": "Exporte suas chaves!",
-    "description": "on manage accounts"
-  },
-  "popup_html_qr_disclaimer1": {
-    "message": "Este código QR contém todas as suas chaves privadas para esta conta e só deve ser usado somente para importar suas chaves para o aplicativo mobile do Hive Keychain.",
-    "description": "on manage accounts"
-  },
-  "popup_html_qr_check1": {
-    "message": "Eu não estou compartilhando minha tela ou planejando compartilhar uma captura de tela deste código QR com ninguém",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_check2": {
-    "message": "Eu entendo que compartilhar este código QR com qualquer pessoa pode resultar em perda de fundos",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_exported_set_disclaimer1": {
-    "message": "Este código QR contém todas as suas chaves privadas para este conjunto de contas, e só deve ser usado para importar suas chaves para o aplicativo mobile do Hive Keychain.",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_exported_check1": {
-    "message": "Eu não estou compartilhando minha tela ou planejando compartilhar uma captura de tela desses códigos QR com ninguém",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_exported_check2": {
-    "message": "Eu entendo que compartilhar estes Códigos QR com qualquer pessoa pode resultar em perda de fundos",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_exported_show_button": {
-    "message": "Mostrar Código QR",
-    "description": "on settings accounts / export / qr"
-  },
-  "popup_html_qr_disclaimer2": {
-    "message": "NÃO compartilhe com ninguém!",
-    "description": "on manage accounts"
-  },
-  "popup_html_qr_disclaimer3": {
-    "message": "Use as setas para a esquerda e para a direita para navegar pelas contas.",
-    "description": "on manage accounts"
-  },
-  "popup_html_hide_qr": {
-    "message": "Esconder código QR",
-    "description": "on manage accounts"
-  },
   "popup_html_set_new_rpc_as_active": {
     "message": "Definir novo nó de RPC como ativo",
     "description": "in add rpc node screen"
@@ -546,10 +446,6 @@
   "popup_html_set_new_account_history_as_active": {
     "message": "Definir nova API de histórico de conta como ativa",
     "description": "in add rpc node screen"
-  },
-  "popup_html_notif_pref": {
-    "message": "Preferências de notificação",
-    "description": "on preferences"
   },
   "popup_html_pref_info": {
     "message": "Para uma melhor experiência, você pode adicionar operações de autoridade não ativas quando dApps solicitarem elas. Você não receberá uma solicitação de confirmação para essas operações.",
@@ -727,14 +623,6 @@
     "message": "Ou seja, 2000",
     "description": "On My witness page"
   },
-  "popup_html_witness_information_exchange_rate_base_label": {
-    "message": "Base de Taxa de Câmbio",
-    "description": "On My witness page"
-  },
-  "popup_html_witness_information_exchange_rate_quote_label": {
-    "message": "Cotação da taxa de câmbio",
-    "description": "On My witness page"
-  },
   "popup_html_witness_information_url_label": {
     "message": "URL",
     "description": "On My witness page"
@@ -763,33 +651,9 @@
     "message": "Desde o início",
     "description": "On My witness page"
   },
-  "popup_html_tokens_available": {
-    "message": "Tokens disponíveis",
-    "description": "On tokens page"
-  },
-  "popup_html_tokens_settings": {
-    "message": "Configurações de Tokens",
-    "description": "On tokens page"
-  },
-  "popup_html_tokens_settings_text": {
-    "message": "Veja informações sobre token e escolha quais tokens exibir. Saiba mais sobre tokens personalizados na Hive blockchain em <a href=\"https://hive-engine.com\" target=\"_blank\">https://hive-engine.com</a>.",
-    "description": "On tokens page"
-  },
   "popup_html_available": {
     "message": "Disponível",
     "description": "On tokens page"
-  },
-  "popup_html_tokens_send_text": {
-    "message": "Enviar os seus tokens pode levar até 30 segundos para confirmar, por favor, seja paciente.",
-    "description": "On tokens page > Send"
-  },
-  "popup_html_tokens_operation_text": {
-    "message": "Operações com tokens podem demorar até 30 segundos para confirmar, por favor, seja paciente.",
-    "description": "On tokens page > Send"
-  },
-  "popup_html_token_confirm_text": {
-    "message": "Por favor, confirme a sua transferência.<br> Isto não poderá ser desfeito.",
-    "description": "On tokens page > Send > Confirm"
   },
   "popup_html_current": {
     "message": "Atual",
@@ -853,10 +717,6 @@
   },
   "popup_html_export_accounts": {
     "message": "Exportar contas",
-    "description": "on settings page accounts > export acc sub menu"
-  },
-  "popup_html_export_all_accounts_as_QR": {
-    "message": "Exportar Contas por Código QR",
     "description": "on settings page accounts > export acc sub menu"
   },
   "popup_html_manage_no_accounts_authorities": {
@@ -939,10 +799,6 @@
     "message": "Codificar mensagem",
     "description": "On preferences, list of rights that were given to some websites."
   },
-  "popup_broadcast": {
-    "message": "Transmitir",
-    "description": "On preferences, list of rights that were given to some websites."
-  },
   "popup_add_auth": {
     "message": "Adicionar Autoridade de Conta",
     "description": "On preferences, list of rights that were given to some websites."
@@ -979,30 +835,6 @@
     "message": "Votar",
     "description": "On preferences, list of rights that were given to some websites."
   },
-  "popup_token_issued_by": {
-    "message": "por @$1",
-    "description": "tokens > setting wheel"
-  },
-  "popup_token_supply": {
-    "message": "Oferta",
-    "description": "tokens > setting wheel"
-  },
-  "popup_view_tokens_balance": {
-    "message": "Veja os seus saldos de token personalizados. Você pode ocultar certos tokens e ver mais informações clicando no ícone de configurações.",
-    "description": "on tokens page "
-  },
-  "popup_no_tokens": {
-    "message": "Atualmente, você não tem tokens personalizados. Clique no ícone de configurações para obter informações sobre os tokens disponíveis.",
-    "description": "on tokens page when you dont have any"
-  },
-  "popup_no_such_account": {
-    "message": "Este nome de usuário não está registrado no blockchain!",
-    "description": "on tokens page when trying to send tokens to a non existing user"
-  },
-  "popup_token_timeout": {
-    "message": "Não foi possível verificar esta transação no Hive Engine. Isto pode significar que o Hive Engine está atrasado nos blocos, espere que a operação apareça no seu histórico, ou entre em contato com a equipe do Hive Engine no Discord.",
-    "description": "on tokens page when transaction timed out"
-  },
   "popup_proxy": {
     "message": "Proxy",
     "description": "on witness page "
@@ -1033,10 +865,6 @@
   },
   "popup_success_proxy": {
     "message": "Escolheu com sucesso @$1 para o proxy.",
-    "description": "on tokens page when chosing a proxy"
-  },
-  "popup_error_proxy": {
-    "message": "Erro ao definir @$1 como proxy.",
     "description": "on tokens page when chosing a proxy"
   },
   "bgd_ops_unproxy": {
@@ -1070,18 +898,6 @@
   "dialog_id": {
     "message": "ID",
     "description": "When website request a custom json"
-  },
-  "dialog_slippage": {
-    "message": "Slippage",
-    "description": "When website requests a swap"
-  },
-  "dialog_steps": {
-    "message": "Passos",
-    "description": "When website requests a swap"
-  },
-  "dialog_swap": {
-    "message": "Swap",
-    "description": "When website requests a swap"
   },
   "dialog_approve": {
     "message": "Aprovar",
@@ -1255,10 +1071,6 @@
     "message": "Chaves públicas",
     "description": "Website request title"
   },
-  "dialog_title_swap": {
-    "message": "Swap",
-    "description": "When website requests a swap"
-  },
   "dialog_title_sign": {
     "message": "Assinar a Mensagem",
     "description": "Website request title"
@@ -1297,10 +1109,6 @@
   },
   "dialog_title_proxy": {
     "message": "Escolher Proxy",
-    "description": "Website request title"
-  },
-  "dialog_title_token": {
-    "message": "Enviar Tokens",
     "description": "Website request title"
   },
   "dialog_title_powerup": {
@@ -1379,10 +1187,6 @@
     "message": "A solicitação foi cancelada pelo usuário.",
     "description": "Generic answer to websites when user cancel transaction (in the background so it wont show on screen)"
   },
-  "bgd_lifecycle_request_pending_multisig": {
-    "message": "A solicitação está atualmente pendente de aprovação multisig de outros assinantes. Você será notificado pelo Keychain se/quando for transmitida com sucesso.",
-    "description": "Generic answer to websites when the window is closed during multisig (in the background so it wont show on screen)"
-  },
   "bgd_context_transfer_user": {
     "message": "Transfira o HIVE/HBD para @%s",
     "description": "Context menu (when right click on a username on steemit)"
@@ -1446,9 +1250,6 @@
   "bgd_ops_transfer_get_account": {
     "message": "Não foi possível encontrar conta @$1."
   },
-  "bgd_ops_error_broadcasting": {
-    "message": "Houve um erro ao transmitir esta transação, por favor tente novamente."
-  },
   "bgd_ops_error": {
     "message": "Houve um erro ao transmitir esta transação:"
   },
@@ -1463,9 +1264,6 @@
   },
   "bgd_ops_transfer_success": {
     "message": "Transferiu-se com sucesso $1 $2 de @$3 para @$4."
-  },
-  "bgd_ops_tokens": {
-    "message": "A transação foi transmitida com sucesso. Por favor, verifique seu saldo para confirmar que foi processada com sucesso."
   },
   "bgd_ops_sign_success": {
     "message": "Mensagem assinada com sucesso."
@@ -1635,26 +1433,6 @@
     "message": "Enviar uma chave privada como memo é um enorme risco para sua segurança.",
     "description": "When trying to use memo with a private key"
   },
-  "popup_warning_exchange_deposit": {
-    "message": "Essa conta de exchange não aceita depósitos de $1 .",
-    "description": "When trying to transfer to an exchange that does not accept this currency."
-  },
-  "popup_warning_exchange_memo": {
-    "message": "Certifique-se de adicionar um memo ao transferir para uma conta de exchange.",
-    "description": "When forgetting memo to transfer to exchange."
-  },
-  "popup_warning_exchange_wallet": {
-    "message": "AVISO: Depósitos/Retiradas estão desativados nesta exchange.",
-    "description": "When wallet is disabled on exchange."
-  },
-  "popup_html_buy_hive": {
-    "message": "Comprar HIVE",
-    "description": "When clicking on the Hive arrow menu"
-  },
-  "popup_html_buy_hbd": {
-    "message": "Comprar HBD",
-    "description": "When clicking on the Hbd arrow menu"
-  },
   "popup_html_convert": {
     "message": "Converter",
     "description": "Convert"
@@ -1751,14 +1529,6 @@
     "message": "Escolha o seu método favorito e compre $1 rápido e facilmente",
     "description": "When accessing the buy HIVE/HBD page"
   },
-  "popup_html_buy_swap_title": {
-    "message": "Troca rápida",
-    "description": "When accessing the buy HIVE/HBD page"
-  },
-  "popup_html_buy_exchanges_title": {
-    "message": "Exchanges tradicionais",
-    "description": "When accessing the buy HIVE/HBD page"
-  },
   "dialog_keys": {
     "message": "Chaves privadas",
     "description": "When adding an account by request"
@@ -1779,36 +1549,12 @@
     "message": "Hive",
     "description": "When on automated tasks page"
   },
-  "popup_html_automated_hive_engine_section_title": {
-    "message": "Hive Engine",
-    "description": "When on automated tasks page"
-  },
-  "popup_html_automated_hive_engine_list_title": {
-    "message": "Tokens definidos para staking automático",
-    "description": "When on automated tasks page"
-  },
-  "popup_html_favorite_accounts_intro": {
-    "message": "Configure as contas que você mais usa ao fazer transferências, operações da Hive Engine, operações de exchange e mais.",
-    "description": "When on favorite accounts page"
-  },
   "popup_html_enable_autoclaim_rewards": {
     "message": "Reivindicar Recompensas",
     "description": "When on automated tasks page"
   },
-  "popup_html_enable_autostake_tokens": {
-    "message": "Staking Automático",
-    "description": "When on automated tasks page"
-  },
-  "popup_html_automated_hive_section_default_option_message": {
-    "message": "Adicionar um token para auto-staking",
-    "description": "When on automated tasks page > auto staking default option"
-  },
   "popup_html_enable_autoclaim_rewards_info": {
     "message": "Coletar regularmente suas recompensas pode aumentar seus ganhos.",
-    "description": "When on automated tasks page"
-  },
-  "popup_html_enable_autostake_tokens_info": {
-    "message": "Fazer stake automático dos seus tokens pode aumentar seus ganhos",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts": {
@@ -1825,10 +1571,6 @@
   },
   "popup_html_proposal_request": {
     "message": "Apoie a proposta de desenvolvimento Keychain",
-    "description": "When user doesnt vote for proposal"
-  },
-  "popup_html_kc_proposal_vote_successful": {
-    "message": "Voto bem sucedido! Obrigado por apoiar o desenvolvimento do Keychain através da nossa proposta na DHF",
     "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_successful": {
@@ -1878,10 +1620,6 @@
   "popup_html_shortcuts_target": {
     "message": "Target",
     "description": "Shortcut target label"
-  },
-  "popup_html_shortcuts_delegation_type": {
-    "message": "Delegation type",
-    "description": "Shortcut delegation type label"
   },
   "popup_html_shortcuts_power_type": {
     "message": "Power type",
@@ -2091,14 +1829,6 @@
     "message": "Por favor, confirme que você deseja delegar $1 para $2",
     "description": "Withdraw savings confirmation message"
   },
-  "popup_html_tokens_history": {
-    "message": "Histórico $1",
-    "description": "Tokens history title"
-  },
-  "popup_html_tokens_no_tokens": {
-    "message": "Atualmente, você não tem tokens personalizados. Clique no ícone de configurações para obter informações sobre os tokens disponíveis.",
-    "description": "If no tokens"
-  },
   "popup_html_governance": {
     "message": "Governança",
     "description": "Governance"
@@ -2191,17 +1921,9 @@
     "message": "Para mais informações, clique aqui para acessar o banco de dados de testemunhas",
     "description": "Link to witness website"
   },
-  "html_popup_vote_for_witness": {
-    "message": "Votar $1 como testemunha",
-    "description": "On main page, in the vote witness section"
-  },
   "html_popup_made_with_love_by_stoodkev": {
     "message": "Feito com ❤️ pela Equipe Keychain",
     "description": "Footer"
-  },
-  "html_popup_vote_stoodkev_witness_error_30_votes": {
-    "message": "Você já votou em 30 testemunhas. Por favor, remova uma antes de votar em @stoodkev",
-    "description": "Error message when vote for stoodkev as witness with 30 votes"
   },
   "html_popup_vote_witness_error_30_votes": {
     "message": "Você já votou em 30 testemunhas. Por favor, remova uma antes de votar novamente",
@@ -2319,14 +2041,6 @@
     "message": "Parando uma transferência recorrente",
     "description": "Transfer fund operation"
   },
-  "html_popup_transfer_token_operation": {
-    "message": "Transferindo tokens",
-    "description": "Transfer token operation"
-  },
-  "html_popup_loading_tokens_operation": {
-    "message": "Carregando tokens",
-    "description": "Loading tokens operation"
-  },
   "html_popup_deposit_to_savings_operation": {
     "message": "Depositando na poupança",
     "description": "Deposit to savings operation"
@@ -2354,10 +2068,6 @@
   "html_popup_power_down": {
     "message": "Power down",
     "description": "Power down"
-  },
-  "html_popup_read": {
-    "message": "Ler",
-    "description": "read"
   },
   "html_popup_vote": {
     "message": "Votar",
@@ -2407,10 +2117,6 @@
     "message": "Delegação",
     "description": "Delegation"
   },
-  "popup_html_transfer_tokens": {
-    "message": "Transferir tokens",
-    "description": "Transfer tokens"
-  },
   "popup_html_cancel_withdraw": {
     "message": "Cancelar saque da poupança",
     "description": "Cancel withdraw savings"
@@ -2447,10 +2153,6 @@
     "message": "Sempre selecionará o melhor RPC node para você",
     "description": "Node Rpc auto selection hint"
   },
-  "popup_html_proxy_suggestion": {
-    "message": "SObrecarregado dos votos de governança? Defina @keychain como proxy para seguir automaticamente as testemunhas e votos da proposta do Keychain. Você pode alterar isto a qualquer momento no menu de governança.",
-    "description": "If no witness voted"
-  },
   "popup_html_setting_proxy": {
     "message": "Configurando proxy",
     "description": "in proxy suggestion popup"
@@ -2458,22 +2160,6 @@
   "popup_html_clearing_proxy": {
     "message": "Limpando proxy",
     "description": "in proxy suggestion popup"
-  },
-  "popup_html_close": {
-    "message": "Fechar",
-    "description": "general"
-  },
-  "popup_html_help": {
-    "message": "Ajuda",
-    "description": "Contact support"
-  },
-  "popup_html_contact_support": {
-    "message": "Contactar o suporte",
-    "description": "Contact support"
-  },
-  "popup_html_tutorial": {
-    "message": "Tutorial",
-    "description": "Contact support"
   },
   "popup_html_wallet_info_transfer_in": {
     "message": "Recebido $1 de @$2",
@@ -2711,102 +2397,6 @@
     "message": "Ocorreu um erro ao recuperar as delegações recebidas. Por favor, tente novamente mais tarde.",
     "description": "Error while retrieving witness ranking, hivesql not down"
   },
-  "popup_html_token_stake": {
-    "message": "Stake",
-    "description": "token action"
-  },
-  "popup_html_token_unstake": {
-    "message": "Unstake",
-    "description": "token action"
-  },
-  "popup_html_token_delegate": {
-    "message": "Delegar",
-    "description": "token action"
-  },
-  "popup_html_token_staking": {
-    "message": "Staked",
-    "description": "token action"
-  },
-  "popup_html_token_pending_unstake": {
-    "message": "Unstaking pendente",
-    "description": "token action"
-  },
-  "popup_html_token_delegation_out": {
-    "message": "Delegações enviadas",
-    "description": "token action"
-  },
-  "popup_html_token_delegation_in": {
-    "message": "Delegações recebidas",
-    "description": "token action"
-  },
-  "popup_html_token_pending_undelegation": {
-    "message": "Retirada de delegação pendente",
-    "description": "token action"
-  },
-  "popup_html_stake_tokens": {
-    "message": "Staking token",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens": {
-    "message": "Unstaking token",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens": {
-    "message": "Delegando token",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens": {
-    "message": "Cancelar delegação de token",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_failed": {
-    "message": "Falha ao fazer stake de um token",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_failed": {
-    "message": "Falha ao iniciar unstake de um token",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_failed": {
-    "message": "A delegação do token falhou",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_failed": {
-    "message": "Falha ao cancelar a delegação do token",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_success": {
-    "message": "Token stakado com sucesso",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_success": {
-    "message": "Unstake de token iniciado com sucesso",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_success": {
-    "message": "A delegação do token foi bem sucedida",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_success": {
-    "message": "Delegação cancelada com sucesso",
-    "description": "delegate token title"
-  },
-  "popup_html_stake_tokens_confirm_text": {
-    "message": "Por favor, confirme que você deseja fazer o stake do seu token.",
-    "description": "stake token title"
-  },
-  "popup_html_unstake_tokens_confirm_text": {
-    "message": "Por favor, confirme que você deseja fazer o unstake do seu token.",
-    "description": "unstake token title"
-  },
-  "popup_html_delegate_tokens_confirm_text": {
-    "message": "Por favor, confirme que você deseja delegar o seu token.",
-    "description": "delegate token title"
-  },
-  "popup_html_cancel_delegation_tokens_confirm_text": {
-    "message": "Por favor, confirme que você deseja cancelar a delegação do seu token.",
-    "description": "delegate token title"
-  },
   "popup_html_load_more": {
     "message": "Clique para carregar mais",
     "description": "on wallet history"
@@ -2847,89 +2437,9 @@
     "message": "Não financiado",
     "description": "Proposal funded option"
   },
-  "popup_html_hive_engine_error": {
-    "message": "Erro no Hive Engine: $1",
-    "description": "Hive engine error template"
-  },
   "html_popup_ok": {
     "message": "Ok!",
     "description": "general word"
-  },
-  "popup_html_token_wallet_info_transfer_in": {
-    "message": "Recebido $1 de @$2",
-    "description": "token wallet information transfer in"
-  },
-  "popup_html_token_wallet_info_transfer_out": {
-    "message": "Enviou $1 para @$2",
-    "description": "token wallet information transfer out"
-  },
-  "popup_html_token_wallet_info_mining_lottery": {
-    "message": "Recebido $1 da loteria de mineração ($2)",
-    "description": "token wallet information mining lottery"
-  },
-  "popup_html_token_wallet_info_author_reward": {
-    "message": "Recebido $1 como recompensa do autor",
-    "description": "wallet information author reward"
-  },
-  "popup_html_token_wallet_info_comment_curation_reward": {
-    "message": "Recebeu $1 como recompensa de curadoria de comentário",
-    "description": "wallet information curation reward"
-  },
-  "popup_html_token_wallet_info_delegation_in": {
-    "message": "@$1 delegou $2",
-    "description": "wallet information delegation in"
-  },
-  "popup_html_token_wallet_info_delegation_out": {
-    "message": "Delegou $1 a @$2",
-    "description": "wallet information delegation out"
-  },
-  "popup_html_token_wallet_info_cancel_delegation_out": {
-    "message": "Cancelou uma delegação de $1 para @$2",
-    "description": "Token wallet information canceled delegation out "
-  },
-  "popup_html_token_wallet_info_cancel_delegation_in": {
-    "message": "@$1 cancelou uma delegação de $2",
-    "description": "Token wallet information canceled delegation in"
-  },
-  "popup_html_token_wallet_info_start_cancel_delegation_out": {
-    "message": "Cancelou a delegação $1 para @$2",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_start_cancel_delegation_in": {
-    "message": "@$1 cancelou uma delegação de $2",
-    "description": "Token wallet information start canceling delegation in"
-  },
-  "popup_html_token_wallet_info_stake": {
-    "message": "Staked $1",
-    "description": "Token wallet information stake"
-  },
-  "popup_html_token_wallet_info_stake_other_user": {
-    "message": "@$1 staked $2 para @$3",
-    "description": "Token wallet information stake for other user"
-  },
-  "popup_html_token_wallet_info_unstake_done": {
-    "message": "$1 unstaked",
-    "description": "Token wallet information canceled delegation in"
-  },
-  "popup_html_token_wallet_info_start_unstake": {
-    "message": "Iniciou unstake $1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_issue": {
-    "message": "Recebeu $1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_wallet_info_pegged_buy": {
-    "message": "Comprou $1",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_undelegation_cooldown_disclaimer": {
-    "message": "Depois de remover a delegação de $1, os tokens estarão disponíveis depois de um tempo de cooldown de $2 dias.",
-    "description": "Token wallet information start canceling delegation out"
-  },
-  "popup_html_token_unstake_cooldown_disclaimer": {
-    "message": "Unstake este token levará $1 dia(s).",
-    "description": "Token wallet information start canceling delegation out"
   },
   "popup_html_enable_autoclaim_savings": {
     "message": "Reivindicar juros da poupança",
@@ -2939,53 +2449,13 @@
     "message": "Para reivindicar seus juros de poupança, Keychain irá depositar ou sacar 0.001 HBD para/de suas poupanças a cada 30 dias",
     "description": "When on automated tasks page"
   },
-  "html_popup_new_account_history": {
-    "message": "API de histórico de conta",
-    "description": "Tokens setting page =>  add account history api"
-  },
-  "html_popup_new_rpc": {
-    "message": "Novo node RPC",
-    "description": "Tokens setting page =>  add rpc node"
-  },
-  "html_popup_new_rpc_save_success": {
-    "message": "Novo node RPC foi salvo com sucesso",
-    "description": "Tokens setting page =>  add rpc node"
-  },
   "html_popup_url_not_valid": {
     "message": "URL não é válida",
     "description": "Tokens setting page"
   },
-  "html_popup_new_account_history_save_success": {
-    "message": "Nova API de historico de conta foi salva com sucesso",
-    "description": "Tokens setting page =>  add rpc node"
-  },
-  "html_popup_rpc_already_exist": {
-    "message": "Este RPC já está na sua lista",
-    "description": "Tokens setting page =>  add rpc node"
-  },
-  "popup_html_transfer_recurrent_exchange_warning": {
-    "message": "A maioria das exchanges não aceita transferências recorrentes. Se você continuar, seu dinheiro pode ser perdido.",
-    "description": "Warning message during transfer if recurrent transfer and receiver is exchange"
-  },
   "popup_html_transfer_recurrent_missing_field": {
     "message": "Iteração e frequência são obrigatórias",
     "description": "Error message during transfer if missing iteration and/or frequency and recucrent"
-  },
-  "popup_html_whats_new": {
-    "message": "O que há de novo na v$1",
-    "description": "What's new popup title"
-  },
-  "popup_html_whats_new_next": {
-    "message": "Seguinte",
-    "description": "What's new popup title"
-  },
-  "popup_html_whats_new_previous": {
-    "message": "Anterior",
-    "description": "What's new popup title"
-  },
-  "popup_html_whats_new_got_it": {
-    "message": "Entendido!",
-    "description": "What's new popup button"
   },
   "popup_html_vesting_routes_title": {
     "message": "Suas rotas de vesting mudaram",
@@ -3043,16 +2513,8 @@
     "message": "Auto vest: ",
     "description": "wrong vesting routes popup, item details, autovest label/title"
   },
-  "html_popup_tokens_timeout": {
-    "message": "Este node da Hive Engine não está respondendo. Por favor, mude o node RPC da Hive Engine.",
-    "description": "Token timeout error"
-  },
   "popup_html_create_account_buy_account": {
     "message": "Comprar uma conta",
-    "description": "Create account => Buy account"
-  },
-  "popup_html_create_account_with_claim_tokens": {
-    "message": "Usar tokens reivindicados",
     "description": "Create account => Buy account"
   },
   "popup_html_create_account": {
@@ -3135,10 +2597,6 @@
     "message": "A criação da sua conta falhou. Por favor, tente novamente mais tarde",
     "description": "Create account failed message"
   },
-  "html_popup_read_more": {
-    "message": "Mais informações",
-    "description": "read more"
-  },
   "popup_html_total_pending_undelegate": {
     "message": "Retirada de delegações pendentes",
     "description": "Total pending undelegate"
@@ -3187,30 +2645,6 @@
     "message": "Renovando",
     "description": "Governance expiration description"
   },
-  "popup_html_transfer_to_saving_to_exchange_error": {
-    "message": "Você está tentando transferir para a poupança de uma exchange. É possível que eles não consigam receber a sua transferência. Por favor, use uma transferência regular.",
-    "description": "Transfer to savings of exchange platform warning message"
-  },
-  "popup_html_transfer_from_saving_to_exchange_error": {
-    "message": "Você está tentando retirar da sua poupança para uma exchange. Eles podem não ser capazes de recuperar a sua transferência. Por favor, use uma transferência regular.",
-    "description": "Transfer from savings to an exchange platform warning message"
-  },
-  "popup_html_buy": {
-    "message": "Comprar",
-    "description": "Main page buy button"
-  },
-  "html_popup_transak_description": {
-    "message": "Transak ajuda a comprar HIVE usando fiat. Aceita cartões de crédito, transferências bancárias, Apple Pay e MobiKwik em mais de 100 países (as opções variam de país para país). Você receberá seu HIVE diretamente na sua carteira do Hive Keychain.",
-    "description": "Buy coin, transak description"
-  },
-  "html_popup_blocktrades_description": {
-    "message": "Com Blocktrades, troque rapidamente outras criptomoedas por HIVE/HBD.",
-    "description": "Buy coin, blocktrades description"
-  },
-  "html_popup_exchanges": {
-    "message": "Exchanges",
-    "description": "Buy coin exchanges"
-  },
   "popup_html_pending": {
     "message": "Pendente",
     "description": "Global"
@@ -3227,22 +2661,6 @@
     "message": "Você tem $1 conversão(ões) pendente(s) de $2",
     "description": "Global"
   },
-  "popup_html_analytics": {
-    "message": "Estatísticas",
-    "description": "Analytics menu item"
-  },
-  "popup_html_analytics_allow_ga": {
-    "message": "Coletar dados de uso",
-    "description": "Allow google analytics checkbox label"
-  },
-  "popup_html_analytics_allow_ga_hint": {
-    "message": "Permita-nos gravar sua atividade no Google Analytics para nos ajudar a melhorar a experiência do usuário no Hive Keychain",
-    "description": "Allow google analytics hint"
-  },
-  "popup_html_analytics_save": {
-    "message": "Salvar",
-    "description": "accept button on analytics popup"
-  },
   "popup_html_wrong_key_popup_replace": {
     "message": "Substituir",
     "description": "replace key button on wrong key popup"
@@ -3250,30 +2668,6 @@
   "popup_html_wrong_key_popup_do_nothing": {
     "message": "Não fazer nada",
     "description": "do nothing button on wrong key popup"
-  },
-  "popup_html_analytics_accept_to_share": {
-    "message": "Concordo em compartilhar os dados de uso com o Keychain",
-    "description": "accept on analytics popup"
-  },
-  "popup_html_analytics_thank_you": {
-    "message": "Obrigado pela sua ajuda.",
-    "description": "Thank you for your help"
-  },
-  "popup_html_analytics_title": {
-    "message": "Ajude-nos a melhorar o Keychain",
-    "description": "Analytics popup title"
-  },
-  "popup_html_analytics_message": {
-    "message": "Permitir o Keychain para coletar dados anônimos não sensíveis sobre o uso da extensão. Estes dados serão usados para melhorar a experiência dos usuários. Você pode optar por sair a qualquer momento na seção \"Configurações Avançadas\".",
-    "description": "Analytics popup message"
-  },
-  "popup_html_analytics_privacy_policy_text": {
-    "message": "Ao continuar, você está aceitando nossa",
-    "description": "Followed by 'Privacy Policy'"
-  },
-  "popup_html_analytics_privacy_policy": {
-    "message": "Política de Privacidade",
-    "description": "By continuing, your are accepting our [...]"
   },
   "popup_html_delegate_rc": {
     "message": "Delegações RC"
@@ -3332,61 +2726,9 @@
     "message": "Delegação de Rc falhou",
     "description": "RC delegation failed"
   },
-  "popup_html_survey_no_thanks": {
-    "message": "Não, obrigado",
-    "description": "No thanks button on survey popup"
-  },
-  "popup_html_survey_help_us": {
-    "message": "Vamos lá!",
-    "description": "Help us button on survey popup"
-  },
   "popup_html_public_key_not_matching": {
     "message": "A chave pública não corresponde à chave pública no blockchain. Ela pode ter sido atualizada",
     "description": "select keys => public not matching"
-  },
-  "popup_html_add_using_ledger": {
-    "message": "Adicionar usando Ledger",
-    "description": "Add using ledger link"
-  },
-  "popup_html_ledger_not_detected": {
-    "message": "Ledger não detectado. Verifique se o Ledger está ligado e o Hive App está rodando",
-    "description": "Ledger not detected error message"
-  },
-  "popup_html_ledger_detected": {
-    "message": "Ledger detectado",
-    "description": "Ledger detected message"
-  },
-  "html_ledger_not_supported": {
-    "message": "Ledger não suportado",
-    "description": "Ledger not detected error message"
-  },
-  "html_ledger_not_available": {
-    "message": "Ledger não disponível",
-    "description": "Ledger not available error message"
-  },
-  "html_ledger_not_detected": {
-    "message": "Nós não conseguimos detectar seu Ledger. Se ele já estiver conectado e desbloqueado, por favor navegue até Configurações Avançadas do Keychain e use a opção de link com Ledger.",
-    "description": "Ledger not available error message"
-  },
-  "html_ledger_no_device_selected": {
-    "message": "Nenhum dispositivo de Ledger selecionado",
-    "description": "Ledger not selected error message"
-  },
-  "html_ledger_unknown_error": {
-    "message": "Erro desconhecido",
-    "description": "Ledger unknown error"
-  },
-  "html_popup_using_ledger": {
-    "message": "Chave salva no Ledger",
-    "description": "key using ledger label"
-  },
-  "html_ledger_error_while_signing": {
-    "message": "Erro ao assinar a transação com Ledger",
-    "description": "Error while signing transaction with Ledger"
-  },
-  "html_ledger_error_while_connecting": {
-    "message": "Erro durante a conexão com o Ledger. Certifique-se de que o Ledger está conectado e o aplicativo Hive está executando",
-    "description": "Error while connecting to Ledger"
   },
   "html_popup_witness_already_voted": {
     "message": "Você já votou nesta testemunha",
@@ -3403,22 +2745,6 @@
   "html_popup_witness_not_existing": {
     "message": "A testemunha que você tentou votar não existe",
     "description": "Error if trying to vote a witness that doesn't exist"
-  },
-  "bgd_ops_hive_engine_confirmation_error": {
-    "message": "A operação da Hive Engine retornou com o seguinte erro: <br/><br/> Error: $1",
-    "description": "Error while confirming transaction on hive engine"
-  },
-  "hive_engine_overdraw_balance_error": {
-    "message": "Seu saldo de $1 é insuficiente",
-    "description": "Error if trying to send too much of a token"
-  },
-  "hive_engine_not_existing_token_error": {
-    "message": "O token $1 não existe",
-    "description": "Error if trying to send a token that doesn't exist"
-  },
-  "hive_engine_not_existing_user_error": {
-    "message": "@$1 não existe",
-    "description": "Error if trying to send a token that doesn't exist"
   },
   "transaction_wrong_format_decimal_error": {
     "message": "Formato errado. Deve ter $1 decimais",
@@ -3468,65 +2794,9 @@
     "message": "Erro de rede: tempo esgotado",
     "description": "When network timeout"
   },
-  "html_popup_waiting_for_ledger_confirmation": {
-    "message": "Aguardando confirmação da Ledger",
-    "description": "loading message while waiting for cnfirmation on ledger"
-  },
-  "html_sign_with_ledger": {
-    "message": "Assine na Ledger",
-    "description": "sign on ledger dialog title"
-  },
   "html_popup_error_while_broadcasting": {
     "message": "Erro ao transmitir a transação",
     "description": "error while broadcasting the transaction"
-  },
-  "html_popup_broadcasting_transaction": {
-    "message": "Transmitindo transação",
-    "description": "message while broadcasting the transaction"
-  },
-  "sign_buffer_ledger_error": {
-    "message": "Ledger atualmente não é compatível com a função Assinar Mensagem",
-    "description": "Error message if trying to sign a buffer with Ledger"
-  },
-  "error_ledger_denied_by_user": {
-    "message": "Transação rejeitada",
-    "description": "Transaction rejected on Ledger"
-  },
-  "error_ledger_locked": {
-    "message": "Por favor, desbloqueie sua Ledger",
-    "description": "Transaction rejected on Ledger because it is locked"
-  },
-  "error_ledger_failed_to_parse_transaction": {
-    "message": "Ledger não conseguiu processar a transação. Contate-nos no Discord",
-    "description": "transaction parsing failed on Ledger"
-  },
-  "error_ledger_bad_state": {
-    "message": "A Ledger detectou um erro e mudou para o modo bloqueado. Por favor, reinicie seu dispositivo e tente novamente",
-    "description": "Bad state error on Ledger"
-  },
-  "error_ledger_internal_error": {
-    "message": "Erro interno da Ledger. Por favor, tente reiniciar seu dispositivo e tente novamente",
-    "description": "Internal error on Ledger"
-  },
-  "error_ledger_sign_hash": {
-    "message": "Houve um erro ao assinar a transação.",
-    "description": "transaction blind signing failed on Ledger"
-  },
-  "error_ledger_app_not_supported": {
-    "message": "Parece que seu aplicativo não é suportado. Verifique se o Hive App está sendo executado no seu Ledger.",
-    "description": "transaction blind signing failed on Ledger"
-  },
-  "error_ledger_version_not_supported": {
-    "message": "A versão do aplicativo Hive da Ledger pode estar desatualizada. Atualize-o e tente novamente.",
-    "description": "transaction blind signing failed on Ledger"
-  },
-  "error_ledger_no_hash_sign_policy": {
-    "message": "A assinatura cega não está autorizada no seu dispositivo. Por favor, habilite o 'Hash Sign' nas configurações do aplicativo Hive.",
-    "description": "when user hasn't allowed hash sign policyon his ledger"
-  },
-  "error_ledger_hive_app_not_opened": {
-    "message": "Abra o aplicativo Hive na sua Ledger.",
-    "description": "when user hasn't allowed hash sign policyon his ledger"
   },
   "popup_html_need_active_key_for_claim_savings": {
     "message": "Você precisa adicionar sua chave active no Keychain para reivindicar a poupança",
@@ -3540,269 +2810,17 @@
     "message": "Você precisa adicionar sua chave active no Keychain para reivindicar contas",
     "description": "automated tasks => need active key claim accounts"
   },
-  "popup_html_cant_automatically_claim_ledger": {
-    "message": "Você não pode reivindicar automaticamente porque sua chave está salva na Ledger",
-    "description": "automated tasks => cant claim with Ledger"
-  },
   "popup_html_not_enough_rc_to_claim_account": {
     "message": "Você não possui RC suficiente para reivindicar uma conta.",
     "description": "automated tasks => need more RC to claim account"
-  },
-  "popup_html_validate_transaction_on_ledger": {
-    "message": "Confirme a transação na sua Ledger",
-    "description": "Message to remind user to accept transaction on his Ledger device"
-  },
-  "popup_html_add_account_with_ledger": {
-    "message": "Adicionar da Ledger",
-    "description": "Message to remind user to accept transaction on his Ledger device"
-  },
-  "add_key_from_ledger": {
-    "message": "Conectar chave",
-    "description": "Title of add key from ledger page"
-  },
-  "add_accounts_from_ledger": {
-    "message": "Adicionar contas da Ledger",
-    "description": "Title of add accounts from ledger page"
-  },
-  "add_accounts_from_ledger_finished": {
-    "message": "Adicionar contas da Ledger",
-    "description": "Title of add accounts from ledger page"
-  },
-  "synchronize_ledger_button": {
-    "message": "Conectar Ledger",
-    "description": "Synchronize Ledger button"
-  },
-  "ledger_select_account_caption": {
-    "message": "Selecione as contas que deseja importar",
-    "description": "Select account caption"
-  },
-  "ledger_add_missing_keys_caption": {
-    "message": "Algumas das chaves estão faltando para esta conta. Por favor, adicione-as manualmente para poder usar completamente sua conta ou pule esta etapa.",
-    "description": "Select account caption"
-  },
-  "ledger_add_key_use_master_key": {
-    "message": "Usar chave mestra",
-    "description": "Ledger add using master key"
-  },
-  "ledger_select_accounts": {
-    "message": "Selecionar contas",
-    "description": "Ledger add using master key"
-  },
-  "popup_html_next": {
-    "message": "Próximo",
-    "description": "General word"
-  },
-  "popup_html_previous": {
-    "message": "Anterior",
-    "description": "General word"
-  },
-  "select_account_from_ledger": {
-    "message": "Selecionar contas",
-    "description": "Select accounts to import from Ledger"
-  },
-  "ledger_add_missing_keys_to": {
-    "message": "Adicionar chaves",
-    "description": "Add missing keys when import account from Ledger"
-  },
-  "ledger_account_discovery_caption": {
-    "message": "Vincule sua Ledger para usar suas contas no Keychain",
-    "description": "synchronize ledger caption"
-  },
-  "no_account_found_on_ledger_error": {
-    "message": "Nenhuma conta encontrada na sua Ledger. Certifique-se de que você adicionou pelo menos uma e tente novamente.",
-    "description": "synchronize ledger caption"
-  },
-  "no_account_found_on_portfolio_error": {
-    "message": "Nenhuma conta encontrada em seu Portfólio do Keychain. Certifique-se de adicionar pelo menos uma e tente novamente.",
-    "description": "portfolio section, loading accounts"
-  },
-  "all_ledger_accounts_already_imported": {
-    "message": "Todas as contas na sua Ledger já foram vinculadas a Keychain",
-    "description": "while synchronizing ledger"
-  },
-  "add_accounts_from_ledger_sucessful": {
-    "message": "Seu(s) conta(s) foram adicionadas com sucesso ao Keychain",
-    "description": "Synchronize Ledger success message"
-  },
-  "add_key_from_ledger_sucessful": {
-    "message": "Chave vinculada com sucesso ao Keychain. Agora você pode fechar esta aba.",
-    "description": "Synchronize Ledger success message"
-  },
-  "popup_html_ledger_unknown_error": {
-    "message": "Ocorreu um erro desconhecido. Por favor, reinicie sua Ledger e tente novamente",
-    "description": "Ledger unknown error"
-  },
-  "add_key_from_ledger_caption": {
-    "message": "Vincule sua Ledger ao Keychain para usar esta tecla",
-    "description": "Ledger add key"
-  },
-  "ledger_discover_key": {
-    "message": "Confirmar",
-    "description": "Discover key on Ledger"
-  },
-  "popup_html_token_swaps": {
-    "message": "Swaps",
-    "description": "Token swaps"
-  },
-  "html_popup_swaps_slipperage": {
-    "message": "Slippage (variação)",
-    "description": "Token swaps : Slippage"
-  },
-  "html_popup_swaps_process_swap": {
-    "message": "Swap",
-    "description": "Token swaps : process"
-  },
-  "html_popup_swaps_final_price": {
-    "message": "≈ $1 $2",
-    "description": "Token swaps : process"
-  },
-  "html_popup_swaps_slippage_definition": {
-    "message": "Em cada etapa do swap, verificamos se o resultado final é superior à estimativa menos o slippage. Se não, o swap é cancelado e os fundos são devolvidos. Note que alguns swaps requerem várias operações e seus fundos podem ser devolvidos em um token diferente.",
-    "description": "Token swaps : process"
   },
   "local": {
     "message": "Local",
     "description": "generic word"
   },
-  "encode_with_memo_key_in_ledger": {
-    "message": "Sua chave memo esta armazenada na Ledger. Ledger atualmente não suporta a codificação de memo",
-    "description": "Error while trying to encode a memo with memo key in ledger"
-  },
-  "decode_with_memo_key_in_ledger": {
-    "message": "Sua chave memo esta armazenada na Ledger. Ledger atualmente não suporta a decodificação de memo",
-    "description": "Error while trying to decode a memo with memo key in ledger"
-  },
-  "ledger_signing_hash": {
-    "message": "Keychain esta solicitando a sua assinatura neste hash para a sua Ledger. Certifique-se que corresponde ao que esta escrito na sua Ledger. <br/>$1",
-    "description": "Ledger signing hash confirmation"
-  },
-  "token_value": {
-    "message": "Valor total",
-    "description": "Value of token in USD"
-  },
-  "token": {
-    "message": "Token",
-    "description": "Value of token in USD"
-  },
-  "tokens": {
-    "message": "Tokens",
-    "description": "common use in extension referring to HE tokes"
-  },
-  "liquid_balance": {
-    "message": "Saldo líquido",
-    "description": "Value of token in USD"
-  },
-  "ledger_link_device": {
-    "message": "Vincular dispositivo",
-    "description": "link button"
-  },
-  "ledger_link_ledger_device": {
-    "message": "Vincular dispositivo Ledger",
-    "description": "link button"
-  },
-  "ledger_link_device_caption": {
-    "message": "Vincule seu dispositivo com o seu navegador para poder usá-lo dentro do Keychain",
-    "description": "link device caption"
-  },
-  "ledger_link_device_linked": {
-    "message": "Dispositivo vinculado ao Ledger com sucesso",
-    "description": "link device success"
-  },
-  "ledger_reboot_with_ledger_live_error": {
-    "message": "Um erro foi detectado na Ledger. Por favor use o Ledger Live para reiniciar seu Ledger e tente novamente",
-    "description": "link device error"
-  },
-  "ledger_import_account_has_ledger": {
-    "message": "Detectamos uma conta usando a Ledger nas contas que você importou. Para poder usá-la, clique em <a target='_blank' href='$1'>aqui</a> para vincular sua Ledger.",
-    "description": "link device error"
-  },
-  "portfolio": {
-    "message": "Keychain Portfolio",
-    "description": "portfolio button click"
-  },
-  "portfolio_total_value_usd": {
-    "message": "Valor Total:",
-    "description": "portfolio main page"
-  },
-  "portfolio_caption_message_total_value": {
-    "message": "Esse valor reflete todos os tokens da Hive e Hive Engine de suas contas, independentemente do seu formulário (líquido, estampado, em poupança ou delegado)",
-    "description": "portfolio main page, information total value"
-  },
-  "portfolio_filter_placeholder": {
-    "message": "Filtrar conta",
-    "description": "portfolio filter"
-  },
-  "portfolio_clear_filter_link": {
-    "message": "Limpar",
-    "description": "clear filter"
-  },
-  "portfolio_data_cell_zero_or_no_balance_text": {
-    "message": "-",
-    "description": "portfolio displayed when 0 or no balances found on tokens"
-  },
-  "portfolio_table_column_header_account": {
-    "message": "Conta",
-    "description": "portfolio table headers"
-  },
-  "portfolio_table_column_sticky_totals": {
-    "message": "Total",
-    "description": "portfolio table columns"
-  },
-  "portfolio_table_column_total_hive": {
-    "message": "Total Hive",
-    "description": "portfolio table columns"
-  },
-  "portfolio_table_column_sticky_total_usd": {
-    "message": "Total USD",
-    "description": "portfolio table columns"
-  },
   "broadcast_error_transaction_expired": {
     "message": "Esta transação expirou. Isso pode ocorrer devido a um problema no relógio do seu dispositivo. Por favor, certifique-se de que o relógio do seu dispositivo está sincronizado online.",
     "description": "transaction expireed error"
-  },
-  "html_popup_swap_token_confirm_title": {
-    "message": "Confirmar swap de token",
-    "description": "Confirm token swap"
-  },
-  "html_popup_swap_token_confirm_message": {
-    "message": "Você está prestes a iniciar um swap de token usando Keychain. Você pode rastrear seu status na tela de histórico de swap.",
-    "description": "confirm token swap message"
-  },
-  "html_popup_swap_swap_id": {
-    "message": "Swap ID",
-    "description": "token swap"
-  },
-  "html_popup_swap_swap_from": {
-    "message": "Swapping de",
-    "description": "token swap"
-  },
-  "html_popup_swap_swap_to": {
-    "message": "Swapping para",
-    "description": "token swap"
-  },
-  "html_popup_swap_swap_amount": {
-    "message": "Estimativa de Swap",
-    "description": "token swap"
-  },
-  "html_popup_swap_swap_expected_amount": {
-    "message": "Quantia esperada",
-    "description": "token swap"
-  },
-  "html_popup_swap_swap_slipperage": {
-    "message": "Slippage (variação)",
-    "description": "token swap"
-  },
-  "html_popup_swap_sending_token_to_swap_account": {
-    "message": "Enviando $1 para @$2",
-    "description": "token swap"
-  },
-  "html_popup_swap_sending_token_successful": {
-    "message": "Seu swap está a caminho! Obrigado por usar o nosso serviço!",
-    "description": "token swap"
-  },
-  "html_popup_swap_error_sending_token": {
-    "message": "Ocorreu um erro ao enviar tokens para @$1.",
-    "description": "token swap general error message"
   },
   "local_accounts": {
     "message": "Contas locais",
@@ -3812,98 +2830,6 @@
     "message": "Usuários",
     "description": "General word"
   },
-  "exchanges": {
-    "message": "Exchanges",
-    "description": "General word"
-  },
-  "html_popup_token_swaps_history": {
-    "message": "Histórico de Swaps",
-    "description": "token swap history"
-  },
-  "swap_refresh_countdown": {
-    "message": "Atualizando em $1s",
-    "description": "swap token auto refresh"
-  },
-  "swap_status_started": {
-    "message": "Em Andamento",
-    "description": "swap status"
-  },
-  "swap_status_completed": {
-    "message": "Concluído",
-    "description": "swap status"
-  },
-  "swap_status_pending": {
-    "message": "Pendente",
-    "description": "swap status"
-  },
-  "swap_status_canceled_due_to_error": {
-    "message": "Cancelado",
-    "description": "swap status"
-  },
-  "swap_status_returned": {
-    "message": "Devolvido",
-    "description": "swap status"
-  },
-  "swap_status_refunded": {
-    "message": "Reembolsado",
-    "description": "swap status"
-  },
-  "swap_copied_to_clipboard": {
-    "message": "Copiado para a área de transferência!",
-    "description": "on preferences when clicking on swap id"
-  },
-  "swap_advanced_parameters": {
-    "message": "Parâmetros avançados",
-    "description": "Swap advanced parameters"
-  },
-  "swap_no_history": {
-    "message": "Seu histórico de swap está vazio",
-    "description": "History swap empty"
-  },
-  "swap_under_maintenance": {
-    "message": "Swap do Keychain esta em manutenção, por favor tente novamente mais tarde",
-    "description": "Keychain swap under maintenance"
-  },
-  "swap_start_end_token_should_be_different": {
-    "message": "Por favor, escolha dois tokens diferentes",
-    "description": "Start and end tokens should be differents"
-  },
-  "swap_not_enough_volume_error": {
-    "message": "Não há volume suficiente neste par de tokens para realizar esta troca",
-    "description": "Operation impossible because not enough volume"
-  },
-  "swap_min_slippage_error": {
-    "message": "O slippage deve ser pelo menos $1%",
-    "description": "Minimum slippage error"
-  },
-  "swap_caption": {
-    "message": "O Keychain compara todos os diferentes provedores para garantir que você obtenha seus tokens com a melhor taxa possível.",
-    "description": "Caption"
-  },
-  "swap_no_token": {
-    "message": "Você não tem nenhum HIVE, HBD ou token da Hive-Engine para trocar neste momento.",
-    "description": "Caption"
-  },
-  "swap_fee": {
-    "message": "Taxa",
-    "description": "Swap Fee"
-  },
-  "swap_partner_username": {
-    "message": "Parceiro",
-    "description": "Widget Swap partner username"
-  },
-  "swap_partner_fee": {
-    "message": "Taxa de Parceiros",
-    "description": "Widget Swap partner Fee"
-  },
-  "swap_last_update": {
-    "message": "Última atualização: $1",
-    "description": "swap last update"
-  },
-  "swap_see_transaction": {
-    "message": "Ver transação",
-    "description": "swap see transaction"
-  },
   "hive_tx_network_error": {
     "message": "Erro de tempo esgotado na rede: Por favor, verifique sua conexão!",
     "description": "General word"
@@ -3912,41 +2838,9 @@
     "message": "Você não tem RC suficiente para transmitir esta operação. Por favor aguarde seu RC recarregar ou faça power up.",
     "description": "Need more RC"
   },
-  "swap_no_estimate_error": {
-    "message": "Você precisa de uma estimativa para poder processar",
-    "description": "No estimate error"
-  },
-  "swap_server_unavailable": {
-    "message": "O servidor de swap está atualmente indisponível, por favor, tente novamente mais tarde",
-    "description": "Swap server not responding error"
-  },
-  "bgd_ops_swap_start_success": {
-    "message": "O swap começou com sucesso! Você obterá seus tokens em alguns momentos.",
-    "description": "Success on swap request"
-  },
   "service_unavailable_message": {
     "message": "Este serviço está temporariamente indisponível. Estamos trabalhando para corrigir o problema, desculpe pelo transtorno.",
     "description": "General service unavailable page message"
-  },
-  "swap_autorefresh": {
-    "message": "Atualizando em $1s",
-    "description": "Swap autorefresh"
-  },
-  "swap_transfer_not_sent": {
-    "message": "Transferência não enviada",
-    "description": "When transfer not sent, swap status"
-  },
-  "swap_cannot_switch_tokens": {
-    "message": "Não pode alterar tokens porque você não tem $1",
-    "description": "When trying to switch tokens (invert start and end)"
-  },
-  "swap_layer_two_delayed": {
-    "message": "A Hive Engine está atualmente atrasada nos blocos. A troca pode levar mais tempo do que o normal e tem uma maior chance de abortar devido ao slippage.",
-    "description": "When layer two is delayed"
-  },
-  "swap_min_hive_value_error": {
-    "message": "O valor mínimo deve ser equivalente a 1 HIVE (atualmente $1 HIVE)",
-    "description": "When equilavent hive value is too small"
   },
   "tx_missing_active_auth": {
     "message": "A chave active está incorreta. Por favor, atualize sua chave e tente novamente.",
@@ -3955,34 +2849,6 @@
   "tx_missing_posting_auth": {
     "message": "A chave posting está incorreta. Por favor, atualize sua chave e tente novamente.",
     "description": "Error message from blockchain: Posting key incorrect"
-  },
-  "ecosystem": {
-    "message": "Ecossistema",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_social": {
-    "message": "Rede social",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_finance": {
-    "message": "Defi",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_gaming": {
-    "message": "Jogos",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_nft": {
-    "message": "NFT",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_tool": {
-    "message": "Ferramentas",
-    "description": "Ecosystem"
-  },
-  "ecosystem_category_all": {
-    "message": "Todos",
-    "description": "Ecosystem"
   },
   "popup_html_theme": {
     "message": "Tema",
@@ -4064,14 +2930,6 @@
     "message": "Você precisa aceitar os termos e condições e as políticas de privacidade antes de continuar",
     "description": "Need to accept pp on sign up page"
   },
-  "html_tokens_none_available": {
-    "message": "Você não tem nenhum token da Hive Engine. Você pode comprar alguns através do nosso swap.",
-    "description": "When no token available"
-  },
-  "html_tokens_issuer": {
-    "message": "Emissor",
-    "description": "Token issuer"
-  },
   "html_add_available_authorities_caption": {
     "message": "Como alternativa, você pode usar uma conta autorizada da seguinte lista",
     "description": "available authorities caption"
@@ -4080,349 +2938,9 @@
     "message": "Chave adicionada com sucesso",
     "description": "Message on successful key added"
   },
-  "html_popup_pending_unstake": {
-    "message": "$1 unstake pendente",
-    "description": "Pending unstake"
-  },
-  "html_popup_total_pending_unstake": {
-    "message": "Unstake total pendente",
-    "description": "Total pending unstake"
-  },
-  "html_popup_next_unstake_transaction": {
-    "message": "Próxima transação",
-    "description": "Next transaction unstake"
-  },
-  "html_popup_remaining_transaction": {
-    "message": "$1 transações restando",
-    "description": "remaining transaction unstake"
-  },
-  "html_popup_unstake_per_transaction": {
-    "message": "$1 $2",
-    "description": "remaining transaction unstake"
-  },
-  "html_popup_cancel_unstaking_message": {
-    "message": "Por favor, confirme que você deseja cancelar seu unstaking.",
-    "description": "cancel unstake confirm message"
-  },
-  "html_popup_canceling_unstake_token": {
-    "message": "Cancelando unstake de token",
-    "description": "Loading message unstake"
-  },
-  "html_popup_cancel_unstake_token_success": {
-    "message": "Sucesso no cancelamento de unstake de token",
-    "description": "Loading message unstake"
-  },
-  "html_popup_cancel_unstake_token_fail": {
-    "message": "Falha no cancelamento de unstake de token",
-    "description": "Loading message unstake"
-  },
-  "popup_html_multisig": {
-    "message": "Multisig",
-    "description": "Multisig menu item"
-  },
-  "min_chrome_version": {
-    "message": "Por favor, atualize seu navegador Chromium para a versão 116 ou mais recente, para poder usar os recursos do multisig",
-    "description": "When enabling multisig on old browsers"
-  },
-  "popup_html_multisig_intro": {
-    "message": "Habilite o Hive Multisig para receber pedidos de multisig para esta conta.\n Encontre mais informações sobre o multisig <a href='https://peakd.com/utopian-io/@stoodkev/how-to-set-up-and-use-multisignature-accounts-on-steem-blockchain' target='__blank'>neste blog.</a>\nPara modificar a sua conta para uma conta multisig, use <a href='https://multisig.hive-keychain.com/' target='__blank'>o app Hive Multisig.</a>\nEste é um recurso avançado, apenas use-o se você sabe o que está fazendo.",
-    "description": "Multisig page intro"
-  },
-  "popup_html_enable_multisig": {
-    "message": "Habilitar multisig",
-    "description": "Multisig page enable multisig"
-  },
-  "popup_html_enable_active_key_multisig": {
-    "message": "Habilitar chave active multisig",
-    "description": "Multisig page enable active key multisig"
-  },
-  "popup_html_enable_posting_key_multisig": {
-    "message": "Habilitar chave posting multisig",
-    "description": "Multisig page enable posting key multisig"
-  },
-  "multisig_dialog_accept_tx": {
-    "message": "Aceitar",
-    "description": "accept transaction coming from multisig"
-  },
-  "multisig_dialog_reject_tx": {
-    "message": "Rejeitar",
-    "description": "Reject transaction coming from multisig"
-  },
-  "multisig_dialog_accept_reject_tx_caption": {
-    "message": "Você recebeu uma solicitação de assinatura.",
-    "description": "Reject transaction coming from multisig"
-  },
-  "multisig_dialog_transaction_signed_successfully": {
-    "message": "Sua transação foi assinada. Você será notificado quando for transmitida",
-    "description": "Reject transaction coming from multisig"
-  },
-  "multisig_dialog_transaction_broadcasted": {
-    "message": "Transação transmitida",
-    "description": "Reject transaction coming from multisig"
-  },
-  "multisig": {
-    "message": "Multisig",
-    "description": "Multisig"
-  },
-  "multisig_tx": {
-    "message": "Transação",
-    "description": "Multisig transaction"
-  },
-  "multisig_initiator": {
-    "message": "Iniciador",
-    "description": "Multisig transaction initiator"
-  },
-  "multisig_requested_signer_username": {
-    "message": "Assinante solicitado",
-    "description": "Multisig transaction requested signer"
-  },
-  "multisig_requested_signer_public_key": {
-    "message": "Chave pública solicitada",
-    "description": "Multisig transaction requested signer"
-  },
-  "multisig_key_is_ledger_hint": {
-    "message": "Sua chave usa Ledger. Não é compatível com nossa versão do Multisig",
-    "description": "Explanation of why Ledger cannot work with multisig"
-  },
-  "multisig_processing_tx_through_multisig_server": {
-    "message": "Sua transação será processada usando o servidor multisig",
-    "description": "Using multisig to process transaction"
-  },
-  "multisig_transaction_sent_to_signers": {
-    "message": "Sua transação foi enviada com sucesso para possíveis assinaturas. Você será notificado quando for transmitida",
-    "description": "Tx sent to multisig backend success message"
-  },
-  "multisig_disclaimer_message": {
-    "message": "Multisig detectado: Esta transação será enviada ao servidor Hive Multisig",
-    "description": "Message to inform user that multisig will be used"
-  },
-  "multisig_transmitting_to_multisig": {
-    "message": "Enviando transação codificada para o servidor Multisig e possíveis assinantes",
-    "description": "Message to inform user transmiting to multisig backend"
-  },
-  "multisig_transmitting_to_2fa": {
-    "message": "Enviando transação codificada para o servidor Multisig e o bot 2FA",
-    "description": "Message to inform user transmiting to multisig backend"
-  },
-  "swap_multisig_transaction_sent_to_signers": {
-    "message": "Sua transação foi enviada com sucesso para possíveis assinaturas. Você será notificado quando for transmitida. Uma vez transmitida, seu swap será processado.",
-    "description": "Tx sent to multisig backend success message"
-  },
-  "html_popup_ecosystem_retrieving_error": {
-    "message": "Ocorreu um erro ao recuperar o ecossistema. Tente novamente mais tarde",
-    "description": "Ecosystem retrieving error"
-  },
   "html_popup_click_to_refresh": {
     "message": "Clique para atualizar",
     "description": "explanation for keychain icon click"
-  },
-  "html_popup_settings_notifications": {
-    "message": "Notificações",
-    "description": "Notifications"
-  },
-  "html_popup_settings_notifications_caption": {
-    "message": "Configurar suas notificações do Peak Open Projects. Esteja ciente de que as alterações podem levar tempo para serem aplicadas, e que este é um recurso experimental.",
-    "description": "Notification caption introducing the feature"
-  },
-  "html_popup_settings_notifications_activated": {
-    "message": "Ativado",
-    "description": "Notification system active for this account"
-  },
-  "html_popup_settings_notifications_condition": {
-    "message": "Condição",
-    "description": "Condition"
-  },
-  "html_popup_reset_form": {
-    "message": "Reset",
-    "description": "Global word"
-  },
-  "html_popup_notification_default_config": {
-    "message": "Configuração padrão",
-    "description": "Notification default config"
-  },
-  "html_popup_add_new_condition": {
-    "message": "Adicionar nova condição",
-    "description": "Add new condition"
-  },
-  "html_popup_delete_criteria": {
-    "message": "Excluir critério",
-    "description": "Delete criteria"
-  },
-  "notification_recurrent_transfer": {
-    "message": "@$1 iniciou uma transferência recorrente de $2 para @$3 ($4 execuções a cada $5 horas)",
-    "description": "Notification recurrent transfer"
-  },
-  "notification_follow": {
-    "message": "@$1 começou a seguir @$2",
-    "description": "Notification follow"
-  },
-  "notification_unfollow": {
-    "message": "@$1 parou de seguir @$2",
-    "description": "Notification unfollow"
-  },
-  "notification_reblog": {
-    "message": "@$1 fez reblog do post @$2's {link}",
-    "description": "Notification reblog"
-  },
-  "notification_unreblog": {
-    "message": "@$1 cancelou reblog do post @$2's {link}",
-    "description": "Notification unreblog"
-  },
-  "notification_account_update": {
-    "message": "Configurações de notificação de @$1's foram atualizadas",
-    "description": "Notification account updated"
-  },
-  "notification_mention": {
-    "message": "@$1 mencionou @$2 em {link}",
-    "description": "Notification mentioned"
-  },
-  "notification_answer": {
-    "message": "@$1 respondeu a {link}",
-    "description": "Notification reply"
-  },
-  "notification_account_witness_proxy": {
-    "message": "@$1 definiu @$2 como um proxy",
-    "description": "Notification witness proxy"
-  },
-  "notification_account_witness_vote": {
-    "message": "@$1 votou em @$2 para testemunha",
-    "description": "Notification witness proxy"
-  },
-  "notification_account_witness_unvote": {
-    "message": "@$1 deixou de votar @$2 para testemunha",
-    "description": "Notification witness proxy"
-  },
-  "notification_delegation": {
-    "message": "@$1 delegou $2 para @$3",
-    "description": "notification delegation hp"
-  },
-  "notification_cancel_delegation": {
-    "message": "@$1 cancelou uma delegação para @$2",
-    "description": "notification cancel delegation hp"
-  },
-  "notification_requested_account_recovery": {
-    "message": "@$1 solicitou a recuperação para @$2",
-    "description": "notification recovery request"
-  },
-  "notification_recovered_account": {
-    "message": "@$1 foi recuperado(a)",
-    "description": "Notification accouht recovered"
-  },
-  "notification_set_power_down_route": {
-    "message": "A rota de power down foi alterada de @$1 para @$2",
-    "description": "Notification set power down route"
-  },
-  "notification_fill_convert": {
-    "message": "@$1 concluiu uma conversão : $2 para $3",
-    "description": "Notification fill convert"
-  },
-  "notification_author_reward": {
-    "message": "@$1 recebeu $2, $3, $4 como recompensa de autor por {link}",
-    "description": "Notification author reward"
-  },
-  "notification_comment_reward": {
-    "message": "@$1 recebeu $2 como uma recompensa de comentário de {link}",
-    "description": "Notification comment reward"
-  },
-  "notification_hbd_interest": {
-    "message": "@$1 recebeu $2 como juros",
-    "description": "Notification HBD interest received"
-  },
-  "notification_fill_power_down": {
-    "message": "@$1 recebeu $2 como parte de um power down",
-    "description": "Notification power down received"
-  },
-  "notification_fill_power_down_other_account": {
-    "message": "@$1 recebeu $2 como parte de um power down de @$3",
-    "description": "Notification power down received"
-  },
-  "notification_changed_recovery_account": {
-    "message": "A conta de recuperação de @$1's foi alterada de @$2 para @$3",
-    "description": "Notification for changed recovery account"
-  },
-  "notification_producer_reward": {
-    "message": "@$1 recebeu $2 como recompensa do produtor",
-    "description": "Notification for producer rewards"
-  },
-  "notification_curation_reward": {
-    "message": "@$1 recebeu $2 como recompensa de curadoria para {link}",
-    "description": "Notification for curation rewards"
-  },
-  "notification_failed_recurrent_transfer": {
-    "message": "$1 transferência recorrente de @$2 para @$3 falhou",
-    "description": "Notification for failed recurrent transfer"
-  },
-  "notification_fill_collateralized_convert_request": {
-    "message": "@$1 concluiu uma conversão : $2 para $3",
-    "description": "Notification collateralized convert request"
-  },
-  "notification_fill_transfer_from_savings": {
-    "message": "@$1 finalizou uma retirada da poupança de $2",
-    "description": "Fill withdraw savings notification"
-  },
-  "notification_fill_transfer_from_savings_from_other_account": {
-    "message": "@$1 finalizou uma retirada da poupança de $2 para @$3",
-    "description": "Fill withdraw savings notification"
-  },
-  "notification_returned_vesting_delegation": {
-    "message": "@$1 concluiu a retirada de delegação. $2 estão novamente disponíveis",
-    "description": "Notification for when HP is avalable after undelegating"
-  },
-  "notification_comment_benefactor_reward": {
-    "message": "@$1 recebeu $2, $3, $4 como uma recompensa de beneficiário no comentário por {link}",
-    "description": "Notification author reward"
-  },
-  "notification_fill_order": {
-    "message": "@$1 preencheu um pedido de @$2 no mercado. Comprou $3 por $4",
-    "description": "Notification fill order"
-  },
-  "notification_change_recovery_account": {
-    "message": "@$1 mudou a conta de recuperação para @$2. Esta alteração entrará em vigor em 30 dias",
-    "description": "Notification change recovery account"
-  },
-  "notification_vote": {
-    "message": "@$1 votou em {link}",
-    "description": "Notification for vote"
-  },
-  "notification_clear_config": {
-    "message": "Limpar configuração",
-    "description": "clear config notification"
-  },
-  "notification_set_all_as_read": {
-    "message": "Marcar tudo como lido",
-    "description": "Set all notifications as read"
-  },
-  "notification_setting_all_as_read": {
-    "message": "Definindo todas as notificações como lidas",
-    "description": "Set all notifications as read"
-  },
-  "notification_settings_advanced_settings": {
-    "message": "Abrir configurações avançadas",
-    "description": "Open advanced settings"
-  },
-  "notification_settings_select_all": {
-    "message": "Selecionar todos",
-    "description": "Select all criterias"
-  },
-  "notification_settings_nothing_has_changed": {
-    "message": "Nenhuma alteração detetada.",
-    "description": "Select all criterias"
-  },
-  "portfolio_fetch_progress": {
-    "message": "Buscando dados... $1/$2... Buscando atualmente @$3",
-    "description": "Portfolio fetching message"
-  },
-  "multisig_bot_two_fa_code": {
-    "message": "@$1 Senha Única",
-    "description": "Two fa code label"
-  },
-  "multisig_bot_two_fa_codes": {
-    "message": "Códigos 2FA",
-    "description": "Two fa code label"
-  },
-  "notification_confirm_save": {
-    "message": "Tem a certeza que deseja gravar as suas alterações?",
-    "description": "Notification save changes message"
   },
   "export_transactions_fetching_error": {
     "message": "Houve um erro ao recuperar suas transações. Por favor, tente novamente mais tarde",
@@ -4435,10 +2953,6 @@
   "popup_html_pref_export_transactions_loading_caption": {
     "message": "$1%",
     "description": "Caption for download data"
-  },
-  "popup_html_transaction_metadata": {
-    "message": "Metadados da transação",
-    "description": "Transaction metadata"
   },
   "popup_html_proposal_vote": {
     "message": "Apoie o Desenvolvimento do Keychain",

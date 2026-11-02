@@ -65,38 +65,6 @@ describe('mk.module tests:\n', () => {
     expect(await MkModule.login('not_the_one')).toBe(false);
   });
 
-  it('Must return true when valid login relies on v2 keyless storage', async () => {
-    const keylessPayload = await EncryptUtils.encryptJson(
-      {
-        list: {
-          alice: [{ appName: 'peakd.com', authKey: 'auth-key' }],
-        },
-      },
-      mk.user.one,
-    );
-
-    LocalStorageUtils.getValueFromLocalStorage = jest
-      .fn()
-      .mockImplementation((key: LocalStorageKeyEnum) => {
-        switch (key) {
-          case LocalStorageKeyEnum.ACCOUNTS:
-            return undefined;
-          case LocalStorageKeyEnum.KEYLESS_KEYCHAIN_AUTH_DATA_USER_DICT:
-            return keylessPayload;
-          default:
-            return undefined;
-        }
-      });
-    jest
-      .spyOn(LocalStorageUtils, 'getMultipleValueFromLocalStorage')
-      .mockResolvedValue({
-        [LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED]: true,
-        [LocalStorageKeyEnum.KEYLESS_KEYCHAIN_AUTH_DATA_USER_DICT]: keylessPayload,
-      });
-
-    expect(await MkModule.login(mk.user.one)).toBe(true);
-  });
-
   it('Must call sendMessage', async () => {
     jest.spyOn(VaultUtils, 'getValueFromVault').mockResolvedValue(mk.user.one);
 

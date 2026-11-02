@@ -7,11 +7,11 @@ import React, { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
-  DropResult,
   Droppable,
+  DropResult,
 } from 'react-beautiful-dnd';
 import Select, { SelectRenderer } from 'react-dropdown-select';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
 import { SelectAccountSectionItemComponent } from 'src/common-ui/select-account-section/select-account-section-item.component';
@@ -91,7 +91,7 @@ const SelectAccountSection = ({
         }}>
         <PreloadedImage
           className="user-picture"
-          src={`https://images.hive.blog/u/${selectedLocalAccount}/avatar`}
+          src={'/assets/images/placeholders/account-placeholder.png'}
           alt={'/assets/images/placeholders/account-placeholder.png'}
           placeholder={'/assets/images/placeholders/account-placeholder.png'}
         />

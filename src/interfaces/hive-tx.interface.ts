@@ -4,13 +4,11 @@ export interface TransactionResult {
   // status: string;
   // block_num: number;
   confirmed?: boolean;
-  isUsingMultisig?: boolean;
 }
 
 export interface HiveTxBroadcastResult {
   status: string;
   tx_id: string;
-  isUsingMultisig?: boolean;
 }
 
 export interface HiveTxBroadcastSuccessResponse {

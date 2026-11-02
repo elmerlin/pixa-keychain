@@ -98,7 +98,7 @@ export const SelectAccountSectionItemComponent = ({
         }}>
         <PreloadedImage
           className="user-picture"
-          src={`https://images.hive.blog/u/${item.label}/avatar`}
+          src={'/assets/images/placeholders/account-placeholder.png'}
           alt={'/assets/images/placeholders/account-placeholder.png'}
           placeholder={'/assets/images/placeholders/account-placeholder.png'}
         />

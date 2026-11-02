@@ -12,24 +12,13 @@ import { LocalAccount } from '@interfaces/local-account.interface';
 import { Proposal } from '@interfaces/proposal.interface';
 import { RcDelegation } from '@interfaces/rc-delegation.interface';
 import { Rpc } from '@interfaces/rpc.interface';
-import { TokenDelegation } from '@interfaces/token-delegation.interface';
-import {
-  PendingUnstaking,
-  TokenBalance,
-  TokenMarket,
-  TokenTransaction,
-} from '@interfaces/tokens.interface';
 import { Transaction } from '@interfaces/transaction.interface';
 import accounts from 'src/__tests__/utils-for-testing/data/accounts';
 import delegations from 'src/__tests__/utils-for-testing/data/delegations';
 import dynamic from 'src/__tests__/utils-for-testing/data/dynamic.hive';
-import tokenHistory from 'src/__tests__/utils-for-testing/data/history/transactions/tokens/token-history';
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import fake_RC from 'src/__tests__/utils-for-testing/data/rc';
 import rpc from 'src/__tests__/utils-for-testing/data/rpc';
-import tokenMarket from 'src/__tests__/utils-for-testing/data/tokens/token-market';
-import tokensList from 'src/__tests__/utils-for-testing/data/tokens/tokens-list';
-import tokensUser from 'src/__tests__/utils-for-testing/data/tokens/tokens-user';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
 import { KeyChainApiGetCustomData } from 'src/__tests__/utils-for-testing/interfaces/implementations';
 import {
@@ -43,7 +32,6 @@ import { ConversionUtils } from 'src/popup/hive/utils/conversion.utils';
 import { DelegationUtils } from 'src/popup/hive/utils/delegation.utils';
 import { DynamicGlobalPropertiesUtils } from 'src/popup/hive/utils/dynamic-global-properties.utils';
 import { GovernanceUtils } from 'src/popup/hive/utils/governance.utils';
-import { HiveEngineUtils } from 'src/popup/hive/utils/hive-engine.utils';
 import HiveUtils from 'src/popup/hive/utils/hive.utils';
 import MkUtils from 'src/popup/hive/utils/mk.utils';
 import ProposalUtils from 'src/popup/hive/utils/proposal.utils';
@@ -51,10 +39,7 @@ import ProxyUtils from 'src/popup/hive/utils/proxy.utils';
 import { RcDelegationsUtils } from 'src/popup/hive/utils/rc-delegations.utils';
 import { RewardsUtils } from 'src/popup/hive/utils/rewards.utils';
 import RpcUtils from 'src/popup/hive/utils/rpc.utils';
-import { SurveyUtils } from 'src/popup/hive/utils/survey.utils';
-import TokensUtils from 'src/popup/hive/utils/tokens.utils';
 import TransactionUtils from 'src/popup/hive/utils/transaction.utils';
-import { LedgerUtils } from 'src/utils/ledger.utils';
 import { AsyncUtils } from 'src/utils/async.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import PopupUtils from 'src/utils/popup.utils';
@@ -100,80 +85,10 @@ export interface TestsAppLoadingValues {
   currencyPrices?: {
     getPrices?: Record<string, unknown>;
   };
-  accountsRelated?: {
-    ActiveAccountUtils?: { getActiveAccountNameFromLocalStorage?: string };
-    AccountUtils?: {
-      getAccount?: ExtendedAccount[];
-      getRCMana?: RC;
-      getExtendedAccount?: ExtendedAccount;
-      getExtendedAccounts?: ExtendedAccount[];
-      hasStoredAccounts?: boolean;
-      getAccountsFromLocalStorage?: LocalAccount[];
-      getAccountValue?: string | 0;
-      getPowerDown?: string[];
-    };
-    MkUtils?: { getMkFromLocalStorage?: string };
-    HiveUtils?: {
-      getAccountPrice?: number;
-      getVP?: number;
-      getVotingDollarsPerAccount?: number;
-    };
-    RewardsUtils?: { hasReward?: boolean };
-    /**
-     * Note: As default will mock raw data into getTransactions.
-     * If used by default, you must declare getLastTransaction = data.length
-     */
-    TransactionUtils?: {
-      getAccountTransactions?: [Transaction[], number];
-      getLastTransaction?: number | Transaction;
-      getTransactions?: any[];
-    };
-    TokensUtils?: {
-      getUserBalance?: TokenBalance[];
-      getIncomingDelegations?: TokenDelegation[];
-      getOutgoingDelegations?: TokenDelegation[];
-      getAllTokens?: any[];
-      getTokensMarket?: TokenMarket[];
-      getPendingUnstakes?: PendingUnstaking[];
-    };
-    HiveEngineUtils?: { getTokenHistory?: TokenTransaction[] };
-    DelegationUtils?: {
-      getDelegatees?: VestingDelegation[];
-      getPendingOutgoingUndelegation?: [];
-    };
-    RcDelegationsUtils?: { getAllOutgoingDelegations?: RcDelegation[] };
-    ConversionUtils?: { getConversionRequests?: Conversion[] };
-    ProxyUtils?: { findUserProxy?: string };
-  };
   proposal?: {
     ProposalUtils?: {
       hasVotedForProposal?: boolean;
-      voteForKeychainProposal?: boolean;
-      isRequestingProposalVotes?: boolean;
       getProposalList?: Proposal[];
-    };
-  };
-  googleAnalytics?: {
-    window?: { gtag?: jest.Mock };
-  };
-  popupsRelated?: {
-    SurveyUtils?: {
-      getSurvey?: jest.Mock;
-      setCurrentAsSeen?: jest.Mock;
-    };
-    GovernanceUtils?: {
-      addToIgnoreRenewal?: jest.Mock;
-      getGovernanceReminderList?: string[];
-      getGovernanceRenewalIgnored?: [];
-      removeFromIgnoreRenewal?: jest.Mock;
-      renewUsersGovernance?: jest.Mock;
-    };
-    whatsnew?: {
-      chrome?: {
-        runtime?: {
-          getManifest?: GetManifest;
-        };
-      };
     };
   };
   apiRelated?: {
@@ -189,11 +104,6 @@ export interface TestsAppLoadingValues {
     customData?: CustomDataFromLocalStorage;
     LocalStorageUtils?: {
       getMultipleValueFromLocalStorage?: any;
-    };
-  };
-  ledgerRelated?: {
-    LedgerUtils?: {
-      isLedgerSupported?: boolean;
     };
   };
 }
@@ -277,12 +187,10 @@ const set = (params?: {
     .mockResolvedValue(
       params?.app?.globalData?.rewardFund ?? dynamic.rewardFund,
     );
-  CurrencyPricesUtils.getPrices = jest.fn().mockResolvedValue(
-    params?.app?.currencyPrices?.getPrices ?? {},
-  );
-  AsyncUtils.sleep = jest
+  CurrencyPricesUtils.getPrices = jest
     .fn()
-    .mockImplementation(() => Promise.resolve());
+    .mockResolvedValue(params?.app?.currencyPrices?.getPrices ?? {});
+  AsyncUtils.sleep = jest.fn().mockImplementation(() => Promise.resolve());
   //////////
 
   //////////
@@ -383,48 +291,6 @@ const set = (params?: {
     .mockResolvedValue(
       params?.app?.accountsRelated?.TransactionUtils?.getLastTransaction ?? 1,
     );
-  TokensUtils.getUserBalance = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getUserBalance ??
-        tokensUser.balances,
-    );
-  TokensUtils.getIncomingDelegations = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getIncomingDelegations ??
-        tokensUser.incomingDelegations,
-    );
-  TokensUtils.getOutgoingDelegations = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getOutgoingDelegations ??
-        tokensUser.outcomingDelegations,
-    );
-  TokensUtils.getAllTokens = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getAllTokens ??
-        tokensList.alltokens,
-    );
-  TokensUtils.getTokensMarket = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getTokensMarket ??
-        tokenMarket.all,
-    );
-  TokensUtils.getPendingUnstakes = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.accountsRelated?.TokensUtils?.getPendingUnstakes ?? [],
-    );
-  HiveEngineUtils.getHistory = jest
-    .fn()
-    .mockResolvedValueOnce(
-      params?.app?.accountsRelated?.HiveEngineUtils?.getTokenHistory ??
-        tokenHistory.leoToken,
-    )
-    .mockResolvedValueOnce([]);
   DelegationUtils.getDelegatees = jest
     .fn()
     .mockResolvedValue(
@@ -463,16 +329,6 @@ const set = (params?: {
     .mockResolvedValue(
       params?.app?.proposal?.ProposalUtils?.hasVotedForProposal ?? true,
     );
-  ProposalUtils.voteForKeychainProposal = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.proposal?.ProposalUtils?.voteForKeychainProposal ?? true,
-    );
-  ProposalUtils.isRequestingProposalVotes = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.proposal?.ProposalUtils?.isRequestingProposalVotes ?? false,
-    );
   ProposalUtils.getProposalList = jest
     .fn()
     .mockResolvedValue(
@@ -480,18 +336,6 @@ const set = (params?: {
     );
   //////////
 
-  window.gtag =
-    params?.app?.googleAnalytics?.window?.gtag ??
-    jest.fn().mockImplementation(() => undefined);
-
-  /////////
-  //AppPopups related (including: survey, governance, whats'new)
-  SurveyUtils.getSurvey =
-    params?.app?.popupsRelated?.SurveyUtils?.getSurvey ??
-    jest.fn().mockResolvedValue(undefined);
-  SurveyUtils.setCurrentAsSeen =
-    params?.app?.popupsRelated?.SurveyUtils?.setCurrentAsSeen ??
-    jest.fn().mockImplementation(() => {});
   GovernanceUtils.addToIgnoreRenewal =
     params?.app?.popupsRelated?.GovernanceUtils?.addToIgnoreRenewal ??
     jest.fn().mockImplementation(() => Promise.resolve(undefined));
@@ -540,15 +384,6 @@ const set = (params?: {
           params?.app?.apiRelated?.KeychainApi?.customData,
         ),
       );
-  ///////////
-
-  //////////
-  //Ledger Related
-  LedgerUtils.isLedgerSupported = jest
-    .fn()
-    .mockResolvedValue(
-      params?.app?.ledgerRelated?.LedgerUtils?.isLedgerSupported ?? false,
-    );
   //////////
 };
 

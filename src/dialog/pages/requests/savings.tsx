@@ -10,7 +10,6 @@ import RequestItem from 'src/dialog/components/request-item/request-item';
 import { useAnonymousRequest } from 'src/dialog/hooks/anonymous-requests';
 import { SavingOperationType } from 'src/popup/hive/pages/app-container/home/savings/savings-operation-type.enum';
 import CurrencyUtils from 'src/popup/hive/utils/currency.utils';
-import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import FormatUtils from 'src/utils/format.utils';
 
 type Props = {
@@ -39,10 +38,6 @@ const Savings = (props: Props) => {
   const savingOperationType = isDeposit
     ? SavingOperationType.DEPOSIT
     : SavingOperationType.WITHDRAW;
-  const warningMessage = TransferUtils.getTransferFromToSavingsValidationWarning(
-    data.to,
-    savingOperationType,
-  );
 
   const renderUsername = () => {
     return !accounts && data.username ? (
@@ -61,16 +56,12 @@ const Savings = (props: Props) => {
         isDeposit ? 'popup_html_deposit_param' : 'popup_html_withdraw_param',
         [currencyLabel],
       )}
-      header={
-        warningMessage ||
-        chrome.i18n.getMessage(
-          isDeposit
-            ? 'popup_html_confirm_savings_deposit'
-            : 'popup_html_confirm_savings_withdraw',
-          [amountLabel],
-        )
-      }
-      redHeader={!!warningMessage}
+      header={chrome.i18n.getMessage(
+        isDeposit
+          ? 'popup_html_confirm_savings_deposit'
+          : 'popup_html_confirm_savings_withdraw',
+        [amountLabel],
+      )}
       {...anonymousProps}
       {...props}>
       {renderUsername()}

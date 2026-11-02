@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { broadcastProxy } from '@background/requests/operations/ops/proxy';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
@@ -12,7 +11,6 @@ import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 
 describe('proxy tests:\n', () => {
   const data = {
@@ -96,46 +94,6 @@ describe('proxy tests:\n', () => {
         data.proxy = 'keychain';
         const requestHandler = new RequestsHandler();
         requestHandler.data.key = userData.one.nonEncryptKeys.active;
-        const result = await broadcastProxy(requestHandler, data);
-        const { request_id, ...datas } = data;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('popup_success_proxy', [
-              data.proxy,
-            ]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
-
-    describe('Using ledger cases:\n', () => {
-      it('Must return success on setting proxy', async () => {
-        mockHiveTxCreateTransactionForLedger();
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        data.username = userData.one.username;
-        data.proxy = 'keychain';
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#ledgerKEY!@#$';
         const result = await broadcastProxy(requestHandler, data);
         const { request_id, ...datas } = data;
         expect(result).toEqual({

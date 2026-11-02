@@ -8,7 +8,6 @@ import {
   sendRequestToBackground,
   sendResponse,
 } from 'src/content-scripts/web-interface/response.logic';
-import KeychainifyUtils from 'src/utils/keychainify.utils';
 
 describe('response.logic tests:\n', () => {
   const prevReq = {
@@ -76,11 +75,7 @@ describe('response.logic tests:\n', () => {
       });
     });
     it('Must call sendResponse using error as stack', () => {
-      const joiError = new Joi.ValidationError(
-        'error_stack',
-        [],
-        'original',
-      );
+      const joiError = new Joi.ValidationError('error_stack', [], 'original');
       const sSendResponse = jest
         .spyOn(ResponseLogicModule, 'sendResponse')
         .mockImplementation(() => {});
@@ -99,9 +94,6 @@ describe('response.logic tests:\n', () => {
 
   describe('sendResponse cases:\n', () => {
     it('Must post a message when redirect_uri is rejected', () => {
-      jest
-        .spyOn(KeychainifyUtils, 'isRedirectUriAcceptable')
-        .mockReturnValue(false);
       const sPostMessage = jest
         .spyOn(window, 'postMessage')
         .mockImplementation(() => {});

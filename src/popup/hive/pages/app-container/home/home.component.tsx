@@ -1,5 +1,4 @@
 import { AccountVestingRoutesDifferences } from '@interfaces/vesting-routes.interface';
-import { TutorialPopupComponent } from '@popup/hive/pages/app-container/tutorial-popup/tutorial-popup.component';
 import { VestingRoutesPopupComponent } from '@popup/hive/pages/app-container/vesting-routes-popup/vesting-routes-popup.component';
 import { VestingRoutesUtils } from '@popup/hive/utils/vesting-routes.utils';
 import { setSuccessMessage } from '@popup/multichain/actions/message.actions';
@@ -8,7 +7,7 @@ import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { Screen } from '@reference-data/screen.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
 import { refreshActiveAccount } from 'src/popup/hive/actions/active-account.actions';
 import { loadCurrencyPrices } from 'src/popup/hive/actions/currency-prices.actions';
@@ -17,12 +16,7 @@ import { EstimatedAccountValueSectionComponent } from 'src/popup/hive/pages/app-
 import { GovernanceRenewalComponent } from 'src/popup/hive/pages/app-container/home/governance-renewal/governance-renewal.component';
 import { ResourcesSectionComponent } from 'src/popup/hive/pages/app-container/home/resources-section/resources-section.component';
 import { TopBarComponent } from 'src/popup/hive/pages/app-container/home/top-bar/top-bar.component';
-import { ProposalVotingSectionComponent } from 'src/popup/hive/pages/app-container/home/voting-section/proposal-voting-section/proposal-voting-section.component';
 import { WalletInfoSectionComponent } from 'src/popup/hive/pages/app-container/home/wallet-info-section/wallet-info-section.component';
-import { SurveyComponent } from 'src/popup/hive/pages/app-container/survey/survey.component';
-import { Survey } from 'src/popup/hive/pages/app-container/survey/survey.interface';
-import { WhatsNewComponent } from 'src/popup/hive/pages/app-container/whats-new/whats-new.component';
-import { WhatsNewContent } from 'src/popup/hive/pages/app-container/whats-new/whats-new.interface';
 import {
   WrongKeyPopupComponent,
   WrongKeysOnUser,
@@ -31,11 +25,8 @@ import AccountUtils from 'src/popup/hive/utils/account.utils';
 import ActiveAccountUtils from 'src/popup/hive/utils/active-account.utils';
 import { GovernanceUtils } from 'src/popup/hive/utils/governance.utils';
 import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
-import { SurveyUtils } from 'src/popup/hive/utils/survey.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
-import { VersionLogUtils } from 'src/utils/version-log.utils';
-import { WhatsNewUtils } from 'src/utils/whats-new.utils';
 
 const Home = ({
   activeAccount,
@@ -45,12 +36,9 @@ const Home = ({
   resetTitleContainerProperties,
   setSuccessMessage,
 }: PropsFromRedux) => {
-  const [displayWhatsNew, setDisplayWhatsNew] = useState(false);
   const [governanceAccountsToExpire, setGovernanceAccountsToExpire] = useState<
     string[]
   >([]);
-  const [whatsNewContent, setWhatsNewContent] = useState<WhatsNewContent>();
-  const [surveyToDisplay, setSurveyToDisplay] = useState<Survey>();
   const [displayWrongKeyPopup, setDisplayWrongKeyPopup] = useState<
     WrongKeysOnUser | undefined
   >();
@@ -65,8 +53,6 @@ const Home = ({
     if (!ActiveAccountUtils.isEmpty(activeAccount)) {
       refreshActiveAccount();
     }
-    initWhatsNew();
-    initSurvey();
     initCheckKeysOnAccounts(accounts);
     initCheckVestingRoutes();
   }, []);
@@ -85,36 +71,6 @@ const Home = ({
       accountNames,
     );
     setGovernanceAccountsToExpire(accountsToRemind);
-  };
-
-  const initSurvey = async () => {
-    setSurveyToDisplay(await SurveyUtils.getSurvey());
-  };
-
-  const initWhatsNew = async () => {
-    const lastVersionSeen = await LocalStorageUtils.getValueFromLocalStorage(
-      LocalStorageKeyEnum.LAST_VERSION_UPDATE,
-    );
-
-    if (!lastVersionSeen) {
-      WhatsNewUtils.saveLastSeen();
-      return;
-    }
-
-    const versionLog = await VersionLogUtils.getLastVersion();
-    const extensionVersion = chrome.runtime
-      .getManifest()
-      .version.split('.')
-      .splice(0, 2)
-      .join('.');
-
-    if (
-      extensionVersion !== lastVersionSeen &&
-      versionLog?.version === extensionVersion
-    ) {
-      setWhatsNewContent(versionLog);
-      setDisplayWhatsNew(true);
-    }
   };
 
   const initCheckKeysOnAccounts = async (localAccounts: LocalAccount[]) => {
@@ -167,25 +123,14 @@ const Home = ({
   };
 
   const renderPopup = (
-    displayWhatsNew: boolean,
     governanceAccountsToExpire: string[],
-    surveyToDisplay: Survey | undefined,
     displayWrongKeyPopup: WrongKeysOnUser | undefined,
     vestingRoutesDifferences: AccountVestingRoutesDifferences[] | undefined,
   ) => {
-    if (displayWhatsNew) {
-      return (
-        <WhatsNewComponent
-          onOverlayClick={() => setDisplayWhatsNew(false)}
-          content={whatsNewContent!}
-        />
-      );
-    } else if (governanceAccountsToExpire.length > 0) {
+    if (governanceAccountsToExpire.length > 0) {
       return (
         <GovernanceRenewalComponent accountNames={governanceAccountsToExpire} />
       );
-    } else if (surveyToDisplay) {
-      return <SurveyComponent survey={surveyToDisplay} />;
     } else if (displayWrongKeyPopup) {
       return (
         <WrongKeyPopupComponent
@@ -203,8 +148,6 @@ const Home = ({
           closePopup={() => setVestingRoutesDifferences(undefined)}
         />
       );
-    } else {
-      return <ProposalVotingSectionComponent />;
     }
   };
 
@@ -245,13 +188,10 @@ const Home = ({
         )}
 
       {renderPopup(
-        displayWhatsNew,
         governanceAccountsToExpire,
-        surveyToDisplay,
         displayWrongKeyPopup,
         vestingRoutesDifferences,
       )}
-      <TutorialPopupComponent />
     </div>
   );
 };

@@ -11,13 +11,7 @@ export const createMessage = async (
   publicKey?: Key,
 ) => {
   let message;
-  if (result?.isUsingMultisig && result?.tx_id?.length === 0) {
-    message = await chrome.i18n.getMessage(
-      'multisig_transaction_sent_to_signers',
-    );
-  } else {
-    message = !err ? success_message : fail_message;
-  }
+  message = !err ? success_message : fail_message;
   const { request_id, ...data } = datas;
   return {
     command: DialogCommand.ANSWER_REQUEST,

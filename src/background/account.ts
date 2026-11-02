@@ -49,22 +49,10 @@ const sendBackImportedAccounts = async (fileContent: string) => {
       newAccountsEncrypted,
     );
 
-    let useLedger = newAccounts.some(
-      (account) =>
-        account.keys.active?.startsWith('#') ||
-        account.keys.posting?.startsWith('#') ||
-        account.keys.memo?.startsWith('#'),
-    );
     const response: ImportCallbackPayload = {
       success: true,
       message: 'import_html_success',
       accounts: newAccounts,
-      warning: useLedger
-        ? {
-            message: 'ledger_import_account_has_ledger',
-            params: [chrome.runtime.getURL('link-ledger-device.html')],
-          }
-        : null,
     };
     chrome.runtime.sendMessage({
       command: BackgroundCommand.SEND_BACK_IMPORTED_ACCOUNTS,

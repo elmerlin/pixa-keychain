@@ -1,7 +1,5 @@
-import { BgdHiveEngineConfigModule } from '@background/hive-engine-config.module';
 import { removeWindow } from '@background/requests/dialog-lifecycle';
 import init from '@background/requests/init';
-import { HiveEngineConfig } from '@interfaces/hive-engine-rpc.interface';
 import { Key } from '@interfaces/keys.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { NoConfirm } from '@interfaces/no-confirm.interface';
@@ -11,7 +9,6 @@ import EncryptUtils from '@popup/hive/utils/encrypt.utils';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
 import { config } from 'hive-tx';
-import Config from 'src/config';
 import {
   KeychainKeyTypesLC,
   KeychainRequest,
@@ -38,48 +35,30 @@ type RequestData = {
   key?: Key;
   publicKey?: Key;
   windowId?: number;
-  isMultisig?: boolean;
   isWaitingForConfirmation: boolean;
-  isKeyless?: boolean;
 };
 export class RequestsHandler {
   data: RequestData;
-  hiveEngineConfig: HiveEngineConfig;
   defaultRpcConfig: any;
 
   constructor() {
     this.data = { confirmed: false, isWaitingForConfirmation: false };
-    this.hiveEngineConfig = Config.hiveEngine;
     this.defaultRpcConfig = config;
   }
 
   async initFromLocalStorage(
     data: RequestData,
     accounts: LocalAccount[],
-    hiveEngineConfig: HiveEngineConfig,
     defaultRpcConfig: any,
   ) {
     this.data = data;
     this.data.accounts = accounts;
-    this.hiveEngineConfig = hiveEngineConfig;
     this.defaultRpcConfig = defaultRpcConfig;
-  }
-
-  async setupHiveEngine() {
-    this.hiveEngineConfig = await BgdHiveEngineConfigModule.getActiveConfig();
   }
 
   async setIsWaitingForConfirmation(isWaitingForConfirmation: boolean) {
     this.data.isWaitingForConfirmation = isWaitingForConfirmation;
     this.saveInLocalStorage();
-  }
-
-  async setIsMultisig(isMultisig: boolean) {
-    this.data.isMultisig = isMultisig;
-  }
-
-  async setIsKeyless(isKeyless: boolean) {
-    this.data.isKeyless = isKeyless;
   }
 
   async initializeParameters(
@@ -89,7 +68,6 @@ export class RequestsHandler {
   ) {
     this.data.accounts = accounts;
     this.data.rpc = rpc;
-    await this.setupHiveEngine();
     this.data.preferences = preferences;
 
     config.node = rpc.uri;
@@ -180,7 +158,6 @@ export class RequestsHandler {
       await handler.initFromLocalStorage(
         params.data,
         accounts,
-        params.hiveEngineConfig,
         params.defaultRpcConfig,
       );
 
@@ -201,7 +178,6 @@ export class RequestsHandler {
 
   async saveInLocalStorage() {
     const dataToSave = {
-      hiveEngineConfig: this.hiveEngineConfig,
       defaultRpcConfig: this.defaultRpcConfig,
       data: {
         tab: this.data.tab,
@@ -211,9 +187,7 @@ export class RequestsHandler {
         rpc: this.data.rpc,
         preferences: this.data.preferences,
         windowId: this.data.windowId,
-        isMultisig: this.data.isMultisig,
         isWaitingForConfirmation: this.data.isWaitingForConfirmation,
-        isKeyless: this.data.isKeyless,
       } as RequestData,
     };
 

@@ -5,9 +5,7 @@ import {
   GlobalProperties,
   RewardFund,
 } from 'src/interfaces/global-properties.interface';
-import { KeychainError } from 'src/keychain-error';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 
 const signature = require('@hiveio/hive-js/lib/auth/ecc');
 
@@ -175,14 +173,10 @@ const encodeMemo = (
   privateKey: string,
   receiverPublicKey: string,
 ) => {
-  if (KeysUtils.isUsingLedger(privateKey))
-    throw new KeychainError('encode_with_memo_key_in_ledger');
   return hive.memo.encode(privateKey, receiverPublicKey, memo);
 };
 /* istanbul ignore next */
 const decodeMemo = (memo: string, privateKey: string) => {
-  if (KeysUtils.isUsingLedger(privateKey))
-    throw new KeychainError('decode_with_memo_key_in_ledger');
   return hive.memo.decode(privateKey, memo);
 };
 
@@ -223,10 +217,6 @@ const getRewardFund = async (): Promise<RewardFund> => {
   return HiveTxUtils.getData('condenser_api.get_reward_fund', ['post']);
 };
 
-const isLayer1Token = (token: string) => {
-  return ['HIVE', 'HBD'].includes(token);
-};
-
 const getHardforkVersion = async (): Promise<number> => {
   return parseInt(
     (await HiveTxUtils.getData('condenser_api.get_hardfork_version', [])).split(
@@ -249,7 +239,6 @@ const HiveUtils = {
   getAccountPrice,
   getCurrentMedianHistoryPrice,
   getRewardFund,
-  isLayer1Token,
   getHardforkVersion,
 };
 

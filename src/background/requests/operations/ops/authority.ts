@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import {
   beautifyErrorMessage,
   createMessage,
@@ -11,11 +10,9 @@ import {
   RequestRemoveAccountAuthority,
   RequestRemoveKeyAuthority,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import Logger from 'src/utils/logger.utils';
 
 export const broadcastAddAccountAuthority = async (
@@ -38,39 +35,15 @@ export const broadcastAddAccountAuthority = async (
       weight,
     );
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await AccountUtils.getUpdateAccountTransaction(
-          username,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await AccountUtils.updateAccount(
-          userAccount.name,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await AccountUtils.updateAccount(
+      userAccount.name,
+      active,
+      posting,
+      userAccount.memo_key,
+      userAccount.json_metadata,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -112,39 +85,15 @@ export const broadcastRemoveAccountAuthority = async (
       authorizedUsername,
     );
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await AccountUtils.getUpdateAccountTransaction(
-          username,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await AccountUtils.updateAccount(
-          userAccount.name,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await AccountUtils.updateAccount(
+      userAccount.name,
+      active,
+      posting,
+      userAccount.memo_key,
+      userAccount.json_metadata,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -188,39 +137,15 @@ export const broadcastAddKeyAuthority = async (
       weight,
     );
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await AccountUtils.getUpdateAccountTransaction(
-          username,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await AccountUtils.updateAccount(
-          userAccount.name,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await AccountUtils.updateAccount(
+      userAccount.name,
+      active,
+      posting,
+      userAccount.memo_key,
+      userAccount.json_metadata,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -263,39 +188,15 @@ export const broadcastRemoveKeyAuthority = async (
       authorizedKey,
     );
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await AccountUtils.getUpdateAccountTransaction(
-          username,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await AccountUtils.updateAccount(
-          userAccount.name,
-          active,
-          posting,
-          userAccount.memo_key,
-          userAccount.json_metadata,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await AccountUtils.updateAccount(
+      userAccount.name,
+      active,
+      posting,
+      userAccount.memo_key,
+      userAccount.json_metadata,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

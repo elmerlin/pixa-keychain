@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { MenuComponent } from 'src/common-ui/menu/menu.component';
 import getAdvancedSettingsMenuItems from './advanced-settings-menu-items';
 
-const AdvancedSettingsPage = ({ isLedgerSupported }: PropsFromRedux) => {
+const AdvancedSettingsPage = ({}: PropsFromRedux) => {
   return (
     <div
       data-testid={`${Screen.SETTINGS_ADVANCED}-page`}
@@ -13,15 +13,13 @@ const AdvancedSettingsPage = ({ isLedgerSupported }: PropsFromRedux) => {
       <MenuComponent
         title="popup_html_advanced_settings"
         isBackButtonEnable={true}
-        menuItems={getAdvancedSettingsMenuItems(
-          isLedgerSupported,
-        )}></MenuComponent>
+        menuItems={getAdvancedSettingsMenuItems()}></MenuComponent>
     </div>
   );
 };
 
 const mapStateToProps = (state: RootState) => {
-  return { isLedgerSupported: state.hive.appStatus.isLedgerSupported };
+  return {};
 };
 
 const connector = connect(mapStateToProps, {});

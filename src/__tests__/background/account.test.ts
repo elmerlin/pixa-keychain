@@ -54,7 +54,6 @@ describe('account tests:\n', () => {
             name: accounts.encrypted.noHash.oneAccount.original.list[0].name,
           }),
         ]),
-        warning: null,
       }),
     });
   });

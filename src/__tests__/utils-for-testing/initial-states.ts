@@ -12,7 +12,6 @@ import {
 import { keys } from 'src/__tests__/utils-for-testing/data/keys';
 import { localAccounts } from 'src/__tests__/utils-for-testing/data/local-accounts';
 import mk from 'src/__tests__/utils-for-testing/data/mk';
-import tokensList from 'src/__tests__/utils-for-testing/data/tokens/tokens-list';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 
 export { initialEmptyStateStore };
@@ -138,17 +137,6 @@ export const initialStateDifferentAccounts = {
   },
 } as unknown as RootState;
 
-export const initialStateJustTokens = {
-  ...initialEmptyStateStore,
-  hive: {
-    ...initialEmptyStateStore.hive,
-    userTokens: {
-      loading: false,
-      list: [tokensList.fakeGetUserBalanceResponse[0]],
-    },
-  },
-} as RootState;
-
 export const ghostState = {
   ...initialEmptyStateStore,
   hive: {
@@ -193,7 +181,10 @@ export const initialStateFull = {
         percentage: 100,
       } as Manabar,
     },
-    activeRpc: { uri: 'https://active.fromState.io/', testnet: false } as Rpc,
+    activeRpc: {
+      uri: 'https://active.fromState.io/',
+      testnet: false,
+    } as Rpc,
     globalProperties: {
       globals: dynamic.globalProperties,
       price: dynamic.medianHistoryPrice,

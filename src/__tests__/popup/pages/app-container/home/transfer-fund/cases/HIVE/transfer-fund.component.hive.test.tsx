@@ -22,8 +22,6 @@ import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import reactTestingLibrary from 'src/__tests__/utils-for-testing/react-testing-library-render/react-testing-library-render-functions';
 import { Icons } from 'src/common-ui/icons.enum';
 import { HiveAppComponent } from 'src/popup/hive/hive-app.component';
-import { BuyCoinType } from 'src/popup/hive/pages/app-container/home/buy-coins/buy-coin-type.enum';
-import { BuyCoinsListItem } from 'src/popup/hive/pages/app-container/home/buy-coins/buy-coins-list-item.list';
 describe('transfer-fund.component tests:\n', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -207,60 +205,6 @@ describe('transfer-fund.component tests:\n', () => {
             chrome.i18n.getMessage('validation_error_mandatory'),
           ),
         );
-      });
-
-      it('Must show memo warning when transferring to an exchange account', async () => {
-        const exchangeUsername = BuyCoinsListItem(
-          BuyCoinType.BUY_HIVE,
-          mk.user.one,
-        ).exchanges[0].username;
-        await act(async () => {
-          await userEvent.type(
-            screen.getByTestId(dataTestIdInput.username),
-            exchangeUsername,
-          );
-          await userEvent.type(
-            screen.getByTestId(dataTestIdInput.amount),
-            '0.001',
-          );
-          await userEvent.click(
-            screen.getByTestId(dataTestIdButton.operation.transfer.send),
-          );
-        });
-        await waitFor(async () => {
-          const warningDivHTMLElement = await screen.findByTestId(
-            dataTestIdDiv.warning.message,
-          );
-          expect(warningDivHTMLElement).toHaveTextContent(
-            chrome.i18n.getMessage('popup_warning_exchange_memo'),
-          );
-        });
-      });
-
-      it('Must show phishing warning', async () => {
-        await act(async () => {
-          await userEvent.type(
-            screen.getByTestId(dataTestIdInput.username),
-            phishing.accounts[0],
-          );
-          await userEvent.type(
-            screen.getByTestId(dataTestIdInput.amount),
-            '0.001',
-          );
-          await userEvent.click(
-            screen.getByTestId(dataTestIdButton.operation.transfer.send),
-          );
-        });
-        await waitFor(async () => {
-          const warningDivHTMLElement = await screen.findByTestId(
-            dataTestIdDiv.warning.message,
-          );
-          expect(warningDivHTMLElement).toHaveTextContent(
-            chrome.i18n.getMessage('popup_warning_phishing', [
-              phishing.accounts[0],
-            ]),
-          );
-        });
       });
 
       it('Must return to transfer page after clicking cancel confirmation', async () => {

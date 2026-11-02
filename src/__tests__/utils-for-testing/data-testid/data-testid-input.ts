@@ -8,7 +8,6 @@ const dataTestIdInput = {
   filter: {
     ranking: 'input-ranking-filter',
     walletHistory: 'input-filter-box',
-    token: 'input-filter-box',
   },
   receiver: 'input-receiver',
   clear: 'input-clear',
@@ -27,7 +26,6 @@ const dataTestIdInput = {
   rpcNodes: {
     uri: 'input-rpc-node-uri',
     nodeChainId: 'input-node-chain-id',
-    hiveEngineRpcUri: 'input-hive-engine-rpc-uri',
     accountHistoryApiUri: 'input-account-history-api-uri',
   },
 };

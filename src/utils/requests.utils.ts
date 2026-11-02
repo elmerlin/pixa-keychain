@@ -4,7 +4,7 @@ import {
   KeychainRequestTypes,
 } from '@interfaces/keychain.interface';
 
-export const anonymousRequests = [
+export const anonymousRequests: KeychainRequestTypes[] = [
   KeychainRequestTypes.delegation,
   KeychainRequestTypes.witnessVote,
   KeychainRequestTypes.vote,
@@ -12,12 +12,10 @@ export const anonymousRequests = [
   KeychainRequestTypes.savings,
   KeychainRequestTypes.custom,
   KeychainRequestTypes.signBuffer,
-  KeychainRequestTypes.sendToken,
   KeychainRequestTypes.powerUp,
   KeychainRequestTypes.convert,
   KeychainRequestTypes.recurrentTransfer,
   KeychainRequestTypes.updateProposalVote,
-  KeychainRequestTypes.swap,
 ];
 
 // Get the key needed for each type of transaction
@@ -41,7 +39,7 @@ export const getRequiredWifType = (request: KeychainRequest) => {
       return request.typeWif.toLowerCase() as KeychainKeyTypesLC;
     case KeychainRequestTypes.transfer:
     case KeychainRequestTypes.savings:
-    case KeychainRequestTypes.sendToken:
+
     case KeychainRequestTypes.delegation:
     case KeychainRequestTypes.witnessVote:
     case KeychainRequestTypes.proxy:

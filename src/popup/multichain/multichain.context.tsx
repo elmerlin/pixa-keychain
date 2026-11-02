@@ -3,7 +3,6 @@ import Logger from 'src/utils/logger.utils';
 
 export enum Chain {
   HIVE = 'HIVE',
-  EVM = 'EVM',
 }
 
 export type ChainContextType = {

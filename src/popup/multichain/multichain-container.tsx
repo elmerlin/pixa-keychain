@@ -7,10 +7,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { ErrorFallback } from 'src/common-ui/error-fallback/error-fallback.component';
-import { ShortcutActionType, ShortcutDefinition } from 'src/interfaces/shortcut.interface';
+import {
+  ShortcutActionType,
+  ShortcutDefinition,
+} from 'src/interfaces/shortcut.interface';
 import { loadActiveAccount } from 'src/popup/hive/actions/active-account.actions';
 import { ConversionType } from 'src/popup/hive/pages/app-container/home/conversion/conversion-type.enum';
-import { DelegationType } from 'src/popup/hive/pages/app-container/home/delegations/delegation-type.enum';
 import { PowerType } from 'src/popup/hive/pages/app-container/home/power-up-down/power-type.enum';
 import {
   navigateTo,
@@ -99,70 +101,27 @@ export const MultichainContainer = () => {
       return;
     }
 
-    if (
-      targetScreen === Screen.TOKENS_HISTORY ||
-      targetScreen === Screen.TOKENS_TRANSFER ||
-      targetScreen === Screen.TOKENS_DELEGATIONS
-    ) {
-      if (!params.tokenSymbol) return;
-      const tokenBalance = store
-        .getState()
-        .hive.userTokens.list.find(
-          (item) => item.symbol === params.tokenSymbol,
-        );
-      const tokenInfo = store
-        .getState()
-        .hive.tokens.find((item) => item.symbol === params.tokenSymbol);
-      if (!tokenBalance) return;
-      if (targetScreen === Screen.TOKENS_HISTORY) {
-        store.dispatch(
-          navigateToWithParams(targetScreen, {
-            tokenBalance,
-          }),
-        );
-        return;
-      }
-      if (!tokenInfo) return;
-      if (targetScreen === Screen.TOKENS_TRANSFER) {
-        store.dispatch(
-          navigateToWithParams(targetScreen, {
-            tokenBalance,
-            tokenInfo,
-          }),
-        );
-        return;
-      }
-      const delegationType =
-        (params.delegationType as DelegationType) ??
-        DelegationType.OUTGOING;
-      store.dispatch(
-        navigateToWithParams(targetScreen, {
-          tokenBalance,
-          tokenInfo,
-          delegationType,
-        }),
-      );
-      return;
-    }
-
     store.dispatch(navigateTo(targetScreen));
   }, []);
 
-  const registerShortcuts = useCallback((shortcuts: ShortcutDefinition[]) => {
-    registeredCombosRef.current.forEach((combo) => hotkeys.unbind(combo));
-    registeredCombosRef.current = [];
+  const registerShortcuts = useCallback(
+    (shortcuts: ShortcutDefinition[]) => {
+      registeredCombosRef.current.forEach((combo) => hotkeys.unbind(combo));
+      registeredCombosRef.current = [];
 
-    shortcuts.forEach((shortcut) => {
-      const combo = ShortcutsUtils.normalizeShortcutCombo(shortcut.combo);
-      if (!combo) return;
-      registeredCombosRef.current.push(combo);
-      hotkeys(combo, (event) => {
-        if (ShortcutsUtils.isEditableTarget(event.target)) return;
-        event.preventDefault();
-        executeShortcut(shortcut);
+      shortcuts.forEach((shortcut) => {
+        const combo = ShortcutsUtils.normalizeShortcutCombo(shortcut.combo);
+        if (!combo) return;
+        registeredCombosRef.current.push(combo);
+        hotkeys(combo, (event) => {
+          if (ShortcutsUtils.isEditableTarget(event.target)) return;
+          event.preventDefault();
+          executeShortcut(shortcut);
+        });
       });
-    });
-  }, [executeShortcut]);
+    },
+    [executeShortcut],
+  );
 
   useEffect(() => {
     hotkeys('ctrl+alt+t', (event) => {
@@ -193,7 +152,7 @@ export const MultichainContainer = () => {
     ]);
 
     setTheme(res.ACTIVE_THEME ?? Theme.LIGHT);
-    setChain(res.ACTIVE_CHAIN ?? Chain.HIVE);
+    setChain(Chain.HIVE);
     const shortcutsValue = res[LocalStorageKeyEnum.SHORTCUTS];
     shortcutsRef.current = Array.isArray(shortcutsValue) ? shortcutsValue : [];
     registerShortcuts(shortcutsRef.current);

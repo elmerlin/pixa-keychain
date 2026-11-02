@@ -39,9 +39,7 @@ describe('settings-main-page.component tests:\n', () => {
   it('Must show all menu items', () => {
     for (let i = 0; i < menuItems.length; i++) {
       expect(
-        screen.getByTestId(
-          dataTestIdButton.menuPreFix + menuItems[i].icon,
-        ),
+        screen.getByTestId(dataTestIdButton.menuPreFix + menuItems[i].icon),
       ).toBeInTheDocument();
     }
   });
@@ -50,9 +48,7 @@ describe('settings-main-page.component tests:\n', () => {
     for (let i = 0; i < pageItems.length; i++) {
       await act(async () => {
         await userEvent.click(
-          screen.getByTestId(
-            dataTestIdButton.menuPreFix + pageItems[i].icon,
-          ),
+          screen.getByTestId(dataTestIdButton.menuPreFix + pageItems[i].icon),
         );
       });
       expect(
@@ -62,16 +58,5 @@ describe('settings-main-page.component tests:\n', () => {
         await userEvent.click(screen.getByTestId(dataTestIdIcon.arrowBack));
       });
     }
-  });
-  it('Must open a new window when clicking PeakD link', async () => {
-    const spy = jest.spyOn(chrome.tabs, 'create');
-    await act(async () => {
-      await userEvent.click(
-        document.querySelector(
-          '.link-panel .network-icon',
-        ) as HTMLElement,
-      );
-    });
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

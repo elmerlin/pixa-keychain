@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import {
@@ -7,11 +6,9 @@ import {
   RequestRemoveProposal,
   RequestUpdateProposalVote,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainKeyTypesLC } from 'hive-keychain-commons';
 import { KeychainError } from 'src/keychain-error';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import ProposalUtils from 'src/popup/hive/utils/proposal.utils';
 import Logger from 'src/utils/logger.utils';
 
@@ -23,44 +20,17 @@ export const broadcastCreateProposal = async (
   let err, result, err_message;
   const key = requestHandler.data.key;
   try {
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await ProposalUtils.getCreateProposalTransaction(
-          data.username,
-          data.receiver,
-          data.start,
-          data.end,
-          data.daily_pay,
-          data.subject,
-          data.permlink,
-          data.extensions,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await ProposalUtils.createProposal(
-          data.username,
-          data.receiver,
-          data.start,
-          data.end,
-          data.daily_pay,
-          data.subject,
-          data.permlink,
-          data.extensions,
-          key!,
-        );
-        break;
-      }
-    }
+    result = await ProposalUtils.createProposal(
+      data.username,
+      data.receiver,
+      data.start,
+      data.end,
+      data.daily_pay,
+      data.subject,
+      data.permlink,
+      data.extensions,
+      key!,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -94,39 +64,15 @@ export const broadcastUpdateProposalVote = async (
   }
   let result, err, err_message;
   try {
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await ProposalUtils.getUpdateProposalVoteTransaction(
-          typeof data.proposal_ids === 'string'
-            ? JSON.parse(data.proposal_ids)
-            : data.proposal_ids,
-          data.username!,
-          data.approve,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await ProposalUtils.updateProposalVotes(
-          typeof data.proposal_ids === 'string'
-            ? JSON.parse(data.proposal_ids)
-            : data.proposal_ids,
-          data.username!,
-          data.approve,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await ProposalUtils.updateProposalVotes(
+      typeof data.proposal_ids === 'string'
+        ? JSON.parse(data.proposal_ids)
+        : data.proposal_ids,
+      data.username!,
+      data.approve,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;
@@ -184,35 +130,13 @@ export const broadcastRemoveProposal = async (
         ? JSON.parse(data.proposal_ids)
         : data.proposal_ids;
 
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await ProposalUtils.getRemoveProposalTransaction(
-          data.username,
-          ids,
-          data.extensions,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await ProposalUtils.removeProposal(
-          data.username,
-          ids,
-          data.extensions,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await ProposalUtils.removeProposal(
+      data.username,
+      ids,
+      data.extensions,
+      key!,
+      options,
+    );
   } catch (e) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

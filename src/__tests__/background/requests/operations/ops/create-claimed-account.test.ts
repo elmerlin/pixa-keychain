@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { broadcastCreateClaimedAccount } from '@background/requests/operations/ops/create-claimed-account';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
@@ -13,7 +12,6 @@ import {
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 
 describe('create-claimed-account tests:\n', () => {
   const authType = {
@@ -87,49 +85,6 @@ describe('create-claimed-account tests:\n', () => {
           success: true,
           error: undefined,
           result: false,
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_create_account', [
-            data.new_account,
-          ]),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
-  });
-
-  describe('Using ledger cases:\n', () => {
-    beforeEach(() => {
-      mockHiveTxCreateTransactionForLedger();
-    });
-    it('Must return success on claimed account', async () => {
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const requestHandler = new RequestsHandler();
-      requestHandler.setKeys(
-        '#LedgerKeyHere1234',
-        userData.one.encryptKeys.active,
-      );
-      const result = await broadcastCreateClaimedAccount(requestHandler, data);
-      const { request_id, ...datas } = data;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
           data: datas,
           message: chrome.i18n.getMessage('bgd_ops_create_account', [
             data.new_account,

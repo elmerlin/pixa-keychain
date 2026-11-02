@@ -20,7 +20,7 @@ import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
 import { KeychainKeyTypes, KeychainKeyTypesLC } from 'hive-keychain-commons';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import 'react-tabs/style/react-tabs.scss';
 import { ButtonType } from 'src/common-ui/button/button.component';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
@@ -123,9 +123,7 @@ const WitnessInformation = ({
           refreshActiveAccount();
           if (success) {
             goBack();
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else setSuccessMessage('popup_success_witness_account_update');
+            setSuccessMessage('popup_success_witness_account_update');
           } else {
             setErrorMessage('popup_error_witness_account_update', [
               `${activeAccount.name!}`,
@@ -179,9 +177,7 @@ const WitnessInformation = ({
           refreshActiveAccount();
           if (success) {
             goBack();
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else setSuccessMessage('popup_success_witness_account_update');
+            setSuccessMessage('popup_success_witness_account_update');
           } else {
             setErrorMessage('popup_error_witness_account_update', [
               `${activeAccount.name!}`,
@@ -227,10 +223,11 @@ const WitnessInformation = ({
         <div className="witness-profile">
           <img
             className="witness-image"
-            src={`https://images.hive.blog/u/${activeAccount.name!}/avatar`}
+            src={'/assets/images/placeholders/account-placeholder.png'}
             onError={(e: any) => {
               e.target.onError = null;
-              e.target.src = '/assets/images/accounts.png';
+              e.target.src =
+                '/assets/images/placeholders/account-placeholder.png';
             }}
           />
           <div className="info-container">

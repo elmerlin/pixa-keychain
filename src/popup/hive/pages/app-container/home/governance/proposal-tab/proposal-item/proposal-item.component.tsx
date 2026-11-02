@@ -1,11 +1,6 @@
-import {
-  PrivateKeyType,
-  TransactionOptions,
-  TransactionOptionsMetadata,
-} from '@interfaces/keys.interface';
+import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
 import { Proposal } from '@interfaces/proposal.interface';
 import { KeysUtils } from '@popup/hive/utils/keys.utils';
-import { MultisigUtils } from '@popup/hive/utils/multisig.utils';
 import {
   addCaptionToLoading,
   addToLoadingList,
@@ -17,13 +12,11 @@ import {
 } from '@popup/multichain/actions/message.actions';
 import { closeModal, openModal } from '@popup/multichain/actions/modal.actions';
 import { RootState } from '@popup/multichain/store';
-import { KeychainKeyTypes, KeychainKeyTypesLC } from 'hive-keychain-commons';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { CustomTooltip } from 'src/common-ui/custom-tooltip/custom-tooltip.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { MetadataPopup } from 'src/common-ui/metadata-popup/metadata-popup.component';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import ProposalUtils from 'src/popup/hive/utils/proposal.utils';
 import ProxyUtils from 'src/popup/hive/utils/proxy.utils';
@@ -60,9 +53,6 @@ const ProposalItem = ({
         KeysUtils.getKeyType(
           activeAccount.keys.active!,
           activeAccount.keys.activePubkey!,
-          activeAccount.account,
-          activeAccount.account,
-          KeychainKeyTypesLC.active,
         ),
       );
     }
@@ -94,12 +84,8 @@ const ProposalItem = ({
         options,
       );
       if (success) {
-        if (success.isUsingMultisig) {
-          setSuccessMessage('multisig_transaction_sent_to_signers');
-        } else {
-          onVoteUnvoteSuccessful();
-          setSuccessMessage('popup_html_proposal_unvote_successful');
-        }
+        onVoteUnvoteSuccessful();
+        setSuccessMessage('popup_html_proposal_unvote_successful');
       } else {
         setErrorMessage('popup_html_proposal_unvote_fail');
       }
@@ -113,12 +99,8 @@ const ProposalItem = ({
         options,
       );
       if (success) {
-        if (success.isUsingMultisig) {
-          setSuccessMessage('multisig_transaction_sent_to_signers');
-        } else {
-          setSuccessMessage('popup_html_proposal_vote_successful');
-          onVoteUnvoteSuccessful();
-        }
+        setSuccessMessage('popup_html_proposal_vote_successful');
+        onVoteUnvoteSuccessful();
       } else {
         setErrorMessage('popup_html_proposal_vote_fail');
       }
@@ -131,37 +113,7 @@ const ProposalItem = ({
       return;
     }
 
-    if (keyType === PrivateKeyType.MULTISIG) {
-      const twoFaAccounts = await MultisigUtils.get2FAAccounts(
-        activeAccount.account,
-        KeychainKeyTypes.active,
-      );
-
-      let initialMetadata = {} as TransactionOptionsMetadata;
-      for (const account of twoFaAccounts) {
-        if (!initialMetadata.twoFACodes) initialMetadata.twoFACodes = {};
-        initialMetadata.twoFACodes[account] = '';
-      }
-
-      if (twoFaAccounts.length > 0) {
-        openModal({
-          title: 'popup_html_transaction_metadata',
-          children: (
-            <MetadataPopup
-              initialMetadata={initialMetadata}
-              onSubmit={(metadata: TransactionOptionsMetadata) => {
-                addCaptionToLoading('multisig_transmitting_to_2fa');
-                processToggleSupport(proposal, { metaData: metadata });
-                closeModal();
-              }}
-              onCancel={() => closeModal()}
-            />
-          ),
-        });
-      }
-    } else {
-      processToggleSupport(proposal);
-    }
+    processToggleSupport(proposal);
   };
 
   return (
@@ -190,10 +142,11 @@ const ProposalItem = ({
             <img
               data-testid={`proposal-item-image-go-to-creator-${proposal.creator}`}
               onClick={() => goToCreator(proposal.creator)}
-              src={`https://images.hive.blog/u/${proposal.creator}/avatar`}
+              src={'/assets/images/placeholders/account-placeholder.png'}
               onError={(e: any) => {
                 e.target.onError = null;
-                e.target.src = '/assets/images/accounts.png';
+                e.target.src =
+                  '/assets/images/placeholders/account-placeholder.png';
               }}
             />
             <span

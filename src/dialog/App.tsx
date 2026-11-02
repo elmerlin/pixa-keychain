@@ -2,18 +2,13 @@ import { Theme } from '@popup/theme.context';
 import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import React, { useEffect, useState } from 'react';
-import AddAccountQR from 'src/dialog/pages/add-account-qr/add-account-qr';
 import DialogError from 'src/dialog/pages/error';
-import { KeylessUsernameComponent } from 'src/dialog/pages/keyless-username/keyless-username';
-import { RegisterKeylessComponent } from 'src/dialog/pages/register-keyless/register-keyless';
 import Register from 'src/dialog/pages/register/register';
 import RequestConfirmation from 'src/dialog/pages/request-confirmation';
 import RequestResponse from 'src/dialog/pages/request-response';
-import SignTransaction from 'src/dialog/pages/sign-transaction/sign-transaction';
 import Unlock from 'src/dialog/pages/unlock/unlock';
 import BrowserUtils from 'src/utils/browser.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
-// import './../analytics/analytics/gtag';
 
 const App = () => {
   const [data, setData] = useState<any>({});
@@ -30,27 +25,7 @@ const App = () => {
     setTheme(res.ACTIVE_THEME ?? Theme.LIGHT);
   };
 
-  const initGoogleAnalytics = () => {
-    // window.dataLayer = window.dataLayer || [];
-    // window.gtag = function gtag() {
-    //   window.dataLayer.push(arguments); // eslint-disable-line
-    // };
-    // window.gtag('js', new Date());
-    // window.gtag(
-    //   'config',
-    //   process.env.GOOGLE_ANALYTICS_TAG_ID || 'G-1LRCTFLVBH',
-    //   {
-    //     page_path: '/popup',
-    //   },
-    // );
-    // window.gtag('set', 'checkProtocolTask', () => {}); // Disables file protocol checking.
-    // window.gtag('event', 'navigation', {
-    //   page: 'dialog',
-    // });
-  };
-
   useEffect(() => {
-    initGoogleAnalytics();
     chrome.runtime.onMessage.addListener(async function (
       data,
       sender,
@@ -78,14 +53,7 @@ const App = () => {
         return <RequestConfirmation data={data} />;
       case DialogCommand.ANSWER_REQUEST:
         return <RequestResponse data={data} />;
-      case DialogCommand.SIGN_WITH_LEDGER:
-        return <SignTransaction data={data} />;
-      case DialogCommand.REGISTER_KEYLESS_KEYCHAIN:
-        return <RegisterKeylessComponent data={data} />;
-      case DialogCommand.ANONYMOUS_KEYLESS_OP:
-        return <KeylessUsernameComponent data={data} />;
-      case DialogCommand.ADD_ACCOUNT:
-        return <AddAccountQR data={data} />;
+
       default:
         return null;
     }

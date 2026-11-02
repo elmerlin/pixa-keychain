@@ -47,7 +47,9 @@ export const LoadingReducer = (
           (loadingItem) => loadingItem.name === loadingPayload?.operation,
         )
       ) {
-        const newState = { loadingOperations: [...state.loadingOperations] };
+        const newState = {
+          loadingOperations: [...state.loadingOperations],
+        };
         for (let loadingOperation of newState.loadingOperations) {
           if (loadingOperation.name === loadingPayload?.operation) {
             loadingOperation.done = false;
@@ -65,12 +67,6 @@ export const LoadingReducer = (
           hideDots: loadingPayload!.hideDots,
           done: false,
         });
-        if (
-          loadingPayload?.privateKeyType &&
-          loadingPayload.privateKeyType === PrivateKeyType.LEDGER
-        ) {
-          newState.caption = 'popup_html_validate_transaction_on_ledger';
-        }
         return newState;
       }
     }

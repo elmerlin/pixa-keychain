@@ -6,7 +6,6 @@ import {
   RequestSignBuffer,
 } from '@interfaces/keychain.interface';
 import { KeychainError } from 'src/keychain-error';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import Logger from 'src/utils/logger.utils';
 const signature = require('@hiveio/hive-js/lib/auth/ecc');
 
@@ -28,9 +27,6 @@ export const signBuffer = async (
         data.username!,
         data.method.toLowerCase() as KeychainKeyTypesLC,
       ) as [string, string];
-    }
-    if (KeysUtils.isUsingLedger(key!)) {
-      throw new KeychainError('sign_buffer_ledger_error');
     }
     signed = await signMessage(data.message, key!);
   } catch (err) {

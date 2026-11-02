@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import {
@@ -6,15 +5,13 @@ import {
   RequestConvert,
   RequestId,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import { ConversionType } from 'src/popup/hive/pages/app-container/home/conversion/conversion-type.enum';
 import { ConversionUtils } from 'src/popup/hive/utils/conversion.utils';
 import CurrencyUtils, {
   BaseCurrencies,
 } from 'src/popup/hive/utils/currency.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import Logger from 'src/utils/logger.utils';
 
 export const convert = async (
@@ -47,37 +44,14 @@ export const convert = async (
     : 'bgd_ops_convert';
 
   try {
-    switch (KeysUtils.getKeyType(key!)) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await ConversionUtils.getConvertTransaction(
-          username,
-          requestId,
-          amountS,
-          conversionType,
-        );
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await ConversionUtils.sendConvert(
-          username,
-          requestId,
-          amountS,
-          conversionType,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await ConversionUtils.sendConvert(
+      username,
+      requestId,
+      amountS,
+      conversionType,
+      key!,
+      options,
+    );
   } catch (e: any) {
     Logger.error(e);
     err = (e as KeychainError).trace || e;

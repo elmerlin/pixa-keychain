@@ -3,7 +3,9 @@ import { ImportCallbackPayload } from '@interfaces/import-callback.interface';
 import { Theme } from '@popup/theme.context';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import React, { useEffect, useRef, useState } from 'react';
-import ButtonComponent, { ButtonType } from 'src/common-ui/button/button.component';
+import ButtonComponent, {
+  ButtonType,
+} from 'src/common-ui/button/button.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { InputType } from 'src/common-ui/input/input-type.enum';
 import InputComponent from 'src/common-ui/input/input.component';
@@ -13,7 +15,6 @@ import { BackgroundCommand } from 'src/reference-data/background-message-key.enu
 import FileUtils from 'src/utils/file.utils';
 import { HtmlUtils } from 'src/utils/html.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
-import './import-file.scss';
 
 interface PropsType {
   title: string;
@@ -106,7 +107,10 @@ const ImportFile = ({
 
     return {
       success: false,
-      message: value?.warning?.message ?? value?.feedback?.message ?? 'import_html_error',
+      message:
+        value?.warning?.message ??
+        value?.feedback?.message ??
+        'import_html_error',
     };
   };
 
@@ -123,12 +127,7 @@ const ImportFile = ({
           message={result.message}
           warningMessage={result.warning?.message}
           warningParams={result.warning?.params}
-          autoCloseDelayMs={
-            result.success &&
-            result.warning?.message !== 'ledger_import_account_has_ledger'
-              ? 5000
-              : undefined
-          }
+          autoCloseDelayMs={result.success ? 5000 : undefined}
           onClose={() => window.close()}
         />
       ) : (
@@ -163,7 +162,9 @@ const ImportFile = ({
 
           <div className="button-panel">
             <ButtonComponent
-              type={!selectedFile ? ButtonType.IMPORTANT : ButtonType.ALTERNATIVE}
+              type={
+                !selectedFile ? ButtonType.IMPORTANT : ButtonType.ALTERNATIVE
+              }
               label={
                 !selectedFile
                   ? 'dialog_import_file_chose_file'

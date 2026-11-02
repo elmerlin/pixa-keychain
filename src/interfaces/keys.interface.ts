@@ -18,15 +18,9 @@ export enum KeyType {
 
 export enum PrivateKeyType {
   AUTHORIZED_ACCOUNT = 'AUTHORIZED_ACCOUNT',
-  LEDGER = 'LEDGER',
+
   PRIVATE_KEY = 'PRIVATE_KEY',
-  MULTISIG = 'MULTISIG',
 }
 
-export interface TransactionOptions {
-  metaData?: TransactionOptionsMetadata;
-}
-
-export interface TransactionOptionsMetadata {
-  twoFACodes?: { [botName: string]: string };
-}
+// Retain the shared call signature for transaction helpers; no extra options are supported.
+export type TransactionOptions = Record<string, never>;

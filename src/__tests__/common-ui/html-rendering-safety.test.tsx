@@ -25,8 +25,8 @@ describe('HTML rendering safety', () => {
         return '<a href="https://example.com">link</a>';
       }
 
-      if (message === 'ledger_import_account_has_ledger') {
-        return `Open <a href="${params?.[0]}" target="_blank" onclick="alert(1)">Ledger</a>`;
+      if (message === 'popup_html_vesting_routes_warning_message') {
+        return `Open <a href="${params?.[0]}" target="_blank" onclick="alert(1)">Review</a>`;
       }
 
       return message;
@@ -76,7 +76,7 @@ describe('HTML rendering safety', () => {
   it('allows safe links only for link allowlisted locale keys', () => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = HtmlUtils.getSafeI18nHtml(
-      'ledger_import_account_has_ledger',
+      'popup_html_vesting_routes_warning_message',
       ['chrome-extension://id/page.html'],
     );
     const links = wrapper.querySelectorAll('a');
@@ -90,7 +90,7 @@ describe('HTML rendering safety', () => {
   it('strips unsafe hrefs from link allowlisted locale keys', () => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = HtmlUtils.getSafeI18nHtml(
-      'ledger_import_account_has_ledger',
+      'popup_html_vesting_routes_warning_message',
       ['javascript:alert(1)'],
     );
     const link = wrapper.querySelector('a');

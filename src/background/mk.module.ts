@@ -1,4 +1,3 @@
-import { KeylessKeychainUtils } from '@background/utils/keyless-keychain.utils';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
@@ -27,24 +26,6 @@ const login = async (password: string): Promise<boolean> => {
       LocalStorageKeyEnum.ACCOUNTS,
       await EncryptUtils.encryptJson({ list: accounts.list }, password),
     );
-  }
-  const storage = await LocalStorageUtils.getMultipleValueFromLocalStorage([
-    LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED,
-    LocalStorageKeyEnum.KEYLESS_KEYCHAIN_AUTH_DATA_USER_DICT,
-  ]);
-
-  if (
-    storage[LocalStorageKeyEnum.KEYLESS_KEYCHAIN_ENABLED] &&
-    storage[LocalStorageKeyEnum.KEYLESS_KEYCHAIN_AUTH_DATA_USER_DICT]
-  ) {
-    try {
-      const res = await KeylessKeychainUtils.getKeylessAuthDataUserDictionaryFromPassword(
-        password,
-      );
-      return !!res;
-    } catch (error) {
-      return false;
-    }
   }
   return accounts ? true : false;
 };

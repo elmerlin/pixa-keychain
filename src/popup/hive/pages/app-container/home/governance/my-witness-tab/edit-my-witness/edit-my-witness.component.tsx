@@ -15,7 +15,7 @@ import {
 } from '@popup/multichain/actions/message.actions';
 import { RootState } from '@popup/multichain/store';
 import React, { useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import 'react-tabs/style/react-tabs.scss';
 import ButtonComponent, {
   ButtonType,
@@ -71,9 +71,7 @@ const EditMyWitness = ({
       if (success) {
         goBackPage();
 
-        if (success.isUsingMultisig) {
-          setSuccessMessage('multisig_transaction_sent_to_signers');
-        } else setSuccessMessage('popup_success_witness_account_update');
+        setSuccessMessage('popup_success_witness_account_update');
       } else {
         setErrorMessage('popup_error_witness_account_update', [
           `${activeAccount.name!}`,

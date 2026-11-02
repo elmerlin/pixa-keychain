@@ -1,10 +1,4 @@
-import {
-  TransactionOptions,
-  TransactionOptionsMetadata,
-} from '@interfaces/keys.interface';
-import { loadUserTokens } from '@popup/hive/actions/token.actions';
-import { NotificationsComponent } from '@popup/hive/pages/app-container/home/notifications/notifications.component';
-import { MultisigUtils } from '@popup/hive/utils/multisig.utils';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import {
   addCaptionToLoading,
   addToLoadingList,
@@ -17,11 +11,9 @@ import {
 import { closeModal, openModal } from '@popup/multichain/actions/modal.actions';
 import { navigateTo } from '@popup/multichain/actions/navigation.actions';
 import { RootState } from '@popup/multichain/store';
-import { KeychainKeyTypes } from 'hive-keychain-commons';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { MetadataPopup } from 'src/common-ui/metadata-popup/metadata-popup.component';
 import { SelectAccountSectionComponent } from 'src/common-ui/select-account-section/select-account-section.component';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { refreshActiveAccount } from 'src/popup/hive/actions/active-account.actions';
@@ -42,7 +34,6 @@ const TopBar = ({
   loadGlobalProperties,
   setErrorMessage,
   setSuccessMessage,
-  loadUserTokens,
   addCaptionToLoading,
   openModal,
   closeModal,
@@ -71,7 +62,6 @@ const TopBar = ({
     setRotateLogo(true);
     refreshActiveAccount();
     loadGlobalProperties();
-    loadUserTokens(activeAccount.name!);
     setTimeout(() => setRotateLogo(false), 1000);
   };
 
@@ -89,29 +79,25 @@ const TopBar = ({
       await AsyncUtils.sleep(3000);
       refreshActiveAccount();
       if (claimResult) {
-        if (claimResult.isUsingMultisig) {
-          setSuccessMessage('multisig_transaction_sent_to_signers');
-        } else {
-          const rewardHp =
-            FormatUtils.withCommas(
-              FormatUtils.toHP(
-                activeAccount.account.reward_vesting_balance
-                  .toString()
-                  .replace('VESTS', ''),
-                globalProperties.globals,
-              ).toString(),
-            ) + ' HP';
-          let claimedResources = [
-            activeAccount.account.reward_hive_balance,
-            activeAccount.account.reward_hbd_balance,
-            rewardHp,
-          ].filter(
-            (resource) => parseFloat(resource.toString().split(' ')[0]) !== 0,
-          );
-          setSuccessMessage('popup_html_claim_success', [
-            claimedResources.join(', '),
-          ]);
-        }
+        const rewardHp =
+          FormatUtils.withCommas(
+            FormatUtils.toHP(
+              activeAccount.account.reward_vesting_balance
+                .toString()
+                .replace('VESTS', ''),
+              globalProperties.globals,
+            ).toString(),
+          ) + ' HP';
+        let claimedResources = [
+          activeAccount.account.reward_hive_balance,
+          activeAccount.account.reward_hbd_balance,
+          rewardHp,
+        ].filter(
+          (resource) => parseFloat(resource.toString().split(' ')[0]) !== 0,
+        );
+        setSuccessMessage('popup_html_claim_success', [
+          claimedResources.join(', '),
+        ]);
         refresh();
       } else {
         setErrorMessage('popup_html_claim_error');
@@ -127,37 +113,8 @@ const TopBar = ({
     if (!activeAccount.keys.posting) {
       setErrorMessage('popup_accounts_err_claim');
       return;
-    } else {
-      const twoFaAccounts = await MultisigUtils.get2FAAccounts(
-        activeAccount.account,
-        KeychainKeyTypes.active,
-      );
-
-      let initialMetadata = {} as TransactionOptionsMetadata;
-      for (const account of twoFaAccounts) {
-        if (!initialMetadata.twoFACodes) initialMetadata.twoFACodes = {};
-        initialMetadata.twoFACodes[account] = '';
-      }
-
-      if (twoFaAccounts.length > 0) {
-        openModal({
-          title: 'popup_html_transaction_metadata',
-          children: (
-            <MetadataPopup
-              initialMetadata={initialMetadata}
-              onSubmit={(metadata: TransactionOptionsMetadata) => {
-                addCaptionToLoading('multisig_transmitting_to_2fa');
-                claim({ metaData: metadata });
-                closeModal();
-              }}
-              onCancel={() => closeModal()}
-            />
-          ),
-        });
-      } else {
-        claim();
-      }
     }
+    claim();
   };
 
   return (
@@ -175,9 +132,7 @@ const TopBar = ({
         dataTestId="top-bar-refresh-icon"
       />
       <div className="spacer"></div>
-      {activeAccount.name && globalProperties.globals && (
-        <NotificationsComponent />
-      )}
+
       {hasRewardToClaim && (
         <SVGIcon
           icon={SVGIcons.TOP_BAR_CLAIM_REWARDS_BTN}
@@ -207,7 +162,6 @@ const connector = connect(mapStateToProps, {
   loadGlobalProperties,
   setErrorMessage,
   setSuccessMessage,
-  loadUserTokens,
   addCaptionToLoading,
   openModal,
   closeModal,

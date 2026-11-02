@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { broadcastTransfer } from '@background/requests/operations/ops/transfer';
 import { RequestsHandler } from '@background/requests/request-handler';
 import * as MemoEncodeHiveJS from '@hiveio/hive-js/lib/auth/memo';
@@ -18,7 +17,6 @@ import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 import { KeychainError } from 'src/keychain-error';
 
 describe('transfer tests:\n', () => {
@@ -243,62 +241,6 @@ describe('transfer tests:\n', () => {
               publicKey: undefined,
             },
           });
-        });
-      });
-    });
-
-    describe('Using ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success', async () => {
-        jest.spyOn(HiveTxUtils, 'sendOperation').mockResolvedValueOnce({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValue('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        AccountUtils.getExtendedAccount = jest
-          .fn()
-          .mockResolvedValueOnce(accounts.extended);
-        const clonedAccounts = objects.clone(
-          accounts.twoAccounts,
-        ) as LocalAccount[];
-        clonedAccounts[0].keys.active = '#ledgerKey1234';
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.accounts = clonedAccounts;
-        const cloneData = objects.clone(data) as RequestTransfer & RequestId;
-        const result = await broadcastTransfer(requestHandler, cloneData);
-        const { request_id, ...datas } = cloneData;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_transfer_success', [
-              cloneData.amount,
-              cloneData.currency,
-              cloneData.username!,
-              cloneData.to,
-            ]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
         });
       });
     });

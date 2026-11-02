@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import {
   broadcastCreateProposal,
   broadcastRemoveProposal,
@@ -18,7 +17,6 @@ import {
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 
 describe('proposals tests:\n', () => {
   const data = {
@@ -126,48 +124,6 @@ describe('proposals tests:\n', () => {
         data.create.extensions = '{"keychain":10000,"points":6}';
         const requestHandler = new RequestsHandler();
         requestHandler.data.key = userData.one.nonEncryptKeys.active;
-        const result = await broadcastCreateProposal(
-          requestHandler,
-          data.create,
-        );
-        const { request_id, ...datas } = data.create;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_proposal_create'),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
-
-    describe('using ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success using ledger', async () => {
-        data.create.extensions = '{"keychain":10000,"points":6}';
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#keyUsingLedger1234';
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
         const result = await broadcastCreateProposal(
           requestHandler,
           data.create,
@@ -396,90 +352,6 @@ describe('proposals tests:\n', () => {
         });
       });
     });
-
-    describe('Using Ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success using proposal_ids as object', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        data.update.extensions = '{"keychain":10000,"points":6}';
-        data.update.approve = true;
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#keyUsingLedger1234';
-        const result = await broadcastUpdateProposalVote(
-          requestHandler,
-          data.update,
-        );
-        const { request_id, ...datas } = data.update;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_proposal_vote', [
-              datas.proposal_ids[0].toString(),
-            ]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-
-      it('Must return success using proposal_ids as string', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        data.update.extensions = '{"keychain":10000,"points":6}';
-        data.update.proposal_ids = '[1]';
-        data.update.approve = true;
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#keyUsingLedger1234';
-        const result = await broadcastUpdateProposalVote(
-          requestHandler,
-          data.update,
-        );
-        const { request_id, ...datas } = data.update;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_proposal_vote', ['1']),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
   });
 
   describe('broadcastRemoveProposal cases:\n', () => {
@@ -595,88 +467,6 @@ describe('proposals tests:\n', () => {
             },
             data: datas,
             message: chrome.i18n.getMessage('bgd_ops_proposal_remove', [ids]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
-
-    describe('Using Ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success using proposal_ids as json', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        data.remove.proposal_ids = '{}';
-        const ids = JSON.parse(data.remove.proposal_ids);
-        data.remove.extensions = '{}';
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#ledgerKey1234';
-        const result = await broadcastRemoveProposal(
-          requestHandler,
-          data.remove,
-        );
-        const { request_id, ...datas } = data.remove;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_proposal_remove', [ids]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-
-      it('Must return success using proposal_ids as object', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        data.remove.proposal_ids = [1];
-        data.remove.extensions = '{}';
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#ledgerKey1234';
-        const result = await broadcastRemoveProposal(
-          requestHandler,
-          data.remove,
-        );
-        const { request_id, ...datas } = data.remove;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_proposal_remove', ['1']),
             request_id: request_id,
             publicKey: undefined,
           },

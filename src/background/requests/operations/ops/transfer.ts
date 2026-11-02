@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { encode } from '@hiveio/hive-js/lib/auth/memo';
@@ -7,11 +6,9 @@ import {
   RequestId,
   RequestTransfer,
 } from '@interfaces/keychain.interface';
-import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
-import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 
 export const broadcastTransfer = async (
@@ -48,45 +45,17 @@ export const broadcastTransfer = async (
       username!,
       KeychainKeyTypesLC.active,
     );
-    const keyType = KeysUtils.getKeyType(key!);
-    switch (keyType) {
-      case PrivateKeyType.LEDGER: {
-        const tx = await TransferUtils.getTransferTransaction(
-          data.username!,
-          data.to,
-          data.amount + ' ' + data.currency,
-          memo,
-          false,
-          0,
-          0,
-        );
-
-        LedgerModule.signTransactionFromLedger({
-          transaction: tx,
-          key: key!,
-        });
-        const signature = await LedgerModule.getSignatureFromLedger();
-        result = await HiveTxUtils.broadcastAndConfirmTransactionWithSignature(
-          tx,
-          signature,
-        );
-        break;
-      }
-      default: {
-        result = await TransferUtils.sendTransfer(
-          data.username!,
-          data.to,
-          data.amount + ' ' + data.currency,
-          memo,
-          false,
-          0,
-          0,
-          key!,
-          options,
-        );
-        break;
-      }
-    }
+    result = await TransferUtils.sendTransfer(
+      data.username!,
+      data.to,
+      data.amount + ' ' + data.currency,
+      memo,
+      false,
+      0,
+      0,
+      key!,
+      options,
+    );
   } catch (e: any) {
     if (typeof e === 'string') {
       const message = await createMessage(

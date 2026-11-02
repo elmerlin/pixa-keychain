@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import {
   broadcastAddAccountAuthority,
   broadcastAddKeyAuthority,
@@ -26,7 +25,6 @@ import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 import { KeychainError } from 'src/keychain-error';
 
 describe('authority tests:\n', () => {
@@ -388,61 +386,6 @@ describe('authority tests:\n', () => {
         },
       });
     });
-
-    it('Must broadcast using ledger', async () => {
-      mockHiveTxCreateTransactionForLedger();
-      const cloneExtended = objects.clone(accounts.extended) as ExtendedAccount;
-      cloneExtended.active = {
-        weight_threshold: 1,
-        account_auths: [['theghost1980', 1]],
-        key_auths: [[userData.one.encryptKeys.active, 1]],
-      } as AuthorityType;
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(AccountUtils, 'getExtendedAccount')
-        .mockResolvedValueOnce(cloneExtended);
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const cloneData = objects.clone(
-        data.removeAccountAuthority,
-      ) as RequestRemoveAccountAuthority & RequestId;
-      cloneData.authorizedUsername = 'theghost1980';
-      cloneData.role = KeychainKeyTypes.active;
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledgerKEY1234';
-      const result = await broadcastRemoveAccountAuthority(
-        requestHandler,
-        cloneData,
-      );
-      const { request_id, ...datas } = cloneData;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_remove_auth', [
-            KeychainKeyTypesLC.active,
-            'theghost1980',
-            mk.user.one,
-          ]),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
   });
 
   describe('broadcastAddKeyAuthority cases:\n', () => {
@@ -600,59 +543,6 @@ describe('authority tests:\n', () => {
         },
       });
     });
-
-    it('Must broadcast addKey using ledger', async () => {
-      mockHiveTxCreateTransactionForLedger();
-      const cloneExtended = objects.clone(accounts.extended) as ExtendedAccount;
-      cloneExtended.active = {
-        weight_threshold: 1,
-        account_auths: [],
-        key_auths: [],
-      } as AuthorityType;
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(AccountUtils, 'getExtendedAccount')
-        .mockResolvedValueOnce(cloneExtended);
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const cloneData = objects.clone(
-        data.addKeyAuthority,
-      ) as RequestAddKeyAuthority & RequestId;
-      cloneData.authorizedKey = userData.one.encryptKeys.posting;
-      cloneData.role = KeychainKeyTypes.active;
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledgerKEY1234';
-      const result = await broadcastAddKeyAuthority(requestHandler, cloneData);
-      const { request_id, ...datas } = cloneData;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_add_key_auth', [
-            userData.one.encryptKeys.posting,
-            KeychainKeyTypesLC.active,
-            mk.user.one,
-            cloneData.weight.toString(),
-          ]),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
   });
 
   describe('broadcastRemoveKeyAuthority cases:\n', () => {
@@ -766,56 +656,6 @@ describe('authority tests:\n', () => {
           message: chrome.i18n.getMessage('bgd_ops_remove_key_auth', [
             cloneData.authorizedKey,
             KeychainKeyTypesLC.posting,
-            mk.user.one,
-          ]),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
-
-    it('Must remove active key using ledger', async () => {
-      mockHiveTxCreateTransactionForLedger();
-      const cloneExtended = objects.clone(accounts.extended) as ExtendedAccount;
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(AccountUtils, 'getExtendedAccount')
-        .mockResolvedValueOnce(cloneExtended);
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const cloneData = objects.clone(
-        data.removeKeyAuthority,
-      ) as RequestRemoveKeyAuthority & RequestId;
-      cloneData.authorizedKey = userData.one.encryptKeys.active;
-      cloneData.role = KeychainKeyTypes.active;
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.key = '#ledgerKEY1234';
-      const result = await broadcastRemoveKeyAuthority(
-        requestHandler,
-        cloneData,
-      );
-      const { request_id, ...datas } = cloneData;
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_remove_key_auth', [
-            cloneData.authorizedKey,
-            KeychainKeyTypesLC.active,
             mk.user.one,
           ]),
           request_id: request_id,

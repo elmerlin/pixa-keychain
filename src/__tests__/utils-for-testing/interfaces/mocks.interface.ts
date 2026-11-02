@@ -6,12 +6,6 @@ import { LocalAccount } from '@interfaces/local-account.interface';
 import { NoConfirm } from '@interfaces/no-confirm.interface';
 import { RcDelegation } from '@interfaces/rc-delegation.interface';
 import { Rpc } from '@interfaces/rpc.interface';
-import { TokenDelegation } from '@interfaces/token-delegation.interface';
-import {
-  TokenBalance,
-  TokenMarket,
-  TokenTransaction,
-} from '@interfaces/tokens.interface';
 import { Transaction } from '@interfaces/transaction.interface';
 import { OverwriteMock } from 'src/__tests__/utils-for-testing/enums/enums';
 import { KeyChainApiGetCustomData } from 'src/__tests__/utils-for-testing/interfaces/implementations';
@@ -48,18 +42,8 @@ export interface MocksPowerUp {
 export interface MocksWalletHistory {
   getAccountTransactions?: [Transaction[], number];
 }
-export interface MocksTokens {
-  getUserBalance?: TokenBalance[];
-  getIncomingDelegations?: TokenDelegation[];
-  getOutgoingDelegations?: TokenDelegation[];
-  getAllTokens?: any[];
-  getTokensMarket?: TokenMarket[];
-  getTokenHistory?: TokenTransaction[];
-}
 export interface MocksProposal {
   hasVotedForProposal?: boolean;
-  voteForKeychainProposal?: boolean;
-  isRequestingProposalVotes?: boolean;
 }
 export interface MocksKeyChainApi {
   customData?: KeyChainApiGetCustomData;
@@ -78,10 +62,6 @@ export interface MocksChromeRunTime {
   sendMessage: jest.Mock;
 }
 
-export interface MocksSurvey {
-  byPassing: boolean;
-}
-
 export interface MocksConvertionRequests {
   getConversionRequests: Conversion[];
 }
@@ -97,11 +77,9 @@ export interface MocksToUse {
   topBar?: MocksTopBar;
   powerUp?: MocksPowerUp;
   walletHistory?: MocksWalletHistory;
-  tokens?: MocksTokens;
   proposal?: MocksProposal;
   chromeRunTime?: MocksChromeRunTime;
   keyChainApiGet?: KeyChainApiGetCustomData;
-  survey?: MocksSurvey;
   convertions?: MocksConvertionRequests;
   governance?: MocksGovernance;
 }
@@ -125,16 +103,12 @@ export interface CustomDataFromLocalStorage {
   customSwitchAuto?: boolean;
   customsRpcs?: Rpc[];
   customAuthorizedOP?: NoConfirm | string;
-  customlastVersionSeen?: string;
   customStorageVersion?: string | number;
   customCurrentRpc?: Rpc;
   customMK?: string;
   customAccounts?: string;
   customWalletHistoryFilters?: WalletHistoryFilter;
-  customHideSuggestionProxy?: { [key: string]: boolean };
   customFavoriteUsers?: { [key: string]: string[] };
-  customHiddenTokenList?: string[];
-  customKeychainifyEnabled?: boolean;
 }
 
 export interface MocksOverwrite {
@@ -169,12 +143,7 @@ export interface MocksOverwrite {
   walletHistory?: {
     getAccountTransactions?: OverwriteMock;
   };
-  tokens?: {
-    getTokens?: OverwriteMock;
-    getUserBalance?: OverwriteMock;
-  };
   proposal?: {
     hasVotedForProposal?: OverwriteMock;
-    voteForKeychainProposal?: OverwriteMock;
   };
 }

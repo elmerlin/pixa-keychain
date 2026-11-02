@@ -12,18 +12,8 @@ const dataTestIdCheckbox = {
     cancelRecurrent: 'checkbox-cancel-recurrent',
   },
 
-  tokensFilter: {
-    selectToken: {
-      preFix: 'checkbox-select-token-',
-    },
-  },
-
   autoLock: {
     preFix: 'checkbox-auto-lock-',
-  },
-
-  keychainify: {
-    checkbox: 'checkbox-keychainify',
   },
 
   rpcNodes: {

@@ -90,24 +90,6 @@ describe('proposal.utils tests:\n', () => {
         JSON.parse(JSON.stringify(proposal.expectedResultProposal)),
       );
     });
-
-    test('Passing a user that has voted on the keychain proposal, must return a list of proposal with one voted proposal', async () => {
-      jest
-        .spyOn(ProposalUtils, 'getProposalDailyBudget')
-        .mockResolvedValue(proposal.fakeDailyBudgetResponse);
-      mocksImplementation.hiveTxUtils.getData({
-        listProposals: constants.withKeyChainProposal.proposals,
-        listProposalVotes: proposal.fakeListProposalVotesResponse,
-      });
-
-      const result = await ProposalUtils.getProposalList(
-        'theghost1980',
-        dynamic.globalProperties,
-      );
-      expect(JSON.parse(JSON.stringify(result))).toEqual(
-        JSON.parse(JSON.stringify(constants.expectedResultProposalWithkeyChain)),
-      );
-    });
   });
 
   describe('getFundedOption cases:\n', () => {

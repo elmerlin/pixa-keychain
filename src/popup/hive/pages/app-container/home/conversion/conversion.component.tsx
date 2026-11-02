@@ -22,7 +22,7 @@ import { Asset } from 'hive-keychain-commons';
 import Joi from 'joi';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { BalanceSectionComponent } from 'src/common-ui/balance-section/balance-section.component';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
@@ -92,7 +92,10 @@ const Conversion = ({
   >([]);
 
   useEffect(() => {
-    setTitleContainerProperties({ title: title, isBackButtonEnabled: true });
+    setTitleContainerProperties({
+      title: title,
+      isBackButtonEnabled: true,
+    });
   }, []);
 
   useEffect(() => {
@@ -190,15 +193,11 @@ const Conversion = ({
           if (success) {
             navigateTo(Screen.HOME_PAGE, true);
 
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else {
-              setSuccessMessage(
-                conversionType === ConversionType.CONVERT_HBD_TO_HIVE
-                  ? 'popup_html_hbd_to_hive_conversion_success'
-                  : 'popup_html_hive_to_hbd_conversion_success',
-              );
-            }
+            setSuccessMessage(
+              conversionType === ConversionType.CONVERT_HBD_TO_HIVE
+                ? 'popup_html_hbd_to_hive_conversion_success'
+                : 'popup_html_hive_to_hbd_conversion_success',
+            );
           } else {
             setErrorMessage(
               conversionType === ConversionType.CONVERT_HBD_TO_HIVE

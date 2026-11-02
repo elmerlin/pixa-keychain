@@ -1,15 +1,6 @@
-import { KeylessKeychainComponent } from '@popup/hive/pages/add-account/keyless-keychain/keyless-keychain.component';
-import { EcosystemComponent } from '@popup/hive/pages/app-container/home/ecosystem/ecosystem.component';
-import { TokenSwapsHistoryComponent } from '@popup/hive/pages/app-container/home/swaps/token-swaps-history/token-swaps-history.component';
-import { TokenSwapsComponent } from '@popup/hive/pages/app-container/home/swaps/token-swaps/token-swaps.component';
-import { TokenPendingUnstakePage } from '@popup/hive/pages/app-container/home/tokens/token-pending-unstacking/token-pending-unstacking.component';
 import { PendingRecurrentTransfersPageComponent } from '@popup/hive/pages/app-container/home/transfer-fund/recurrent-transfers/recurrent-transfers.component';
 import { ExportAccountsSubMenuComponent } from '@popup/hive/pages/app-container/settings/accounts/export-accounts/export-accounts-sub-menu.component';
-import { ExportedAccountsQRComponent } from '@popup/hive/pages/app-container/settings/accounts/export-accounts/exported-accounts-qr/exported-accounts-qr.component';
-import { HelpSubMenuComponent } from '@popup/hive/pages/app-container/settings/help-sub-menu/help-sub-menu.component';
 import { ExportTransactionsComponent } from '@popup/hive/pages/app-container/settings/user-preferences/export-transactions/export-transactions.component';
-import { MultisigComponent } from '@popup/hive/pages/app-container/settings/user-preferences/multisig/multisig.component';
-import { NotificationsConfigComponent } from '@popup/hive/pages/app-container/settings/user-preferences/notifications/notifications-config/notifications-config.component';
 import { RootState } from '@popup/multichain/store';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
@@ -20,7 +11,6 @@ import { AddByAuthComponent } from 'src/popup/hive/pages/add-account/add-by-auth
 import { AddByKeysComponent } from 'src/popup/hive/pages/add-account/add-by-keys/add-by-keys.component';
 import { ImportKeysComponent } from 'src/popup/hive/pages/add-account/import-keys/import-keys.component';
 import { SelectKeysComponent } from 'src/popup/hive/pages/add-account/select-keys/select-keys.component';
-import { BuyCoinsComponent } from 'src/popup/hive/pages/app-container/home/buy-coins/buy-coins.component';
 import { ConversionComponent } from 'src/popup/hive/pages/app-container/home/conversion/conversion.component';
 import { PendingConversionPageComponent } from 'src/popup/hive/pages/app-container/home/conversion/pending-conversion/pending-conversion.component';
 import { DelegationsComponent } from 'src/popup/hive/pages/app-container/home/delegations/delegations.component';
@@ -32,14 +22,8 @@ import { IncomingOutgoingRcPageComponent } from 'src/popup/hive/pages/app-contai
 import { RcDelegationsComponent } from 'src/popup/hive/pages/app-container/home/rc-delegations/rc-delegations.component';
 import { PendingSavingsWithdrawalPageComponent } from 'src/popup/hive/pages/app-container/home/savings/pending-savings-withdrawal/pending-savings-withdrawal-page.component';
 import { SavingsPageComponent } from 'src/popup/hive/pages/app-container/home/savings/savings.component';
-import { TokenIncomingOutgoingPageComponent } from 'src/popup/hive/pages/app-container/home/tokens/token-delegations/token-incoming-outgoing-page/token-incoming-outgoing-page.component';
-import { TokensOperationComponent } from 'src/popup/hive/pages/app-container/home/tokens/token-operation/token-operation.component';
-import { TokensFilterComponent } from 'src/popup/hive/pages/app-container/home/tokens/tokens-filter/tokens-filter.component';
-import { TokensHistoryComponent } from 'src/popup/hive/pages/app-container/home/tokens/tokens-history/tokens-history.component';
-import { TokensTransferComponent } from 'src/popup/hive/pages/app-container/home/tokens/tokens-transfer/tokens-transfer.component';
 import { TransferFundsComponent } from 'src/popup/hive/pages/app-container/home/transfer-fund/transfer-fund.component';
 import { WalletHistoryComponent } from 'src/popup/hive/pages/app-container/home/wallet-history/wallet-history.component';
-import { AboutPageComponent } from 'src/popup/hive/pages/app-container/settings/about/about.component';
 import { AccountSubMenuComponent } from 'src/popup/hive/pages/app-container/settings/accounts/account-sub-menu.component';
 import { CreateAccountStepOneComponent } from 'src/popup/hive/pages/app-container/settings/accounts/create-account/create-account-step-one/create-account-step-one.component';
 import { CreateAccountStepTwoComponent } from 'src/popup/hive/pages/app-container/settings/accounts/create-account/create-account-step-two/create-account-step-two.component';
@@ -47,12 +31,10 @@ import { ManageAccountAuthoritiesComponent } from 'src/popup/hive/pages/app-cont
 import { AddKeyComponent } from 'src/popup/hive/pages/app-container/settings/accounts/manage-account/add-key/add-key.component';
 import { ManageAccountComponent } from 'src/popup/hive/pages/app-container/settings/accounts/manage-account/manage-account.component';
 import { AdvancedSettingsPageComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/advanced-settings.component';
-import { AnalyticsComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/analytics/analytics.component';
 import { AutoLockComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/auto-lock/auto-lock.component';
 import { ChangePasswordComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/change-password/change-password.component';
 import { ClearAllDataComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/clear-all-data/clear-all-data.component';
 import { ImportExportPreferencesComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/import-export-preferences/import-export-preferences.component';
-import { KeychainifyComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/keychainify/keychainify.component';
 import { RpcNodesComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/rpc-nodes/rpc-nodes.component';
 import { ShortcutsComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/shortcuts/shortcuts.component';
 import { SettingsMainPageComponent } from 'src/popup/hive/pages/app-container/settings/settings-main-page/settings-main-page.component';
@@ -82,8 +64,7 @@ const AppRouter = ({
         return <PowerUpDownComponent />;
       case Screen.POWER_DOWN_PAGE:
         return <PowerUpDownComponent />;
-      case Screen.BUY_COINS_PAGE:
-        return <BuyCoinsComponent />;
+
       case Screen.WALLET_HISTORY_PAGE:
         return <WalletHistoryComponent />;
       case Screen.CONFIRMATION_PAGE:
@@ -104,23 +85,6 @@ const AppRouter = ({
         return <RcDelegationsComponent />;
       case Screen.RC_DELEGATIONS_INCOMING_OUTGOING_PAGE:
         return <IncomingOutgoingRcPageComponent />;
-      //Tokens
-      case Screen.TOKENS_HISTORY:
-        return <TokensHistoryComponent />;
-      case Screen.TOKENS_TRANSFER:
-        return <TokensTransferComponent />;
-      case Screen.TOKENS_OPERATION:
-        return <TokensOperationComponent />;
-      case Screen.TOKENS_DELEGATIONS:
-        return <TokenIncomingOutgoingPageComponent />;
-      case Screen.TOKENS_FILTER:
-        return <TokensFilterComponent />;
-      case Screen.TOKEN_SWAP_PAGE:
-        return <TokenSwapsComponent />;
-      case Screen.TOKENS_SWAP_HISTORY:
-        return <TokenSwapsHistoryComponent />;
-      case Screen.TOKENS_PENDING_UNSTAKE:
-        return <TokenPendingUnstakePage />;
 
       //Settings Routes
       case Screen.SETTINGS_MAIN_PAGE:
@@ -131,8 +95,7 @@ const AppRouter = ({
         return <AddAccountRouterComponent />;
       case Screen.ACCOUNT_PAGE_ADD_BY_KEYS:
         return <AddByKeysComponent />;
-      case Screen.ACCOUNT_PAGE_KEYLESS_KEYCHAIN:
-        return <KeylessKeychainComponent />;
+
       case Screen.ACCOUNT_PAGE_ADD_BY_AUTH:
         return <AddByAuthComponent />;
       case Screen.ACCOUNT_PAGE_IMPORT_KEYS:
@@ -145,8 +108,7 @@ const AppRouter = ({
         return <ManageAccountAuthoritiesComponent />;
       case Screen.SETTINGS_EXPORT_ACCOUNTS:
         return <ExportAccountsSubMenuComponent />;
-      case Screen.SETTINGS_EXPORT_ALL_ACCOUNTS_QR:
-        return <ExportedAccountsQRComponent />;
+
       case Screen.SETTINGS_ADD_KEY:
         return <AddKeyComponent />;
       case Screen.SETTINGS_ADVANCED:
@@ -159,8 +121,7 @@ const AppRouter = ({
         return <RpcNodesComponent />;
       case Screen.SETTINGS_AUTO_LOCK:
         return <AutoLockComponent />;
-      case Screen.SETTINGS_KEYCHAINIFY:
-        return <KeychainifyComponent />;
+
       case Screen.SETTINGS_CLEAR_ALL_DATA:
         return <ClearAllDataComponent />;
       case Screen.SETTINGS_IMPORT_EXPORT:
@@ -177,22 +138,12 @@ const AppRouter = ({
         return <AutomatedTasksComponent />;
       case Screen.SETTINGS_FAVORITE_ACCOUNTS:
         return <FavoriteAccountsComponent />;
-      case Screen.SETTINGS_NOTIFICATIONS_CONFIGURATION:
-        return <NotificationsConfigComponent />;
-      case Screen.SETTINGS_MULTISIG:
-        return <MultisigComponent />;
-      case Screen.SETTINGS_ABOUT:
-        return <AboutPageComponent />;
-      case Screen.SETTINGS_HELP:
-        return <HelpSubMenuComponent />;
+
       case Screen.CREATE_ACCOUNT_PAGE_STEP_ONE:
         return <CreateAccountStepOneComponent />;
       case Screen.CREATE_ACCOUNT_PAGE_STEP_TWO:
         return <CreateAccountStepTwoComponent />;
-      case Screen.SETTINGS_ANALYTICS:
-        return <AnalyticsComponent />;
-      case Screen.CHAINS:
-        return <EcosystemComponent />;
+
       default:
         return null;
     }

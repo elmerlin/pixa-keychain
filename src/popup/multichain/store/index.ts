@@ -22,14 +22,13 @@ if (store.getState().hive) {
   let previousRpc = store.getState().hive.activeRpc;
   let previousActiveAccountName = store.getState().hive.activeAccount?.name;
   let previousMk = store.getState().mk;
-  let previousHiveEngineConfig = store.getState().hive.hiveEngineConfig;
 
   /* istanbul ignore next */
 
   store.subscribe(() => {
     const {
       mk,
-      hive: { accounts, activeRpc, activeAccount, hiveEngineConfig },
+      hive: { accounts, activeRpc, activeAccount },
       hasFinishedSignup,
     } = store.getState();
     if (!AccountUtils.isAccountListIdentical(previousAccounts, accounts)) {
@@ -43,7 +42,6 @@ if (store.getState().hive) {
           true,
         );
         store.dispatch(setHasFinishedSignup(true));
-        // AnalyticsUtils.sendAddFirstAccountEvent();
       }
       previousAccounts = accounts;
       if (accounts.length !== 0) {
@@ -63,19 +61,6 @@ if (store.getState().hive) {
     if (previousMk !== mk) {
       previousMk = mk;
       VaultUtils.saveValueInVault(VaultKey.__MK, mk);
-    }
-    if (
-      previousHiveEngineConfig &&
-      hiveEngineConfig &&
-      (previousHiveEngineConfig.accountHistoryApi !==
-        hiveEngineConfig.accountHistoryApi ||
-        previousHiveEngineConfig.rpc !== hiveEngineConfig.rpc)
-    ) {
-      previousHiveEngineConfig = hiveEngineConfig;
-      LocalStorageUtils.saveValueInLocalStorage(
-        LocalStorageKeyEnum.HIVE_ENGINE_ACTIVE_CONFIG,
-        hiveEngineConfig,
-      );
     }
   });
 }

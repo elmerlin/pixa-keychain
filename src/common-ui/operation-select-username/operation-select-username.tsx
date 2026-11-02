@@ -35,9 +35,9 @@ const OperationSelectUsername = ({
         <div className="selected-item" onClick={toggleDropdown}>
           <PreloadedImage
             className="user-avatar"
-            src={`https://images.hive.blog/u/${username}/avatar`}
-            alt={'/assets/images/accounts.png'}
-            placeholder={'/assets/images/accounts.png'}
+            src={'/assets/images/placeholders/account-placeholder.png'}
+            alt={'/assets/images/placeholders/account-placeholder.png'}
+            placeholder={'/assets/images/placeholders/account-placeholder.png'}
           />
           <span className="username">{username}</span>
           <SVGIcon
@@ -59,9 +59,11 @@ const OperationSelectUsername = ({
                 onClick={() => handleItemClick(account)}>
                 <PreloadedImage
                   className="user-avatar"
-                  src={`https://images.hive.blog/u/${account}/avatar`}
-                  alt={'/assets/images/accounts.png'}
-                  placeholder={'/assets/images/accounts.png'}
+                  src={'/assets/images/placeholders/account-placeholder.png'}
+                  alt={'/assets/images/placeholders/account-placeholder.png'}
+                  placeholder={
+                    '/assets/images/placeholders/account-placeholder.png'
+                  }
                 />
                 <span className="username">{account}</span>
                 {account === username && (

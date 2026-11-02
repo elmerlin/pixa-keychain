@@ -110,7 +110,10 @@ const PowerUpDown = ({
   };
 
   useEffect(() => {
-    setTitleContainerProperties({ title: title, isBackButtonEnabled: true });
+    setTitleContainerProperties({
+      title: title,
+      isBackButtonEnabled: true,
+    });
     loadDelegatees(activeAccount.name!);
     loadAutocompleteTransferUsernames();
   }, []);
@@ -253,13 +256,9 @@ const PowerUpDown = ({
               form.receiver,
               activeAccount,
             );
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else {
-              setSuccessMessage('popup_html_power_up_down_success', [
-                operationString,
-              ]);
-            }
+            setSuccessMessage('popup_html_power_up_down_success', [
+              operationString,
+            ]);
           } else {
             setErrorMessage('popup_html_power_up_down_fail', [operationString]);
           }
@@ -308,11 +307,7 @@ const PowerUpDown = ({
               form.receiver,
               activeAccount,
             );
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else {
-              setSuccessMessage('popup_html_cancel_power_down_success');
-            }
+            setSuccessMessage('popup_html_cancel_power_down_success');
           } else {
             setErrorMessage('popup_html_cancel_power_down_fail');
           }

@@ -5,8 +5,6 @@ export enum ShortcutActionType {
 
 export interface ShortcutParams {
   selectedCurrency?: 'hive' | 'hbd';
-  tokenSymbol?: string;
-  delegationType?: string;
   powerType?: string;
 }
 

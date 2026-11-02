@@ -8,7 +8,6 @@ import witness from 'src/__tests__/utils-for-testing/data/witness';
 import { KeyChainApiGetCustomData } from 'src/__tests__/utils-for-testing/interfaces/implementations';
 import { CustomDataFromLocalStorage } from 'src/__tests__/utils-for-testing/interfaces/mocks.interface';
 import { DEFAULT_FILTER } from 'src/popup/hive/pages/app-container/home/wallet-history/wallet-history.component';
-import { WhatsNewContent } from 'src/popup/hive/pages/app-container/whats-new/whats-new.interface';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 
 const manifestFile = {
@@ -46,34 +45,10 @@ const getValuefromLS = async (...args: any[]): Promise<any> => {
       return customData.hasOwnProperty('customWalletHistoryFilters')
         ? customData.customWalletHistoryFilters
         : DEFAULT_FILTER;
-    case LocalStorageKeyEnum.HIDE_SUGGESTION_PROXY:
-      return customData.hasOwnProperty('customHideSuggestionProxy')
-        ? customData.customHideSuggestionProxy
-        : { 'keychain.tests': true };
     case LocalStorageKeyEnum.FAVORITE_USERS:
       return customData.hasOwnProperty('customFavoriteUsers')
         ? customData.customFavoriteUsers
         : { 'keychain.tests': ['one1', 'two2', 'three3'] };
-    case LocalStorageKeyEnum.LAST_VERSION_UPDATE:
-      return customData.hasOwnProperty('customlastVersionSeen')
-        ? customData.customlastVersionSeen
-        : manifestFile.chromium.version;
-    case LocalStorageKeyEnum.HIDDEN_TOKENS:
-      return customData.hasOwnProperty('customHiddenTokenList')
-        ? customData.customHiddenTokenList
-        : [];
-    case LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_ACCOUNT_HISTORY_API:
-      return customData.hasOwnProperty('accountHistoryApi')
-        ? customData.accountHistoryApi
-        : [];
-    case LocalStorageKeyEnum.HIVE_ENGINE_CUSTOM_RPC_LIST:
-      return customData.hasOwnProperty('customRpcList')
-        ? customData.customRpcList
-        : [];
-    case LocalStorageKeyEnum.KEYCHAINIFY_ENABLED:
-      return customData.hasOwnProperty('customKeychainifyEnabled')
-        ? customData.customKeychainifyEnabled
-        : true;
     case LocalStorageKeyEnum.RPC_LIST:
       return customData.hasOwnProperty('customsRpcs')
         ? customData.customsRpcs
@@ -100,7 +75,6 @@ const getValuefromLS = async (...args: any[]): Promise<any> => {
         : undefined;
     default:
       //Cases not being handled yet:
-      // - HIVE_ENGINE_ACTIVE_CONFIG
       // - __REQUEST_HANDLER
 
       //console.log('Not handled and being called by: ', args[0]);
@@ -171,9 +145,7 @@ const keychainApiGet = async (
     case urlToGet.includes('hive/delegators/'):
       return customData?.delegators ?? delegations.delegators;
     case urlToGet === 'hive/ecosystem/dapps':
-      return (
-        customData?.ecosystemDapps ?? [{ category: 'social', dapps: [] }]
-      );
+      return customData?.ecosystemDapps ?? [{ category: 'social', dapps: [] }];
     default:
       return 'Please check on default cases as not found condition ->/implementations/...';
   }

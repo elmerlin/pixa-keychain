@@ -7,7 +7,6 @@ import { ActiveAccount } from '@interfaces/active-account.interface';
 import { CurrencyPrices } from '@interfaces/bittrex.interface';
 import { KeyType, Keys } from '@interfaces/keys.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
-import { Token, TokenBalance, TokenMarket } from '@interfaces/tokens.interface';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import accounts, * as dataAccounts from 'src/__tests__/utils-for-testing/data/accounts';
 import dynamic from 'src/__tests__/utils-for-testing/data/dynamic.hive';
@@ -19,10 +18,8 @@ import { KeychainError } from 'src/keychain-error';
 import FormatUtils from 'src/utils/format.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
-jest.mock(
-  'hive-keychain-commons',
-  () =>
-    require('src/__tests__/utils-for-testing/mocks/hive-keychain-commons-iswif').getHiveKeychainCommonsIsWifMock(),
+jest.mock('hive-keychain-commons', () =>
+  require('src/__tests__/utils-for-testing/mocks/hive-keychain-commons-iswif').getHiveKeychainCommonsIsWifMock(),
 );
 
 describe('account.utils tests:\n', () => {
@@ -94,7 +91,10 @@ describe('account.utils tests:\n', () => {
       savings_hbd_balance: '1.00',
     } as ExtendedAccount,
     keyTypeArray: [
-      { key: KeyType.ACTIVE, error: new Error('popup_html_wrong_key_active') },
+      {
+        key: KeyType.ACTIVE,
+        error: new Error('popup_html_wrong_key_active'),
+      },
       { key: KeyType.MEMO, error: new Error('popup_html_wrong_key_memo') },
       {
         key: KeyType.POSTING,
@@ -109,12 +109,12 @@ describe('account.utils tests:\n', () => {
     owner: { weight_threshold: 1, account_auths: [], key_auths: [] },
     active: {
       weight_threshold: 1,
-      account_auths: [[process.env._TEST_USERNAME, 1]],
+      account_auths: [[userData.one.username, 1]],
       key_auths: [['STM85Hcqk92kE1AtueigBAtHD2kZRcqji9Gi38ZaiW8xcWcQJLof6', 1]],
     },
     posting: {
       weight_threshold: 1,
-      account_auths: [[process.env._TEST_USERNAME, 1]],
+      account_auths: [[userData.one.username, 1]],
       key_auths: [['STM7cfYmyCU6J45NjBSBUwZAV6c2ttZoNjTeaxkWSYq5HDZDWtzC3', 1]],
     },
     memo_key: 'STM5NT27Z4XVgtpxTf6i5uB9pYmXC6syiHUSqzVZvQ1iN8BgJsLC2',
@@ -337,14 +337,14 @@ describe('account.utils tests:\n', () => {
     test('when accountName is present in existingAccounts must return true', () => {
       const result = AccountUtils.isAccountNameAlreadyExisting(
         existingAccountsUserPresent,
-        process.env._TEST_USERNAME!,
+        userData.one.username,
       );
       expect(result).toBe(true);
     });
     test('when accountName is present more than once in the existingAccount array must return true', () => {
       const result = AccountUtils.isAccountNameAlreadyExisting(
         existingAccountsUserPresentTwice,
-        process.env._TEST_USERNAME!,
+        userData.one.username,
       );
       expect(result).toBe(true);
     });
@@ -360,7 +360,9 @@ describe('account.utils tests:\n', () => {
         .mockResolvedValue([]);
       const result = await AccountUtils.hasStoredAccounts();
       expect(result).toBe(true);
-      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(1);
+      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(
+        1,
+      );
     });
     test('Test with getValueFromLocalStorage returning null, must return true', async () => {
       LocalStorageUtils.getValueFromLocalStorage = jest
@@ -368,7 +370,9 @@ describe('account.utils tests:\n', () => {
         .mockResolvedValue(null);
       const result = await AccountUtils.hasStoredAccounts();
       expect(result).toBe(true);
-      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(1);
+      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(
+        1,
+      );
     });
     test('Test with getValueFromLocalStorage returning undefined, must return false', async () => {
       LocalStorageUtils.getValueFromLocalStorage = jest
@@ -376,7 +380,9 @@ describe('account.utils tests:\n', () => {
         .mockResolvedValue(undefined);
       const result = await AccountUtils.hasStoredAccounts();
       expect(result).toBe(false);
-      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(1);
+      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(
+        1,
+      );
     });
     test('Test with getValueFromLocalStorage returning list with at least one element, must return true', async () => {
       LocalStorageUtils.getValueFromLocalStorage = jest
@@ -384,7 +390,9 @@ describe('account.utils tests:\n', () => {
         .mockResolvedValue(['atLeastOneElement']);
       const result = await AccountUtils.hasStoredAccounts();
       expect(result).toBe(true);
-      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(1);
+      expect(LocalStorageUtils.getValueFromLocalStorage).toHaveBeenCalledTimes(
+        1,
+      );
     });
   });
 
@@ -642,14 +650,7 @@ describe('account.utils tests:\n', () => {
     FormatUtils.withCommas = jest.fn().mockReturnValue(1.51);
     FormatUtils.toHP = jest.fn().mockReturnValue(1.51);
     const { balances } = constants;
-    const emptyLayerTwo: [
-      TokenBalance[],
-      TokenMarket[],
-      AccountValueType,
-      Token[],
-      { hive: number; hbd: number },
-      string[],
-    ] = [[], [], AccountValueType.DOLLARS, [], { hive: 0, hbd: 0 }, []];
+
     test('must return 0 when passed invalid hiveDollar.usd', () => {
       const currencies = {
         hive: { usd: 1.0 },
@@ -660,7 +661,8 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        ...emptyLayerTwo,
+        AccountValueType.DOLLARS,
+        { hive: 0, hbd: 0 },
       );
       expect(result).toBe(0);
     });
@@ -674,7 +676,8 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        ...emptyLayerTwo,
+        AccountValueType.DOLLARS,
+        { hive: 0, hbd: 0 },
       );
       expect(result).toBe(0);
     });
@@ -688,7 +691,8 @@ describe('account.utils tests:\n', () => {
         balances,
         currencies,
         dynamic.globalProperties,
-        ...emptyLayerTwo,
+        AccountValueType.DOLLARS,
+        { hive: 0, hbd: 0 },
       );
       expect(result).toBe(1.51);
     });

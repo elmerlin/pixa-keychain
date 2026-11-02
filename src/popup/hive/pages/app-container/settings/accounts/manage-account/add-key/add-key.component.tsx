@@ -1,3 +1,6 @@
+import type { AuthorityType, ExtendedAccount } from '@hiveio/dhive';
+import { refreshActiveAccount } from '@popup/hive/actions/active-account.actions';
+import AccountUtils from '@popup/hive/utils/account.utils';
 import {
   setErrorMessage,
   setSuccessMessage,
@@ -5,18 +8,14 @@ import {
 import { goBack } from '@popup/multichain/actions/navigation.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
 import { RootState } from '@popup/multichain/store';
+import { Screen } from '@reference-data/screen.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import ButtonComponent from 'src/common-ui/button/button.component';
 import { InputType } from 'src/common-ui/input/input-type.enum';
 import InputComponent from 'src/common-ui/input/input.component';
 import { KeyType } from 'src/interfaces/keys.interface';
 import { addKey } from 'src/popup/hive/actions/account.actions';
-// import { LedgerUtils } from 'src/utils/ledger.utils';
-import type { AuthorityType, ExtendedAccount } from '@hiveio/dhive';
-import { refreshActiveAccount } from '@popup/hive/actions/active-account.actions';
-import AccountUtils from '@popup/hive/utils/account.utils';
-import { Screen } from '@reference-data/screen.enum';
 import ArrayUtils from 'src/utils/array.utils';
 import { HtmlUtils } from 'src/utils/html.utils';
 
@@ -32,7 +31,6 @@ const AddKey = ({
   refreshActiveAccount,
   setSuccessMessage,
   goBack,
-  isLedgerSupported,
 }: PropsType) => {
   const [privateKey, setPrivateKey] = useState('');
   const [availableAuths, setAvailableAuths] = useState<any[]>([]);
@@ -52,13 +50,6 @@ const AddKey = ({
     }
     addKey(privateKey.trim(), keyType, setErrorMessage);
     goBack();
-  };
-
-  const navigateToUseLedger = async () => {
-    const extensionId = (await chrome.management.getSelf()).id;
-    chrome.tabs.create({
-      url: `chrome-extension://${extensionId}/add-key-from-ledger.html?keyType=${keyType}&username=${activeAccountName}`,
-    });
   };
 
   /** Memo uses `memo_key` (public key string), not an Authority — only owner/active/posting have account_auths. */
@@ -138,7 +129,7 @@ const AddKey = ({
                 <div className="item-account" onClick={() => addAuth(auth)}>
                   <img
                     className="account-img"
-                    src={`https://images.hive.blog/u/${auth}/avatar`}
+                    src={'/assets/images/placeholders/account-placeholder.png'}
                     onError={(e: any) => {
                       e.target.onError = null;
                       e.target.src = '/assets/images/menu/accounts.svg';
@@ -149,12 +140,6 @@ const AddKey = ({
               </div>
             ))}
           </div>
-        </div>
-      )}
-
-      {keyType === KeyType.ACTIVE && isLedgerSupported && (
-        <div className="add-using-ledger" onClick={navigateToUseLedger}>
-          {chrome.i18n.getMessage('popup_html_add_using_ledger')}
         </div>
       )}
 
@@ -173,7 +158,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     keyType: state.navigation.stack[0].params as KeyType,
     activeAccountName: state.hive.activeAccount.name,
-    isLedgerSupported: state.hive.appStatus.isLedgerSupported,
     activeAccount: state.hive.activeAccount,
     localAccounts: state.hive.accounts,
     mk: state.mk,

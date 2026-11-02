@@ -5,12 +5,7 @@ import type {
 } from '@hiveio/dhive';
 import { Key, TransactionOptions } from '@interfaces/keys.interface';
 import { PendingRecurrentTransfer } from '@interfaces/transaction.interface';
-import {
-  ExchangesUtils,
-  TransferUtils as TransferUtilsCommons,
-  TransferWarning,
-} from 'hive-keychain-commons';
-import { SavingOperationType } from 'src/popup/hive/pages/app-container/home/savings/savings-operation-type.enum';
+import { KeysUtils } from '@popup/hive/utils/keys.utils';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 
 const getTransferWarningLabel = (
@@ -20,50 +15,18 @@ const getTransferWarningLabel = (
   phisingAccounts: any,
   isRecurrent?: boolean,
 ) => {
-  const warning = TransferUtilsCommons.getTransferWarning(
-    account,
-    currency,
-    memo,
-    phisingAccounts,
-    isRecurrent,
-  );
-  switch (warning) {
-    case TransferWarning.PHISHING:
-      return chrome.i18n.getMessage('popup_warning_phishing', [account]);
-    case TransferWarning.EXCHANGE_MEMO:
-      return chrome.i18n.getMessage('popup_warning_exchange_memo');
-    case TransferWarning.EXCHANGE_RECURRENT:
-      return chrome.i18n.getMessage(
-        'popup_html_transfer_recurrent_exchange_warning',
-      );
-    case TransferWarning.EXCHANGE_DEPOSIT:
-      return chrome.i18n.getMessage('popup_warning_exchange_deposit', [
-        currency,
-      ]);
-    case TransferWarning.PRIVATE_KEY_IN_MEMO:
+  const plainMemo = memo.startsWith('#') ? memo.substring(1) : memo;
+  for (const word of plainMemo.match(/[\w\d]{51,52}/g) ?? []) {
+    if (
+      (word.length === 51 &&
+        KeysUtils.getPublicKeyFromPrivateKeyString(word)) ||
+      (word.length === 52 && word.startsWith('P'))
+    ) {
       return chrome.i18n.getMessage('popup_warning_private_key_in_memo');
-    default:
-      return;
-  }
-};
-const getTransferFromToSavingsValidationWarning = (
-  account: string,
-  operation: SavingOperationType,
-) => {
-  if (
-    ExchangesUtils.getExchanges()
-      .map((exchange) => exchange.username)
-      .includes(account)
-  ) {
-    if (operation === SavingOperationType.DEPOSIT) {
-      return chrome.i18n.getMessage(
-        'popup_html_transfer_to_saving_to_exchange_error',
-      );
-    } else {
-      return chrome.i18n.getMessage(
-        'popup_html_transfer_from_saving_to_exchange_error',
-      );
     }
+  }
+  if (phisingAccounts.includes(account)) {
+    return chrome.i18n.getMessage('popup_warning_phishing', [account]);
   }
 };
 
@@ -199,7 +162,6 @@ const getRecurrentTransferPairId = (
 };
 
 const TransferUtils = {
-  getTransferFromToSavingsValidationWarning,
   sendTransfer,
   getTransferOperation,
   getRecurrentTransferOperation,

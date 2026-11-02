@@ -1,12 +1,9 @@
-import { TransactionOptionsMetadata } from '@interfaces/keys.interface';
-import { KeysUtils } from '@popup/hive/utils/keys.utils';
-import { MultisigUtils } from '@popup/hive/utils/multisig.utils';
-import { addCaptionToLoading } from '@popup/multichain/actions/loading.actions';
+import { TransactionOptions } from '@interfaces/keys.interface';
 import { goBack } from '@popup/multichain/actions/navigation.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
 import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
-import { KeychainKeyTypes, KeychainKeyTypesLC } from 'hive-keychain-commons';
+import { KeychainKeyTypes } from 'hive-keychain-commons';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import AmountWithLogo from 'src/common-ui/amount-with-logo/amount-with-logo';
@@ -18,8 +15,6 @@ import {
   ConfirmationPageFieldType,
 } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { InputType } from 'src/common-ui/input/input-type.enum';
-import InputComponent from 'src/common-ui/input/input.component';
 import { Separator } from 'src/common-ui/separator/separator.component';
 import UsernameWithAvatar from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { HtmlUtils } from 'src/utils/html.utils';
@@ -32,7 +27,7 @@ export interface ConfirmationPageParams {
   skipWarningTranslation?: boolean;
   title: string;
   skipTitleTranslation?: boolean;
-  afterConfirmAction: (options?: TransactionOptionsMetadata) => {};
+  afterConfirmAction: (options?: TransactionOptions) => {};
   afterCancelAction?: () => {};
   formParams?: any;
   method: KeychainKeyTypes | null;
@@ -48,17 +43,10 @@ const ConfirmationPage = ({
   skipWarningTranslation,
   title,
   skipTitleTranslation,
-  activeAccount,
-  method,
   goBack,
   setTitleContainerProperties,
-  addCaptionToLoading,
-  tokens,
 }: PropsType) => {
-  const [willUseMultisig, setWillUseMultisig] = useState<boolean>();
   const [hasField] = useState(fields && fields.length !== 0);
-
-  const [twoFABots, setTwoFABots] = useState<{ [botName: string]: string }>({});
 
   useEffect(() => {
     setTitleContainerProperties({
@@ -66,90 +54,16 @@ const ConfirmationPage = ({
       skipTitleTranslation,
       isBackButtonEnabled: true,
       onBackAdditional: () => {
-        if (afterCancelAction) {
-          afterCancelAction();
-        }
+        if (afterCancelAction) afterCancelAction();
       },
       onCloseAdditional: () => {
-        if (afterCancelAction) {
-          afterCancelAction();
-        }
+        if (afterCancelAction) afterCancelAction();
       },
     });
-
-    checkForMultsig();
   }, []);
 
-  const checkForMultsig = async () => {
-    let useMultisig = false;
-    switch (method) {
-      case KeychainKeyTypes.active: {
-        if (activeAccount.keys.active) {
-          useMultisig = KeysUtils.isUsingMultisig(
-            activeAccount.keys.active,
-            activeAccount.account,
-            activeAccount.keys.activePubkey?.startsWith('@')
-              ? activeAccount.keys.activePubkey.replace('@', '')
-              : activeAccount.account.name,
-            method.toLowerCase() as KeychainKeyTypesLC,
-          );
-          setWillUseMultisig(useMultisig);
-          if (useMultisig) {
-            const accounts = await MultisigUtils.get2FAAccounts(
-              activeAccount.account,
-              method,
-            );
-
-            accounts.forEach((acc) =>
-              setTwoFABots((old) => {
-                return { ...old, [acc]: '' };
-              }),
-            );
-          }
-        }
-        break;
-      }
-      case KeychainKeyTypes.posting: {
-        if (activeAccount.keys.posting) {
-          useMultisig = KeysUtils.isUsingMultisig(
-            activeAccount.keys.posting,
-            activeAccount.account,
-            activeAccount.keys.postingPubkey?.startsWith('@')
-              ? activeAccount.keys.postingPubkey.replace('@', '')
-              : activeAccount.account.name,
-            method.toLowerCase() as KeychainKeyTypesLC,
-          );
-          setWillUseMultisig(useMultisig);
-
-          if (useMultisig) {
-            const accounts = await MultisigUtils.get2FAAccounts(
-              activeAccount.account,
-              method,
-            );
-            accounts.forEach((acc) =>
-              setTwoFABots((old) => {
-                return { ...old, [acc]: '' };
-              }),
-            );
-          }
-        }
-        break;
-      }
-    }
-  };
-
   const handleClickOnConfirm = () => {
-    let metadata;
-    // AnalyticsUtils.sendRequestEvent(title);
-    if (willUseMultisig) {
-      addCaptionToLoading(
-        twoFABots && Object.keys(twoFABots).length > 0
-          ? 'multisig_transmitting_to_2fa'
-          : 'multisig_transmitting_to_multisig',
-      );
-      metadata = { twoFACodes: twoFABots };
-    }
-    afterConfirmAction({ metaData: metadata });
+    afterConfirmAction();
   };
 
   const handleClickOnCancel = async () => {
@@ -185,7 +99,6 @@ const ConfirmationPage = ({
               amount={field.value}
               symbol={field.tokenSymbol}
               icon={getIcon(field)}
-              tokens={tokens}
             />
           </div>
         );
@@ -228,10 +141,7 @@ const ConfirmationPage = ({
     <div
       className="confirmation-page"
       data-testid={`${Screen.CONFIRMATION_PAGE}-page`}>
-      <div
-        className={`confirmation-top ${
-          twoFABots && Object.keys(twoFABots).length > 0 ? 'twofa' : ''
-        }`}>
+      <div className="confirmation-top">
         <div
           className="introduction"
           dangerouslySetInnerHTML={{
@@ -245,35 +155,8 @@ const ConfirmationPage = ({
               : chrome.i18n.getMessage(warningMessage, warningParams)}
           </div>
         )}
-        {willUseMultisig && (
-          <div data-testid="use-multisig-message" className="multisig-message">
-            <img src="/assets/images/multisig/logo.png" className="logo" />
-            <div className="message">
-              {chrome.i18n.getMessage('multisig_disclaimer_message')}
-            </div>
-          </div>
-        )}
+
         {hasField && renderFields()}
-        {twoFABots && Object.keys(twoFABots).length > 0 && (
-          <div className="two-fa-codes-panel">
-            {Object.entries(twoFABots).map(([botName, code]) => (
-              <InputComponent
-                key={`${botName}-2fa-code`}
-                type={InputType.TEXT}
-                value={code}
-                onChange={(value) => {
-                  setTwoFABots((old) => {
-                    return { ...old, [botName]: value };
-                  });
-                }}
-                label={chrome.i18n.getMessage('multisig_bot_two_fa_code', [
-                  botName,
-                ])}
-                skipLabelTranslation
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="bottom-panel">
@@ -307,16 +190,12 @@ const mapStateToProps = (state: RootState) => {
     afterCancelAction: state.navigation.stack[0].params.afterCancelAction,
     title: state.navigation.stack[0].params.title,
     skipTitleTranslation: state.navigation.stack[0].params.skipTitleTranslation,
-    method: state.navigation.stack[0].params.method as KeychainKeyTypes,
-    activeAccount: state.hive.activeAccount,
-    tokens: state.hive.tokens,
   };
 };
 
 const connector = connect(mapStateToProps, {
   goBack,
   setTitleContainerProperties,
-  addCaptionToLoading,
 });
 type PropsType = ConnectedProps<typeof connector> & ConfirmationPageParams;
 

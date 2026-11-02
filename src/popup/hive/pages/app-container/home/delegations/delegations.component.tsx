@@ -20,7 +20,7 @@ import { KeychainKeyTypes, KeychainKeyTypesLC } from 'hive-keychain-commons';
 import Joi from 'joi';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
@@ -109,7 +109,6 @@ const Delegations = ({
       await FavoriteUserUtils.getAutocompleteListByCategories(
         activeAccount.name!,
         localAccounts,
-        { addExchanges: false },
       );
     setAutocompleteTransferUsernames(autoCompleteListByCategories);
   };
@@ -274,9 +273,7 @@ const Delegations = ({
               activeAccount,
             );
 
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else setSuccessMessage('popup_html_delegation_successful');
+            setSuccessMessage('popup_html_delegation_successful');
           } else {
             setErrorMessage('popup_html_delegation_fail');
           }
@@ -330,9 +327,7 @@ const Delegations = ({
               activeAccount,
             );
 
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else setSuccessMessage('popup_html_cancel_delegation_successful');
+            setSuccessMessage('popup_html_cancel_delegation_successful');
           } else {
             setErrorMessage('popup_html_cancel_delegation_fail');
           }

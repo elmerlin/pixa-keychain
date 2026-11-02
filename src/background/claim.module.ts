@@ -8,10 +8,8 @@ import { Asset } from 'hive-keychain-commons';
 import moment from 'moment';
 import Config from 'src/config';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
-import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import { RewardsUtils } from 'src/popup/hive/utils/rewards.utils';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
-import AutomatedTasksUtils from 'src/utils/automatedTasks.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
 import { ObjectUtils } from 'src/utils/object.utils';
@@ -120,17 +118,6 @@ const iterateClaimSavings = async (users: string[], mk: string) => {
       localAccounts,
     );
     if (!activeAccount) continue;
-    if (KeysUtils.isUsingLedger(activeAccount.keys.active!)) {
-      Logger.warn(
-        "Can't autoclaim savings because active key is saved in Ledger",
-      );
-      await AutomatedTasksUtils.updateClaim(
-        activeAccount.name!,
-        false,
-        LocalStorageKeyEnum.CLAIM_SAVINGS,
-      );
-      continue;
-    }
     let baseDate: any =
       new Date(
         activeAccount?.account.savings_hbd_last_interest_payment!,
@@ -190,18 +177,6 @@ const iterateClaimAccounts = async (users: string[], mk: string) => {
       userAccount,
       localAccounts,
     );
-
-    if (activeAccount && KeysUtils.isUsingLedger(activeAccount?.keys.active!)) {
-      Logger.warn(
-        "Can't autoclaim accounts because active key is saved in Ledger",
-      );
-      await AutomatedTasksUtils.updateClaim(
-        activeAccount?.name!,
-        false,
-        LocalStorageKeyEnum.CLAIM_ACCOUNTS,
-      );
-      continue;
-    }
 
     if (
       activeAccount &&

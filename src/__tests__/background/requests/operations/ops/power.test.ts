@@ -1,4 +1,3 @@
-import LedgerModule from '@background/ledger.module';
 import {
   broadcastPowerDown,
   broadcastPowerUp,
@@ -19,7 +18,6 @@ import dynamic from 'src/__tests__/utils-for-testing/data/dynamic.hive';
 import mk from 'src/__tests__/utils-for-testing/data/mk';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 
 describe('power tests:\n', () => {
   const data = {
@@ -104,47 +102,6 @@ describe('power tests:\n', () => {
         });
       });
     });
-
-    describe('Using ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#ledgerKEY1233';
-        const result = await broadcastPowerUp(requestHandler, data.powerUp);
-        const { request_id, ...datas } = data.powerUp;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_pu', [
-              datas.hive,
-              datas.recipient,
-            ]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
   });
 
   describe('broadcastPowerDown cases:\n', () => {
@@ -197,50 +154,6 @@ describe('power tests:\n', () => {
         } as TransactionResult);
         const requestHandler = new RequestsHandler();
         requestHandler.data.key = userData.one.nonEncryptKeys.active;
-        const result = await broadcastPowerDown(requestHandler, data.powerDown);
-        const { request_id, ...datas } = data.powerDown;
-        expect(result).toEqual({
-          command: DialogCommand.ANSWER_REQUEST,
-          msg: {
-            success: true,
-            error: undefined,
-            result: {
-              id: 'id',
-              confirmed: true,
-              tx_id: 'tx_id',
-            },
-            data: datas,
-            message: chrome.i18n.getMessage('bgd_ops_pd', [
-              datas.hive_power,
-              datas.username,
-            ]),
-            request_id: request_id,
-            publicKey: undefined,
-          },
-        });
-      });
-    });
-
-    describe('Using ledger cases:\n', () => {
-      beforeEach(() => {
-        mockHiveTxCreateTransactionForLedger();
-      });
-      it('Must return success', async () => {
-        jest
-          .spyOn(LedgerModule, 'getSignatureFromLedger')
-          .mockResolvedValueOnce('signed!');
-        jest
-          .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-          .mockResolvedValue({
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          } as TransactionResult);
-        jest
-          .spyOn(DynamicGlobalPropertiesUtils, 'getDynamicGlobalProperties')
-          .mockResolvedValueOnce(dynamic.globalProperties);
-        const requestHandler = new RequestsHandler();
-        requestHandler.data.key = '#ledgerKEY12345';
         const result = await broadcastPowerDown(requestHandler, data.powerDown);
         const { request_id, ...datas } = data.powerDown;
         expect(result).toEqual({

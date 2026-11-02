@@ -1,7 +1,5 @@
-import { Token, TokenBalance } from '@interfaces/tokens.interface';
 import { ConversionType } from '@popup/hive/pages/app-container/home/conversion/conversion-type.enum';
 import { PowerType } from '@popup/hive/pages/app-container/home/power-up-down/power-type.enum';
-import { TokenOperationType } from '@popup/hive/pages/app-container/home/tokens/token-operation/token-operation.component';
 import { Screen } from '@reference-data/screen.enum';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 
@@ -15,8 +13,6 @@ export interface ActionButton {
 
 export const WalletInfoSectionActions = (
   tokenSymbol: string,
-  tokenInfo?: Token,
-  tokenBalance?: TokenBalance,
 ): ActionButton[] => {
   if (tokenSymbol === 'HBD') {
     return [
@@ -89,52 +85,6 @@ export const WalletInfoSectionActions = (
         nextScreenParams: { powerType: PowerType.POWER_DOWN },
       },
     ];
-  } else {
-    const actions: ActionButton[] = [];
-    actions.push({
-      label: 'popup_html_send_transfer',
-      nextScreen: Screen.TOKENS_TRANSFER,
-      nextScreenParams: {
-        tokenBalance,
-        tokenInfo,
-      },
-      icon: SVGIcons.WALLET_SEND,
-    });
-    if (tokenInfo?.stakingEnabled) {
-      actions.push({
-        label: 'popup_html_token_stake',
-        nextScreen: Screen.TOKENS_OPERATION,
-        nextScreenParams: {
-          tokenBalance,
-          operationType: TokenOperationType.STAKE,
-          tokenInfo: tokenInfo,
-        },
-        icon: SVGIcons.WALLET_TOKEN_STAKE,
-      });
-      actions.push({
-        label: 'popup_html_token_unstake',
-        nextScreen: Screen.TOKENS_OPERATION,
-        nextScreenParams: {
-          tokenBalance,
-          operationType: TokenOperationType.UNSTAKE,
-          tokenInfo: tokenInfo,
-        },
-        icon: SVGIcons.WALLET_TOKEN_UNSTAKE,
-      });
-    }
-    if (tokenInfo?.delegationEnabled) {
-      actions.push({
-        label: 'popup_html_token_delegate',
-        nextScreen: Screen.TOKENS_OPERATION,
-        nextScreenParams: {
-          tokenBalance,
-          operationType: TokenOperationType.DELEGATE,
-          tokenInfo: tokenInfo,
-        },
-        icon: SVGIcons.WALLET_TOKEN_DELEGATIONS,
-      });
-    }
-
-    return actions;
   }
+  return [];
 };

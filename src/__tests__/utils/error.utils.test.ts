@@ -11,12 +11,6 @@ describe('error.utils.ts tests:\n', () => {
     VALIDATION = 'validate',
   }
 
-  enum HiveEngineErrorType {
-    OVERDRAW_BALANCE = 'overdrawn balance',
-    TOKEN_NOT_EXISTING = 'symbol does not exist',
-    USER_NOT_EXISTING = 'invalid to',
-  }
-
   const blockchainErrorData = [
     {
       error: {
@@ -180,34 +174,6 @@ describe('error.utils.ts tests:\n', () => {
     },
   ];
 
-  const hiveEngineErrorData = [
-    {
-      error: HiveEngineErrorType.OVERDRAW_BALANCE,
-      payload: {
-        symbol: 'LEO',
-      },
-      expectError: new KeychainError('hive_engine_overdraw_balance_error'),
-    },
-    {
-      error: HiveEngineErrorType.TOKEN_NOT_EXISTING,
-      payload: {
-        symbol: 'LEO',
-      },
-      expectError: new KeychainError('hive_engine_not_existing_token_error'),
-    },
-    {
-      error: HiveEngineErrorType.USER_NOT_EXISTING,
-      payload: {
-        to: mk.user.one,
-      },
-      expectError: new KeychainError('hive_engine_not_existing_user_error'),
-    },
-    {
-      error: 'Default_case',
-      payload: {},
-      expectError: new KeychainError('bgd_ops_hive_engine_confirmation_error'),
-    },
-  ];
   afterEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
@@ -222,7 +188,9 @@ describe('error.utils.ts tests:\n', () => {
 
     it('Must return error if statusText', () => {
       expect(
-        ErrorUtils.parse({ statusText: 'CONDITIONS_OF_USE_NOT_SATISFIED' }),
+        ErrorUtils.parse({
+          statusText: 'CONDITIONS_OF_USE_NOT_SATISFIED',
+        }),
       ).toEqual(new KeychainError('html_popup_error_while_broadcasting'));
     });
 
@@ -269,47 +237,6 @@ describe('error.utils.ts tests:\n', () => {
       };
       const parsed = ErrorUtils.parse(err);
       expect(parsed).toEqual(new KeychainError('not_enough_rc', [], err));
-    });
-  });
-
-  describe('parseHiveEngine cases:\n', () => {
-    it('Must return KeychainError on each Blockchain error case', () => {
-      for (let i = 0; i < hiveEngineErrorData.length; i++) {
-        const element = hiveEngineErrorData[i];
-        expect(
-          ErrorUtils.parseHiveEngine(element.error, element.payload),
-        ).toEqual(element.expectError);
-      }
-    });
-  });
-
-  describe('parseLedger', () => {
-    it('returns the same KeychainError instance when already KeychainError', () => {
-      const ke = new KeychainError('x');
-      expect(ErrorUtils.parseLedger(ke)).toBe(ke);
-    });
-
-    it('maps known Ledger status codes', () => {
-      expect(
-        ErrorUtils.parseLedger({ statusCode: 0xb003 }),
-      ).toEqual(new KeychainError('error_ledger_failed_to_parse_transaction'));
-      expect(ErrorUtils.parseLedger({ statusCode: 0x6985 })).toEqual(
-        new KeychainError('error_ledger_denied_by_user', [], {
-          statusCode: 0x6985,
-        }),
-      );
-      expect(ErrorUtils.parseLedger({ statusCode: 0x530c })).toEqual(
-        new KeychainError('error_ledger_locked'),
-      );
-    });
-
-    it('maps disconnected transport errors to not detected', () => {
-      expect(
-        ErrorUtils.parseLedger({
-          statusCode: 0xffff,
-          name: 'DisconnectedDeviceDuringOperation',
-        }),
-      ).toEqual(new KeychainError('popup_html_ledger_not_detected'));
     });
   });
 });

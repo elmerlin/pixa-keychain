@@ -11,12 +11,3 @@ export const setProcessingDecryptAccount = (
     } as Partial<AppStatus>,
   };
 };
-
-export const setIsLedgerSupported = (isLedgerSupported: boolean) => {
-  return {
-    type: HiveActionType.SET_APP_STATUS,
-    payload: {
-      isLedgerSupported,
-    } as Partial<AppStatus>,
-  };
-};

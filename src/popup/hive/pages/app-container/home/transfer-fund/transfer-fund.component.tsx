@@ -51,7 +51,6 @@ import HiveUtils from 'src/popup/hive/utils/hive.utils';
 import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import TransferUtils from 'src/popup/hive/utils/transfer.utils';
 import { Screen } from 'src/reference-data/screen.enum';
-
 import { FormUtils } from 'src/utils/form.utils';
 import FormatUtils from 'src/utils/format.utils';
 import Logger from 'src/utils/logger.utils';
@@ -180,7 +179,6 @@ const TransferFunds = ({
       await FavoriteUserUtils.getAutocompleteListByCategories(
         activeAccount.name!,
         localAccounts,
-        { addExchanges: true, token: watch('selectedCurrency').toUpperCase() },
       );
     setAutocompleteFavoriteUsers(autoCompleteListByCategories);
   };
@@ -333,9 +331,7 @@ const TransferFunds = ({
               activeAccount,
             );
 
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else if (!form.isRecurrent) {
+            if (!form.isRecurrent) {
               setSuccessMessage('popup_html_transfer_successful', [
                 `@${form.receiverUsername}`,
                 stringifiedAmount,

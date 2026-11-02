@@ -1,6 +1,5 @@
 @import './home.component.scss';
 @import './actions-section/actions-section.module.scss';
-@import './buy-coins/buy-coins.component.scss';
 @import './conversion/conversion.module.scss';
 @import './delegations/delegations.module.scss';
 @import './estimated-account-value-section/estimated-account-value-section.component.scss';
@@ -12,7 +11,6 @@
 @import './savings/savings.component.scss';
 @import './savings/pending-savings-withdrawal/pending-savings-withdrawal-page.component.scss';
 @import './savings/pending-savings-withdrawal/pending-savings-withdrawal-item/pending-savings-withdrawal-item.component.scss';
-@import './tokens/tokens.module.scss';
 @import './top-bar/top-bar.component.scss';
 @import './transfer-fund/transfer-fund.component.scss';
 @import './transfer-fund/recurrent-transfers/recurrent-transfers.component.scss';
@@ -22,9 +20,3 @@
 @import './wallet-info-section/wallet-info-section-item/wallet-info-section-item-button/wallet-info-section-item-button.component.scss';
 @import './resources-section//resource-section.component.scss';
 @import './resources-section/resource-item/resource-item.component.scss';
-@import './swaps/swaps.module.scss';
-@import './voting-section/witness-voting-section/witness-voting-section.component.scss';
-@import './ecosystem/ecosystem.component.scss';
-@import './ecosystem/ecosystem-category/ecosystem-category.component.scss';
-@import './notifications/notifications.component.scss';
-@import './voting-section/proposal-voting-section/proposal-voting-section.component.scss';

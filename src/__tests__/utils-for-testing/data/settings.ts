@@ -15,7 +15,6 @@ export default {
       testnet: false,
       uri: 'https://api.hive.blog/',
     },
-    keychainify_enabled: true,
     no_confirm: {
       'keychain.tests': {
         'splinterlands.com': {

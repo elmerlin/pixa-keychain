@@ -15,7 +15,7 @@ import {
 import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
 import React from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { ConfirmationPageFieldType } from 'src/common-ui/confirmation-page/confirmation-field.interface';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
@@ -86,12 +86,7 @@ const AccountAuthoritiesListItem = ({
           );
           if (success) {
             goBack();
-            if (success.isUsingMultisig) {
-              setSuccessMessage('multisig_transaction_sent_to_signers');
-            } else
-              setSuccessMessage(
-                'popup_html_remove_account_authority_successful',
-              );
+            setSuccessMessage('popup_html_remove_account_authority_successful');
           } else {
             setErrorMessage('popup_html_remove_account_authority_fail');
           }
@@ -127,10 +122,11 @@ const AccountAuthoritiesListItem = ({
                   onClick={() => goTo(accountAuth[0])}>
                   <img
                     className="account-img"
-                    src={`https://images.hive.blog/u/${accountAuth[0]}/avatar`}
+                    src={'/assets/images/placeholders/account-placeholder.png'}
                     onError={(e: any) => {
                       e.target.onError = null;
-                      e.target.src = '/assets/images/accounts.png';
+                      e.target.src =
+                        '/assets/images/placeholders/account-placeholder.png';
                     }}
                   />
                   <div className="account-name">{accountAuth[0]}</div>

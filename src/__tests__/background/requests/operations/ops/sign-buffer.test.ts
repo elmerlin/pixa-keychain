@@ -99,17 +99,18 @@ describe('sign-buffer tests:\n', () => {
   it('Must return error if no key on handler', async () => {
     const requestHandler = new RequestsHandler();
     requestHandler.getUserKeyPair = jest.fn().mockReturnValue([]);
-    KeysUtils.isUsingLedger = jest.fn().mockReturnValue(true);
     const signed = await signBuffer(requestHandler, data);
     const { request_id, ...datas } = data;
     expect(signed).toEqual({
       command: DialogCommand.ANSWER_REQUEST,
       msg: {
         success: false,
-        error: new KeychainError('sign_buffer_ledger_error'),
+        error: expect.objectContaining({
+          message: 'private_key required',
+        }),
         result: null,
         data: datas,
-        message: chrome.i18n.getMessage('sign_buffer_ledger_error'),
+        message: chrome.i18n.getMessage('private_key required'),
         request_id: request_id,
         publicKey: undefined,
       },

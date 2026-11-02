@@ -1,5 +1,4 @@
 import * as HiveMemo from '@hiveio/hive-js/lib/auth/memo';
-import LedgerModule from '@background/ledger.module';
 import { broadcastOperations } from '@background/requests/operations/ops/broadcast';
 import { RequestsHandler } from '@background/requests/request-handler';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
@@ -18,7 +17,6 @@ import operation from 'src/__tests__/utils-for-testing/data/operation';
 import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import objects from 'src/__tests__/utils-for-testing/helpers/objects';
 import mocksImplementation from 'src/__tests__/utils-for-testing/implementations/implementations';
-import { mockHiveTxCreateTransactionForLedger } from 'src/__tests__/utils-for-testing/mocks/hive-tx-ledger.helpers';
 import { KeychainError } from 'src/keychain-error';
 
 describe('broadcast tests:\n', () => {
@@ -212,60 +210,6 @@ describe('broadcast tests:\n', () => {
         userData.one.nonEncryptKeys.active,
         userData.one.encryptKeys.active,
       );
-      const result = await broadcastOperations(requestHandler, cloneData);
-      expect(result).toEqual({
-        command: DialogCommand.ANSWER_REQUEST,
-        msg: {
-          success: true,
-          error: undefined,
-          result: {
-            id: 'id',
-            confirmed: true,
-            tx_id: 'tx_id',
-          },
-          data: datas,
-          message: chrome.i18n.getMessage('bgd_ops_broadcast'),
-          request_id: request_id,
-          publicKey: undefined,
-        },
-      });
-    });
-  });
-
-  describe('Using ledger cases:\n', () => {
-    beforeEach(() => {
-      mockHiveTxCreateTransactionForLedger();
-    });
-    it('Must return success on transfer', async () => {
-      AccountUtils.getExtendedAccount = jest
-        .fn()
-        .mockResolvedValueOnce(accounts.extended);
-      jest
-        .spyOn(LedgerModule, 'getSignatureFromLedger')
-        .mockResolvedValueOnce('signed!');
-      jest
-        .spyOn(HiveTxUtils, 'broadcastAndConfirmTransactionWithSignature')
-        .mockResolvedValue({
-          id: 'id',
-          confirmed: true,
-          tx_id: 'tx_id',
-        } as TransactionResult);
-      const transfers = operation.array.filter((op) => op['0'] === 'transfer');
-      transfers[0]['1'].memo = '# enconded memo';
-      const cloneData = objects.clone(data) as RequestBroadcast & RequestId;
-      cloneData.operations = transfers;
-      const { request_id, ...datas } = cloneData;
-      const requestHandler = new RequestsHandler();
-      requestHandler.data.accounts = [
-        {
-          name: mk.user.one,
-          keys: {
-            memo: userData.one.nonEncryptKeys.memo,
-            memoPubkey: userData.one.encryptKeys.memo,
-          },
-        },
-      ];
-      requestHandler.setKeys('#ledgerKey1234', userData.one.encryptKeys.active);
       const result = await broadcastOperations(requestHandler, cloneData);
       expect(result).toEqual({
         command: DialogCommand.ANSWER_REQUEST,

@@ -6,7 +6,7 @@ import {
 import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import React, { useEffect, useState } from 'react';
-import { ConnectedProps, connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirmation-page.component';
 import { CustomTooltip } from 'src/common-ui/custom-tooltip/custom-tooltip.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
@@ -47,7 +47,6 @@ const AccountKeysListItem = ({
 }: PropsType) => {
   const [isPrivateHidden, setIsPrivateHidden] = useState(true);
   const [isAuthorizedAccount, setIsAuthorizedAccount] = useState(false);
-  const [isUsingLedger, setIsUsingLedger] = useState(false);
 
   useEffect(() => {
     setIsPrivateHidden(true);
@@ -58,7 +57,6 @@ const AccountKeysListItem = ({
       setIsAuthorizedAccount(KeysUtils.isAuthorizedAccount(publicKey));
     }
     if (privateKey) {
-      setIsUsingLedger(KeysUtils.isUsingLedger(privateKey));
     }
   }, [publicKey]);
 
@@ -151,7 +149,7 @@ const AccountKeysListItem = ({
 
       {(publicKey || privateKey) && (
         <div className="keys-panel-content">
-          {!isAuthorizedAccount && !isUsingLedger && (
+          {!isAuthorizedAccount && (
             <>
               <div
                 data-testid={`clickeable-account-key-${removePopupTagForAriaLabel(
@@ -190,22 +188,6 @@ const AccountKeysListItem = ({
                 publicKey,
               ])}
             </div>
-          )}
-          {isUsingLedger && privateKey && (
-            <>
-              <div
-                data-testid="using-authorized-account"
-                className="using-authorized-account">
-                {chrome.i18n.getMessage('html_popup_using_ledger')}
-              </div>
-              <div
-                className="public-key key-field"
-                onClick={() => copyToClipboard(publicKey)}>
-                {`${publicKey?.substring(SUBSTRING_LENGTH, 0)}...${publicKey
-                  ?.toString()
-                  .slice(-SUBSTRING_LENGTH)}`}
-              </div>
-            </>
           )}
         </div>
       )}

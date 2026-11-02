@@ -58,7 +58,7 @@ const renewUsersGovernance = async (
             keys: { active: localAccount?.keys.active },
           } as ActiveAccount;
 
-          if (await ProposalUtils.hasVotedForProposal(activeAccount.name!)) {
+          if (await ProposalUtils.hasVotedForProposal(activeAccount.name!, 0)) {
             await ProposalUtils.unvoteProposal(
               0,
               activeAccount.name!,

@@ -25,12 +25,10 @@ describe('requests.utils tests:\n', () => {
         KeychainRequestTypes.savings,
         KeychainRequestTypes.custom,
         KeychainRequestTypes.signBuffer,
-        KeychainRequestTypes.sendToken,
         KeychainRequestTypes.powerUp,
         KeychainRequestTypes.convert,
         KeychainRequestTypes.recurrentTransfer,
         KeychainRequestTypes.updateProposalVote,
-        KeychainRequestTypes.swap,
       ];
       anonymousRequestsExpected.forEach((request: any) => {
         if (showEachRequestIteration) {
@@ -90,7 +88,6 @@ describe('requests.utils tests:\n', () => {
       const defaultExpectedValue = KeychainKeyTypesLC.active;
       const defaultRequestsGroup = [
         { type: KeychainRequestTypes.transfer },
-        { type: KeychainRequestTypes.sendToken },
         { type: KeychainRequestTypes.delegation },
         { type: KeychainRequestTypes.witnessVote },
         { type: KeychainRequestTypes.proxy },

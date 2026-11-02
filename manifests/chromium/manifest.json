@@ -13,7 +13,7 @@
   "background": { "service_worker": "backgroundBundle.js", "type": "module" },
   "web_accessible_resources": [
     {
-      "resources": ["/images/logo.png", "hive_keychain.js", "_locales/*"],
+      "resources": ["/assets/images/iconhive.png", "hive_keychain.js", "_locales/*"],
       "matches": ["https://*/*", "http://0.0.0.0:1337/*", "http://*/*"],
       "extension_ids": []
     }
@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://0.0.0.0:1337/*", "http://*/*"],
-      "js": ["keychainifyBundle.js", "web_interfaceBundle.js"],
+      "js": ["web_interfaceBundle.js"],
       "all_frames": true
     }
   ],

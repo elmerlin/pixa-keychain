@@ -23,7 +23,6 @@ export const broadcastVote = async (
   }
   let err, result, err_message;
   try {
-    // TODO : When Ledger ready for full usage with posting key, add compatibility with Ledger
     result = await BloggingUtils.vote(
       data.username!,
       data.author,

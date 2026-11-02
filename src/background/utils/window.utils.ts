@@ -1,12 +1,9 @@
-import {
-  DialogCommand,
-  MultisigDialogCommand,
-} from '@reference-data/dialog-message-key.enum';
+import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 
 /* istanbul ignore next */
 export const waitUntilDialogIsReady = async (
   ms: number,
-  command: DialogCommand | MultisigDialogCommand,
+  command: DialogCommand,
   callback: () => void,
   nb = 0,
 ) => {
@@ -18,10 +15,7 @@ export const waitUntilDialogIsReady = async (
   }
 };
 /* istanbul ignore next */
-const askIfReady = (
-  ms: number,
-  command: DialogCommand | MultisigDialogCommand,
-) => {
+const askIfReady = (ms: number, command: DialogCommand) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(false);
