@@ -1,35 +1,48 @@
 .error-page {
-  @include background-bottom;
-  background-color: var(--background-color);
-
+  background: var(--canvas);
+  color: var(--ink);
   display: flex;
-  padding: 24px;
+  padding: var(--space-xxl);
   flex-direction: column;
-  row-gap: 16px;
+  gap: var(--space-lg);
   height: 600px;
-  box-sizing: border-box;
+  min-height: 0;
   .svg-icon {
     align-self: center;
+    width: 72px;
+    height: 72px;
   }
   .title {
     text-align: center;
-    @include dmSans700(20px);
-    color: $red;
+    @include geist600(24px);
   }
-
+  .recovery {
+    margin: 0;
+    color: var(--inkSecondary);
+    text-align: center;
+    font-size: var(--type-body);
+  }
   .detail {
-    background: var(--card-background);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 16px;
-    overflow: auto;
-    @include dmSans400(15px);
-    color: var(--main-font-color);
-    max-height: 300px;
-    box-sizing: border-box;
-
-    .stack {
-      overflow-wrap: break-word;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-height: 0;
+    overflow-y: auto;
+    summary {
+      padding: var(--space-lg);
+      cursor: pointer;
+      font-size: var(--type-caption);
     }
+    .diagnostics {
+      padding: 0 var(--space-lg) var(--space-lg);
+      @include mono(12px);
+      overflow-wrap: anywhere;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+  }
+  > .submit-button {
+    margin-top: auto;
+    flex-shrink: 0;
   }
 }

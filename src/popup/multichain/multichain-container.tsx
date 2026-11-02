@@ -151,7 +151,7 @@ export const MultichainContainer = () => {
       LocalStorageKeyEnum.SHORTCUTS,
     ]);
 
-    setTheme(res.ACTIVE_THEME ?? Theme.LIGHT);
+    setTheme(res.ACTIVE_THEME ?? Theme.DARK);
     setChain(Chain.HIVE);
     const shortcutsValue = res[LocalStorageKeyEnum.SHORTCUTS];
     shortcutsRef.current = Array.isArray(shortcutsValue) ? shortcutsValue : [];

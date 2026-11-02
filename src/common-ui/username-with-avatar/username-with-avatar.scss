@@ -3,10 +3,10 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
-  transition: all 0.2s ease;
+  transition: all var(--motion-soft) ease;
 
   .title {
-    @include poppins500(14px);
+    @include geist500(14px);
     color: var(--main-font-color);
     margin-right: 12px;
   }
@@ -30,7 +30,31 @@
   }
 
   .username {
-    @include poppins400(14px);
+    @include geist400(14px);
     color: var(--main-font-color);
   }
+}
+
+.account-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  image-rendering: pixelated;
+  object-fit: cover;
+}
+.username-with-avatar {
+  min-width: 0;
+  max-width: 100%;
+}
+.username-with-avatar .avatar-username-container {
+  min-width: 0;
+}
+.username-with-avatar .username {
+  @include mono(13px);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.username-with-avatar .user-avatar {
+  border-radius: var(--radius-sm);
 }

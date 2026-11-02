@@ -6,7 +6,7 @@
   .caption {
     @include caption();
     font-size: a {
-      color: $red;
+      color: var(--ink);
     }
   }
 

@@ -1,26 +1,27 @@
 .title-section {
   display: flex;
-  column-gap: 16px;
-  height: 48px;
-  padding: 16px 24px;
   align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 16px;
+  flex-shrink: 0;
   .title {
-    user-select: none;
     flex: 1;
-    color: var(--main-font-color);
-    pointer-events: none;
-    height: 28px;
-    overflow: hidden;
-    text-align: center;
-    @include poppins500(20px);
+    min-width: 0;
+    color: var(--ink);
+    @include geist600(17px);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    text-align: left;
   }
-
   .icon-button {
-    &.wallet-filter-button {
-      @include small-card;
-      padding: 6px 16px;
-      margin: 0px;
-      @include icon-size(18px);
-    }
+    width: 24px;
+    height: 24px;
+  }
+  .icon-button.wallet-filter-button {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0;
   }
 }

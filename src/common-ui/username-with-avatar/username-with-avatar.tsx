@@ -1,5 +1,5 @@
-import React from 'react';
-import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
+import React, { useEffect, useState } from 'react';
+import { identicon, loadAvatar } from 'src/utils/avatar.utils';
 
 type Props = {
   username: string;
@@ -27,15 +27,54 @@ const UsernameWithAvatar = ({ username, title, className = '' }: Props) => {
   );
 };
 
-export const UsernameAvatar = ({ username }: { username: string }) => {
+export const UsernameAvatar = ({
+  username,
+  className = 'user-avatar',
+}: {
+  username: string;
+  className?: string;
+}) => {
+  const name = username.trim().replace(/^@/, '');
+  const [image, setImage] = useState<{ name: string; uri: string | null }>();
+  useEffect(() => {
+    let mounted = true;
+    loadAvatar(name).then((uri) => {
+      if (mounted) setImage({ name, uri });
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [name]);
+  const sprite = identicon(name);
+  if (image?.name === name && image.uri) {
+    return (
+      <img
+        className={`account-avatar ${className}`}
+        src={image.uri}
+        alt={name}
+        onError={() => setImage({ name, uri: null })}
+      />
+    );
+  }
   return (
-    <PreloadedImage
-      className="user-avatar"
-      src={'/assets/images/placeholders/account-placeholder.png'}
-      alt={'/assets/images/placeholders/account-placeholder.png'}
-      placeholder={'/assets/images/placeholders/account-placeholder.png'}
-      addBackground
-    />
+    <svg
+      className={`account-avatar ${className}`}
+      viewBox="0 0 7 7"
+      role="img"
+      aria-label={name}
+    >
+      <rect width="7" height="7" rx="1" fill="var(--raised)" />
+      {sprite.cells.map(([x, y]) => (
+        <rect
+          key={`${x}-${y}`}
+          x={x + 1}
+          y={y + 1}
+          width="1"
+          height="1"
+          fill={`var(--prism-${sprite.color})`}
+        />
+      ))}
+    </svg>
   );
 };
 

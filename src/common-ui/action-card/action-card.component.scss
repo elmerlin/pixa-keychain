@@ -4,7 +4,7 @@
   justify-content: space-between;
   background: var(--card-background);
   border: 1px solid var(--card-border);
-  border-radius: 22px;
+  border-radius: var(--radius-md);
   padding: 20px;
   box-sizing: border-box;
 
@@ -13,17 +13,17 @@
     flex-direction: column;
     row-gap: 6px;
     .title {
-      @include poppins400(13px);
+      @include geist400(13px);
       color: var(--main-font-color);
     }
     .subtitle {
-      @include poppins400(13px);
-      color: $light-grey;
+      @include geist400(13px);
+      color: var(--inkMuted);
       padding-left: 10px;
     }
   }
   .operation-action {
-    display: none;
+    display: block;
   }
 
   &:hover {

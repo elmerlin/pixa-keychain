@@ -10,7 +10,7 @@
     cursor: pointer;
     display: flex;
     column-gap: 8px;
-    @include poppins400(14px);
+    @include geist400(14px);
     justify-content: space-between;
     color: var(--main-font-color);
 
@@ -29,10 +29,10 @@
       .svg-icon {
         @include icon-size(20px);
         &.not-voted {
-          --proposal-upvote-icon: #969696;
+          --proposal-upvote-icon: var(--border);
         }
         &.voted {
-          --proposal-upvote-icon: #{$red};
+          --proposal-upvote-icon: #{var(--ink)};
         }
       }
     }
@@ -41,11 +41,11 @@
       display: flex;
       flex-direction: column;
       row-gap: 8px;
-      @include poppins400(12px);
+      @include geist400(12px);
       .creator {
         display: flex;
         align-items: center;
-        img {
+        .account-avatar {
           height: 24px;
           width: 24px;
           border-radius: 50%;
@@ -59,16 +59,15 @@
   .expandable-panel {
     justify-content: space-between;
     max-height: 0;
-    transition: max-height 0.5s ease-out;
+    overflow: hidden;
 
     display: flex;
     align-items: center;
-    @include poppins400(10px);
+    @include geist400(10px);
     color: var(--main-font-color);
 
     &.opened {
-      max-height: 500px;
-      transition: max-height 0.5s ease-in;
+      max-height: none;
     }
 
     .extra-info {
@@ -90,7 +89,7 @@
 
     .funded-chip {
       border: 1px solid;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       padding: 4px 8px 2px 8px;
       font-size: 14px;
       min-width: 64px;
@@ -99,9 +98,9 @@
 
       &.totally_funded,
       &.partially_funded {
-        background: $red;
-        border-color: $red;
-        color: white;
+        background: var(--raised);
+        border-color: var(--ink);
+        color: var(--ink);
       }
 
       &.not_funded {

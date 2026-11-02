@@ -1,85 +1,59 @@
 .loading-container {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  gap: 16px;
   align-items: center;
   justify-content: center;
   z-index: 6;
+  padding: 24px;
   .overlay {
-    height: 100%;
-    width: 100%;
     position: absolute;
-    background: $dark-blue;
-    opacity: 0.8;
+    inset: 0;
+    background: var(--canvas);
+    opacity: 0.96;
   }
-  .loading-text {
-    font-size: 20px;
-    margin-top: 16px;
-    color: white;
-    z-index: 1;
-  }
-
-  $progress-bar-height: 18px;
-  .progress-bar-container {
-    height: $progress-bar-height;
-    width: 300px;
-    border-radius: 16px;
-    border: 1px solid $red;
-    background: $red-opacity;
-    z-index: 2;
-    overflow: hidden;
-    .progress-bar {
-      height: $progress-bar-height;
-      background: $red;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @include poppins600(12px);
-      border-radius: 16px;
-      transition: width 0.225s linear;
-      overflow: hidden;
-    }
-  }
-
+  .loading-text,
   .loading-caption {
-    color: white;
+    @include geist500(15px);
+    color: var(--ink);
     z-index: 1;
-    font-size: 18px;
-    padding: 0px 24px;
-    padding-top: 8px;
     text-align: center;
   }
-
   .operations {
     display: flex;
     flex-direction: column;
-    row-gap: 6px;
-    margin: 24px;
-
-    .loading-operation {
-      display: flex;
-      align-items: center;
-      z-index: 2;
-      column-gap: 8px;
-
-      span {
-        font-style: italic;
-        font-size: 16px;
-        color: white;
-        z-index: 1;
-        white-space: pre-line;
-      }
-      .icon-done {
-        svg {
-          height: 24px;
-          width: 24px;
-        }
-      }
+    gap: 8px;
+    z-index: 1;
+  }
+  .loading-operation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--inkSecondary);
+    font-size: 13px;
+    .icon-done {
+      width: 24px;
+      height: 24px;
     }
+  }
+  .progress-bar-container {
+    width: 100%;
+    max-width: 300px;
+    height: 20px;
+    border: 1px solid var(--border);
+    background: var(--raised);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    z-index: 1;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--primary);
+    color: var(--onPrimary);
+    @include mono(11px);
+    text-align: center;
   }
 }
 .hide {

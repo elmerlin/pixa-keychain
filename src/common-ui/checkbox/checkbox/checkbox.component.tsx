@@ -25,11 +25,22 @@ const getCheckbox = (props: CheckboxProps) => {
   return (
     <div
       id={`${props.dataTestId}-inner-input`}
+      role="checkbox"
+      aria-checked={props.checked}
+      aria-disabled={props.disabled}
+      tabIndex={props.disabled ? -1 : 0}
+      onKeyDown={(event) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault();
+          handleClick(props);
+        }
+      }}
       className={`custom-checkbox-container ${
         props.disabled ? 'disabled' : ''
       }`}
       data-testid={props.extraDataTestIdOnInput ?? props.dataTestId}
-      onClick={() => handleClick(props)}>
+      onClick={() => handleClick(props)}
+    >
       <div className="custom-checkbox">
         {props.checked && <SVGIcon icon={SVGIcons.CHECKBOX_CHECKED} />}
       </div>
@@ -50,7 +61,8 @@ const CheckboxComponent = (props: CheckboxProps) => {
       <CustomTooltip
         position={'top'}
         message={props.tooltipMessage}
-        skipTranslation={props.skipTooltipTranslation}>
+        skipTranslation={props.skipTooltipTranslation}
+      >
         {getCheckbox(props)}
       </CustomTooltip>
     );

@@ -10,11 +10,11 @@
     row-gap: 8px;
 
     .witness-info-data .info-last-update {
-      @include poppins500(12px);
+      @include geist500(12px);
       color: var(--main-font-color);
 
       &.warning-red-color {
-        color: $red;
+        color: var(--ink);
       }
     }
   }
@@ -29,7 +29,7 @@
     margin: unset;
     color: var(--main-font-color);
     .title {
-      @include poppins600(14px);
+      @include geist600(14px);
       align-self: center;
     }
 
@@ -37,12 +37,12 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      @include poppins500(13px);
+      @include geist500(13px);
       color: var(--main-font-color);
       width: 100%;
       .usd-value {
         color: var(--main-font-color);
-        @include poppins400(12px);
+        @include geist400(12px);
       }
     }
   }

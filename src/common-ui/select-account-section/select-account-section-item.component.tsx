@@ -2,7 +2,7 @@ import { LocalAccountListItem } from '@interfaces/list-item.interface';
 import React, { SyntheticEvent, useState } from 'react';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 
 interface AccountItemProps {
@@ -53,12 +53,10 @@ export const SelectAccountSectionItemComponent = ({
             <div
               className={`hovered-icons ${
                 process.env.IS_FIREFOX ? 'firefox' : ''
-              }`}>
+              }`}
+            >
               <div onClick={(event) => copyUsernameToClipboard(event)}>
-                <PreloadedImage
-                  className={'copy-icon'}
-                  src={`/assets/images/select/copy.svg`}
-                />
+                <SVGIcon className="copy-icon" icon={SVGIcons.SELECT_COPY} />
               </div>
               {!process.env.IS_FIREFOX && (
                 <span {...dragHandle}>
@@ -86,7 +84,8 @@ export const SelectAccountSectionItemComponent = ({
       onMouseEnter={() => {
         setHovered(true);
       }}
-      onMouseLeave={() => setHovered(false)}>
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
         data-testid={`select-account-item-${item.value}`}
         className={`select-account-item ${
@@ -95,13 +94,9 @@ export const SelectAccountSectionItemComponent = ({
         onClick={() => {
           handleItemClicked(item.value);
           closeDropdown();
-        }}>
-        <PreloadedImage
-          className="user-picture"
-          src={'/assets/images/placeholders/account-placeholder.png'}
-          alt={'/assets/images/placeholders/account-placeholder.png'}
-          placeholder={'/assets/images/placeholders/account-placeholder.png'}
-        />
+        }}
+      >
+        <UsernameAvatar className="user-picture" username={item.value} />
         <div className="account-name">{item.label}</div>
         {renderCheckedAccount()}
       </div>

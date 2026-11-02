@@ -4,7 +4,6 @@ import { setTitleContainerProperties } from '@popup/multichain/actions/title-con
 import { RootState } from '@popup/multichain/store';
 import React, { useEffect, useState } from 'react';
 import { ConnectedProps, connect } from 'react-redux';
-import 'react-tabs/style/react-tabs.scss';
 import RotatingLogoComponent from 'src/common-ui/rotating-logo/rotating-logo.component';
 import { Tab, TabsComponent } from 'src/common-ui/tabs/tabs.component';
 import { MyWitnessTabComponent } from 'src/popup/hive/pages/app-container/home/governance/my-witness-tab/my-witness-tab.component';
@@ -74,7 +73,8 @@ const Governance = ({
     <div
       className="governance-page"
       aria-label="governance-page"
-      data-testid={`${Screen.GOVERNANCE_PAGE}-page`}>
+      data-testid={`${Screen.GOVERNANCE_PAGE}-page`}
+    >
       {!isLoading && <TabsComponent tabs={tabs} />}
       {isLoading && (
         <div className="rotating-logo-container">

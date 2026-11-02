@@ -17,12 +17,14 @@ export const WalletInfoSectionItemButton = ({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div
+    <button
+      type="button"
       data-testid={dataTestId}
       className="wallet-action-button"
       onClick={($event) => handleClick($event, actionButton)}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}>
+      onMouseLeave={() => setHovered(false)}
+    >
       <SVGIcon
         icon={actionButton.icon}
         className="action-icon"
@@ -32,6 +34,6 @@ export const WalletInfoSectionItemButton = ({
       <div className="title">
         {chrome.i18n.getMessage(actionButton.label, actionButton.labelParams)}
       </div>
-    </div>
+    </button>
   );
 };

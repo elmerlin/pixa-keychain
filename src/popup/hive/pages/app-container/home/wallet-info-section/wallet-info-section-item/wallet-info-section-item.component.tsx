@@ -105,11 +105,15 @@ const walletInfoSectionItem = ({
         toggleDropdown();
         !process.env.IS_FIREFOX &&
           reff.current?.scrollIntoView({
-            behavior: 'smooth',
+            behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'auto'
+              : 'smooth',
             block: 'start',
             inline: 'center',
           });
-      }}>
+      }}
+    >
       <div className="information-panel">
         <SVGIcon
           icon={icon}

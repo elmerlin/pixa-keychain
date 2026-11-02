@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import type { AuthorityType, ExtendedAccount } from '@hiveio/dhive';
 import { refreshActiveAccount } from '@popup/hive/actions/active-account.actions';
 import AccountUtils from '@popup/hive/utils/account.utils';
@@ -99,7 +100,8 @@ const AddKey = ({
   return (
     <div
       className="add-key-page"
-      data-testid={`${Screen.SETTINGS_ADD_KEY}-page`}>
+      data-testid={`${Screen.SETTINGS_ADD_KEY}-page`}
+    >
       <div
         data-testid="add-key-page-paragraph-introduction"
         className="caption"
@@ -107,7 +109,8 @@ const AddKey = ({
           __html: HtmlUtils.getSafeI18nHtml('popup_html_add_key_text', [
             keyType.substring(0, 1) + keyType.substring(1).toLowerCase(),
           ]),
-        }}></div>
+        }}
+      ></div>
 
       <InputComponent
         dataTestId="input-private-key"
@@ -127,14 +130,7 @@ const AddKey = ({
             {availableAuths.map((auth, index) => (
               <div className="auth" key={`account-auth-item-${auth}-${index}`}>
                 <div className="item-account" onClick={() => addAuth(auth)}>
-                  <img
-                    className="account-img"
-                    src={'/assets/images/placeholders/account-placeholder.png'}
-                    onError={(e: any) => {
-                      e.target.onError = null;
-                      e.target.src = '/assets/images/menu/accounts.svg';
-                    }}
-                  />
+                  <UsernameAvatar className="account-img" username={auth} />
                   <div className="account-name">{auth}</div>
                 </div>
               </div>

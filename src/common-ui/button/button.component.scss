@@ -1,65 +1,57 @@
 .submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  font-size: 16px;
-  border-radius: 12px;
-  align-self: center;
-  user-select: none;
+  min-width: 0;
+  flex-shrink: 1;
+  padding: 10px 20px;
+  font: 500 15px/1.4 var(--font-body);
+  letter-spacing: -0.011em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--onPrimary);
+  background: var(--primary);
   cursor: pointer;
-  color: white;
-  position: relative;
-  background: var(--button-background-color);
-  border: unset;
-  border-radius: 48px;
-
+  .button-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
   .logo {
-    position: absolute;
-    right: 16px;
-    bottom: 10px;
+    width: 24px;
+    height: 24px;
   }
-
-  &:hover {
-    box-shadow: 0px 13px 9px 0px $red-shadow;
-    transition: box-shadow 0.5s ease-in-out;
+  &:hover:not(:disabled) {
+    opacity: 0.9;
   }
-
-  // &.success-button {
-  //   background-color: $green-success;
-  //   &:hover {
-  //     box-shadow: 0px 13px 9px 0px $green-success-shadow;
-  //   }
-  // }
-
   &.tall {
-    height: 58px;
-    min-height: 58px;
+    min-height: 52px;
   }
   &.medium {
-    height: 50px;
-    min-height: 50px;
+    min-height: 44px;
   }
   &.small {
-    height: 42px;
-    min-height: 42px;
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 13px;
   }
-
   &.alternative {
-    color: var(--main-font-color);
-    background-color: var(--button-alternative-background-color);
-    border: 1px solid var(--popup-alternative-button-border-color);
-    &:hover {
-      box-shadow: 0px 4px 9px 0px var(--button-alternative-shadow-color);
-      transition: box-shadow 0.5s ease-in-out;
+    color: var(--ink);
+    background: var(--raised);
+    border-color: var(--border);
+    &:hover:not(:disabled) {
+      background: var(--hover);
+      opacity: 1;
     }
   }
-
   &.fix-to-bottom {
     position: fixed;
-    bottom: 32px;
-    left: 24px;
-    width: calc(100% - 48px);
-
+    bottom: 24px;
+    left: 16px;
+    width: calc(100% - 32px);
     &.almost-bottom {
-      bottom: 104px;
+      bottom: 84px;
     }
   }
 }

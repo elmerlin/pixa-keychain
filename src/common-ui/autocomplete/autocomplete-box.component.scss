@@ -8,7 +8,7 @@ $autoCompleteItemHeight: 30px;
   font-size: $input-font-size;
   background-color: var(--autocomplete-background);
   border: 1px solid var(--input-border);
-  border-radius: 24px;
+  border-radius: var(--radius-md);
   color: var(--main-font-color);
   box-sizing: border-box;
   min-height: $autoCompleteItemHeight * 2;
@@ -23,7 +23,7 @@ $autoCompleteItemHeight: 30px;
     margin-left: 20px;
     padding-top: 8px;
     .title {
-      @include poppins600(16px);
+      @include geist600(16px);
     }
   }
 }

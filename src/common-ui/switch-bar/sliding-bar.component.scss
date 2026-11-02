@@ -1,54 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
 .sliding-bar-container {
-  $itemHeight: 36px;
-  $itemWidth: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
   .tabs {
-    display: flex;
     position: relative;
-    background-color: var(--card-background);
-    border: 1px solid var(--card-border);
-    padding: 2px;
-    border-radius: 99px;
-    * {
-      z-index: 2;
-    }
+    display: flex;
+    padding: 3px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    max-width: 100%;
   }
   input[type='radio'] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
   }
-
+  input:focus-visible + .tab {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
   .tab {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: $itemWidth;
-    height: $itemHeight;
-    border-radius: 99px;
+    width: 80px;
+    min-width: 0;
+    height: 34px;
+    padding: 0 4px;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: color 0.15s ease-in;
-
-    @include poppins500(13px);
-    color: var(--main-font-color);
-
+    @include geist400(13px);
+    color: var(--inkSecondary);
+    z-index: 2;
     &.selected {
-      color: white;
+      color: var(--ink);
+      font-weight: 600;
     }
   }
-
   .glider {
     position: absolute;
-    display: flex;
-    height: $itemHeight;
-    width: $itemWidth;
-    background-color: $red;
-    z-index: 1;
-    border-radius: 99px;
-    transition: 0.25s ease-out;
-    box-shadow: 0 0 1px 0 $red, 0 6px 12px 0 $red;
-    box-shadow: 0px 10px 7px 0px $red-shadow;
+    height: 34px;
+    width: 80px;
+    background: var(--raised);
+    border-radius: var(--radius-sm);
+    transition: transform var(--motion-soft) var(--ease-morph);
   }
 }

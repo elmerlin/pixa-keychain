@@ -53,6 +53,8 @@ dark must both work, and state never relies on color alone. Tokens live in
 `src/common-style/theme.scss`; components never hardcode colors. Copy is short, human and
 task-first, with no developer copy.
 
+How that looks in this extension, screen by screen, is in `DESIGN.md`.
+
 Glyphs come from `../pixtopia/assets/glyphs/svg` (24px grid). New ones are drawn to the same grid.
 
 ## Commands
@@ -62,5 +64,7 @@ npm run build:chromium   # dist-prod, load unpacked from chrome://extensions
 npm run build:firefox
 npm run dev:chromium
 npm test
-npx tsc --noEmit
+npx tsc --noEmit         # src/ must be clean; ten errors inside node_modules are known
+npm run check:chain      # serialization compared with the node, read-only
+node scripts/e2e.mjs --account pixa.team --theme both   # every screen in Chrome, needs a build
 ```

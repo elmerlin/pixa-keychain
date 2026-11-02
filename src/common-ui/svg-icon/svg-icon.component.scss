@@ -1,19 +1,18 @@
 .svg-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
   div {
-    height: 100%;
     width: 100%;
+    height: 100%;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
   }
   &.clickable {
     cursor: pointer;
-  }
-}
-@media (resolution >= 2dppx) {
-  .svg-icon {
-    --menu-icon-border-width: #{$border-width};
-  }
-}
-@media (resolution < 2dppx) {
-  .svg-icon {
-    --menu-icon-border-width: #{$border-width-low-resolution};
   }
 }

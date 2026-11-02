@@ -2,7 +2,7 @@
 
 .App {
   height: 600px;
-  color: white;
+  color: var(--ink);
   box-sizing: border-box;
   overflow: auto;
   margin-left: calc(100vw - 100%);
@@ -20,7 +20,7 @@
     left: 0px;
     min-height: 100px;
     width: 100%;
-    background: $red-dark;
+    background: var(--raised);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,17 +45,13 @@
 .react-dropdown-select-dropdown-handle {
   width: 48px;
   svg {
-    width: 10px !important;
-    height: 10px !important;
+    width: 10px;
+    height: 10px;
   }
 }
 
-.pretty.p-switch .state:before {
-  top: calc((0% - (100% - 1em)) - 13%) !important;
-}
-
 .css-wmw4vi-ReactDropdownSelect {
-  padding: 2px 0px !important;
+  padding: 2px 0px;
 }
 
 .Toastify__progress-bar {
@@ -64,22 +60,22 @@
 }
 
 .Toastify__toast-icon {
-  display: none !important;
+  display: none;
 }
 
 .Toastify__progress-bar {
-  background: white !important;
+  background: var(--raised);
 }
 
 .Toastify__toast--error {
-  background: $message-container-error !important;
+  background: var(--surface);
 }
 .Toastify__toast--info {
-  background: $message-container-info !important;
+  background: var(--surface);
 }
 .Toastify__toast--success {
-  background: $message-container-success !important;
+  background: var(--surface);
 }
 .Toastify__toast--warning {
-  background: $message-container-warning !important;
+  background: var(--surface);
 }

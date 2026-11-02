@@ -5,5 +5,5 @@
   @include small-card-no-padding();
   color: var(--main-font-color);
   align-items: unset;
-  border-radius: 22px;
+  border-radius: var(--radius-md);
 }

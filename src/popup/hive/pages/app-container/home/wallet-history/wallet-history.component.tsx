@@ -391,7 +391,8 @@ const WalletHistory = ({
       <WalletHistoryItemComponent
         ariaLabel="wallet-history-item"
         key={transaction.key}
-        transaction={transaction}></WalletHistoryItemComponent>
+        transaction={transaction}
+      ></WalletHistoryItemComponent>
     );
   };
 
@@ -427,12 +428,14 @@ const WalletHistory = ({
   return (
     <div
       className="wallet-history-page"
-      data-testid={`${Screen.WALLET_HISTORY_PAGE}-page`}>
+      data-testid={`${Screen.WALLET_HISTORY_PAGE}-page`}
+    >
       <div
         data-testid="wallet-history-filter-panel"
         className={
           'filter-panel ' + (isFilterOpened ? 'filter-opened' : 'filter-closed')
-        }>
+        }
+      >
         <div className="filters">
           <div className="search-panel">
             <InputComponent
@@ -450,7 +453,11 @@ const WalletHistory = ({
               {filter.selectedTransactionTypes &&
                 Object.keys(filter.selectedTransactionTypes).map(
                   (filterOperationType) => (
-                    <div
+                    <button
+                      type="button"
+                      aria-pressed={
+                        filter.selectedTransactionTypes[filterOperationType]
+                      }
                       data-testid={`filter-selector-${filterOperationType}`}
                       key={filterOperationType}
                       className={
@@ -459,34 +466,41 @@ const WalletHistory = ({
                           ? 'selected'
                           : 'not-selected')
                       }
-                      onClick={() => toggleFilterType(filterOperationType)}>
+                      onClick={() => toggleFilterType(filterOperationType)}
+                    >
                       {chrome.i18n.getMessage(
                         `popup_html_filter_type_${filterOperationType}`,
                       )}{' '}
-                    </div>
+                    </button>
                   ),
                 )}
             </div>
             <Separator type="horizontal" fullSize />
             <div className="in-out-panel">
-              <div
+              <button
+                type="button"
+                aria-pressed={filter.inSelected}
                 data-testid="filter-by-incoming"
                 className={
                   'filter-button ' +
                   (filter.inSelected ? 'selected' : 'not-selected')
                 }
-                onClick={() => toggleFilterIn()}>
+                onClick={() => toggleFilterIn()}
+              >
                 {chrome.i18n.getMessage(`popup_html_filter_in`)}
-              </div>
-              <div
+              </button>
+              <button
+                type="button"
+                aria-pressed={filter.outSelected}
                 data-testid="filter-by-outgoing"
                 className={
                   'filter-button ' +
                   (filter.outSelected ? 'selected' : 'not-selected')
                 }
-                onClick={() => toggleFilterOut()}>
+                onClick={() => toggleFilterOut()}
+              >
                 {chrome.i18n.getMessage(`popup_html_filter_out`)}
-              </div>
+              </button>
             </div>
           </div>
           <ButtonComponent
@@ -502,7 +516,8 @@ const WalletHistory = ({
         data-testid="wallet-item-list"
         ref={walletItemList}
         className="wallet-item-list"
-        onScroll={handleScroll}>
+        onScroll={handleScroll}
+      >
         <FlatList
           list={displayedTransactions}
           renderItem={renderListItem}

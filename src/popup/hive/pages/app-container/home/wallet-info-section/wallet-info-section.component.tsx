@@ -82,7 +82,6 @@ const WalletInfoSection = ({
 
   return (
     <div className="wallet-info-wrapper">
-      <div className="wallet-background" />
       <div className="wallet-info-section">
         <WalletInfoSectionItemComponent
           tokenSymbol="PIXA"

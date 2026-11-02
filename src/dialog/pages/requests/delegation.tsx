@@ -33,7 +33,8 @@ const Delegation = (props: Props) => {
     <Operation
       title={chrome.i18n.getMessage('dialog_title_delegation')}
       {...props}
-      {...anonymousProps}>
+      {...anonymousProps}
+    >
       {renderUsername()}
       <Separator type={'horizontal'} fullSize />
       <UsernameWithAvatar title="dialog_delegatee" username={data.delegatee} />
@@ -45,7 +46,7 @@ const Delegation = (props: Props) => {
         icon={
           currencyLabel === 'PIXA'
             ? SVGIcons.WALLET_HIVE_LOGO
-            : SVGIcons.WALLET_HBD_LOGO
+            : SVGIcons.WALLET_HP_LOGO
         }
       />
     </Operation>

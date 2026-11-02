@@ -88,23 +88,23 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "The ultimate <strong>PIXA</strong> wallet.<br/><br/>Manage PIXA assets, and connect to PIXA applications.<br/><br/>Simple. Lightweight. Secure.",
+    "message": "Your Pixagram wallet.<br/><br/>Keep your keys on this device. Send PIXA and PXS, and connect to apps.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
-    "message": "The ultimate PIXA wallet",
+    "message": "Your Pixagram wallet",
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "Manage PIXA assets, and connect to PIXA applications",
+    "message": "Your keys. Your account.",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
-    "message": "Simple. Lightweight. Secure.",
+    "message": "Connect to Pixagram apps.",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
-    "message": "New Password",
+    "message": "New password",
     "description": "On settings, change password"
   },
   "popup_html_confirm": {
@@ -116,7 +116,7 @@
     "description": "Generic button"
   },
   "popup_html_submit": {
-    "message": "Submit",
+    "message": "Continue",
     "description": "Generic button"
   },
   "popup_html_password": {
@@ -124,34 +124,34 @@
     "description": "Placeholder in input for password"
   },
   "popup_html_new_label": {
-    "message": "New Label",
+    "message": "New label",
     "description": "Placeholder in input for new favorite label item"
   },
   "popup_html_signin": {
-    "message": "Sign In"
+    "message": "Sign in"
   },
   "popup_html_forgot": {
-    "message": "Forgot Password?",
+    "message": "Forgot password?",
     "description": "On unlock page"
   },
   "popup_html_reset": {
-    "message": "Reset account",
+    "message": "Reset wallet",
     "description": "After clicking forgot password"
   },
   "popup_html_reset_desc": {
-    "message": "If you forgot your password, you can clear your data but will have to enter all your keys again.",
+    "message": "Forgot your password? Reset this wallet, then add your accounts again. You will need your keys.",
     "description": "text after clicking forgot password"
   },
   "popup_html_clear_all_data_desc": {
-    "message": "By confirming, all your data will be lost. Make sure you have your keys saved outside of Keychain",
+    "message": "This removes all accounts, keys and settings from this device. Save a copy of your keys before continuing.",
     "description": "description of clear all data confirm page"
   },
   "popup_html_vm": {
-    "message": "Voting Mana",
+    "message": "Voting mana",
     "description": "on Keychain popup main page"
   },
   "popup_html_rc": {
-    "message": "Resource Credits",
+    "message": "Resource credits",
     "description": "on Keychain popup main page"
   },
   "popup_html_send": {
@@ -165,18 +165,18 @@
     "message": "Power down"
   },
   "popup_html_delegate": {
-    "message": "PP Delegations"
+    "message": "PP delegations"
   },
   "popup_html_delegate_short": {
-    "message": "PP Deleg.",
+    "message": "Delegate PP",
     "description": "Keep short, 10 chars max including space and ."
   },
   "popup_html_delegate_rc_short": {
-    "message": "RC Deleg.",
+    "message": "Delegate RC",
     "description": "Keep short, 10 chars max including space and ."
   },
   "popup_html_estimation": {
-    "message": "Estimated Account Value",
+    "message": "Estimated account value",
     "description": "on popup main page"
   },
   "popup_html_history": {
@@ -196,11 +196,11 @@
     "description": "on popup main page, click info near estimated value"
   },
   "popup_html_wallet_history": {
-    "message": "Wallet History",
+    "message": "Wallet history",
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Enter your Pixagram account name and either the master password or the private posting or active key for that account below. Your master password will NOT be saved and will only be used to generate your private keys.<br/><br/> You may add / remove Pixagram accounts or keys at any time. If you need to create a new Pixagram account, you can do so at <a href=\"https://signup.hive.io\" target=\"_blank\" >signup.hive.io</a>.",
+    "message": "Enter your Pixagram account name and a posting, active or memo key. You can also use your master password to derive those keys. Your master password is never saved.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -208,7 +208,7 @@
     "description": "when adding new account"
   },
   "popup_html_private_key": {
-    "message": "Private Key",
+    "message": "Private key",
     "description": "placeholder for entering private key"
   },
   "popup_html_username": {
@@ -216,11 +216,11 @@
     "description": "placeholder for entering username"
   },
   "popup_html_start_date": {
-    "message": "Start Date",
+    "message": "Start date",
     "description": "placeholder for entering a starting date"
   },
   "popup_html_end_date": {
-    "message": "End Date",
+    "message": "End date",
     "description": "placeholder for entering a ending date"
   },
   "popup_html_import_keys": {
@@ -228,23 +228,23 @@
     "description": "Import all keys"
   },
   "popup_html_import_permissions": {
-    "message": "Import Settings",
+    "message": "Import settings",
     "description": "Import permissions"
   },
   "popup_html_import_key": {
-    "message": "Import Key",
+    "message": "Import key",
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Import successful! <br><br>Please select the Keys you wish to store with Pixtopia Keychain:",
+    "message": "Choose the keys to keep on this device.",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
-    "message": "Posting Key",
+    "message": "Posting key",
     "description": "When adding an account via master key"
   },
   "popup_html_active": {
-    "message": "Active Key",
+    "message": "Active key",
     "description": "When adding an account via master key"
   },
   "popup_html_operation_button_save": {
@@ -252,15 +252,15 @@
     "description": "When using operation button to save data"
   },
   "popup_html_authority_active": {
-    "message": "Active Authority",
+    "message": "Active authority",
     "description": "on manage authorities list item"
   },
   "popup_html_authority_posting": {
-    "message": "Posting Authority",
+    "message": "Posting authority",
     "description": "on manage authorities list item"
   },
   "popup_html_owner": {
-    "message": "Owner Key",
+    "message": "Owner key",
     "description": "When using owner key"
   },
   "popup_html_role": {
@@ -272,11 +272,11 @@
     "description": "On Accounts > Manage Authorities"
   },
   "popup_html_manage_accounts_authorities_text": {
-    "message": "Accounts with granted authorities can perform operations on your behalf. Most of the time, these authorizations are tied to a dApp or game and only authorize the posting authority. We recommend giving such authorities only when necessary and when the recipient is trusted.",
+    "message": "These accounts can act on your behalf. Only grant access to accounts you trust, and remove access you no longer need.",
     "description": "Accounts > Manage Authorities"
   },
   "popup_html_confirm_remove_account_authority_message": {
-    "message": "Please confirm that you want to remove @$2's $1 authority on your account.",
+    "message": "Remove @$2’s $1 access to your account?",
     "description": "while confirming remove account authority: $2 is account, $1 is posting or active"
   },
   "popup_html_remove_account_authority": {
@@ -296,7 +296,7 @@
     "description": "Failed message remove account authority"
   },
   "popup_html_memo": {
-    "message": "Memo Key",
+    "message": "Memo key",
     "description": "When adding an account via master key"
   },
   "popup_html_posting_info": {
@@ -340,7 +340,7 @@
     "description": "on settings page"
   },
   "popup_html_import_export_settings": {
-    "message": "Import / Export Settings",
+    "message": "Import / export settings",
     "description": "on settings page"
   },
   "popup_html_automated_tasks": {
@@ -348,7 +348,7 @@
     "description": "on settings page"
   },
   "popup_html_operations": {
-    "message": "Whitelisted operations",
+    "message": "Authorized operations",
     "description": "on settings page"
   },
   "popup_html_export_transactions": {
@@ -428,7 +428,7 @@
     "description": "on my witness"
   },
   "popup_html_delete_account_confirmation_message": {
-    "message": "You are about to remove @$1 from Keychain. This cannot be undone without reimporting your keys. Please confirm to proceed.",
+    "message": "Remove @$1 from this device? You will need its keys to add it again.",
     "description": "on manage accounts"
   },
   "popup_html_disable_witness_account_confirmation_message": {
@@ -440,7 +440,7 @@
     "description": "on my witness"
   },
   "popup_html_set_new_rpc_as_active": {
-    "message": "Set new RPC node as active",
+    "message": "Use this node",
     "description": "in add rpc node screen"
   },
   "popup_html_set_new_account_history_as_active": {
@@ -448,11 +448,11 @@
     "description": "in add rpc node screen"
   },
   "popup_html_pref_info": {
-    "message": "For a better experience, you can whitelist non-active authority operations when dApps request them. You won't receive a confirmation prompt for these operations.",
+    "message": "Apps can ask you to remember approval for operations that do not need your active key. Those operations then run without another prompt. Review or remove that access here.",
     "description": "on preferences"
   },
   "popup_html_pref_export_transactions_info": {
-    "message": "Download your account's monetary transactions as a .csv file. You can omit the start or end date if necessary.<br/><br/>Depending on the number of transactions, this may take a little while. ",
+    "message": "Download transactions as a CSV file. Leave either date blank to include all available history.<br/><br/>Large histories may take a few minutes.",
     "description": "on preferences"
   },
   "popup_html_pref_export_transactions_downloading_loading_message": {
@@ -472,15 +472,15 @@
     "description": "on multiple pages where filter is used"
   },
   "popup_html_add_rpc": {
-    "message": "Add RPC",
+    "message": "Add node",
     "description": "on preferences"
   },
   "popup_html_add_rpc_text": {
-    "message": "Add your RPC node here:",
+    "message": "Enter a Pixagram node address.",
     "description": "on preferences"
   },
   "popup_html_rpc_node": {
-    "message": "RPC Node",
+    "message": "Network node",
     "description": "on preferences"
   },
   "popup_none": {
@@ -488,11 +488,11 @@
     "description": "On send PIXA/PXS confirmation page, when memo is empty"
   },
   "popup_html_add_key": {
-    "message": "Add Key",
+    "message": "Add key",
     "description": "on manage accounts, add a previously non stored key"
   },
   "popup_html_add_key_text": {
-    "message": "Add the <span>$1</span> private key to your account. You can also add it by entering your master key.",
+    "message": "Add your <span>$1</span> key, or enter your master password to derive it.",
     "description": "on preferences, within span will be posting/memo/active"
   },
   "popup_html_copied": {
@@ -520,7 +520,7 @@
     "description": "on change password"
   },
   "popup_html_old_password": {
-    "message": "Old Password",
+    "message": "Old password",
     "description": "on change password"
   },
   "popup_html_send_max": {
@@ -528,7 +528,7 @@
     "description": "In input (keep it short eg maximum 3 characters)"
   },
   "popup_html_transfer_funds": {
-    "message": "Transfer Funds",
+    "message": "Transfer funds",
     "description": "When initiating a PIXA or PXS transfer"
   },
   "popup_html_balance": {
@@ -552,7 +552,7 @@
     "description": "On transfer confirmation page"
   },
   "popup_html_transfer_confirm_cancel_recurrent": {
-    "message": "<br>Please confirm that you want to cancel this recurrent transfer.",
+    "message": "<br>Please confirm that you want to cancel this recurring transfer.",
     "description": "On transfer confirmation page"
   },
   "popup_html_transfer_from": {
@@ -664,11 +664,11 @@
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Power Down your Pixa Power to get liquid PIXA. The entire Power Down process will take 13 weeks.",
+    "message": "Convert Pixa Power to liquid PIXA over 13 weekly payments.",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
-    "message": "Powering Down",
+    "message": "Powering down",
     "description": "Main page > Power Down. When a power down has been started"
   },
   "popup_html_delegations": {
@@ -676,7 +676,7 @@
     "description": "Main page > Delegate"
   },
   "popup_html_delegations_text": {
-    "message": "You may delegate your Pixa Power (PP) to another user. Click on the Outgoing amount to review or make changes.",
+    "message": "Lend Pixa Power to another account. Select Outgoing to review your delegations.",
     "description": "Main page > Delegate"
   },
   "popup_html_incoming": {
@@ -688,11 +688,11 @@
     "description": "Main page > Delegate. Outgoing delegation ($1=PP)"
   },
   "popup_html_delegate_to_user": {
-    "message": "Delegate to user",
+    "message": "Delegate",
     "description": "Main page > Delegate. Confirm a delegation"
   },
   "popup_html_total_outgoing": {
-    "message": "Total Outgoing",
+    "message": "Total outgoing",
     "description": "Main page > Delegate > Click on Outgoing"
   },
   "popup_html_button_label_cancel": {
@@ -700,7 +700,7 @@
     "description": "when using a cancel button"
   },
   "popup_html_total_incoming": {
-    "message": "Total Incoming",
+    "message": "Total incoming",
     "description": "Main page > Delegate > Click on Incoming"
   },
   "popup_accounts_reveal_private": {
@@ -792,7 +792,7 @@
     "description": "When changing pwd from settings"
   },
   "popup_website": {
-    "message": "dApp",
+    "message": "Website",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_encode": {
@@ -800,31 +800,31 @@
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_add_auth": {
-    "message": "Add Account Authority",
+    "message": "Add account authority",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_remove_auth": {
-    "message": "Remove Account Authority",
+    "message": "Remove account authority",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_custom": {
-    "message": "Custom Transaction",
+    "message": "Custom operation",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_sign_tx": {
-    "message": "Sign Transaction",
+    "message": "Sign transaction",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_decode": {
-    "message": "Verify Key",
+    "message": "Decrypt message",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_sign_buffer": {
-    "message": "Sign Message",
+    "message": "Sign message",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_signed_call": {
-    "message": "Signed Call",
+    "message": "Signed call",
     "description": "On preferences, list of rights that were given to some websites."
   },
   "popup_post": {
@@ -840,7 +840,7 @@
     "description": "on witness page "
   },
   "popup_success_wit": {
-    "message": "Succesfully voted for @$1 as a witness.",
+    "message": "Successfully voted for @$1 as a witness.",
     "description": "on witness page "
   },
   "popup_success_unvote_wit": {
@@ -864,11 +864,11 @@
     "description": "on witness page when unvoting a witness"
   },
   "popup_success_proxy": {
-    "message": "Succesfully chose @$1 for proxy.",
+    "message": "Successfully chose @$1 for proxy.",
     "description": "on tokens page when chosing a proxy"
   },
   "bgd_ops_unproxy": {
-    "message": "Succesfully removed the proxy.",
+    "message": "Successfully removed the proxy.",
     "description": "when removing proxy"
   },
   "popup_utils_full": {
@@ -916,7 +916,7 @@
     "description": "When website request a transfer"
   },
   "dialog_auth_account": {
-    "message": "Authorized Account",
+    "message": "Authorized account",
     "description": "When website request to add authority to an account"
   },
   "dialog_role": {
@@ -952,7 +952,7 @@
     "description": "When website request a transfer"
   },
   "dialog_daily_pay": {
-    "message": "Daily Pay",
+    "message": "Daily pay",
     "description": "When website request a proposal creation"
   },
   "dialog_memo": {
@@ -972,15 +972,15 @@
     "description": "When website request a proposal creation"
   },
   "dialog_meta": {
-    "message": "JSON Metadata",
+    "message": "JSON metadata",
     "description": "When website request a post"
   },
   "dialog_pu": {
-    "message": "Parent Username",
+    "message": "Parent username",
     "description": "When website request a post"
   },
   "dialog_pp": {
-    "message": "Parent Permlink",
+    "message": "Parent permlink",
     "description": "When website request a post"
   },
   "dialog_options": {
@@ -1037,7 +1037,7 @@
     "message": "Data"
   },
   "dialog_header_unlock": {
-    "message": "Unlock Keychain",
+    "message": "Unlock wallet",
     "description": "When website request a transaction but keychain is locked"
   },
   "dialog_header_error": {
@@ -1049,18 +1049,18 @@
     "description": "Generic success message"
   },
   "dialog_header_wrong_pwd": {
-    "message": "Wrong password!"
+    "message": "Wrong password. Try again."
   },
   "dialog_title_custom": {
-    "message": "Custom Transaction",
+    "message": "Custom operation",
     "description": "Website request title"
   },
   "dialog_title_decode": {
-    "message": "Verify Key",
+    "message": "Decrypt message",
     "description": "Website request title"
   },
   "dialog_title_encode": {
-    "message": "Encode message",
+    "message": "Encrypt message",
     "description": "Website request title"
   },
   "dialog_public_keys": {
@@ -1068,23 +1068,23 @@
     "description": "Website request title"
   },
   "dialog_title_sign": {
-    "message": "Sign Message",
+    "message": "Sign message",
     "description": "Website request title"
   },
   "dialog_title_add_auth": {
-    "message": "Add Authority",
+    "message": "Add authority",
     "description": "Website request title"
   },
   "dialog_title_remove_auth": {
-    "message": "Remove Authority",
+    "message": "Remove authority",
     "description": "Website request title"
   },
   "dialog_title_broadcast": {
-    "message": "Broadcast",
+    "message": "Send transaction",
     "description": "Website request title"
   },
   "dialog_title_sign_tx": {
-    "message": "Sign Transaction",
+    "message": "Sign transaction",
     "description": "Website request title"
   },
   "dialog_title_post": {
@@ -1100,43 +1100,43 @@
     "description": "Website request title"
   },
   "dialog_title_wit": {
-    "message": "Witness Vote",
+    "message": "Witness vote",
     "description": "Website request title"
   },
   "dialog_title_proxy": {
-    "message": "Choose Proxy",
+    "message": "Choose proxy",
     "description": "Website request title"
   },
   "dialog_title_powerup": {
-    "message": "Power Up",
+    "message": "Power up",
     "description": "Website request title"
   },
   "dialog_title_powerdown": {
-    "message": "Power Down",
+    "message": "Power down",
     "description": "Website request title"
   },
   "dialog_title_create_account": {
-    "message": "Create Claimed Account",
+    "message": "Create claimed account",
     "description": "Website request title"
   },
   "dialog_title_create_proposal": {
-    "message": "Create Proposal",
+    "message": "Create proposal",
     "description": "Website request title"
   },
   "dialog_title_remove_proposal": {
-    "message": "Remove Proposal",
+    "message": "Remove proposal",
     "description": "Website request title"
   },
   "dialog_title_vote_proposal": {
-    "message": "Vote for Proposal",
+    "message": "Vote for proposal",
     "description": "Website request title"
   },
   "dialog_no_prompt_verify": {
-    "message": "Do not prompt again to verify keys for the @$1 account on $2",
+    "message": "Don't ask again to verify @$1 on $2",
     "description": "When a website request a verification using posting key and you dont want it to pop all the time"
   },
   "dialog_no_prompt": {
-    "message": "Do not prompt again to send $1 transactions from the @$2 account on $3",
+    "message": "Don't ask again for $1 requests from @$2 on $3",
     "description": "When a website request a transaction using posting key and you dont want it to pop all the time"
   },
   "dialog_desc_verify": {
@@ -1180,7 +1180,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "To use Pixtopia Keychain, please set up your wallet. Click on the Pixtopia Keychain logo on the top right corner of your browser (it might be hidden in the extension menu), then setup your password and import your accounts.",
+    "message": "Open Pixtopia Keychain from your browser’s extensions menu. Create a password, then add your account to continue.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1215,7 +1215,7 @@
     "message": "The wallet is locked!"
   },
   "bgd_auth_locked_desc": {
-    "message": "The current website is trying to send a request to the Pixtopia Keychain browser extension. Please enter your password below to unlock the wallet and continue."
+    "message": "An app is requesting access. Unlock your wallet to review the request."
   },
   "bgd_auth_canceled": {
     "message": "Request was canceled by the user."
@@ -1251,22 +1251,22 @@
     "message": "Cannot find account @$1."
   },
   "bgd_ops_error": {
-    "message": "There was an error broadcasting this transaction:"
+    "message": "Could not send this transaction:"
   },
   "bgd_ops_add_account_error": {
-    "message": "There was an error adding this account. Please verify its keys."
+    "message": "Could not add this account. Check its keys and try again."
   },
   "bgd_ops_add_account_error_invalid": {
     "message": "This account username does not exist."
   },
   "bgd_ops_add_account": {
-    "message": "Succesfully added account @$1 to Keychain."
+    "message": "Added @$1 to Pixtopia Keychain."
   },
   "bgd_ops_transfer_success": {
     "message": "Successfully transfered $1 $2 from @$3 to @$4."
   },
   "bgd_ops_sign_success": {
-    "message": "Message signed successfully."
+    "message": "Message signed."
   },
   "bgd_ops_sign_error": {
     "message": "Could not sign."
@@ -1302,10 +1302,10 @@
     "message": "The post was submitted succesfully."
   },
   "bgd_ops_undelegate": {
-    "message": "Succesfully stopped the delegation to @$1 from account @$2."
+    "message": "Successfully stopped the delegation to @$1 from account @$2."
   },
   "bgd_ops_delegate": {
-    "message": "Succesfully delegated $1 from @$3 to @$2."
+    "message": "Successfully delegated $1 from @$3 to @$2."
   },
   "bgd_ops_decode": {
     "message": "Memo decoded succesfully."
@@ -1320,10 +1320,10 @@
     "message": "Could not encode the message."
   },
   "bgd_ops_broadcast": {
-    "message": "The transaction has been broadcasted successfully."
+    "message": "Transaction sent."
   },
   "bgd_ops_sign_tx": {
-    "message": "The transaction has been signed successfully."
+    "message": "Transaction signed."
   },
   "bgd_ops_convert": {
     "message": "Successfully started converting $1 PXS to PIXA on account @$2."
@@ -1332,13 +1332,13 @@
     "message": "Successfully started converting $1 PIXA to PXS on account @$2."
   },
   "bgd_ops_create_account": {
-    "message": "Succesfully created account @$1."
+    "message": "Successfully created account @$1."
   },
   "bgd_ops_add_auth": {
-    "message": "Succesfully gave $1 authority to @$2 on account @$3."
+    "message": "Successfully gave $1 authority to @$2 on account @$3."
   },
   "bgd_ops_remove_auth": {
-    "message": "Succesfully removed $1 authority from @$2 on account @$3."
+    "message": "Successfully removed $1 authority from @$2 on account @$3."
   },
   "popup_account_redeem": {
     "message": "You have Rewards ready to redeem in the amount of",
@@ -1348,52 +1348,52 @@
     "message": "Send"
   },
   "dialog_title_add_key_auth": {
-    "message": "Add Key"
+    "message": "Add key"
   },
   "dialog_title_remove_key_auth": {
-    "message": "Remove Key"
+    "message": "Remove key"
   },
   "dialog_title_recurrent_transfer": {
-    "message": "Recurrent Transfer"
+    "message": "Recurring transfer"
   },
   "bgd_ops_add_key_auth": {
     "message": "$1 has been added as a $2 key for account @$3 with a weight of $4.",
-    "description": "Succesfully added a new keypair"
+    "description": "Successfully added a new keypair"
   },
   "bgd_ops_remove_key_auth": {
     "message": "$1 has been removed as a $2 key for account @$3.",
     "description": "succesfully removed a keypair"
   },
   "bgd_ops_recurrent_transfer": {
-    "message": "Succesfully started a recurrent transfer.",
+    "message": "Recurring transfer started.",
     "description": "when starting a recurrent transfer"
   },
   "bgd_ops_stop_recurrent_transfer": {
-    "message": "Succesfully stopped a recurrent transfer.",
+    "message": "Recurring transfer stopped.",
     "description": "when starting a recurrent transfer"
   },
   "popup_html_add_by_keys": {
-    "message": "Use keys/pwd",
+    "message": "Use a key or password",
     "description": "When adding new account. In a button, must keep short. "
   },
   "popup_html_add_by_auth": {
-    "message": "Use authorized account",
+    "message": "Use an authorized account",
     "description": "When adding new account. In a button, must keep short."
   },
   "popup_html_chose_add_method": {
-    "message": "You can add your keys by entering a private key or your master password.<br/>Alternatively, you can specify an authorized account or import your keys.",
+    "message": "Add an account with a key or master password, use an authorized account, or import a backup.",
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Add the new account by specifying an account that has authority over it, and that is already saved in Pixtopia Keychain.",
+    "message": "Enter the account to add and an account already in this wallet that has authority to use it.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
-    "message": "Authorized Account",
+    "message": "Authorized account",
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Please save @$1 in Pixtopia Keychain to use it as an authorized account."
+    "message": "Add @$1 to this wallet first."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 does not have sufficient authority over @$2.",
@@ -1404,19 +1404,19 @@
     "description": "Title of import keys popup"
   },
   "import_html_text": {
-    "message": "Import your keys from another Keychain instance using a .kc file.<br/><br/>You need to use the same master password on both instances to decrypt the keys."
+    "message": "Choose a .kc backup to import your accounts. Use the same wallet password that protected the backup."
   },
   "import_html_success": {
-    "message": "Your accounts have been imported successfully."
+    "message": "Accounts imported."
   },
   "import_html_error": {
-    "message": "There was an error importing your keys.<br/>Make sure you that you are using the same password than when you exported the file."
+    "message": "Could not import this backup.<br/>Check that your wallet password matches the password used to export it."
   },
   "import_permissions_html_title": {
     "message": "Import settings"
   },
   "import_permissions_html_text": {
-    "message": "Import your settings from another Keychain instance using a .kc.json file."
+    "message": "Choose a .kc.json backup to import your settings."
   },
   "bgd_auth_no_active": {
     "message": "No account with active authority."
@@ -1462,11 +1462,11 @@
     "description": "When converting"
   },
   "popup_html_save_hive": {
-    "message": "PIXA Savings",
+    "message": "PIXA savings",
     "description": "When clicking on the Pixagram arrow menu"
   },
   "popup_html_save_hbd": {
-    "message": "PXS Savings",
+    "message": "PXS savings",
     "description": "When clicking on the PXS arrow menu"
   },
   "popup_html_deposit_param": {
@@ -1506,7 +1506,7 @@
     "description": "On savings menu"
   },
   "popup_html_withdraw_text": {
-    "message": "Withdrawing funds from savings will take 3.5 days.",
+    "message": "Withdrawing from savings takes 3 days.",
     "description": "when withdrawing from savings"
   },
   "popup_html_deposit": {
@@ -1526,19 +1526,19 @@
     "description": "Saving page title"
   },
   "dialog_keys": {
-    "message": "Private Keys",
+    "message": "Private keys",
     "description": "When adding an account by request"
   },
   "dialog_new_account": {
-    "message": "New Account",
+    "message": "New account",
     "description": "When adding an account by request"
   },
   "dialog_header_register": {
-    "message": "Welcome to Pixtopia Keychain",
+    "message": "Set up your wallet",
     "description": "When registering from request"
   },
   "popup_html_automated_intro": {
-    "message": "Setup automated tasks that will run every hour if fitting your conditions.",
+    "message": "These tasks are checked every hour while your wallet is unlocked.",
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
@@ -1546,19 +1546,19 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
-    "message": "Claim Rewards",
+    "message": "Claim rewards",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards_info": {
-    "message": "Regularly claiming your rewards can increase your gains.",
+    "message": "Collect pending rewards automatically.",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts": {
-    "message": "Claim Accounts",
+    "message": "Claim accounts",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Claim a free account ticket when your RC is charged over $1%. Depending on your Pixa Power, this might use up a big chunk of your RC.",
+    "message": "Claim an account creation credit when RC is above $1%. This uses resource credits.",
     "description": "When on automated tasks page"
   },
   "popup_html_insufficient_hp_claim_accounts": {
@@ -1570,15 +1570,15 @@
     "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_unvote_successful": {
-    "message": "You successfully removed your vote!",
+    "message": "Vote removed.",
     "description": "When user doesnt vote for proposal"
   },
   "popup_html_proposal_vote_fail": {
-    "message": "There was an error while voting for a proposal!",
+    "message": "Could not vote for this proposal. Try again.",
     "description": "Error while voting for proposal"
   },
   "popup_html_proposal_unvote_fail": {
-    "message": "There was an error while removing a proposal vote!",
+    "message": "Could not remove this vote. Try again.",
     "description": "Error while voting for proposal"
   },
   "popup_html_advanced_settings": {
@@ -1654,15 +1654,15 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "You can choose which RPC node is used to read information and broadcast transactions from/to the Pixagram Blockchain.",
+    "message": "Choose the Pixagram node your wallet uses to read chain data and send transactions.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {
-    "message": "You need to at least fill RPC Node",
+    "message": "Enter a node address.",
     "description": "Error message on rpc node settings page"
   },
   "popup_html_rpc_uri_already_existing": {
-    "message": "Rpc Node already existing",
+    "message": "This node is already in your list.",
     "description": "Error message on rpc node settings page"
   },
   "popup_html_wallet_savings": {
@@ -1670,7 +1670,7 @@
     "description": "In wallet"
   },
   "popup_html_claim_error": {
-    "message": "Claim has failed. Please try again later",
+    "message": "Could not claim rewards. Try again later.",
     "description": "Error message while trying to claim rewards"
   },
   "popup_html_claim_success": {
@@ -1702,11 +1702,11 @@
     "description": "while confirming power up and down"
   },
   "popup_html_cancel_withdraw_savings": {
-    "message": "Cancel Withdraw",
+    "message": "Cancel withdraw",
     "description": "while confirming savings withdraw"
   },
   "popup_html_power_up_down_fail": {
-    "message": "There was an error while executing $1. Try again later. If error persist, contact support.",
+    "message": "Could not complete $1. Try again later.",
     "description": "Error while power down or up"
   },
   "popup_html_power_up_down_success": {
@@ -1726,15 +1726,15 @@
     "description": "Error  power down or up"
   },
   "popup_html_recurrent_transfer": {
-    "message": "Recurrent transfer",
+    "message": "Recurring transfer",
     "description": "In transfer fund page"
   },
   "popup_html_recurrent_transfers": {
-    "message": "Recurrent transfers",
+    "message": "Recurring transfers",
     "description": "In transfer fund page"
   },
   "popup_html_cancel_recurrent_transfer": {
-    "message": "Cancel recurrent transfer",
+    "message": "Cancel recurring transfer",
     "description": "In transfer fund page"
   },
   "popup_html_recurrent_transfer_frequency": {
@@ -1750,11 +1750,11 @@
     "description": "In transfer fund page"
   },
   "popup_html_transfer_recurrent_successful": {
-    "message": "Recurrent transfer to $1 ($2) successful! It will happen $4 times (every $3 hours).",
+    "message": "Recurring transfer to $1 ($2) successful! It will happen $4 times (every $3 hours).",
     "description": "In transfer fund page"
   },
   "popup_html_cancel_transfer_recurrent_successful": {
-    "message": "Successfully stopped a recurrent transfer to $1.",
+    "message": "Successfully stopped a recurring transfer to $1.",
     "description": "In transfer fund page"
   },
   "popup_html_transfer_failed": {
@@ -1766,7 +1766,7 @@
     "description": "In confirmation page"
   },
   "popup_html_user_preferences": {
-    "message": "User operations",
+    "message": "Preferences",
     "description": "In settings menu"
   },
   "popup_html_save_successful": {
@@ -1842,7 +1842,7 @@
     "description": "Governance"
   },
   "popup_html_my_witness_page": {
-    "message": "My Witness",
+    "message": "My witness",
     "description": "Governance"
   },
   "popup_html_witness_page_expand_more_tooltip": {
@@ -1854,11 +1854,11 @@
     "description": "Governance"
   },
   "html_popup_witness_vote_error_proxy": {
-    "message": "A proxy is currently set, please clear the proxy before voting for a witness",
+    "message": "Remove your proxy before voting for a witness.",
     "description": "Governance"
   },
   "html_popup_proposal_vote_error_proxy": {
-    "message": "A proxy is currently set, please clear the proxy before voting for a proposal",
+    "message": "Remove your proxy before voting for a proposal.",
     "description": "Governance"
   },
   "html_popup_currently_using_proxy": {
@@ -1914,11 +1914,11 @@
     "description": "Import settings failed message"
   },
   "html_popup_link_to_witness_website": {
-    "message": "For more information, click here to access the witness database",
+    "message": "View the witness directory",
     "description": "Link to witness website"
   },
   "html_popup_vote_witness_error_30_votes": {
-    "message": "You already voted for 30 witnesses. Please remove one before voting again",
+    "message": "You have voted for 30 witnesses. Remove a vote before adding another.",
     "description": "Error message when vote for stoodkev as witness with 30 votes"
   },
   "html_popup_vote_stoodkev_witness_success": {
@@ -1934,7 +1934,7 @@
     "description": "conversion operation"
   },
   "html_popup_revert_vesting_route_operation": {
-    "message": "Reverting Vesting route(s)",
+    "message": "Reverting vesting route(s)",
     "description": "when the user decides to revert all vesting routes in his account"
   },
   "html_popup_delegation_operation": {
@@ -2030,7 +2030,7 @@
     "description": "Transfer fund operation"
   },
   "html_popup_stop_recc_transfer_fund_operation": {
-    "message": "Stopping a recurrent transfer",
+    "message": "Stopping a recurring transfer",
     "description": "Transfer fund operation"
   },
   "html_popup_deposit_to_savings_operation": {
@@ -2130,7 +2130,7 @@
     "description": "while trying to add a new account"
   },
   "popup_html_switch_rpc": {
-    "message": "Switch RPC",
+    "message": "Switch node",
     "description": "At start up, when active rpc not responding"
   },
   "popup_html_rpc_not_responding_error": {
@@ -2142,7 +2142,7 @@
     "description": "Node Rpc auto selection"
   },
   "popup_html_rpc_automatic_mode_hint": {
-    "message": "Will always select the best RPC node for you",
+    "message": "Automatically choose an available Pixagram node.",
     "description": "Node Rpc auto selection hint"
   },
   "popup_html_setting_proxy": {
@@ -2158,7 +2158,7 @@
     "description": "wallet information transfer in"
   },
   "popup_html_wallet_info_recurrent_transfer_out": {
-    "message": "Started recurrent transfer of $1 to @$2 (every $4 hours - $3 times)",
+    "message": "Started recurring transfer of $1 to @$2 (every $4 hours - $3 times)",
     "description": "wallet information transfer out"
   },
   "popup_html_wallet_info_recurrent_transfer_in": {
@@ -2166,7 +2166,7 @@
     "description": "wallet information transfer in"
   },
   "popup_html_wallet_info_canceled_recurrent_transfer": {
-    "message": "@$1 canceled a recurrent transfer to @$2",
+    "message": "@$1 canceled a recurring transfer to @$2",
     "description": "wallet information transfer in"
   },
   "popup_html_wallet_info_fill_recurrent_transfer_out": {
@@ -2378,15 +2378,15 @@
     "description": "Wallet filters"
   },
   "popup_html_error_retrieving_witness_ranking": {
-    "message": "An error occured while retrieving the witness ranking. Please try again later.",
+    "message": "Could not load witnesses. Try again later.",
     "description": "Error while retrieving witness ranking, hivesql not down"
   },
   "popup_html_error_retrieving_witness_information": {
-    "message": "An error occured while retrieving the witness account information. Please try again later.",
+    "message": "Could not load this witness. Try again later.",
     "description": "Error while retrieving witness information, hivesql not down"
   },
   "popup_html_error_retrieving_incoming_delegations": {
-    "message": "An error occured while retrieving the incoming delegations. Please try again later.",
+    "message": "Could not load incoming delegations. Try again later.",
     "description": "Error while retrieving witness ranking, hivesql not down"
   },
   "popup_html_load_more": {
@@ -2438,7 +2438,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_savings_info": {
-    "message": "To claim your savings interest, Keychain will deposit or withdraw 0.001 PXS to/from your savings every 30 days",
+    "message": "Every 30 days, deposit or withdraw 0.001 PXS to collect savings interest.",
     "description": "When on automated tasks page"
   },
   "html_popup_url_not_valid": {
@@ -2466,15 +2466,15 @@
     "description": "wrong vesting routes popup, account item label"
   },
   "popup_html_vesting_route_account_item_old_route_title": {
-    "message": "Old Route",
+    "message": "Old route",
     "description": "wrong vesting routes popup, account item, old route label/title"
   },
   "popup_html_vesting_route_account_item_new_route_title": {
-    "message": "New Route",
+    "message": "New route",
     "description": "wrong vesting routes popup, account item, new route label/title"
   },
   "popup_html_vesting_route_account_item_button_revert_label": {
-    "message": "Revert All",
+    "message": "Revert all",
     "description": "wrong vesting routes popup, account item, revert button label"
   },
   "popup_html_vesting_route_account_item_button_skip_label": {
@@ -2530,7 +2530,7 @@
     "description": "checkbox content on create account page"
   },
   "html_popup_create_account_storage_understanding": {
-    "message": "I understand that Keychain should not be considered as the primary place of storage for my keys",
+    "message": "I will keep a separate backup of my keys.",
     "description": "checkbox content on create account page"
   },
   "html_popup_copy": {
@@ -2574,7 +2574,7 @@
     "description": "Create account payment message"
   },
   "html_popup_create_account_successful": {
-    "message": "Your account has been successfully created and added to your Keychain",
+    "message": "Account created and added to Pixtopia Keychain.",
     "description": "Create account successful message"
   },
   "html_popup_creating_account": {
@@ -2582,7 +2582,7 @@
     "description": "Creating account message"
   },
   "html_popup_create_account_failed": {
-    "message": "Your account creation has failed. Please try again later",
+    "message": "Could not create the account. Try again later.",
     "description": "Create account failed message"
   },
   "popup_html_total_pending_undelegate": {
@@ -2598,7 +2598,7 @@
     "description": "Delegation list item pending until date"
   },
   "popup_html_withdraw_savings_until_message": {
-    "message": "Withdrawing from savings takes 3 days. Cancel the operation if you wish to keep your $1 in the savings.",
+    "message": "Your $1 withdrawal is pending. Cancel to keep it in savings.",
     "description": "Withdraw saving list item pending until date"
   },
   "html_popup_governance_renewal_title": {
@@ -2610,7 +2610,7 @@
     "description": "Wrong key popup"
   },
   "html_popup_wrong_key_introduction": {
-    "message": "Some wrong key(s) were found on your account @$1. Would you like to update them right now?",
+    "message": "Some keys for @$1 no longer match the account. Update them now?",
     "description": "Governance expiration renewal popup"
   },
   "html_popup_governance_renewal_introduction": {
@@ -2638,7 +2638,7 @@
     "description": "Global"
   },
   "popup_html_active_recurrent_transfer": {
-    "message": "active recurrent transfer(s)",
+    "message": "scheduled",
     "description": "Global"
   },
   "popup_html_pending_remaining_executions": {
@@ -2670,10 +2670,10 @@
     "description": "do nothing button on wrong key popup"
   },
   "popup_html_delegate_rc": {
-    "message": "RC Delegations"
+    "message": "RC delegations"
   },
   "popup_html_rc_delegations_text": {
-    "message": "You may delegate your Resource Credit (RC) to another user. Click on the Outgoing amount to review or make changes.",
+    "message": "Lend resource credits to another account. Select Outgoing to review your delegations.",
     "description": "Main page > Delegate RC"
   },
   "popup_html_username_missing": {
@@ -2697,23 +2697,23 @@
     "description": "On RC delegation confirmation page"
   },
   "popup_html_rc_delegation_title": {
-    "message": "RC Delegation",
+    "message": "RC delegation",
     "description": "On RC delegation confirmation page"
   },
   "popup_html_cancel_rc_delegation_title": {
-    "message": "Cancel RC Delegation",
+    "message": "Cancel RC delegation",
     "description": "On RC delegation confirmation page"
   },
   "popup_html_rc_delegation_successful": {
-    "message": "You successfully delegated RC to $1",
+    "message": "RC delegated to $1.",
     "description": "On RC delegation confirmation page"
   },
   "popup_html_cancel_rc_delegation_successful": {
-    "message": "You successfully canceled your delegation to $1",
+    "message": "Delegation to $1 canceled.",
     "description": "On RC delegation confirmation page"
   },
   "popup_html_cancel_rc_delegation_failed": {
-    "message": "Your cancel delegation operation has failed",
+    "message": "Could not cancel this delegation. Try again.",
     "description": "On RC delegation confirmation page"
   },
   "popup_html_rc_delegation_to": {
@@ -2723,11 +2723,11 @@
     "message": "Value"
   },
   "popup_html_rc_delegation_failed": {
-    "message": "Rc Delegation failed",
+    "message": "Could not delegate RC. Try again.",
     "description": "RC delegation failed"
   },
   "popup_html_public_key_not_matching": {
-    "message": "The public key doesn't match the public key on the blockchain. It might have been updated",
+    "message": "This key no longer matches the account’s key on the chain.",
     "description": "select keys => public not matching"
   },
   "html_popup_witness_already_voted": {
@@ -2763,7 +2763,7 @@
     "description": "Recurrent transfer recurrence"
   },
   "recurrent_transfer_iterations_error": {
-    "message": "Executions must be at least 2, if you set executions to 1 the recurrent transfer will execute immediately and delete itself. You should use a normal transfer operation",
+    "message": "Use at least 2 payments for a recurring transfer. For one payment, use a regular transfer.",
     "description": "Recurrent transfer recurrence"
   },
   "set_same_proxy_error": {
@@ -2787,11 +2787,11 @@
     "description": "Error if account has no authority to remove"
   },
   "html_popup_error_while_signing_transaction": {
-    "message": "An error occured while signing the transaction",
+    "message": "Could not sign this transaction.",
     "description": "Generic error during signature"
   },
   "network_error_timeout": {
-    "message": "Network error : timeout",
+    "message": "The node took too long to respond. Try again.",
     "description": "When network timeout"
   },
   "html_popup_error_while_broadcasting": {
@@ -2855,7 +2855,7 @@
     "description": "Need more RC"
   },
   "service_unavailable_message": {
-    "message": "This service is temporarly unavailable. We are working on fixing the issue, sorry for the inconvenience.",
+    "message": "This service is unavailable. Try again later.",
     "description": "General service unavailable page message"
   },
   "tx_missing_active_auth": {
@@ -2891,7 +2891,7 @@
     "description": "Message container success title"
   },
   "message_container_title_fail": {
-    "message": "Oops!",
+    "message": "Could not continue",
     "description": "Message container fail title"
   },
   "message_container_title_warning": {
@@ -2911,11 +2911,11 @@
     "description": "General message: delete"
   },
   "html_popup_copy_error": {
-    "message": "Copy error",
+    "message": "Copy details",
     "description": "Copy error message"
   },
   "error_message_title": {
-    "message": "Oops! There was an error",
+    "message": "Something went wrong",
     "description": "there was an error"
   },
   "popup_html_currency": {
@@ -2943,11 +2943,11 @@
     "description": "Import file button title"
   },
   "html_popup_sign_up_need_accept_pp": {
-    "message": "You need to accept the terms and condition and privacy policies before continuing",
+    "message": "Accept the terms to continue.",
     "description": "Need to accept pp on sign up page"
   },
   "html_add_available_authorities_caption": {
-    "message": "Alternatively, you can use an authorized account from the following list",
+    "message": "Or choose an authorized account.",
     "description": "available authorities caption"
   },
   "html_popup_successfully_add_key": {
@@ -2959,7 +2959,7 @@
     "description": "explanation for keychain icon click"
   },
   "export_transactions_fetching_error": {
-    "message": "There was an error while fetching your transactions. Please try again later",
+    "message": "Could not load your transactions. Try again later.",
     "description": "Error while downloading transactions"
   },
   "export_transactions_incorrect_dates": {
@@ -2986,6 +2986,14 @@
     "message": "That's your owner key. Keep it offline, and add your posting or active key instead."
   },
   "dialog_title_encode_multisig": {
-    "message": "Encode Message"
+    "message": "Encrypt message"
+  },
+  "error_message_recovery": {
+    "message": "Close and reopen your wallet, then try again. You can copy the details if you need help.",
+    "description": "Recovery guidance on the error fallback page"
+  },
+  "error_message_details": {
+    "message": "Details",
+    "description": "Disclosure for diagnostic information on the error fallback page"
   }
 }

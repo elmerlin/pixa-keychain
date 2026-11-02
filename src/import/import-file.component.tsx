@@ -47,7 +47,7 @@ const ImportFile = ({
       LocalStorageKeyEnum.ACTIVE_THEME,
     ]);
 
-    setTheme(res.ACTIVE_THEME ?? Theme.LIGHT);
+    setTheme(res.ACTIVE_THEME ?? Theme.DARK);
   };
 
   const handleFileUpload = (event: any) => {
@@ -141,7 +141,8 @@ const ImportFile = ({
             className="caption"
             dangerouslySetInnerHTML={{
               __html: HtmlUtils.getSafeI18nHtml(text),
-            }}></div>
+            }}
+          ></div>
           <div className="upload-panel">
             {selectedFile && selectedFile.name && (
               <InputComponent
@@ -172,14 +173,16 @@ const ImportFile = ({
                   : 'dialog_import_file_chose_another_file'
               }
               onClick={handleOpenFileInput}
-              height="small"></ButtonComponent>
+              height="small"
+            ></ButtonComponent>
 
             {selectedFile && (
               <ButtonComponent
                 onClick={importKeysFromFile}
                 label="popup_html_import"
                 type={ButtonType.IMPORTANT}
-                height="small"></ButtonComponent>
+                height="small"
+              ></ButtonComponent>
             )}
           </div>
         </>

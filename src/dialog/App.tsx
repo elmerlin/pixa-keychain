@@ -22,7 +22,7 @@ const App = () => {
       LocalStorageKeyEnum.ACTIVE_THEME,
     ]);
 
-    setTheme(res.ACTIVE_THEME ?? Theme.LIGHT);
+    setTheme(res.ACTIVE_THEME ?? Theme.DARK);
   };
 
   useEffect(() => {

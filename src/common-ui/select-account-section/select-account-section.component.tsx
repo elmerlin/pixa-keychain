@@ -13,7 +13,7 @@ import {
 import Select, { SelectRenderer } from 'react-dropdown-select';
 import { connect, ConnectedProps } from 'react-redux';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { SelectAccountSectionItemComponent } from 'src/common-ui/select-account-section/select-account-section-item.component';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
@@ -88,16 +88,16 @@ const SelectAccountSection = ({
         className={`selected-account-panel ${fullSize ? 'fullsize' : ''}`}
         onClick={() => {
           handleClickOnSelector();
-        }}>
-        <PreloadedImage
+        }}
+      >
+        <UsernameAvatar
           className="user-picture"
-          src={'/assets/images/placeholders/account-placeholder.png'}
-          alt={'/assets/images/placeholders/account-placeholder.png'}
-          placeholder={'/assets/images/placeholders/account-placeholder.png'}
+          username={selectedLocalAccount}
         />
         <div
           className="selected-account-name"
-          data-testid="selected-account-name">
+          data-testid="selected-account-name"
+        >
           {selectedLocalAccount}
         </div>
       </div>
@@ -131,7 +131,8 @@ const SelectAccountSection = ({
           <Droppable
             droppableId="droppable-account"
             type="account"
-            isDropDisabled={!isOnMain}>
+            isDropDisabled={!isOnMain}
+          >
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {properties.options.map((option, index) => (
@@ -139,12 +140,14 @@ const SelectAccountSection = ({
                     key={option.value}
                     draggableId={option.value}
                     isDragDisabled={!isOnMain}
-                    index={index}>
+                    index={index}
+                  >
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}>
+                        {...provided.dragHandleProps}
+                      >
                         <SelectAccountSectionItemComponent
                           key={`option-${option.value}`}
                           isLast={options.length === index}
@@ -175,7 +178,8 @@ const SelectAccountSection = ({
         <div
           className={`select-account-section ${fullSize ? 'fullsize' : ''} ${
             isOpened ? 'opened' : 'closed'
-          }`}>
+          }`}
+        >
           <Select
             keepOpen
             values={[selectedLocalAccount as any]}
@@ -190,7 +194,8 @@ const SelectAccountSection = ({
             className={`overlay ${isOpened ? 'opened' : 'closed'}`}
             onClick={() => {
               setIsOpened(false);
-            }}></div>
+            }}
+          ></div>
         </div>
       )}
     </>

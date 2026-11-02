@@ -1,35 +1,30 @@
 .wallet-action-button {
+  border: 0;
+  text-align: left;
   display: flex;
-  column-gap: 8px;
-  padding: 8px 12px;
-  width: 150px;
-  min-height: 58px;
-  border-radius: 13px;
-  border: 1px solid var(--wallet-card-darker-border);
-  box-sizing: border-box;
   align-items: center;
-  justify-content: center;
-  transition: 0.225s linear;
+  gap: 8px;
+  padding: 10px 12px;
+  min-height: 44px;
+  min-width: 0;
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  color: var(--ink);
+  cursor: pointer;
   .title {
-    @include poppins400(14px);
-    color: var(--main-font-color);
+    @include geist500(13px);
+    min-width: 0;
   }
-  svg path:not(.savings) {
-    stroke: $red;
-  }
-  svg .savings {
-    fill: $red;
+  .svg-icon {
+    width: 24px;
+    height: 24px;
   }
   &:hover {
-    background: $red;
-    .title {
-      color: white;
-    }
-    svg path:not(.savings) {
-      stroke: white;
-    }
-    svg .savings {
-      fill: white;
-    }
+    background: var(--hover);
   }
+  &:active {
+    transform: scale(0.96);
+  }
+  transition: transform var(--motion-fast) var(--ease-snappy),
+    background var(--motion-fast) var(--ease-snappy);
 }

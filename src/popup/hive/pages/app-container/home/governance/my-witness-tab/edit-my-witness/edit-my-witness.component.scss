@@ -8,6 +8,10 @@
   flex-direction: column;
   row-gap: 8px;
 
+  .custom-input .input-container input {
+    @include mono(15px);
+  }
+
   .field {
     display: flex;
     align-items: flex-end;

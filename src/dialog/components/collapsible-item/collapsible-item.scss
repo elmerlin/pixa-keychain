@@ -1,49 +1,41 @@
 pre {
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: anywhere;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
 }
 .collapsible-title {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  flex-direction: row;
   cursor: pointer;
+  padding-right: 28px;
 }
-
 .field.collapsible {
   flex-direction: column;
   position: relative;
-
   .operation-item-content {
+    width: 100%;
+    min-width: 0;
+    padding-right: 28px;
+    overflow-wrap: anywhere;
+    font-family: var(--font-mono);
+    font-size: 13px;
     pre {
-      user-select: none !important;
-      margin: 0;
+      @include mono(12px);
+      user-select: text;
     }
   }
   .svg-icon {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     top: 0;
     right: 0;
-    justify-content: flex-end;
     cursor: pointer;
-
-    div {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-  &:hover {
-    .svg-icon:not(.checked) {
-      svg {
-        path {
-          stroke: $red;
-        }
-      }
+    color: var(--inkSecondary);
+    &:hover {
+      color: var(--ink);
     }
   }
 }

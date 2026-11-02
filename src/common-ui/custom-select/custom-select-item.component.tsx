@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import React, { BaseSyntheticEvent } from 'react';
 import { OptionItem } from 'src/common-ui/custom-select/custom-select.component';
 import { SVGIcons } from 'src/common-ui/icons.enum';
@@ -38,14 +39,22 @@ export function CustomSelectItemComponent<T extends OptionItem>({
         onClick={() => {
           handleItemClicked();
           closeDropdown();
-        }}>
-        {item.img && (
-          <PreloadedImage
-            className="left-image"
-            src={item.img}
-            alt={item.imgBackup}
-          />
-        )}
+        }}
+      >
+        {item.img &&
+          (item.img ===
+          '/assets/images/placeholders/account-placeholder.png' ? (
+            <UsernameAvatar
+              className="left-image"
+              username={String(item.value)}
+            />
+          ) : (
+            <PreloadedImage
+              className="left-image"
+              src={item.img}
+              alt={item.imgBackup}
+            />
+          ))}
         <div className="item-label">{item.label}</div>
         {onDelete && canDelete && !isSelected && (
           <SVGIcon

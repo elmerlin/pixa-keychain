@@ -31,7 +31,7 @@
         max-height: 50%;
       }
       .total {
-        @include poppins500(16px);
+        @include geist500(16px);
         color: var(--main-font-color);
         display: flex;
         justify-content: space-between;

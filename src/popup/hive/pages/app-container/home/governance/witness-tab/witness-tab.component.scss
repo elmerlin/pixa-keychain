@@ -73,10 +73,10 @@
           text-align: center;
         }
         .not-voted {
-          --upvote-downvote-color: #969696;
+          --upvote-downvote-color: var(--border);
         }
         .voted {
-          --upvote-downvote-color: #{$red};
+          --upvote-downvote-color: #{var(--ink)};
         }
         .name {
           display: flex;

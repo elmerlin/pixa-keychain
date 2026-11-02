@@ -1,4 +1,3 @@
-import { Switch } from 'pretty-checkbox-react';
 import React from 'react';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 
@@ -29,18 +28,30 @@ const SwitchComponent = (props: SwitchProps) => {
               : chrome.i18n.getMessage(props.leftValueLabel)}
           </span>
         )}
-        <Switch
-          data-testid={`switch-${props.dataTestId}`}
-          style={{ fontSize: 18 }}
-          onChange={(e) => {
-            props.onChange(
-              e.target.checked ? props.rightValue : props.leftValue,
-            );
-          }}
-          checked={props.selectedValue === props.rightValue}
-          className={
-            props.selectedValue === props.rightValue ? 'checked' : 'not-checked'
-          }></Switch>
+        <label className="switch-control">
+          <input
+            type="checkbox"
+            data-testid={`switch-${props.dataTestId}`}
+            aria-label={
+              props.leftValueLabel
+                ? props.skipLeftTranslation
+                  ? props.leftValueLabel
+                  : chrome.i18n.getMessage(props.leftValueLabel)
+                : props.rightValueLabel
+                ? props.skipRightTranslation
+                  ? props.rightValueLabel
+                  : chrome.i18n.getMessage(props.rightValueLabel)
+                : chrome.i18n.getMessage('popup_html_theme')
+            }
+            onChange={(e) =>
+              props.onChange(
+                e.target.checked ? props.rightValue : props.leftValue,
+              )
+            }
+            checked={props.selectedValue === props.rightValue}
+          />
+          <span className="switch-track" aria-hidden="true" />
+        </label>
         {props.rightValueLabel && (
           <span>
             {props.skipRightTranslation

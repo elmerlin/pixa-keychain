@@ -148,14 +148,15 @@ const RpcNodes = ({
   return (
     <div
       data-testid={`${Screen.SETTINGS_RPC_NODES}-page`}
-      className="rpc-nodes-page">
+      className="rpc-nodes-page"
+    >
       <div className="introduction">
         {chrome.i18n.getMessage('popup_html_rpc_node_text')}
       </div>
 
       <div className="rpc-form-container">
         <div className="rpc-section hive-rpc" data-testid="section-hive-rpc">
-          <div className="title">Hive RPC</div>
+          <div className="title">Pixagram</div>
           <CheckboxPanelComponent
             dataTestId="checkbox-rpc-nodes-automatic-mode"
             title="popup_html_rpc_automatic_mode"
@@ -183,16 +184,29 @@ const RpcNodes = ({
                 background="white"
                 onDelete={deleteCustomHiveRPC}
               />
-              <div
+              <button
+                type="button"
+                aria-label={chrome.i18n.getMessage(
+                  isAddRpcPanelDisplayed
+                    ? 'message_container_close_button'
+                    : 'popup_html_add_rpc_text',
+                )}
                 className={`round-button ${
                   isAddRpcPanelDisplayed ? 'close-button' : 'add-button'
                 }`}
                 data-testid="button-add-rpc"
                 onClick={() =>
                   setIsAddRpcPanelDisplayed(!isAddRpcPanelDisplayed)
-                }>
-                <SVGIcon icon={SVGIcons.MENU_RPC_ADD_BUTTON} />
-              </div>
+                }
+              >
+                <SVGIcon
+                  icon={
+                    isAddRpcPanelDisplayed
+                      ? SVGIcons.MENU_RPC_CLOSE_BUTTON
+                      : SVGIcons.MENU_RPC_ADD_BUTTON
+                  }
+                />
+              </button>
             </div>
           )}
           {!switchAuto && isAddRpcPanelDisplayed && (
@@ -219,7 +233,8 @@ const RpcNodes = ({
                 title="Testnet"
                 checked={addRpcNodeTestnet}
                 onChange={setAddRpcNodeTestnet}
-                skipTranslation={true}></CheckboxComponent>
+                skipTranslation={true}
+              ></CheckboxComponent>
               {addRpcNodeTestnet && (
                 <InputComponent
                   dataTestId="input-node-chain-id"
@@ -236,7 +251,8 @@ const RpcNodes = ({
                 dataTestId="checkbox-set-new-rpc-as-active"
                 title="popup_html_set_new_rpc_as_active"
                 checked={setNewRpcAsActive}
-                onChange={setSetNewRpcAsActive}></CheckboxComponent>
+                onChange={setSetNewRpcAsActive}
+              ></CheckboxComponent>
             </div>
           )}
         </div>

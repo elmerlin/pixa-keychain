@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { AutoCompleteValue } from '@interfaces/autocomplete.interface';
 import { FavoriteUserListName } from '@interfaces/favorite-user.interface';
 import { RootState } from '@popup/multichain/store';
@@ -65,14 +66,9 @@ const FavoriteAccountsItem = ({
     <div className="favorite-accounts-item" onClick={toggleExpandablePanel}>
       <div className="item">
         <div className="item-details">
-          <img
+          <UsernameAvatar
             className="profile-picture"
-            src={'/assets/images/placeholders/account-placeholder.png'}
-            onError={(e: any) => {
-              e.target.onError = null;
-              e.target.src =
-                '/assets/images/placeholders/account-placeholder.png';
-            }}
+            username={favorite.value}
           />
           <div className="names">
             <div className="username">{favorite.value}</div>
@@ -114,7 +110,8 @@ const FavoriteAccountsItem = ({
           <div className="expandable-panel-content">
             <div
               className="favorite-item-button edit"
-              onClick={($event) => edit($event, favorite)}>
+              onClick={($event) => edit($event, favorite)}
+            >
               <SVGIcon icon={SVGIcons.FAVORITE_ACCOUNTS_EDIT} />
               <span className="label">
                 {chrome.i18n.getMessage('html_popup_button_edit_label')}
@@ -122,7 +119,8 @@ const FavoriteAccountsItem = ({
             </div>
             <div
               className="favorite-item-button delete"
-              onClick={($event) => deleteFavorite($event, listName, favorite)}>
+              onClick={($event) => deleteFavorite($event, listName, favorite)}
+            >
               <SVGIcon icon={SVGIcons.FAVORITE_ACCOUNTS_DELETE} />
               <span className="label">
                 {chrome.i18n.getMessage('delete_label')}

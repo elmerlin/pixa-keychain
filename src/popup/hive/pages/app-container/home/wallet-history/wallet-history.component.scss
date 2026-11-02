@@ -22,21 +22,21 @@
       .icon {
         height: 10px;
         width: 15px;
-        transition-duration: 0.25s;
+        transition-duration: var(--motion-soft);
         transition-property: transform;
       }
     }
 
     .filters {
       max-height: 0;
-      transition: max-height 0.25s;
+
       overflow: hidden;
       display: flex;
       flex-direction: column;
       margin: 16px 0px;
 
       .submit-button {
-        width: 120px !important;
+        width: 120px;
       }
 
       .filter-button {
@@ -52,8 +52,8 @@
         cursor: pointer;
         &.selected,
         &:hover {
-          background: $red;
-          color: white;
+          background: var(--raised);
+          color: var(--ink);
         }
       }
       .search-panel {
@@ -73,7 +73,7 @@
             height: 15px;
             font-size: 14px;
             &:focus {
-              box-shadow: unset;
+              box-shadow: none;
             }
             &::-webkit-input-placeholder {
               font-size: 14px;
@@ -121,7 +121,6 @@
 
       .filters {
         max-height: $filter-max-height;
-        transition: max-height 0.25s;
       }
     }
   }
@@ -178,4 +177,9 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+.wallet-history-page .filter-button.selected {
+  font-weight: 600;
+  border-color: var(--ink);
 }

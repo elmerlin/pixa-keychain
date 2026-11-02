@@ -24,7 +24,7 @@
         align-items: center;
         .section-title {
           color: var(--main-font-color);
-          @include poppins500(14px);
+          @include geist500(14px);
           padding: 0;
           margin-left: 8px;
         }
@@ -49,16 +49,16 @@
         }
       }
       .custom-select {
-        background: var(--input-background) !important;
-        border-radius: 12px !important;
+        background: var(--input-background);
+        border-radius: var(--radius-lg);
         .selected-item {
-          @include poppins500(14px);
+          @include geist500(14px);
         }
         .custom-select-dropdown {
           .custom-select-item {
             .left-image {
-              height: 32px !important;
-              width: 32px !important;
+              height: 32px;
+              width: 32px;
               &.shimmer {
                 @include icon-size(32px);
               }
@@ -66,9 +66,9 @@
           }
           .option {
             &:hover {
-              background-color: unset !important;
+              background-color: unset;
               .separator {
-                background: var(--separator-color) !important;
+                background: var(--separator-color);
               }
               .item-label {
                 color: var(--main-font-color);
@@ -79,7 +79,7 @@
       }
 
       .title-list {
-        @include poppins500(14px);
+        @include geist500(14px);
         padding: 0px;
         padding-left: 8px;
       }

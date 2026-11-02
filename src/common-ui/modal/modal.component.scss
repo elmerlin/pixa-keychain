@@ -4,7 +4,7 @@
     min-height: 200px;
 
     .modal-title {
-      @include poppins400(16px);
+      @include geist400(16px);
       color: var(--main-font-color);
     }
     .modal-content {

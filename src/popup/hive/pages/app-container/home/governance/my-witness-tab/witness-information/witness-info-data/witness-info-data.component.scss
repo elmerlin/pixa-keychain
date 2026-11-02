@@ -7,11 +7,11 @@
 
   .label {
     color: var(--main-font-color);
-    @include poppins600(14px);
+    @include geist600(14px);
   }
 
   .value {
-    @include poppins500(12px);
+    @include mono(12px);
     color: var(--main-font-color);
     &.clickable {
       display: flex;
@@ -19,7 +19,7 @@
       row-gap: 4px;
       align-items: center;
       cursor: pointer;
-      padding-bottom: 0px !important;
+      padding-bottom: 0px;
     }
     .icon-component {
       @include icon-size(13px);

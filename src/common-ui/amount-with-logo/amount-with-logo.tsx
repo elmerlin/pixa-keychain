@@ -1,6 +1,6 @@
 import React from 'react';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
+import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 
 type Props = {
   amount: string | number;
@@ -18,12 +18,7 @@ const AmountWithLogo = ({
   title,
 }: Props) => {
   const iconElement = icon ? (
-    <PreloadedImage
-      className="amount-logo"
-      src={`/assets/images/icons/${icon}.svg`}
-      addBackground
-      useDefaultSVG={icon}
-    />
+    <SVGIcon className="amount-logo" icon={icon} />
   ) : null;
 
   const amountElement = (

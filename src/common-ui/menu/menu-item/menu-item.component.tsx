@@ -20,11 +20,21 @@ export const MenuItemComponent = ({
     <div
       className="menu-item-container"
       onMouseOver={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}>
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
         data-testid={'menu-settings-button-' + menuItem.icon}
         className="menu-item"
-        onClick={() => handleMenuItemClick(menuItem)}>
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleMenuItemClick(menuItem);
+          }
+        }}
+        onClick={() => handleMenuItemClick(menuItem)}
+      >
         <SVGIcon icon={menuItem.icon} className="icon" forceHover={hovered} />
         <div className="menu-label">
           {chrome.i18n.getMessage(menuItem.label)}

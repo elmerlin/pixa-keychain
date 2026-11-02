@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { LocalAccountListItem } from '@interfaces/list-item.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
@@ -95,15 +96,9 @@ const AutomatedTasks = ({
         className="selected-account-panel"
         onClick={() => {
           selectProps.methods.dropDown('close');
-        }}>
-        <img
-          src={'/assets/images/placeholders/account-placeholder.png'}
-          onError={(e: any) => {
-            e.target.onError = null;
-            e.target.src =
-              '/assets/images/placeholders/account-placeholder.png';
-          }}
-        />
+        }}
+      >
+        <UsernameAvatar username={selectedLocalAccount} />
         <div className="selected-account-name">{selectedLocalAccount}</div>
       </div>
     );
@@ -120,15 +115,9 @@ const AutomatedTasks = ({
         onClick={() => {
           handleItemClicked(selectProps.item.value);
           selectProps.methods.dropDown('close');
-        }}>
-        <img
-          src={'/assets/images/placeholders/account-placeholder.png'}
-          onError={(e: any) => {
-            e.target.onError = null;
-            e.target.src =
-              '/assets/images/placeholders/account-placeholder.png';
-          }}
-        />
+        }}
+      >
+        <UsernameAvatar username={selectProps.item.value} />
         <div className="account-name">{selectProps.item.label}</div>
       </div>
     );
@@ -139,7 +128,8 @@ const AutomatedTasks = ({
   return (
     <div
       data-testid={`${Screen.SETTINGS_AUTOMATED_TASKS}-page`}
-      className="automated-tasks-page">
+      className="automated-tasks-page"
+    >
       <div className="intro">
         {chrome.i18n.getMessage('popup_html_automated_intro')}
       </div>
@@ -149,7 +139,8 @@ const AutomatedTasks = ({
       <div className="section">
         <div
           className="section-expander"
-          onClick={() => setIsHiveSectionExpanded(!isHiveSectionExpanded)}>
+          onClick={() => setIsHiveSectionExpanded(!isHiveSectionExpanded)}
+        >
           <div className="section-title-logo">
             <div className="section-title">
               {chrome.i18n.getMessage(

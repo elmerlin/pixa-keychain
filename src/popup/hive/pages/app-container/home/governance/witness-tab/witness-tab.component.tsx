@@ -192,7 +192,8 @@ const WitnessTab = ({
       <div
         data-testid="ranking-item"
         className="ranking-item"
-        key={witness.name}>
+        key={witness.name}
+      >
         <div className="rank">
           <div className="active-rank">
             {witness.active_rank ? witness.active_rank : '-'}{' '}
@@ -209,14 +210,16 @@ const WitnessTab = ({
             'PIX1111111111111111111111111111111114T1Anm'
               ? 'not-active'
               : '')
-          }>
+          }
+        >
           <div className="witness-name">@{witness.name}</div>
           {witness.url && ValidUrl.isWebUri(witness.url) && (
             <SVGIcon
               dataTestId={`link-to-witness-page-${witness.name}`}
               onClick={() => chrome.tabs.create({ url: witness.url })}
               icon={SVGIcons.GOVERNANCE_WITNESS_LINK}
-              className="link-to-witness-page"></SVGIcon>
+              className="link-to-witness-page"
+            ></SVGIcon>
           )}
         </div>
         <SVGIcon
@@ -229,7 +232,11 @@ const WitnessTab = ({
               ? 'using-proxy-button'
               : '')
           }
-          icon={SVGIcons.GOVERNANCE_WITNESS_UPVOTE_DOWNVOTE}
+          icon={
+            votedWitnesses.includes(witness.name)
+              ? SVGIcons.SELECT_ACTIVE
+              : SVGIcons.GOVERNANCE_WITNESS_UPVOTE_DOWNVOTE
+          }
           onClick={() => handleVotedButtonClick(witness)}
           tooltipPosition="left"
           tooltipMessage={
@@ -266,7 +273,8 @@ const WitnessTab = ({
         onClick={() =>
           chrome.tabs.create({ url: `${Config.explorer.baseURL}/witnesses` })
         }
-        className="link-to-arcange">
+        className="link-to-arcange"
+      >
         <div>
           {chrome.i18n.getMessage('html_popup_link_to_witness_website')}
         </div>
@@ -295,14 +303,16 @@ const WitnessTab = ({
                 checked={displayVotedOnly}
                 onChange={() => {
                   setDisplayVotedOnly(!displayVotedOnly);
-                }}></CheckboxPanelComponent>
+                }}
+              ></CheckboxPanelComponent>
               <CheckboxPanelComponent
                 dataTestId="switches-panel-witness-hide_inactive"
                 title="html_popup_witness_hide_inactive"
                 checked={hideNonActive}
                 onChange={() => {
                   setHideNonActive(!hideNonActive);
-                }}></CheckboxPanelComponent>
+                }}
+              ></CheckboxPanelComponent>
             </div>
           </div>
 

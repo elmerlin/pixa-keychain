@@ -1,16 +1,12 @@
 .separator {
-  background: var(--separator-color);
+  background: var(--border);
   align-self: center;
-
+  flex-shrink: 0;
   &.horizontal {
-    width: 80%;
-    height: 2px;
-    min-height: 2px;
-    &.full-size {
-      width: 100%;
-    }
+    width: 100%;
+    height: 1px;
+    min-height: 1px;
   }
-
   &.vertical {
     height: 100%;
     width: 1px;

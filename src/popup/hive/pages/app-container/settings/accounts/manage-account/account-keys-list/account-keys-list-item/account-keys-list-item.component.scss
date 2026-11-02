@@ -3,7 +3,7 @@
   flex-direction: column;
   row-gap: 8px;
   padding: 20px;
-  border-radius: 22px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--card-border);
   background: var(--card-background);
   .top-panel {
@@ -16,7 +16,7 @@
       align-items: center;
       column-gap: 8px;
       .key-name {
-        @include poppins600(14px);
+        @include geist600(14px);
         color: var(--main-font-color);
       }
     }
@@ -32,21 +32,21 @@
     row-gap: 6px;
 
     .key-field {
-      @include poppins400(12px);
+      @include mono(12px);
       cursor: pointer;
       color: var(--main-font-color);
       &.wrong-key {
-        color: $red;
+        color: var(--ink);
       }
     }
 
     .tool-tip-custom {
-      margin-top: -40px !important;
+      margin-top: -40px;
     }
 
     .using-authorized-account {
       cursor: pointer;
-      @include poppins400(12px);
+      @include geist400(12px);
       color: var(--main-font-color);
     }
   }

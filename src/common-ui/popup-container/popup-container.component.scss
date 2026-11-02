@@ -1,48 +1,44 @@
 .popup-container {
-  height: 100%;
-  width: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 36px;
-  box-sizing: border-box;
+  inset: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 16px;
   z-index: 6;
-
   .overlay {
-    height: 100%;
-    width: 100%;
-    opacity: 0.8;
-    background: $dark-blue;
     position: absolute;
-    margin: -36px;
+    inset: 0;
+    background: var(--scrim);
   }
   .popup-content {
-    z-index: 3;
-    @include small-card();
+    position: relative;
+    display: flex;
     flex-direction: column;
-    row-gap: 24px;
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 24px;
+    max-height: 100%;
     overflow-y: auto;
-    max-height: 90%;
-
-    .popup-title {
-      @include poppins500(20px);
-      color: var(--main-font-color);
-    }
-
-    .caption {
-      @include caption();
-      padding: 0 24px;
-    }
-
-    .popup-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      column-gap: 8px;
-      flex: 1;
-      width: 100%;
-    }
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--overlay-shadow);
+  }
+  .popup-title {
+    @include geist600(20px);
+    letter-spacing: -0.02em;
+  }
+  .caption {
+    @include geist400(13px);
+    color: var(--inkSecondary);
+    padding: 0;
+  }
+  .popup-footer {
+    display: flex;
+    gap: 8px;
+    width: 100%;
   }
 }

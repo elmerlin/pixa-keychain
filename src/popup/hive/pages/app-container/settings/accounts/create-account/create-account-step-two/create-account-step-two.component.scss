@@ -12,12 +12,12 @@
 
     .key-name,
     .key-label {
-      @include poppins600(14px);
+      @include geist600(14px);
       color: var(--main-font-color);
     }
     .key {
-      @include poppins400(12px);
-      color: $light-grey;
+      @include mono(12px);
+      color: var(--inkMuted);
     }
   }
 

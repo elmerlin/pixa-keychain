@@ -12,7 +12,7 @@
   }
 
   .shortcuts-intro {
-    @include poppins400(14px);
+    @include geist400(14px);
     color: var(--main-font-color);
     padding: 0;
     line-height: 1.5;
@@ -21,20 +21,20 @@
 
   .shortcuts-add-button {
     width: 100%;
-    
+
     &.alternative {
-      border-radius: 24px !important;
-      padding: 14px 20px !important;
-      height: auto !important;
-      min-height: auto !important;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      height: auto;
+      min-height: auto;
       position: relative;
-      
+
       .button-label {
         font-weight: 500;
         font-size: 15px;
         text-align: center;
       }
-      
+
       .logo {
         position: absolute;
         left: 20px;
@@ -51,7 +51,7 @@
   .shortcuts-list {
     display: flex;
     flex-direction: column;
-    margin: 0 -24px; // Break out of parent padding for full-width separators
+    margin: 0;
   }
 
   .shortcuts-empty {
@@ -65,10 +65,10 @@
     align-items: flex-start;
     gap: 16px;
     padding: 14px 16px;
-    margin: 0 24px 12px 24px; 
+    margin: 0 24px 12px 24px;
     background: var(--card-background);
     border: 1px solid var(--card-border);
-    border-radius: 24px;
+    border-radius: var(--radius-md);
   }
 
   .shortcut-details {
@@ -96,7 +96,7 @@
     align-items: stretch;
     flex-shrink: 0;
     border: 1px solid var(--card-border);
-    border-radius: 24px;
+    border-radius: var(--radius-md);
     overflow: hidden;
   }
 
@@ -109,7 +109,7 @@
     justify-content: center;
     margin: 8px 0px;
     padding: 0 10px;
-    }
+  }
 
   .shortcut-action-icon {
     display: flex;
@@ -119,14 +119,13 @@
     color: var(--main-font-color);
     margin: 8px 0px;
     padding: 0 10px;
-    transition: background-color 0.2s;
+    transition: background-color var(--motion-soft);
     border-left: 1px solid var(--card-border);
 
-    
     &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
+      background-color: var(--raised);
     }
-    
+
     svg {
       width: 24px;
       height: 24px;
@@ -139,7 +138,7 @@
     gap: 16px;
     background: var(--card-background);
     border: 1px solid var(--card-border);
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     padding: 16px;
   }
 
@@ -151,7 +150,7 @@
 
   .shortcuts-account-selector {
     .label {
-      @include poppins500(14px);
+      @include geist500(14px);
       margin-bottom: 8px;
       color: var(--main-font-color);
     }
@@ -159,8 +158,8 @@
     .select-account-section {
       margin: 0;
       padding: 5px;
-      border: 1px solid var(--input-border) !important;
-      border-radius: 66px !important;
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-md);
 
       .react-dropdown-select-dropdown {
         top: 52px;
@@ -172,7 +171,7 @@
 
         .select-account-select {
           height: auto;
-          border-width: 0px !important;
+          border-width: 0px;
         }
       }
     }

@@ -1,14 +1,16 @@
 .balance-section {
   display: flex;
   flex-direction: column;
-  row-gap: 4px;
+  gap: 8px;
+  padding: 16px;
   align-items: center;
   .label {
-    @include poppins400(14px);
-    color: $dark-grey;
+    @include eyebrow;
   }
   .value {
-    @include poppins700(24px);
-    color: var(--main-font-color);
+    @include mono(24px);
+    color: var(--ink);
+    text-align: center;
+    max-width: 100%;
   }
 }

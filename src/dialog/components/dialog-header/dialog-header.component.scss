@@ -1,15 +1,16 @@
 .dialog-header {
   display: flex;
-  column-gap: 16px;
-  height: 48px;
-  padding: 0 24px 16px 24px;
   align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  flex-shrink: 0;
   .title {
-    color: var(--main-font-color);
-    @include poppins500(20px);
+    @include geist600(24px);
+    letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .svg-icon {
-    @include icon-size(50px);
-    height: 48px;
+    width: 32px;
+    height: 32px;
   }
 }

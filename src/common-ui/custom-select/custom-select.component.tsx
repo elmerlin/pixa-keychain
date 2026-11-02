@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import React, { useEffect, useRef, useState } from 'react';
 import Select, { SelectRenderer } from 'react-dropdown-select';
 import { CustomSelectItemComponent } from 'src/common-ui/custom-select/custom-select-item.component';
@@ -57,13 +58,21 @@ export function ComplexeCustomSelect<T extends OptionItem>(
         className="selected-item"
         onClick={() => {
           selectProps.methods.dropDown('close');
-        }}>
-        {itemProps.selectedItem.img && (
-          <PreloadedImage
-            className="left-image"
-            src={itemProps.selectedItem.img}
-          />
-        )}
+        }}
+      >
+        {itemProps.selectedItem.img &&
+          (itemProps.selectedItem.img ===
+          '/assets/images/placeholders/account-placeholder.png' ? (
+            <UsernameAvatar
+              className="left-image"
+              username={String(itemProps.selectedItem.value)}
+            />
+          ) : (
+            <PreloadedImage
+              className="left-image"
+              src={itemProps.selectedItem.img}
+            />
+          ))}
         <span>{itemProps.selectedItem.label}</span>
       </div>
     );

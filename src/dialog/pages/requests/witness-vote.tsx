@@ -36,7 +36,10 @@ const WitnessVote = (props: Props) => {
       {renderUsername()}
       <UsernameWithAvatar title="dialog_witness" username={data.witness} />
       <Separator type={'horizontal'} fullSize />
-      <RequestItem title="dialog_vote" content={JSON.stringify(data.vote)} />
+      <RequestItem
+        title="dialog_vote"
+        content={chrome.i18n.getMessage(data.vote ? 'common_yes' : 'common_no')}
+      />
     </Operation>
   );
 };

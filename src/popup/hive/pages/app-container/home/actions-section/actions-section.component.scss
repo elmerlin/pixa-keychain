@@ -1,34 +1,27 @@
 .actions-section {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0px 24px;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  width: calc(100% - 32px);
-  box-sizing: border-box;
-  bottom: 0;
-  background: var(--bottom-bar-background);
-  border-radius: 24px 24px 0px 0px;
-  border: 1px solid var(--bottom-bar-border);
-  border-bottom: 0;
   left: 16px;
-  height: 90px;
-  box-shadow: 0px 8px 26px 0px rgba(0, 0, 0, 0.08);
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 500ms;
+  bottom: 16px;
+  width: calc(100% - 32px);
+  height: 56px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--overlay-shadow);
   z-index: 2;
-
+  transition: transform var(--motion-soft) var(--ease-gentle);
   &:has(+ .proposal-voting-section.opened) {
-    bottom: 61px;
+    bottom: 72px;
   }
   &:has(+ .proposal-voting-section.closed) {
-    bottom: 31px;
-  }
-  &:has(+ .proposal-voting-section.hide) {
-    bottom: 0px;
+    bottom: 40px;
   }
   &.down {
-    bottom: -90px;
+    transform: translateY(100px);
   }
 }

@@ -2,7 +2,7 @@
   .popup-content {
     width: -webkit-fill-available;
     margin: 0px 0px;
-    row-gap: 12px !important;
+    row-gap: 12px;
     padding-bottom: 0px;
     .popup-title {
       text-align: center;
@@ -14,7 +14,7 @@
         display: inline-block;
         width: 330px;
         .account-title {
-          @include poppins400(14px);
+          @include geist400(14px);
           color: var(--main-font-color);
           margin-bottom: 8px;
         }
@@ -26,7 +26,7 @@
           margin-bottom: 8px;
 
           .vesting-route-title {
-            @include poppins400(14px);
+            @include geist400(14px);
             color: var(--main-font-color);
             &.old-route {
               margin-left: 16px;
@@ -56,7 +56,7 @@
               justify-content: space-between;
               align-items: center;
               .title {
-                @include poppins400(12px);
+                @include geist400(12px);
                 color: var(--main-font-color);
               }
             }
@@ -64,7 +64,7 @@
               display: flex;
               flex-direction: column;
               .title {
-                @include poppins400(12px);
+                @include geist400(12px);
                 color: var(--main-font-color);
               }
 
@@ -85,7 +85,7 @@
           justify-content: space-between;
           .vesting-action-button {
             width: 45%;
-            @include poppins600(12px);
+            @include geist600(12px);
           }
         }
       }

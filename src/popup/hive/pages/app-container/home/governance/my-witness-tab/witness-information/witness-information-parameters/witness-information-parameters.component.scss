@@ -11,12 +11,13 @@
   }
 
   .label-title {
-    @include poppins600(14px);
+    @include geist600(14px);
     color: var(--main-font-color);
   }
 
   .smaller-text {
-    @include poppins500(12px);
+    @include mono(12px);
+    overflow-wrap: anywhere;
     color: var(--main-font-color);
   }
 }

@@ -52,6 +52,23 @@ export const SVGIcon = ({
     return (
       <ReactSVG
         data-testid={dataTestId}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        aria-label={
+          onClick
+            ? tooltipMessage
+              ? skipTooltipTranslation
+                ? tooltipMessage
+                : chrome.i18n.getMessage(tooltipMessage)
+              : icon.split('/').pop()?.replace(/-/g, ' ')
+            : undefined
+        }
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+            event.preventDefault();
+            onClick(event);
+          }
+        }}
         onMouseOver={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={($event) => {
@@ -72,7 +89,8 @@ export const SVGIcon = ({
         message={tooltipMessage}
         position={tooltipPosition}
         delayShow={tooltipDelayShow ?? 500}
-        skipTranslation={skipTooltipTranslation}>
+        skipTranslation={skipTooltipTranslation}
+      >
         {getIconTemplate({
           dataTestId,
           onClick,

@@ -1,93 +1,127 @@
 .operation {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
-  margin: 0px -16px;
-  row-gap: 16px;
-
+  min-height: 0;
+  gap: 16px;
   .operation-header {
-    padding: 0 12px 12px 12px;
-    &.operation-red {
-      color: $red;
-    }
+    color: var(--inkSecondary);
+    font-size: 13px;
+    flex-shrink: 0;
+    overflow-wrap: anywhere;
   }
   .operation-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 12px;
     width: 100%;
-
-    .fields {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      box-sizing: border-box;
-      row-gap: 16px;
-      padding: 16px 24px;
-      color: var(--main-font-color);
-      background: var(--card-background);
-      border-radius: 20px;
-      border: 1px solid var(--card-border);
-      .field {
-        display: flex;
-        justify-content: space-between;
-        column-gap: 16px;
-        user-select: auto;
-        pre {
-          user-select: all;
-        }
-        .label {
-          @include poppins500(14px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .value {
-          @include poppins400(14px);
-          overflow-wrap: anywhere;
-          max-width: 70%;
-          text-align: right;
-          user-select: text;
-          min-height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          ul {
-            margin: 0;
-          }
-          &.xs-font {
-            font-size: 11px;
-          }
-        }
-      }
+    min-height: 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .field {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    user-select: text;
+    min-width: 0;
+    .label {
+      font: 400 13px/1.5 var(--font-body);
+      color: var(--inkSecondary);
+      min-width: 64px;
     }
-    .balance-container {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      column-gap: 4px;
-      width: fit-content;
-      margin: 0 auto;
-      text-align: center;
-
-      .right-arrow-icon {
-        height: 16px;
-        svg {
-          width: 16px;
-          height: 16px;
-        }
+    .value {
+      @include mono(13px);
+      color: var(--ink);
+      max-width: 70%;
+      min-width: 0;
+      text-align: right;
+      overflow-wrap: anywhere;
+      ul {
+        margin: 0;
+        padding-left: 16px;
       }
-    }
-    .insufficient-balance {
-      color: $red;
+      &.xs-font {
+        font-size: 12px;
+      }
     }
   }
-
+  .balance-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    @include mono(12px);
+    color: var(--inkSecondary);
+    .right-arrow-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .insufficient-balance {
+    color: var(--danger);
+  }
   .operation-buttons {
     display: flex;
-    align-items: center;
-    column-gap: 12px;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
   }
+}
+.operation > .scrollable {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.operation-details {
+  min-width: 0;
+}
+
+.operation .request-site {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 12px;
+  min-width: 0;
+}
+.operation .request-site .label {
+  @include eyebrow;
+}
+.operation .request-site .domain {
+  @include mono(13px);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.operation .operation-header.operation-red {
+  color: var(--danger);
+}
+.operation .operation-buttons .submit-button {
+  min-height: 44px;
+}
+
+.operation .operation-intro {
+  flex-shrink: 0;
+  min-width: 0;
+  max-height: 46%;
+  overflow-y: auto;
+}
+.operation .operation-intro .dialog-header {
+  padding-bottom: 12px;
 }

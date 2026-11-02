@@ -1,18 +1,16 @@
 .summary-panel {
-  background-color: $grey-transparent;
-  margin: 0px -24px;
-  padding: 16px 32px;
+  background: var(--raised);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  row-gap: 16px;
-  min-height: 50px;
-  user-select: none;
+  gap: 12px;
   .panel-row {
     display: flex;
-    font-size: 20px;
+    gap: 16px;
     justify-content: space-between;
-
+    font-size: 15px;
+    min-width: 0;
     &.clickable {
       cursor: pointer;
     }

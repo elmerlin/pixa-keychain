@@ -1,47 +1,30 @@
 .action-button {
+  border: 0;
+  padding: 0;
+  height: 100%;
+  background: transparent;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
   cursor: pointer;
-  row-gap: 8px;
-  user-select: none;
-  width: 55px;
-
+  color: var(--ink);
   .icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 54px;
-    border: 1px solid var(--bottom-bar-border);
-    border-radius: 0px 0px 74px 74px;
-    border-top: 0px;
-    transition: 0.225s linear;
-
-    .icon {
-      @include icon-size(24px);
-      svg path {
-        stroke: $red;
-      }
-    }
+    width: 24px;
+    height: 24px;
   }
-
-  &:hover {
-    .icon-container {
-      background: $red;
-      -webkit-box-shadow: 0px 4px 10px 0px rgba(227, 19, 53, 0.3);
-      -moz-box-shadow: 0px 4px 10px 0px rgba(227, 19, 53, 0.3);
-      box-shadow: 0px 4px 10px 0px rgba(227, 19, 53, 0.3);
-      .icon svg path {
-        stroke: white;
-      }
-    }
+  .icon {
+    width: 24px;
+    height: 24px;
   }
-
   .label {
-    color: $lighter-grey;
-    text-align: center;
-    @include poppins500(14px);
+    @include geist500(15px);
+  }
+  &:hover {
+    color: var(--inkSecondary);
   }
 }

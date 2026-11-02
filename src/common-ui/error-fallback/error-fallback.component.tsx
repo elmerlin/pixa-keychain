@@ -22,10 +22,16 @@ export const ErrorFallback = ({ error, theme, chain }: any) => {
         {chrome.i18n.getMessage('error_message_title')}
       </div>
 
-      <div className="detail">
-        <div className="message">{error.message.toString()}</div>
-        <div className="stack">{error.stack.toString()}</div>
-      </div>
+      <p className="recovery">
+        {chrome.i18n.getMessage('error_message_recovery')}
+      </p>
+      <details className="detail">
+        <summary>{chrome.i18n.getMessage('error_message_details')}</summary>
+        <div className="diagnostics">
+          <div className="message">{error.message.toString()}</div>
+          <div className="stack">{error.stack.toString()}</div>
+        </div>
+      </details>
       <ButtonComponent
         onClick={() => handleClickOnCopy()}
         label="html_popup_copy_error"

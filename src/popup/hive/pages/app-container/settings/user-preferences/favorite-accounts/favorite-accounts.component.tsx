@@ -62,62 +62,10 @@ const FavoriteAccounts = ({
     setFavoriteAccountsList([
       {
         name: FavoriteUserListName.USERS,
-        list: favoriteUsers[activeAccount.name!],
+        list: favoriteUsers?.[activeAccount.name!] ?? [],
       },
     ]);
   };
-
-  // const handleItemClicked = (accountName: string) => {
-  //   const itemClicked = accounts.find(
-  //     (account: LocalAccount) => account.name === accountName,
-  //   );
-  //   loadActiveAccount(itemClicked!);
-  // };
-
-  // const customLabelRender = (
-  //   selectProps: SelectRenderer<LocalAccountListItem>,
-  // ) => {
-  //   return (
-  //     <div
-  //       className="selected-account-panel"
-  //       onClick={() => {
-  //         selectProps.methods.dropDown('close');
-  //       }}>
-  //       <img
-  //         src={'/assets/images/placeholders/account-placeholder.png'}
-  //         onError={(e: any) => {
-  //           e.target.onError = null;
-  //           e.target.src = '/assets/images/placeholders/account-placeholder.png';
-  //         }}
-  //       />
-  //       <div className="selected-account-name">{selectedLocalAccount}</div>
-  //     </div>
-  //   );
-  // };
-  // const customItemRender = (
-  //   selectProps: SelectItemRenderer<LocalAccountListItem>,
-  // ) => {
-  //   return (
-  //     <div
-  //       data-testid={`select-account-item-${selectProps.item.label}`}
-  //       className={`select-account-item ${
-  //         selectedLocalAccount === selectProps.item.value ? 'selected' : ''
-  //       }`}
-  //       onClick={() => {
-  //         handleItemClicked(selectProps.item.value);
-  //         selectProps.methods.dropDown('close');
-  //       }}>
-  //       <img
-  //         src={'/assets/images/placeholders/account-placeholder.png'}
-  //         onError={(e: any) => {
-  //           e.target.onError = null;
-  //           e.target.src = '/assets/images/placeholders/account-placeholder.png';
-  //         }}
-  //       />
-  //       <div className="account-name">{selectProps.item.label}</div>
-  //     </div>
-  //   );
-  // };
 
   const handleDeleteFavorite = (
     listName: FavoriteUserListName,
@@ -173,7 +121,8 @@ const FavoriteAccounts = ({
   return (
     <div
       data-testid={`${Screen.SETTINGS_FAVORITE_ACCOUNTS}-page`}
-      className="favorite-accounts-page">
+      className="favorite-accounts-page"
+    >
       <SelectAccountSectionComponent background="white" fullSize />
       <FavoriteAccountsListComponent
         key={`${Math.random().toFixed(6).toString()}-${

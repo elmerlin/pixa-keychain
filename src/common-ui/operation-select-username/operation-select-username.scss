@@ -15,16 +15,16 @@
       box-sizing: border-box;
       width: 100%;
       font-size: $input-font-size;
-      @include poppins500(15px);
+      @include geist500(15px);
       user-select: none;
       color: var(--main-font-color);
       border: 1px solid var(--card-border);
       background: var(--card-background);
       min-width: 120px;
       height: 52px;
-      border-radius: 66px;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--motion-soft) ease;
 
       .user-avatar {
         height: 40px;
@@ -43,7 +43,7 @@
         width: 24px;
         height: 10px;
         color: var(--main-font-color);
-        transition: transform 0.2s ease;
+        transition: transform var(--motion-soft) ease;
       }
     }
 
@@ -54,12 +54,12 @@
       right: 0;
       background-color: var(--card-background);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       max-height: 210px;
       overflow-y: auto;
       z-index: 1000;
       @include radius-bound-dropdown-scrollbar;
-      @include poppins500(14px);
+      @include geist500(14px);
       overflow: scroll;
 
       .option-item {
@@ -69,19 +69,19 @@
         padding: 10px 6px;
         box-sizing: border-box;
         cursor: pointer;
-        transition: background-color 0.2s ease;
+        transition: background-color var(--motion-soft) ease;
         position: relative;
 
         &:hover {
-          background-color: $red;
-          color: white;
+          background-color: var(--raised);
+          color: var(--ink);
 
           .username {
-            color: white;
+            color: var(--ink);
           }
 
           .active-icon {
-            color: white;
+            color: var(--ink);
           }
         }
 
@@ -89,15 +89,15 @@
           background-color: var(--card-background);
 
           &:hover {
-            background-color: $red;
-            color: white;
+            background-color: var(--raised);
+            color: var(--ink);
 
             .username {
-              color: white;
+              color: var(--ink);
             }
 
             .active-icon {
-              color: white;
+              color: var(--ink);
             }
           }
         }
@@ -118,7 +118,7 @@
         .active-icon {
           width: 20px;
           height: 20px;
-          color: $red;
+          color: var(--ink);
           margin-right: 10px;
         }
       }

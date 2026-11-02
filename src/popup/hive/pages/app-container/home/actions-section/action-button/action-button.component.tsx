@@ -14,17 +14,19 @@ const ActionButton = ({
 }: PropsType) => {
   const [hovered, setHovered] = useState(false);
   return (
-    <div
+    <button
+      type="button"
       data-testid={`action-button-${label}`}
       className="action-button"
       onClick={() => navigateToWithParams(nextScreen, nextScreenParams)}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}>
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="icon-container">
         <SVGIcon icon={icon} className="icon" forceHover={hovered} hoverable />
       </div>
       <div className="label">{chrome.i18n.getMessage(label)}</div>
-    </div>
+    </button>
   );
 };
 

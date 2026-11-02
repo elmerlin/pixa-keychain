@@ -24,6 +24,10 @@
       height: 40px;
       width: 56px;
 
+      svg {
+        width: 24px;
+        height: 24px;
+      }
       > div {
         display: flex;
         align-items: center;
@@ -38,13 +42,13 @@
       flex: 1;
       margin-right: 12px;
       .detail {
-        @include poppins400(13px);
+        @include mono(13px);
         color: var(--main-font-color);
         flex: 1;
       }
       .date {
-        @include poppins400(12px);
-        color: $light-grey;
+        @include mono(12px);
+        color: var(--inkMuted);
       }
     }
   }
@@ -56,15 +60,15 @@
 
   .expandable-panel {
     max-height: 0;
-    transition: max-height 0.25s ease-out;
+
     overflow: hidden;
     font-size: 14px;
 
     &.opened {
-      max-height: 500px;
-      transition: max-height 0.25s ease-in;
+      max-height: none;
+
       margin-top: 8px;
-      @include poppins400(13px);
+      @include geist400(13px);
       color: var(--main-font-color);
       padding: 0px 12px 12px 12px;
     }

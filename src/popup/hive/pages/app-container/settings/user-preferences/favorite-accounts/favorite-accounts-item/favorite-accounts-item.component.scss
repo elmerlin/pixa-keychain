@@ -6,7 +6,7 @@
   row-gap: 12px;
 
   background: var(--card-background);
-  border-radius: 22px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--card-color);
 
   .item {
@@ -29,13 +29,13 @@
       .names {
         flex: 1;
         .username {
-          @include poppins600(15px);
+          @include geist600(15px);
           color: var(--main-font-color);
         }
 
         .label {
-          @include poppins400(14px);
-          color: $dark-grey;
+          @include geist400(14px);
+          color: var(--inkSecondary);
         }
       }
 
@@ -55,7 +55,7 @@
         border: unset;
         border-bottom: 1px solid var(--card-border);
         min-width: unset;
-        outline: none !important;
+        outline: none;
         width: 100px;
         margin-right: 8px;
         background: transparent;
@@ -82,16 +82,16 @@
         align-items: center;
         justify-content: center;
         column-gap: 8px;
-        border-radius: 13px;
+        border-radius: var(--radius-md);
         border: 1px solid var(--card-border);
         padding: 14px 48px;
         cursor: pointer;
         .label {
-          @include josefin500(14px);
+          @include geist500(14px);
           color: var(--main-font-color);
         }
         &:hover {
-          box-shadow: 0px 4px 9px 0px var(--button-alternative-shadow-color);
+          box-shadow: none;
         }
       }
     }

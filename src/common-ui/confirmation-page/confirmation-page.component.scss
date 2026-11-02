@@ -1,68 +1,61 @@
 .confirmation-page {
-  @include pageLayoutRowGap;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 16px;
   .confirmation-top {
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
-    padding: 0px 24px;
+    gap: 16px;
+    min-height: 0;
     flex: 1;
-    &.twofa {
-      max-height: 400px;
+    overflow-y: auto;
+    padding: 0 16px;
+  }
+  .introduction {
+    @include geist400(13px);
+    color: var(--inkSecondary);
+  }
+  .warning-message {
+    @include geist400(13px);
+    color: var(--danger);
+  }
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .field {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    .label {
+      font-size: 13px;
+      color: var(--inkSecondary);
     }
-    .introduction {
-      padding: 0px 32px;
-      @include caption;
-    }
-
-    .warning-message {
-      @include caption;
-      color: $red;
-    }
-
-    .fields {
-      display: flex;
-      flex-direction: column;
-      row-gap: 16px;
-      max-height: 324px;
-      overflow: auto;
-      padding: 16px 24px;
-      color: var(--main-font-color);
-      background: var(--card-background);
-      border-radius: 20px;
-      border: 1px solid var(--card-border);
-
-      .field {
-        display: flex;
-        justify-content: space-between;
-        .label {
-          @include poppins500(14px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .value {
-          max-width: 70%;
-          text-align: right;
-          user-select: text;
-          @include poppins400(14px);
-          min-height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          &.xs-font {
-            font-size: 11px;
-          }
-        }
+    .value {
+      @include mono(13px);
+      min-width: 0;
+      max-width: 70%;
+      text-align: right;
+      user-select: text;
+      overflow-wrap: anywhere;
+      &.xs-font {
+        font-size: 12px;
       }
     }
   }
-
   .bottom-panel {
-    position: absolute;
-    left: 24px;
-    bottom: 32px;
-    width: calc(100% - 48px);
     display: flex;
-    column-gap: 16px;
+    gap: 8px;
+    padding: 16px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
   }
 }

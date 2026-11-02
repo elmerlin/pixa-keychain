@@ -3,10 +3,10 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
-  transition: all 0.2s ease;
+  transition: all var(--motion-soft) ease;
 
   .title {
-    @include poppins500(14px);
+    @include geist500(14px);
     color: var(--main-font-color);
     margin-right: 12px;
   }
@@ -30,15 +30,24 @@
     }
 
     &.loading-placeholder {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background: var(--primary);
       background-size: 200% 100%;
-      // animation: loading-shimmer 1.5s infinite;
       border: 1px solid var(--card-border);
     }
   }
 
   .amount {
-    @include poppins400(14px);
+    @include geist400(14px);
     color: var(--main-font-color);
   }
+}
+
+.amount-with-logo {
+  min-width: 0;
+  max-width: 100%;
+}
+.amount-with-logo .amount {
+  @include mono(13px);
+  overflow-wrap: anywhere;
+  min-width: 0;
 }

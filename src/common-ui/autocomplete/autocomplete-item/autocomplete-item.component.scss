@@ -1,5 +1,5 @@
 .autocomplete-item {
-  @include poppins500(14px);
+  @include geist500(14px);
   height: 35px;
   cursor: pointer;
   display: flex;
@@ -14,8 +14,8 @@
     }
   }
   &:hover {
-    background-color: $red;
-    color: white;
+    background-color: var(--raised);
+    color: var(--ink);
     margin-left: -20px;
     padding-left: 40px;
   }

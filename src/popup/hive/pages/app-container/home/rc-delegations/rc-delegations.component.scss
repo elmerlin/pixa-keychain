@@ -41,11 +41,11 @@
       display: flex;
       padding-top: 2px;
       box-sizing: border-box;
-      @include poppins500(13px);
+      @include geist500(13px);
       cursor: pointer;
       &:hover {
-        background: $red;
-        color: white;
+        background: var(--raised);
+        color: var(--ink);
       }
     }
   }

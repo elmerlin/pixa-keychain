@@ -7,7 +7,7 @@
     margin: 0px 24px;
     background: var(--card-background);
     border: 1px solid var(--card-border);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,15 +16,15 @@
     row-gap: 12px;
     .title {
       text-align: center;
-      @include dmSans700(20px);
-      color: $red;
+      @include geist700(20px);
+      color: var(--ink);
       &.success {
-        color: $green-success;
+        color: var(--success);
       }
     }
     .message {
       text-align: center;
-      @include dmSans400(15px);
+      @include geist400(15px);
       color: var(--main-font-color);
       user-select: auto;
     }

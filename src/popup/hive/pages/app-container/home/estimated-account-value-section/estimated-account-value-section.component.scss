@@ -1,48 +1,46 @@
 .estimated-account-value-section {
-  height: 60px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
+  gap: 8px;
+  padding: 8px 16px;
+  align-items: flex-start;
   .label-panel {
     display: flex;
     align-items: center;
-    column-gap: 8px;
+    gap: 8px;
     .label {
-      @include poppins400(14px);
-      color: $light-grey;
-      text-align: center;
+      @include eyebrow;
       cursor: help;
     }
     .icon {
-      height: 16px;
       width: 16px;
+      height: 16px;
     }
   }
   .estimated-value-button-container {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    column-gap: 8px;
-  }
-  .spacing {
-    margin-left: 10px;
+    gap: 8px;
+    min-width: 0;
+    width: 100%;
   }
   .value {
-    @include poppins700(32px);
-    color: var(--home-account-value-color);
-    text-align: center;
+    @include mono(28px);
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    max-width: 100%;
+    overflow-wrap: anywhere;
     cursor: pointer;
-    &.with-margin {
-      margin-bottom: 10px;
-    }
+  }
+  .spacing {
+    margin-left: 8px;
   }
   .account-value-explanation-section {
-    font-size: 18px;
+    font-size: 13px;
   }
 }
 .estimated-account-value-tooltip {
-  max-width: 200px !important;
-  font-size: 15px !important;
+  max-width: 240px;
+  font-size: 13px;
 }

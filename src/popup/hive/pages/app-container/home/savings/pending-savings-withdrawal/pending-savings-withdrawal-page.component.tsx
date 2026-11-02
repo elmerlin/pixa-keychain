@@ -18,6 +18,12 @@ const PendingSavingsWithdrawal = ({
   currency,
   setTitleContainerProperties,
 }: PropsFromRedux & PendingSavingsWithdrawalProps) => {
+  const currencyLabel =
+    currency.toLowerCase() === 'hbd'
+      ? 'PXS'
+      : currency.toLowerCase() === 'hive'
+      ? 'PIXA'
+      : currency;
   useEffect(() => {
     setTitleContainerProperties({
       title: 'popup_html_savings_current_withdrawing',
@@ -28,11 +34,12 @@ const PendingSavingsWithdrawal = ({
   return (
     <div
       className="pending-savings-withdrawal-page"
-      data-testid={`${Screen.PENDING_SAVINGS_WITHDRAWAL_PAGE}-page`}>
+      data-testid={`${Screen.PENDING_SAVINGS_WITHDRAWAL_PAGE}-page`}
+    >
       <div className="list-panel">
         <div className="pending-disclaimer">
           {chrome.i18n.getMessage('popup_html_withdraw_savings_until_message', [
-            currency,
+            currencyLabel,
           ])}
         </div>
         <Separator type="horizontal" />

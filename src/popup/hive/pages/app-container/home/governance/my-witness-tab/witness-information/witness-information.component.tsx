@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import {
   Witness,
@@ -221,14 +222,9 @@ const WitnessInformation = ({
       </div>
       <div className="witness-profile-container">
         <div className="witness-profile">
-          <img
+          <UsernameAvatar
             className="witness-image"
-            src={'/assets/images/placeholders/account-placeholder.png'}
-            onError={(e: any) => {
-              e.target.onError = null;
-              e.target.src =
-                '/assets/images/placeholders/account-placeholder.png';
-            }}
+            username={activeAccount.name!}
           />
           <div className="info-container">
             <div className="witness-name">@{activeAccount.name!}</div>
@@ -244,7 +240,6 @@ const WitnessInformation = ({
                     )}{' '}
                   </>
                 )}
-                {/* {chrome.i18n.getMessage('popup_html_witness_rank_label')}{' '} */}
                 {(witnessRanking?.active_rank as any)?.toString() !==
                   (witnessRanking?.rank as any)?.toString() && (
                   <div>

@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { PrivateKeyType, TransactionOptions } from '@interfaces/keys.interface';
 import { Proposal } from '@interfaces/proposal.interface';
 import { KeysUtils } from '@popup/hive/utils/keys.utils';
@@ -69,7 +70,9 @@ const ProposalItem = ({
   };
 
   const goToCreator = (creator: Proposal['creator']) => {
-    chrome.tabs.create({ url: `${Config.explorer.baseURL}/account/${creator}` });
+    chrome.tabs.create({
+      url: `${Config.explorer.baseURL}/account/${creator}`,
+    });
   };
 
   const processToggleSupport = async (
@@ -121,12 +124,14 @@ const ProposalItem = ({
     <div
       data-testid={`proposal-item-expandable`}
       className={`proposal-item`}
-      key={proposal.proposalId}>
+      key={proposal.proposalId}
+    >
       <div className="title">
         <div>
           <span
             data-testid={`proposal-item-span-go-to-link-${proposal.creator}`}
-            onClick={() => goTo(proposal.link)}>
+            onClick={() => goTo(proposal.link)}
+          >
             #{proposal.id} - {proposal.subject}
           </span>
         </div>
@@ -140,19 +145,16 @@ const ProposalItem = ({
       <div className="additional-info">
         <div className="left-panel">
           <div className="creator">
-            <img
+            <span
               data-testid={`proposal-item-image-go-to-creator-${proposal.creator}`}
               onClick={() => goToCreator(proposal.creator)}
-              src={'/assets/images/placeholders/account-placeholder.png'}
-              onError={(e: any) => {
-                e.target.onError = null;
-                e.target.src =
-                  '/assets/images/placeholders/account-placeholder.png';
-              }}
-            />
+            >
+              <UsernameAvatar username={proposal.creator} />
+            </span>
             <span
               data-testid={`proposal-item-span-go-to-creator-${proposal.creator}`}
-              onClick={() => goToCreator(proposal.creator)}>
+              onClick={() => goToCreator(proposal.creator)}
+            >
               {chrome.i18n.getMessage('popup_html_proposal_by', [
                 proposal.creator,
               ])}
@@ -168,7 +170,11 @@ const ProposalItem = ({
               ' ' +
               (usingProxy || !activeAccount.keys.active ? 'using-proxy' : '')
             }
-            icon={SVGIcons.GOVERNANCE_PROPOSAL_UPVOTE}
+            icon={
+              proposal.voted
+                ? SVGIcons.SELECT_ACTIVE
+                : SVGIcons.GOVERNANCE_PROPOSAL_UPVOTE
+            }
             tooltipPosition="left"
             tooltipMessage={
               !activeAccount.keys.active
@@ -187,12 +193,14 @@ const ProposalItem = ({
             isExpandablePanelOpened
               ? 'expandable-panel opened'
               : 'expandable-panel closed'
-          }>
+          }
+        >
           <CustomTooltip
             message={`${proposal.startDate.format(
               'L',
             )} ${proposal.endDate.format('L')}`}
-            skipTranslation>
+            skipTranslation
+          >
             <div className="extra-info">
               <div className="value">
                 <SVGIcon icon={SVGIcons.GOVERNANCE_PROPOSAL_UPVOTE_VALUE} />
@@ -224,7 +232,8 @@ const ProposalItem = ({
           </CustomTooltip>
           <div
             data-testid={`proposal-item-extra-info-funded-${proposal.creator}`}
-            className={`funded-chip ${proposal.funded}`}>
+            className={`funded-chip ${proposal.funded}`}
+          >
             {chrome.i18n.getMessage(
               `popup_html_proposal_funded_option_${proposal.funded}`,
             )}

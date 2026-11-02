@@ -116,7 +116,10 @@ export const CustomTooltip = ({
       data-testid={dataTestId}
       className={`tooltip-container ${additionalClassName}`}
       onMouseEnter={show}
-      onMouseLeave={hide}>
+      onFocus={show}
+      onMouseLeave={hide}
+      onBlur={hide}
+    >
       <div className="tooltip-anchor" ref={anchor}>
         {children}
       </div>
@@ -134,7 +137,8 @@ export const CustomTooltip = ({
                 position: 'fixed',
                 top: coordinates.y,
                 left: coordinates.x,
-              }}>
+              }}
+            >
               {message}
             </div>
           ) : (
@@ -151,7 +155,8 @@ export const CustomTooltip = ({
               }}
               dangerouslySetInnerHTML={{
                 __html: HtmlUtils.getSafeI18nHtml(message, messageParams),
-              }}></div>
+              }}
+            ></div>
           )}
         </>
       )}

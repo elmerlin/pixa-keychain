@@ -16,41 +16,43 @@ $autoCompleteItemHeight: 30px;
     box-sizing: border-box;
     color: var(--main-font-color);
     border-style: unset;
-    border-radius: 66px;
+    border-radius: var(--radius-md);
+    min-height: 44px;
     border: 1px solid var(--input-border);
 
     .input-container {
+      min-width: 0;
       display: flex;
       position: relative;
       flex: 1;
       input {
-        width: calc(100% - 32px);
+        width: 100%;
+        min-width: 0;
         flex: 1;
         border-style: unset;
         border: none;
-        background: var(--input-background);
-        @include poppins500($input-font-size);
+        background: transparent;
+        @include geist500($input-font-size);
         color: var(--main-font-color);
         &::placeholder {
           color: var(--placeholder-color);
-          @include poppins400(15px);
+          @include geist400(15px);
         }
 
         &:focus {
-          outline: none !important;
-          border-color: white;
+          outline: none;
+          border-color: var(--borderStrong);
         }
       }
 
-      /* Chrome, Safari, Edge, Opera */
       input::-webkit-outer-spin-button,
       input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
 
-      /* Firefox */
       input[type='number'] {
+        @include mono($input-font-size);
         -moz-appearance: textfield;
       }
 
@@ -59,10 +61,10 @@ $autoCompleteItemHeight: 30px;
       }
       &.has-right-logo {
         input {
-          padding-right: 60px !important;
+          padding-right: 60px;
         }
         .erase {
-          right: 32px !important;
+          right: 32px;
         }
       }
 
@@ -110,12 +112,24 @@ $autoCompleteItemHeight: 30px;
     }
 
     &.has-error {
-      border-color: $red !important;
+      border-color: var(--borderStrong);
     }
   }
   .error {
-    @include poppins400(12px);
-    color: $red;
+    @include geist400(12px);
+    color: var(--danger);
     padding-left: 6px;
   }
+}
+
+.custom-input-content:focus-within {
+  background: var(--hover);
+  border-color: var(--borderStrong);
+}
+.custom-input-content:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.custom-input-content input:focus-visible {
+  outline: none;
 }

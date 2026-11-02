@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SVGIcons } from 'src/common-ui/icons.enum';
-import { PreloadedImage } from 'src/common-ui/preloaded-image/preloaded-image.component';
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 
 type Props = {
@@ -33,12 +33,7 @@ const OperationSelectUsername = ({
 
       <div className="select-container">
         <div className="selected-item" onClick={toggleDropdown}>
-          <PreloadedImage
-            className="user-avatar"
-            src={'/assets/images/placeholders/account-placeholder.png'}
-            alt={'/assets/images/placeholders/account-placeholder.png'}
-            placeholder={'/assets/images/placeholders/account-placeholder.png'}
-          />
+          <UsernameAvatar className="user-avatar" username={username} />
           <span className="username">{username}</span>
           <SVGIcon
             className="dropdown-arrow"
@@ -56,15 +51,9 @@ const OperationSelectUsername = ({
                 className={`option-item ${
                   account === username ? 'selected' : ''
                 }`}
-                onClick={() => handleItemClick(account)}>
-                <PreloadedImage
-                  className="user-avatar"
-                  src={'/assets/images/placeholders/account-placeholder.png'}
-                  alt={'/assets/images/placeholders/account-placeholder.png'}
-                  placeholder={
-                    '/assets/images/placeholders/account-placeholder.png'
-                  }
-                />
+                onClick={() => handleItemClick(account)}
+              >
+                <UsernameAvatar className="user-avatar" username={account} />
                 <span className="username">{account}</span>
                 {account === username && (
                   <SVGIcon

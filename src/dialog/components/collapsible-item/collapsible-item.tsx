@@ -16,14 +16,25 @@ const CollaspsibleItem = ({ title, content, pre }: Props) => {
     <>
       <div
         className="collapsible-title"
+        role="button"
+        tabIndex={0}
+        aria-expanded={!collapsed}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setCollapsed(!collapsed);
+          }
+        }}
         onClick={() => {
           setCollapsed(!collapsed);
-        }}>
+        }}
+      >
         <div
           className="label"
           dangerouslySetInnerHTML={{
             __html: HtmlUtils.getSafeI18nHtml(title),
-          }}></div>
+          }}
+        ></div>
         <SVGIcon icon={SVGIcons.SELECT_ARROW_DOWN} />
       </div>
       <div className={collapsed ? 'hide' : 'field collapsible'}>

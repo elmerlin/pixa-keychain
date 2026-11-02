@@ -14,7 +14,7 @@
       @include caption();
     }
     .auths {
-      @include poppins500(14px);
+      @include geist500(14px);
       color: var(--main-font-color);
       display: flex;
       flex-direction: column;
@@ -44,9 +44,9 @@
         }
 
         &:hover {
-          background: $red;
+          background: var(--raised);
           .account-name {
-            color: white;
+            color: var(--ink);
           }
         }
       }

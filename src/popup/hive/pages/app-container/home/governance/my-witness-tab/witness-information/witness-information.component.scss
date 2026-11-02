@@ -45,12 +45,12 @@
         flex-direction: column;
         padding-left: 8px;
         .witness-name {
-          @include poppins600(14px);
+          @include geist600(14px);
           color: var(--main-font-color);
         }
 
         .witness-ranking {
-          @include poppins500(11px);
+          @include geist500(11px);
           color: var(--main-font-color);
         }
       }

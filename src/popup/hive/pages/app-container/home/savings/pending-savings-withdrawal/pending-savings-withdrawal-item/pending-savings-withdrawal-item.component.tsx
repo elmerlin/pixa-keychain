@@ -42,12 +42,18 @@ const PendingSavingsWithdrawalItem = ({
   removeFromLoadingList,
   activeAccount,
 }: PropsType) => {
+  const currencyLabel =
+    currency.toLowerCase() === 'hbd'
+      ? 'PXS'
+      : currency.toLowerCase() === 'hive'
+      ? 'PIXA'
+      : currency;
   const cancelCurrentWithdrawSavingItem = () => {
     navigateToWithParams(Screen.CONFIRMATION_PAGE, {
       method: KeychainKeyTypes.active,
       message: chrome.i18n.getMessage(
         'popup_html_confirm_cancel_withdraw_savings_message',
-        [currency],
+        [currencyLabel],
       ),
       title: 'popup_html_cancel_withdraw_savings',
       fields: [
@@ -55,7 +61,7 @@ const PendingSavingsWithdrawalItem = ({
           label: 'popup_html_cancel_withdraw',
           value: `${item.amount} ${moment(item.complete).format('L')}`,
           tag: ConfirmationPageFieldType.AMOUNT,
-          tokenSymbol: currency,
+          tokenSymbol: currencyLabel,
           iconPosition: 'right',
         },
       ],
@@ -95,26 +101,23 @@ const PendingSavingsWithdrawalItem = ({
         <CustomTooltip
           additionalClassName="left-panel"
           skipTranslation
-          message={moment(item.complete).format('YYYY/MM/DD hh:mm:ss')}>
+          message={moment(item.complete).format('YYYY/MM/DD hh:mm:ss')}
+        >
           <div>{moment(item.complete).format('L')}</div>
         </CustomTooltip>
         <div className="right-panel">
           <AmountWithLogo
             amount={item.amount}
-            symbol={currency}
+            symbol={currencyLabel}
             icon={
-              currency === 'PP'
+              currencyLabel === 'PP'
                 ? SVGIcons.WALLET_HP_LOGO
-                : currency === 'PXS'
+                : currencyLabel === 'PXS'
                 ? SVGIcons.WALLET_HBD_LOGO
                 : undefined
             }
           />
-          {/* <span>
-            {FormatUtils.formatCurrencyValue(
-              parseFloat(item.amount.toString()),
-            )}
-          </span> */}
+
           <SVGIcon
             className="delete-icon"
             icon={SVGIcons.GLOBAL_DELETE}

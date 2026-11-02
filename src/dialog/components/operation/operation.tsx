@@ -62,46 +62,35 @@ const Operation = ({
 
   return (
     <div className="operation">
-      <div
-        className="scrollable"
-        style={{
-          height: canWhitelist ? '70%' : '85%',
-          overflow: 'scroll',
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: '16px',
-        }}>
-        <div>
-          <DialogHeader title={title} />
-          {domainHeader && (
-            <div className={`operation-header operation-red`}>
-              {domainHeader}
-            </div>
-          )}
-          {header && (
-            <div
-              className={`operation-header ${
-                redHeader ? 'operation-red' : ''
-              }`}>
-              {header}
-            </div>
-          )}
-
-          {accounts && (
-            <RequestUsername
-              accounts={accounts}
-              username={username!}
-              setUsername={setUsername!}
-            />
-          )}
+      <div className="operation-intro">
+        <div className="request-site">
+          <span className="label">
+            {chrome.i18n.getMessage('popup_website')}
+          </span>
+          <span className="domain">{domain}</span>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            flex: 1,
-            flexDirection: 'column',
-          }}>
+        <DialogHeader title={title} />
+        {domainHeader && (
+          <div className={`operation-header operation-red`}>{domainHeader}</div>
+        )}
+        {header && (
+          <div
+            className={`operation-header ${redHeader ? 'operation-red' : ''}`}
+          >
+            {header}
+          </div>
+        )}
+
+        {accounts && (
+          <RequestUsername
+            accounts={accounts}
+            username={username!}
+            setUsername={setUsername!}
+          />
+        )}
+      </div>
+      <div className="scrollable">
+        <div className="operation-details">
           <div className="operation-body">
             <div className="fields">{...children}</div>
           </div>
@@ -116,7 +105,7 @@ const Operation = ({
           title={
             checkboxLabelOverride ||
             chrome.i18n.getMessage('dialog_no_prompt', [
-              data.type,
+              title.toLowerCase(),
               data.username!,
               domain,
             ])

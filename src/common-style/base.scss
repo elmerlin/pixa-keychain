@@ -1,0 +1,172 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  font: 400 15px/1.5 var(--font-body);
+  letter-spacing: -0.011em;
+  background: var(--canvas);
+  color: var(--ink);
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button,
+[role='button'],
+a,
+.clickable {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+[role='button'] {
+  transition: transform var(--motion-fast) var(--ease-snappy),
+    background var(--motion-fast) var(--ease-snappy);
+}
+button:active:not(:disabled),
+[role='button']:active {
+  transform: scale(0.96);
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+input,
+textarea {
+  caret-color: var(--ink);
+  min-width: 0;
+}
+::selection {
+  background: var(--primary);
+  color: var(--onPrimary);
+}
+::placeholder {
+  color: var(--inkMuted);
+  opacity: 1;
+}
+img,
+svg {
+  vertical-align: middle;
+}
+svg {
+  shape-rendering: crispEdges;
+}
+pre,
+code,
+.chain-data {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  user-select: text;
+}
+.theme {
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-wrap: anywhere;
+}
+.theme * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--borderStrong) transparent;
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--borderStrong);
+  border-radius: var(--radius-xs);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.svg-icon {
+  flex-shrink: 0;
+  color: inherit;
+}
+.svg-icon svg {
+  color: inherit;
+}
+button:disabled,
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme *,
+  .theme *::before,
+  .theme *::after {
+    animation: none;
+    transition: none;
+    scroll-behavior: auto;
+  }
+  .theme button:active,
+  .theme [role='button']:active {
+    transform: none;
+  }
+}
+
+.theme .warning-message,
+.theme .error,
+.theme .error-message,
+.theme .insufficient-balance {
+  color: var(--danger);
+}
+.theme .warning {
+  color: var(--warning);
+}
+.svg-icon.voted {
+  background: var(--primary);
+  color: var(--onPrimary);
+  border-radius: var(--radius-xs);
+}
+
+.form-container > .submit-button {
+  margin-top: auto;
+}
+.form-fields {
+  min-width: 0;
+}
+.key-field,
+.public-key,
+.witness-info-data .value,
+.available-panel .value,
+.total .value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.message-card > .svg-icon,
+.result-message-container .svg-icon {
+  width: 72px;
+  height: 72px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme .rotating-logo svg rect,
+  .theme .splashscreen .ball,
+  .theme .custom-input .right-action-logo.rotate {
+    animation: none;
+  }
+  .theme .sliding-bar-container .glider,
+  .theme .actions-section,
+  .theme .wallet-action-button {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme {
+    --motion-fast: 0ms;
+    --motion-soft: 0ms;
+  }
+}

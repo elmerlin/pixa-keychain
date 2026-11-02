@@ -1,3 +1,4 @@
+import { UsernameAvatar } from 'src/common-ui/username-with-avatar/username-with-avatar';
 import type { AuthorityType } from '@hiveio/dhive';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import {
@@ -117,18 +118,15 @@ const AccountAuthoritiesListItem = ({
             return (
               <div
                 className="item"
-                key={`account-auth-item-${accountAuth[0]}-${index}`}>
+                key={`account-auth-item-${accountAuth[0]}-${index}`}
+              >
                 <div
                   className="item-account"
-                  onClick={() => goTo(accountAuth[0])}>
-                  <img
+                  onClick={() => goTo(accountAuth[0])}
+                >
+                  <UsernameAvatar
                     className="account-img"
-                    src={'/assets/images/placeholders/account-placeholder.png'}
-                    onError={(e: any) => {
-                      e.target.onError = null;
-                      e.target.src =
-                        '/assets/images/placeholders/account-placeholder.png';
-                    }}
+                    username={accountAuth[0]}
                   />
                   <div className="account-name">{accountAuth[0]}</div>
                 </div>
