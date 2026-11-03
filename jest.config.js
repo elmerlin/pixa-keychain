@@ -25,7 +25,15 @@ module.exports = {
   ],
   transform: {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
+    // sanitize-html's parser only ships as ES modules.
+    'sanitize-html/node_modules/.+\\.js$': [
+      'babel-jest',
+      { presets: [['@babel/preset-env', { targets: { node: 'current' } }]] },
+    ],
   },
+  transformIgnorePatterns: [
+    '^(?!.*/node_modules/sanitize-html/node_modules/).*/node_modules/',
+  ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     ...fromTsconfigPaths,

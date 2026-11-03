@@ -275,7 +275,7 @@ components:
 
 Pixtopia Keychain translates Pixtopia’s dark-first monochrome system into a compact wallet. Charcoal tonal steps, hairline borders, local Geist type and crisp pixel glyphs keep accounts, balances and actions legible. Light mode uses the same semantic relationships.
 
-The inherited visual authority is the read-only sibling [DESIGN.md](../pixtopia/DESIGN.md), [tokens.ts](../pixtopia/src/theme/tokens.ts) and [motion.ts](../pixtopia/src/theme/motion.ts), together with the approved [graphics handoff](docs/design/graphics-handoff.html). This document records the implemented browser translation; [AGENTS.md](AGENTS.md) retains the product and signing constraints.
+It follows the Pixtopia app's design system, and this file is the reference for the extension.
 
 **Key Characteristics:**
 

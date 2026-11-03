@@ -1,0 +1,9 @@
+name: An idea
+description: Suggest something the wallet could do.
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like it to do, and why?
+    validations:
+      required: true

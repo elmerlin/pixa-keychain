@@ -11,12 +11,12 @@
     "dev:chromium": "webpack --config webpack/chromium/webpack.dev.js -w",
     "dev:firefox": "webpack --config webpack/firefox/webpack.dev.js -w",
     "build": "npm outdated; concurrently \"npm:build:*\"",
-    "build:chromium": "rm -rf ./dist-prod & webpack --config webpack/chromium/webpack.prod.js",
-    "build:firefox": "rm -rf ./dist-prod-firefox & webpack --config webpack/firefox/webpack.prod.js",
+    "build:chromium": "rm -rf ./dist-prod && webpack --config webpack/chromium/webpack.prod.js",
+    "build:firefox": "rm -rf ./dist-prod-firefox && webpack --config webpack/firefox/webpack.prod.js",
     "analyze": "concurrently \"npm:analyze:*\"",
     "analyze:chromium": "npx webpack --profile --json > stats.json --config webpack/chromium/webpack.prod.js",
     "analyze:firefox": "npx webpack --profile --json > stats.json --config webpack/firefox/webpack.prod.js",
-    "doc": "documentation build public/pixa_keychain.js -f md -c documentation/build/documentation.yml -o documentation/README.md",
+    "doc": "node scripts/build-api-docs.mjs",
     "test": "jest --verbose",
     "test:detect": "jest --verbose --detectOpenHandles",
     "test:watch": "jest --verbose --watch",
@@ -25,7 +25,8 @@
     "git:archive": "rm -rf pixtopia-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"pixtopia-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'",
     "postinstall": "patch-package",
     "check:chain": "node scripts/check-serializer.js",
-    "package:chromium": "./scripts/package-chromium.sh"
+    "package:chromium": "./scripts/package-chromium.sh",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,7 @@
     "keychain",
     "extension"
   ],
-  "author": "elmerlin",
+  "author": "Pixtopia",
   "license": "MIT",
   "homepage": "https://pixtopia.net",
   "dependencies": {
@@ -46,17 +47,17 @@
     "@types/chrome": "0.0.243",
     "@types/sanitize-html": "^2.13.0",
     "@types/yargs": "17.0.11",
-    "axios": "1.13.6",
+    "axios": "1.21.0",
     "crypto-js": "4.2",
     "decimal.js": "10.4.3",
     "flatlist-react": "1.5.0",
     "hive-keychain-commons": "^1.13.3",
     "hive-tx": "file:vendor/hive-tx",
     "hotkeys-js": "^4.0.0",
-    "joi": "17.13.3",
+    "joi": "17.13.9",
     "locate-path": "7.1.1",
-    "lodash": "4.17.23",
-    "moment": "2.29.4",
+    "lodash": "4.18.1",
+    "moment": "2.31.0",
     "node-fetch": "3.2.10",
     "node-polyfill-webpack-plugin": "1.1.4",
     "react": "17.0.2",
@@ -73,7 +74,7 @@
     "redux": "4.2.1",
     "redux-thunk": "2.4.1",
     "resolve-cwd": "3.0.0",
-    "sanitize-html": "^2.14.0",
+    "sanitize-html": "2.18.1",
     "sass": "1.65.1",
     "scss-tokenizer": "0.4.3",
     "url-loader": "4.1.1",
@@ -122,8 +123,8 @@
     "jest-chrome": "0.7.2",
     "jest-environment-jsdom": "30.3.0",
     "npm-force-resolutions": "0.0.10",
-    "patch-package": "8.0.0",
-    "puppeteer-core": "^24.43.1",
+    "patch-package": "8.0.1",
+    "puppeteer-core": "25.16.0",
     "react-hot-loader": "4.13.0",
     "redux-mock-store": "1.5.4",
     "sass-loader": "13.0.2",
@@ -155,5 +156,11 @@
   "workspaces": [
     "packages/*"
   ],
-  "private": true
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/elmerlin/pixtopia-keychain/issues"
+  },
+  "engines": {
+    "node": ">=24"
+  }
 }

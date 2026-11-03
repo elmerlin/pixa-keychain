@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem
+    url: https://github.com/elmerlin/pixtopia-keychain/security/advisories/new
+    about: Tell us privately, please. Don't open a public issue.

@@ -11,6 +11,7 @@
     "strict": true,
     "target": "ES6",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@common-style/*": ["./src/common-style/*"],

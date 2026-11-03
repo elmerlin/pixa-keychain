@@ -1,0 +1,38 @@
+name: Something's wrong
+description: Report a bug in the wallet. For a security problem, see the link below instead.
+body:
+  - type: markdown
+    attributes:
+      value: Never post a private key, master password or exported wallet file here, even for an empty account.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Wallet version
+      description: From chrome://extensions
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 140 on macOS
+    validations:
+      required: true
+  - type: input
+    id: transaction
+    attributes:
+      label: Transaction ID
+      description: If a transaction is involved, and only if you're happy to link it to this report.
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else?
+      description: Screenshots help. Check that they don't show anything private.

@@ -55,7 +55,7 @@ transaction. It is the test oracle for anything that serializes.
 
 ## Look and feel
 
-The Pixtopia design system, from `../pixtopia/DESIGN.md`: dark-first monochrome, charcoal tonal
+The Pixtopia design system: dark-first monochrome, charcoal tonal
 steps, 1px hairlines, Geist and Geist Mono. The one accent is `spark`. The Prism (`#FF4F8B`,
 `#FFB547`, `#3EE0A1`, `#4CA8FF`) appears in the logo and empty states, never in chrome. Light and
 dark must both work, and state never relies on color alone. Tokens live in
@@ -64,7 +64,7 @@ task-first, with no developer copy.
 
 How that looks in this extension, screen by screen, is in `DESIGN.md`.
 
-Glyphs come from `../pixtopia/assets/glyphs/svg` (24px grid). New ones are drawn to the same grid.
+Glyphs live in `public/assets/images`. New ones are drawn to the same 24px grid.
 
 ## Commands
 
@@ -73,7 +73,9 @@ npm run build:chromium   # dist-prod, load unpacked from chrome://extensions
 npm run build:firefox
 npm run dev:chromium
 npm test
-npx tsc --noEmit         # src/ must be clean; ten errors inside node_modules are known
+npm run typecheck
 npm run check:chain      # serialization compared with the node, read-only
+npm run package:chromium # the zip for a release or the store, with third-party licenses
+npm run doc              # docs/api.md, from the comments in public/pixa_keychain.js
 node scripts/e2e.mjs --account pixa.team --theme both   # every screen in Chrome, needs a build
 ```

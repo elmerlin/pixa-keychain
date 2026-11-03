@@ -20,7 +20,7 @@ Register at https://chrome.google.com/webstore/devconsole and pay the one-time f
 
 ## Package
 
-Upload `pixtopia-keychain-0.1.0-chromium.zip`.
+Upload the `pixtopia-keychain-<version>-chromium.zip` that `npm run package:chromium` makes.
 
 ## Store listing
 
@@ -49,7 +49,7 @@ Made to be careful:
 
 You'll need a Pixa account. You can make one at pixagram.com, and add it here with a key or your master password.
 
-No ads, no analytics, and nothing is sent to us. Built on the open-source Hive Keychain, under the MIT license.
+No ads, no analytics, and nothing is sent to us. Open source under the MIT license, and built on Hive Keychain: https://github.com/elmerlin/pixtopia-keychain
 ```
 
 **Category:** the one for tools or productivity, whichever the dashboard offers.

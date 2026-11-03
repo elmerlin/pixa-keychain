@@ -6,6 +6,5 @@
     "source.organizeImports": "explicit"
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "git.ignoreLimitWarning": true,
-  "postman.settings.dotenv-detection-notification-visibility": false
+  "git.ignoreLimitWarning": true
 }
