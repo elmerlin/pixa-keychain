@@ -41,6 +41,8 @@ const PROXY = `http://127.0.0.1:${PORT}`;
 const ACCOUNT = arg('account', 'pixtopia');
 const PASSWORD = `e2e-${Math.random().toString(36).slice(2)}-Aa1!`;
 const POPUP = { width: 435, height: 600 };
+// --scale 2 for store screenshots.
+const SCALE = Number(arg('scale', '1'));
 
 // A master key that looks like a private key, the hardest shape to tell apart.
 const seed = PrivateKey.fromSeed(`e2e-${Date.now()}`).toString();
@@ -341,7 +343,7 @@ const run = async () => {
     pipe: true,
     enableExtensions: [DIST],
     userDataDir: profile,
-    defaultViewport: POPUP,
+    defaultViewport: { ...POPUP, deviceScaleFactor: SCALE },
     args: [
       '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE 127.0.0.1',
       '--no-first-run',
@@ -1125,7 +1127,7 @@ const run = async () => {
     const target = await Promise.race([opened, sleep(10000).then(() => null)]);
     if (!target) throw new Error('no dialog opened');
     const dialog = await target.page();
-    await dialog.setViewport(POPUP);
+    await dialog.setViewport({ ...POPUP, deviceScaleFactor: SCALE });
     await settle(dialog);
     return dialog;
   };
@@ -1253,7 +1255,7 @@ const run = async () => {
               'transfer',
               {
                 from: ACCOUNT,
-                to: 'pixtopia',
+                to: 'pixa.team',
                 amount: '1.500 PIXA',
                 memo: 'For the art fund',
               },

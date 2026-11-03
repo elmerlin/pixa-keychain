@@ -24,7 +24,8 @@
     "check-installed-libs": "node scripts/check-installed-libs.js",
     "git:archive": "rm -rf pixtopia-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"pixtopia-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'",
     "postinstall": "patch-package",
-    "check:chain": "node scripts/check-serializer.js"
+    "check:chain": "node scripts/check-serializer.js",
+    "package:chromium": "./scripts/package-chromium.sh"
   },
   "repository": {
     "type": "git",

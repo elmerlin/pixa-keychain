@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Secure Pixa wallet extension.",
+    "message": "A wallet for Pixa. Your keys stay on your device, and you see what you're signing in plain words.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -2903,7 +2903,7 @@
     "description": "Message container success title"
   },
   "accept_terms_and_condition": {
-    "message": "I have read and agreed to the Pixtopia <a target='__blank' href='https://pixtopia.net/terms'>Terms</a>.",
+    "message": "I have read and agreed to the Pixtopia <a target='__blank' href='https://pixtopia.net/terms'>Terms</a> and <a target='__blank' href='https://pixtopia.net/keychain/privacy'>Privacy policy</a>.",
     "description": "Accept terms and conditions text"
   },
   "delete_label": {

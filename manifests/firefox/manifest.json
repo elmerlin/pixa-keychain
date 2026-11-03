@@ -24,7 +24,7 @@
   "web_accessible_resources": ["/assets/images/icon-16.png", "/assets/images/icon-32.png", "/assets/images/icon-48.png", "/assets/images/icon-128.png", "pixa_keychain.js"],
   "content_scripts": [
     {
-      "matches": ["https://*/*", "http://*/*"],
+      "matches": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
       "js": ["web_interfaceBundle.js"],
       "all_frames": true
     }

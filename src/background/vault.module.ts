@@ -31,7 +31,7 @@ const init = async () => {
       url: './vault.html',
       reasons: [chrome.offscreen.Reason.IFRAME_SCRIPTING],
       justification:
-        'Used for Hardware Wallet and sensitive data storage to communicate with the extension.',
+        'Holds the unlocked wallet in memory, apart from the pages sites can talk to.',
     });
   } catch (error) {
     Logger.error('Failed to create offscreen document', error);
