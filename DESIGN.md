@@ -376,6 +376,8 @@ The custom checkbox is an 18px square with extra-small corners. Checked state us
 
 ### Request review
 
+A sign or broadcast request says what it does in words: a title for each operation, its values in rows, every operation in order, with the raw transaction collapsed below. A warning has an icon and a warning border as well as its words. An operation the wallet can't read says so with a warning, opens the raw transaction and offers no "Don't ask again".
+
 The operation field group is a large-cornered surface with a hairline and 16px padding. Label/value rows use 12px gaps. Labels use secondary 13px prose; values use 13px mono, align right, and can use at most 70% of the row before wrapping. The bottom action pair is separated by a top hairline and 12px padding. This visual organization must continue to show the data actually being signed.
 
 ### Recovery and loading

@@ -2995,5 +2995,308 @@
   "error_message_details": {
     "message": "Details",
     "description": "Disclosure for diagnostic information on the error fallback page"
+  },
+  "dialog_op_count": {
+    "message": "$1 actions in this request"
+  },
+  "dialog_op_unknown": {
+    "message": "Can't describe this action"
+  },
+  "dialog_op_unknown_warning": {
+    "message": "This wallet can't tell what this does. Read the transaction below, and only confirm if you trust this site."
+  },
+  "dialog_op_type": {
+    "message": "Type"
+  },
+  "dialog_op_as": {
+    "message": "As"
+  },
+  "dialog_op_post": {
+    "message": "Post"
+  },
+  "dialog_op_like": {
+    "message": "Like at $1"
+  },
+  "dialog_op_downvote": {
+    "message": "Downvote at $1"
+  },
+  "dialog_op_unvote": {
+    "message": "Take back your vote"
+  },
+  "dialog_op_publish": {
+    "message": "Publish a post"
+  },
+  "dialog_op_reply": {
+    "message": "Publish a reply"
+  },
+  "dialog_op_reply_to": {
+    "message": "Reply to"
+  },
+  "dialog_op_portal": {
+    "message": "Portal"
+  },
+  "dialog_op_text": {
+    "message": "Text"
+  },
+  "dialog_op_picture": {
+    "message": "[picture]"
+  },
+  "dialog_op_address": {
+    "message": "Address"
+  },
+  "dialog_op_rewards": {
+    "message": "Set this post's rewards"
+  },
+  "dialog_op_shares": {
+    "message": "Rewards share"
+  },
+  "dialog_op_share": {
+    "message": "$1 to $2"
+  },
+  "dialog_op_payout": {
+    "message": "Max payout"
+  },
+  "dialog_op_payout_declined": {
+    "message": "Declined"
+  },
+  "dialog_op_pxs_share": {
+    "message": "PXS share"
+  },
+  "dialog_op_likes": {
+    "message": "Likes"
+  },
+  "dialog_op_curation": {
+    "message": "Curation rewards"
+  },
+  "dialog_op_off": {
+    "message": "Off"
+  },
+  "dialog_op_delete_post": {
+    "message": "Delete a post"
+  },
+  "dialog_op_follow": {
+    "message": "Follow $1"
+  },
+  "dialog_op_mute": {
+    "message": "Mute $1"
+  },
+  "dialog_op_unfollow": {
+    "message": "Stop following or muting $1"
+  },
+  "dialog_op_reblog": {
+    "message": "Reblog a post"
+  },
+  "dialog_op_unreblog": {
+    "message": "Undo a reblog"
+  },
+  "dialog_op_portal_join": {
+    "message": "Join a portal"
+  },
+  "dialog_op_portal_leave": {
+    "message": "Leave a portal"
+  },
+  "dialog_op_portal_role": {
+    "message": "Set someone's role in a portal"
+  },
+  "dialog_op_portal_title": {
+    "message": "Set someone's title in a portal"
+  },
+  "dialog_op_portal_update": {
+    "message": "Change a portal's details"
+  },
+  "dialog_op_portal_pin": {
+    "message": "Pin a post in a portal"
+  },
+  "dialog_op_portal_unpin": {
+    "message": "Unpin a post in a portal"
+  },
+  "dialog_op_portal_mute": {
+    "message": "Mute a post in a portal"
+  },
+  "dialog_op_portal_unmute": {
+    "message": "Unmute a post in a portal"
+  },
+  "dialog_op_portal_flag": {
+    "message": "Flag a post in a portal"
+  },
+  "dialog_op_role": {
+    "message": "Role"
+  },
+  "dialog_op_notes": {
+    "message": "Notes"
+  },
+  "dialog_op_send": {
+    "message": "Send $1"
+  },
+  "dialog_op_recurring_cancel": {
+    "message": "Cancel a recurring transfer"
+  },
+  "dialog_op_repeats": {
+    "message": "Repeats"
+  },
+  "dialog_op_repeats_value": {
+    "message": "Every $1 hours, $2 times"
+  },
+  "dialog_op_power_up": {
+    "message": "Power up $1"
+  },
+  "dialog_op_power_down": {
+    "message": "Power down"
+  },
+  "dialog_op_stop_power_down": {
+    "message": "Stop powering down"
+  },
+  "dialog_op_delegate": {
+    "message": "Delegate Pixa Power"
+  },
+  "dialog_op_undelegate": {
+    "message": "Take back a delegation"
+  },
+  "dialog_op_route": {
+    "message": "Send your power downs to someone else"
+  },
+  "dialog_op_route_stop": {
+    "message": "Stop sending your power downs to someone else"
+  },
+  "dialog_op_route_warning": {
+    "message": "From now on, this share of every power down goes to this account instead of you."
+  },
+  "dialog_op_power_downs": {
+    "message": "Share"
+  },
+  "dialog_op_to_savings": {
+    "message": "Move $1 to savings"
+  },
+  "dialog_op_from_savings": {
+    "message": "Withdraw $1 from savings"
+  },
+  "dialog_op_cancel_savings": {
+    "message": "Cancel a savings withdrawal"
+  },
+  "dialog_op_convert": {
+    "message": "Convert $1"
+  },
+  "dialog_op_convert_collateral": {
+    "message": "Convert $1, with collateral"
+  },
+  "dialog_op_offer": {
+    "message": "Offer $1 on the market"
+  },
+  "dialog_op_at_least": {
+    "message": "For at least"
+  },
+  "dialog_op_expires": {
+    "message": "Expires"
+  },
+  "dialog_op_cancel_order": {
+    "message": "Cancel market order $1"
+  },
+  "dialog_op_claim_rewards": {
+    "message": "Claim rewards"
+  },
+  "dialog_op_rewards_pixa": {
+    "message": "PIXA"
+  },
+  "dialog_op_rewards_pxs": {
+    "message": "PXS"
+  },
+  "dialog_op_rewards_power": {
+    "message": "Pixa Power"
+  },
+  "dialog_op_witness_vote": {
+    "message": "Vote for witness $1"
+  },
+  "dialog_op_witness_unvote": {
+    "message": "Take back your vote for witness $1"
+  },
+  "dialog_op_proxy": {
+    "message": "Let $1 vote for you on witnesses and proposals"
+  },
+  "dialog_op_proxy_clear": {
+    "message": "Stop using a voting proxy"
+  },
+  "dialog_op_proposal_vote": {
+    "message": "Support proposal $1"
+  },
+  "dialog_op_proposal_unvote": {
+    "message": "Stop supporting proposal $1"
+  },
+  "dialog_op_proposal_create": {
+    "message": "Create a proposal"
+  },
+  "dialog_op_proposal_update": {
+    "message": "Change proposal $1"
+  },
+  "dialog_op_proposal_remove": {
+    "message": "Remove proposal $1"
+  },
+  "dialog_op_subject": {
+    "message": "Subject"
+  },
+  "dialog_op_pays": {
+    "message": "Pays"
+  },
+  "dialog_op_per_day": {
+    "message": "Per day"
+  },
+  "dialog_op_starts": {
+    "message": "Starts"
+  },
+  "dialog_op_ends": {
+    "message": "Ends"
+  },
+  "dialog_op_claim_ticket": {
+    "message": "Claim an account ticket"
+  },
+  "dialog_op_create_account": {
+    "message": "Create account $1"
+  },
+  "dialog_op_fee": {
+    "message": "Fee"
+  },
+  "dialog_op_owner": {
+    "message": "Owner"
+  },
+  "dialog_op_active": {
+    "message": "Active"
+  },
+  "dialog_op_posting": {
+    "message": "Posting"
+  },
+  "dialog_op_memo_key": {
+    "message": "Memo key"
+  },
+  "dialog_op_nobody": {
+    "message": "Nobody"
+  },
+  "dialog_op_change_control": {
+    "message": "Change who controls this account"
+  },
+  "dialog_op_change_control_warning": {
+    "message": "Whoever holds these keys or accounts can act as this account. Only confirm if you meant to change them."
+  },
+  "dialog_op_update_account": {
+    "message": "Update this account"
+  },
+  "dialog_op_profile": {
+    "message": "Update your profile"
+  },
+  "dialog_op_witness_stop": {
+    "message": "Stop producing blocks as a witness"
+  },
+  "dialog_op_witness_update": {
+    "message": "Update your witness"
+  },
+  "dialog_op_signing_key": {
+    "message": "Signing key"
+  },
+  "dialog_op_url": {
+    "message": "URL"
+  },
+  "dialog_op_feed": {
+    "message": "Publish a price feed"
+  },
+  "dialog_op_rate": {
+    "message": "Rate"
   }
 }

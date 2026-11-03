@@ -7,10 +7,11 @@ type Props = {
   title: string;
   content: string;
   pre?: boolean; // set pre to true if we are showing a pretty printed json
+  startOpen?: boolean;
 };
 
-const CollaspsibleItem = ({ title, content, pre }: Props) => {
-  const [collapsed, setCollapsed] = useState(true);
+const CollaspsibleItem = ({ title, content, pre, startOpen }: Props) => {
+  const [collapsed, setCollapsed] = useState(!startOpen);
   const [copied, setCopied] = useState(false);
   return (
     <>

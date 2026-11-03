@@ -1183,6 +1183,15 @@ const run = async () => {
   else console.log('ok    a memo encrypts with PIX keys and decrypts');
   await closeDialog(memoDialog);
 
+  const signTx = (operations, key = 'Posting') =>
+    `window.pixa_keychain.requestSignTx('${ACCOUNT}', ${JSON.stringify({
+      ref_block_num: 1,
+      ref_block_prefix: 1,
+      expiration: '2030-01-01T00:00:00',
+      operations,
+      extensions: [],
+    })}, '${key}', () => {})`;
+
   // Requests that would broadcast are looked at and cancelled.
   for (theme of THEMES) {
     await page.evaluate(
@@ -1211,10 +1220,90 @@ const run = async () => {
       [
         'dialog-broadcast',
         `window.pixa_keychain.requestBroadcast('${ACCOUNT}', [['vote',{voter:'${ACCOUNT}',author:'pixa.team',permlink:'p-1',weight:10000}]], 'Posting', () => {})`,
+        'Like at 100%',
       ],
       [
         'dialog-sign-tx',
-        `window.pixa_keychain.requestSignTx('${ACCOUNT}', {ref_block_num:1,ref_block_prefix:1,expiration:'2030-01-01T00:00:00',operations:[['vote',{voter:'${ACCOUNT}',author:'pixa.team',permlink:'p-1',weight:1000}]],extensions:[]}, 'Posting', () => {})`,
+        signTx([
+          [
+            'vote',
+            { voter: ACCOUNT, author: 'pixa.team', permlink: 'p-1', weight: 5000 },
+          ],
+        ]),
+        'Like at 50%',
+      ],
+      [
+        'dialog-sign-tx-transfer',
+        signTx(
+          [
+            [
+              'transfer',
+              {
+                from: ACCOUNT,
+                to: 'pixtopia',
+                amount: '1.500 PIXA',
+                memo: 'For the art fund',
+              },
+            ],
+          ],
+          'Active',
+        ),
+        'Send 1.500 PIXA',
+      ],
+      [
+        'dialog-sign-tx-post',
+        signTx([
+          [
+            'comment',
+            {
+              parent_author: '',
+              parent_permlink: 'portal-169096',
+              author: ACCOUNT,
+              permlink: 'a-pixel-study-6c2ce113',
+              title: 'A pixel study',
+              body: `data:image/webp;base64,${'UklGRiIAAABXRUJQ'.repeat(4000)}`,
+              json_metadata: '{}',
+            },
+          ],
+          [
+            'comment_options',
+            {
+              author: ACCOUNT,
+              permlink: 'a-pixel-study-6c2ce113',
+              max_accepted_payout: '1000000.000 PXS',
+              percent_pxs: 10000,
+              allow_votes: true,
+              allow_curation_rewards: true,
+              extensions: [
+                [0, { beneficiaries: [{ account: 'pixtopia', weight: 500 }] }],
+              ],
+            },
+          ],
+        ]),
+        '5% to @pixtopia',
+      ],
+      [
+        'dialog-sign-tx-control',
+        signTx(
+          [
+            [
+              'account_update',
+              {
+                account: ACCOUNT,
+                active: authority(keys.posting.pub),
+                memo_key: keys.memo.pub,
+                json_metadata: '',
+              },
+            ],
+          ],
+          'Active',
+        ),
+        'Change who controls this account',
+      ],
+      [
+        'dialog-sign-tx-unknown',
+        signTx([['mystery_operation', { to: 'pixtopia', take: 'everything' }]]),
+        "Can't describe this action",
       ],
       [
         'dialog-power-up',
@@ -1312,6 +1401,18 @@ const run = async () => {
       try {
         const dialog = await dialogFor(request);
         await shot(name, dialog);
+        if (name === 'dialog-sign-tx-unknown') {
+          const state = await dialog.evaluate(() => ({
+            rawOpen: [...document.querySelectorAll('pre')].some(
+              (el) => el.getClientRects().length > 0,
+            ),
+            allowsSkipping: document.body.innerText.includes("Don't ask again"),
+          }));
+          if (!state.rawOpen)
+            problems.push('an unknown operation should open the transaction');
+          if (state.allowsSkipping)
+            problems.push("an unknown operation shouldn't offer Don't ask again");
+        }
         if (await dialog.$('.collapsible-title')) {
           for (const title of await dialog.$$('.collapsible-title'))
             await title.click();
