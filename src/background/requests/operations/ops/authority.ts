@@ -52,7 +52,7 @@ export const broadcastAddAccountAuthority = async (
       (e as KeychainError).messageParams,
     );
   } finally {
-    const err_message = await beautifyErrorMessage(err);
+    const failure = err_message || (await beautifyErrorMessage(err));
     return await createMessage(
       err,
       result,
@@ -62,7 +62,7 @@ export const broadcastAddAccountAuthority = async (
         data.authorizedUsername,
         data.username,
       ]),
-      err_message,
+      failure,
     );
   }
 };

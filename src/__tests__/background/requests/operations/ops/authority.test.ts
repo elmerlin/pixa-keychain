@@ -100,8 +100,7 @@ describe('authority tests:\n', () => {
       );
       const localeMessageKey = 'already_has_authority_error';
       const error = new KeychainError(localeMessageKey);
-      const message =
-        chrome.i18n.getMessage('bgd_ops_error') + ' : ' + localeMessageKey;
+      const message = chrome.i18n.getMessage(localeMessageKey);
       expect(result.msg.error).toEqual(error);
       expect(result.msg.message).toBe(message);
     });
@@ -117,10 +116,9 @@ describe('authority tests:\n', () => {
         cloneData,
       );
       const error = new Error('html_popup_error_while_signing_transaction');
-      const message =
-        chrome.i18n.getMessage('bgd_ops_error') +
-        ' : ' +
-        'html_popup_error_while_signing_transaction';
+      const message = chrome.i18n.getMessage(
+        'html_popup_error_while_signing_transaction',
+      );
       expect(resultOperation.msg.error).toEqual(error);
       expect(resultOperation.msg.message).toBe(message);
     });
