@@ -13,6 +13,7 @@ import { LocalAccount } from '@interfaces/local-account.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
+import Logger from 'src/utils/logger.utils';
 import VaultUtils from 'src/utils/vault.utils';
 
 const getAutocompleteList = async (
@@ -45,38 +46,43 @@ const saveFavoriteUser = async (
   username: string,
   activeAccount: ActiveAccount,
 ) => {
-  const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
-  const localAccounts = await BgdAccountsUtils.getAccountsFromLocalStorage(mk);
-  let favoriteUser = await LocalStorageUtils.getValueFromLocalStorage(
-    LocalStorageKeyEnum.FAVORITE_USERS,
-  );
-  if (!favoriteUser) {
-    favoriteUser = { [activeAccount.name!]: [] };
-  }
-  if (!favoriteUser[activeAccount.name!]) {
-    favoriteUser[activeAccount.name!] = [];
-  }
-
-  let found = false;
-  if (favoriteUser[activeAccount.name!].length > 0) {
-    found = Object.values(favoriteUser[activeAccount.name!]).some(
-      (favValue: any) => favValue.value === username,
+  // Called once the transaction has gone: not remembering a name mustn't look like it failed.
+  try {
+    const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
+    const localAccounts = await BgdAccountsUtils.getAccountsFromLocalStorage(mk);
+    let favoriteUser = await LocalStorageUtils.getValueFromLocalStorage(
+      LocalStorageKeyEnum.FAVORITE_USERS,
     );
-  }
+    if (!favoriteUser) {
+      favoriteUser = { [activeAccount.name!]: [] };
+    }
+    if (!favoriteUser[activeAccount.name!]) {
+      favoriteUser[activeAccount.name!] = [];
+    }
 
-  if (
-    !found &&
-    !localAccounts.find((localAccount) => localAccount.name === username)
-  ) {
-    favoriteUser[activeAccount.name!].push({
-      value: username,
-      subLabel: '',
-    } as AutoCompleteValue);
+    let found = false;
+    if (favoriteUser[activeAccount.name!].length > 0) {
+      found = Object.values(favoriteUser[activeAccount.name!]).some(
+        (favValue: any) => favValue.value === username,
+      );
+    }
+
+    if (
+      !found &&
+      !localAccounts.find((localAccount) => localAccount.name === username)
+    ) {
+      favoriteUser[activeAccount.name!].push({
+        value: username,
+        subLabel: '',
+      } as AutoCompleteValue);
+    }
+    LocalStorageUtils.saveValueInLocalStorage(
+      LocalStorageKeyEnum.FAVORITE_USERS,
+      favoriteUser,
+    );
+  } catch (err) {
+    Logger.error(err);
   }
-  LocalStorageUtils.saveValueInLocalStorage(
-    LocalStorageKeyEnum.FAVORITE_USERS,
-    favoriteUser,
-  );
 };
 
 const getAutocompleteListByCategories = async (

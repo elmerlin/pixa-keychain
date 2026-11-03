@@ -90,7 +90,7 @@ const createSignAndBroadcastTransaction = async (
     }
   } catch (err) {
     Logger.error(err);
-    throw new Error('html_popup_error_while_broadcasting');
+    throw new Error('html_popup_broadcast_outcome_unknown');
   }
   response = response as HiveTxBroadcastErrorResponse;
   if (response.error) {
@@ -98,32 +98,28 @@ const createSignAndBroadcastTransaction = async (
     throw ErrorUtils.parse(response.error);
   }
 };
-/* istanbul ignore next */
+// Waits for the transaction to reach a block, so what's read next includes it. The node has accepted
+// it by now, so nothing here may throw: someone shown an error would send the money again.
 const confirmTransaction = async (transactionId: string) => {
-  let response = null;
   const MAX_RETRY_COUNT = 6;
-  let retryCount = 0;
-  do {
-    response = await call('transaction_status_api.find_transaction', {
-      transaction_id: transactionId,
-    });
+  for (let retryCount = 0; retryCount < MAX_RETRY_COUNT; retryCount++) {
     await AsyncUtils.sleep(1000);
-    retryCount++;
-  } while (
-    ['within_mempool', 'unknown'].includes(response.result.status) &&
-    retryCount < MAX_RETRY_COUNT
-  );
-  if (
-    ['within_reversible_block', 'within_irreversible_block'].includes(
-      response.result.status,
-    )
-  ) {
-    Logger.info('Transaction confirmed');
-    return true;
-  } else {
-    Logger.error(`Transaction failed with status: ${response.result.status}`);
-    return false;
+    try {
+      const response = await call(
+        'condenser_api.get_transaction',
+        [transactionId],
+        3,
+      );
+      if (response?.result) {
+        Logger.info('Transaction confirmed');
+        return true;
+      }
+    } catch (err) {
+      Logger.info(`Could not look up transaction ${transactionId}`);
+    }
   }
+  Logger.info(`Transaction ${transactionId} isn't in a block yet`);
+  return false;
 };
 
 const signTransaction = async (tx: Transaction, key: Key) => {
@@ -168,7 +164,7 @@ const broadcastAndConfirmTransactionWithSignature = async (
     }
   } catch (err) {
     Logger.error(err);
-    throw new Error('html_popup_error_while_broadcasting');
+    throw new Error('html_popup_broadcast_outcome_unknown');
   }
   response = response as HiveTxBroadcastErrorResponse;
   if (response.error) {

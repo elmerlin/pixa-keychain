@@ -28,6 +28,8 @@ How it differs from Hive, which is where bugs come from:
 - **Keys derive as on Hive:** `sha256(account + role + password)`, WIF, `PIX` public keys.
 - **RC amounts are far smaller than Hive's,** so never fix one in code: read the price
   (`getAccountTicketCost`). A ticket is claimed each time RC reaches 100% (`claim.module.ts`).
+- **The node has no `transaction_status_api`,** so `confirmTransaction` reads
+  `condenser_api.get_transaction`.
 - **No Hive Engine, swaps, multisig backend, Ledger app, HiveAuth or `api.hive-keychain.com`.**
   Nothing here may call a Hive service.
 

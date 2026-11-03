@@ -2794,6 +2794,10 @@
     "message": "The node took too long to respond. Try again.",
     "description": "When network timeout"
   },
+  "html_popup_broadcast_outcome_unknown": {
+    "message": "Couldn't tell if this was sent. Check your history before trying again.",
+    "description": "The node didn't answer after a transaction was sent, so it may have gone through"
+  },
   "html_popup_error_while_broadcasting": {
     "message": "Error while broadcasting the transaction",
     "description": "error while broadcasting the transaction"

@@ -173,7 +173,7 @@ describe('hive-tx.utils.ts tests:\n', () => {
           'signature',
         );
       } catch (error) {
-        expect(error).toEqual(new Error('html_popup_error_while_broadcasting'));
+        expect(error).toEqual(new Error('html_popup_broadcast_outcome_unknown'));
         expect(sLoggerError).toHaveBeenCalledWith(
           constants.broadcastResponse.error,
         );
@@ -194,7 +194,7 @@ describe('hive-tx.utils.ts tests:\n', () => {
           'signature',
         );
       } catch (error) {
-        expect(error).toEqual(new Error('html_popup_error_while_broadcasting'));
+        expect(error).toEqual(new Error('html_popup_broadcast_outcome_unknown'));
         expect(sLoggerError).toHaveBeenCalledWith(
           new Error('error on broadcast'),
         );
