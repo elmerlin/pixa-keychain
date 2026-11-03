@@ -1,6 +1,6 @@
 ---
 name: "Pixtopia Keychain"
-description: "The Pixtopia monochrome system translated into a compact Pixagram browser wallet."
+description: "The Pixtopia monochrome system translated into a compact Pixa browser wallet."
 colors:
   dark-canvas: "#0b0b0c"
   dark-surface: "#151515"

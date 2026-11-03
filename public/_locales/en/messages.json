@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Secure Pixagram Wallet Extension.",
+    "message": "Secure Pixa wallet extension.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -88,11 +88,11 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "Your Pixagram wallet.<br/><br/>Keep your keys on this device. Send PIXA and PXS, and connect to apps.",
+    "message": "Your Pixa wallet.<br/><br/>Keep your keys on this device. Send PIXA and PXS, and connect to apps.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
-    "message": "Your Pixagram wallet",
+    "message": "Your Pixa wallet",
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
@@ -100,7 +100,7 @@
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
-    "message": "Connect to Pixagram apps.",
+    "message": "Connect to Pixa apps.",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
@@ -200,7 +200,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Enter your Pixagram account name and a posting, active or memo key. You can also use your master password to derive those keys. Your master password is never saved.",
+    "message": "Enter your Pixa account name and a posting, active or memo key. You can also use your master password to derive those keys. Your master password is never saved.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -476,7 +476,7 @@
     "description": "on preferences"
   },
   "popup_html_add_rpc_text": {
-    "message": "Enter a Pixagram node address.",
+    "message": "Enter a Pixa node address.",
     "description": "on preferences"
   },
   "popup_html_rpc_node": {
@@ -1463,7 +1463,7 @@
   },
   "popup_html_save_hive": {
     "message": "PIXA savings",
-    "description": "When clicking on the Pixagram arrow menu"
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "PXS savings",
@@ -1542,7 +1542,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Pixagram",
+    "message": "Pixa",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1654,7 +1654,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Choose the Pixagram node your wallet uses to read chain data and send transactions.",
+    "message": "Choose the Pixa node your wallet uses to read chain data and send transactions.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {
@@ -2142,7 +2142,7 @@
     "description": "Node Rpc auto selection"
   },
   "popup_html_rpc_automatic_mode_hint": {
-    "message": "Automatically choose an available Pixagram node.",
+    "message": "Automatically choose an available Pixa node.",
     "description": "Node Rpc auto selection hint"
   },
   "popup_html_setting_proxy": {

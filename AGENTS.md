@@ -1,6 +1,6 @@
 # Pixtopia Keychain: agent guide
 
-Pixtopia Keychain is a wallet browser extension for the **Pixagram** blockchain, a Hive fork. It is
+Pixtopia Keychain is a wallet browser extension for the **Pixa** blockchain, a Hive fork. It is
 a fork of [hive-keychain-extension](https://github.com/hive-keychain/hive-keychain-extension) (MIT;
 the `upstream` remote, push disabled). Sites reach it through `window.pixa_keychain`. It must be
 able to run next to the real Hive Keychain in one browser, so nothing it exposes to a page shares a
@@ -40,7 +40,9 @@ transaction. It is the test oracle for anything that serializes.
 - **The dialog shows what gets signed.** Never add a signing path that skips the review a person
   sees, beyond what they have opted into under authorized operations.
 - Internal names stay as upstream has them (`HiveUtils`, `src/popup/hive`, `hive-tx`), so merging
-  upstream stays cheap. Everything a person can see says Pixagram, PIXA, PXS, Pixtopia Keychain.
+  upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, Pixtopia Keychain.
+- Copy says Pixa for the chain and its accounts, and PIXA and PXS for its tokens. Pixagram is only
+  the app Pixa's founders launched first. Code and `api.pixagram.com` keep their names.
 - `src/popup/hive/utils/hive-tx.utils.ts` and `vendor/hive-tx` are the signing path. Keep changes to
   them small and covered by `npm test`.
 

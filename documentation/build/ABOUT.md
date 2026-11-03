@@ -1,12 +1,10 @@
 ![](http://u.cubeupload.com/arcange/yOdI5g.png)
 
-Putting private keys directly into websites is not safe or secure, even ones run by reputable community members. Yet this is currently how nearly every Pixagram-based site or service currently works. On top of that, most Pixagram users likely use their master password which is even worse.
-
-The Vessel desktop wallet software is a secure alternative, but it is too difficult to use for the majority of Pixagram users and does not easily interact with websites - which is Pixagram's primary use case.
+Putting private keys directly into websites is not safe or secure, even ones run by reputable community members. Yet this is currently how nearly every Pixa-based site or service currently works. On top of that, most Pixa users likely use their master password which is even worse.
 
 On Ethereum, you never have to enter your private key into a website to use a dApp. You can just use a browser extension like Metamask, which dApp websites can interface with to securely store your keys and broadcast transactions to the blockchain.
 
-Pixtopia Keychain aims to bring the security and ease-of-use of Metamask to the Pixagram blockchain platform.
+Pixtopia Keychain aims to bring the security and ease-of-use of Metamask to the Pixa blockchain platform.
 
 ### Installation
 
@@ -26,12 +24,11 @@ You can download and install the latest published version of the extension for t
 
 The Pixtopia Keychain extension includes the following features:
 
-- Store an unlimited number of Pixagram account keys, encrypted with AES
+- Store an unlimited number of Pixa account keys, encrypted with AES
 - View balances, transaction history, voting power, and resource credits
 - Send PIXA and PXS transfers, manage witness votes, and update PP delegation right from the extension
-- Manage your Pixagram Engine tokens
 - Power up or down
-- Securely interact with Pixagram-based websites that have integrated with Pixtopia Keychain
+- Securely interact with Pixa-based websites that have integrated with Pixtopia Keychain
 - Manage transaction confirmation preferences by account and by website
 - Locks automatically on browser shutdown or manually using the lock button
 
@@ -40,12 +37,11 @@ The Pixtopia Keychain extension includes the following features:
 Websites can currently request the Pixtopia Keychain extension to perform the following functions / broadcast operations:
 
 - Send a handshake to make sure the extension is installed
-- Decrypt a message encrypted by a Pixagram account private key (commonly used for "logging in")
+- Decrypt a message encrypted by a Pixa account private key (commonly used for "logging in")
 - Post a comment (top level or reply)
 - Broadcast a vote
 - Broadcast a custom JSON operation
 - Send a transfer
-- Send Pixagram Engine tokens
 - Send Delegations
 - Power up/down
 - Vote for witnesses

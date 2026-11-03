@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Extensão segura para Pixagram Wallet.",
+    "message": "Extensão segura para Pixa Wallet.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -88,7 +88,7 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "A melhor carteira <strong>PIXA</strong> .<br/><br/>Gerencie os ativos da PIXA e se conecte aos aplicativos da PIXA.<br/><br/>Simples. Leve. Seguro.",
+    "message": "A melhor carteira <strong>PIXA</strong> .<br/><br/>Gerencie os ativos da Pixa e se conecte aos aplicativos da Pixa.<br/><br/>Simples. Leve. Seguro.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
@@ -96,7 +96,7 @@
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "Gerencie os ativos da Pixagram e conecte-se a aplicativos da PIXA",
+    "message": "Gerencie os ativos da Pixa e conecte-se a aplicativos da Pixa",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
@@ -196,7 +196,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Digite o nome da conta da Pixagram e a senha mestra ou a chave privada de publicação ou ativa para essa conta abaixo. Sua senha mestra NÃO será salva e será usada apenas para gerar suas chaves privadas.<br/><br/> Você pode adicionar / remover contas da Pixagram ou chaves a qualquer momento. Se você precisar criar uma nova conta da Pixagram, você pode fazê-lo no <a href=\"https://signup.hive.io\" target=\"_blank\" >signup.hive.io</a>.",
+    "message": "Digite o nome da conta da Pixa e a senha mestra ou a chave privada de publicação ou ativa para essa conta abaixo. Sua senha mestra NÃO será salva e será usada apenas para gerar suas chaves privadas.<br/><br/> Você pode adicionar / remover contas da Pixa ou chaves a qualquer momento.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -656,11 +656,11 @@
     "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
-    "message": "Faça Power Up do seu Pixagram para transformar em Pixa Power.",
+    "message": "Faça Power Up do seu PIXA para transformar em Pixa Power.",
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Faça Power Down do seu Pixa Power para receber Pixagram liquido. O processo completo de Power Down demorará 13 semanas.",
+    "message": "Faça Power Down do seu Pixa Power para receber PIXA liquido. O processo completo de Power Down demorará 13 semanas.",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
@@ -1451,7 +1451,7 @@
   },
   "popup_html_save_hive": {
     "message": "Poupança em PIXA",
-    "description": "When clicking on the Pixagram arrow menu"
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "Poupança em PXS",
@@ -1526,7 +1526,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Pixagram",
+    "message": "Pixa",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1638,7 +1638,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Você pode escolher qual node RPC é usado para ler informações e transmitir transações de/para o Pixagram Blockchain.",
+    "message": "Você pode escolher qual node RPC é usado para ler informações e transmitir transações de/para o Pixa Blockchain.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

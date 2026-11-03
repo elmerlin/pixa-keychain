@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Ekstensi Dompet Aman Pixagram.",
+    "message": "Ekstensi Dompet Aman Pixa.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -88,15 +88,15 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "Solusi Dompet <strong>PIXA</strong> Terbaik Anda.\n<br/><br/>Kelola dan akses aset serta aplikasi Pixagram <br/><br/> dengan mudah, ringan, dan aman.",
+    "message": "Solusi Dompet <strong>PIXA</strong> Terbaik Anda.\n<br/><br/>Kelola dan akses aset serta aplikasi Pixa <br/><br/> dengan mudah, ringan, dan aman.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
-    "message": "Solusi Dompet Pixagram Terbaik",
+    "message": "Solusi Dompet Pixa Terbaik",
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "Kelola aset PIXA dan terhubung dengan berbagai aplikasi PIXA",
+    "message": "Kelola aset Pixa dan terhubung dengan berbagai aplikasi Pixa",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
@@ -196,7 +196,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Masukkan nama akun Pixagram dan pilih antara master password, posting key, atau active key Anda.\nMaster Password Anda TIDAK disimpan — hanya digunakan untuk membuat private keys.\n<br/><br/>Anda dapat menambahkan atau menghapus akun maupun kunci Pixagram kapan saja.\nBelum punya akun? Daftar di <a href=\"https://signup.hive.io\" target=\"_blank\">signup.hive.io</a>.",
+    "message": "Masukkan nama akun Pixa dan pilih antara master password, posting key, atau active key Anda.\nMaster Password Anda TIDAK disimpan — hanya digunakan untuk membuat private keys.\n<br/><br/>Anda dapat menambahkan atau menghapus akun maupun kunci Pixa kapan saja.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -1434,7 +1434,7 @@
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive": {
-    "message": "Konversi Pixagram ",
+    "message": "Konversi PIXA ",
     "description": "When clicking on the Hbd arrow menu"
   },
   "popup_html_convert_hive_intro": {
@@ -1450,8 +1450,8 @@
     "description": "When converting"
   },
   "popup_html_save_hive": {
-    "message": "Pixagram Savings ",
-    "description": "When clicking on the Pixagram arrow menu"
+    "message": "PIXA Savings ",
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "PXS Savings ",
@@ -1526,7 +1526,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Pixagram",
+    "message": "Pixa",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1638,7 +1638,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Pilih node RPC yang akan digunakan untuk mengakses data dan menyiarkan transaksi dari dan ke Pixagram Blockchain.",
+    "message": "Pilih node RPC yang akan digunakan untuk mengakses data dan menyiarkan transaksi dari dan ke Pixa Blockchain.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

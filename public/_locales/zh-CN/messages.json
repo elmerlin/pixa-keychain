@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "安全 Pixagram 钱包扩充",
+    "message": "安全 Pixa 钱包扩充",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -68,11 +68,11 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "<strong> PIXA </strong>钱包。<br/><br/>管理HIVE资产，并连接到HIVE应用程式。<br/><br/>简单。 轻巧。 安全。",
+    "message": "<strong> PIXA </strong>钱包。<br/><br/>管理Pixa资产，并连接到Pixa应用程式。<br/><br/>简单。 轻巧。 安全。",
     "description": "Text on registration page"
   },
   "popup_html_unlock": {
-    "message": "<strong> PIXA </strong>钱包。<br/><br/>管理HIVE资产，并连接到HIVE应用程式。<br/><br/>简单。 轻巧。 安全。",
+    "message": "<strong> PIXA </strong>钱包。<br/><br/>管理Pixa资产，并连接到Pixa应用程式。<br/><br/>简单。 轻巧。 安全。",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
@@ -152,7 +152,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "在下面输入您的Hive帐户名称以及该帐户的主密码或私人贴文或活跃私钥。 您的主密码将不会保存，只会使用於生成私钥。<br/><br/> 您可以随时新增/删除Hive帐户或私钥。 如果您需要建立一个新的Hive帐户，可以在<a href=\"https://signup.hive.io/\" target=\"_blank\" style=\"text-decoration: underline; color: white;\">signup.hive.io/</a>。",
+    "message": "在下面输入您的Pixa帐户名称以及该帐户的主密码或私人贴文或活跃私钥。 您的主密码将不会保存，只会使用於生成私钥。<br/><br/> 您可以随时新增/删除Pixa帐户或私钥。",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -428,11 +428,11 @@
     "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
-    "message": "Power Up您的HIVE，以将其转换为HIVE Power。",
+    "message": "Power Up您的PIXA，以将其转换为Pixa Power。",
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Power Down您的HIVE Power，以得到流动HIVE。 整个Power Down过程将花费13週。",
+    "message": "Power Down您的Pixa Power，以得到流动PIXA。 整个Power Down过程将花费13週。",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
@@ -904,7 +904,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "为了能够使用 Pixtopia Keychain，请设定您的钱包。 点击浏览器右上角的 Pixagram keychain标誌(它可能隐藏在扩展清单中)，然後设定您的密码并导入您的帐号。",
+    "message": "为了能够使用 Pixtopia Keychain，请设定您的钱包。 点击浏览器右上角的 Pixtopia Keychain标誌(它可能隐藏在扩展清单中)，然後设定您的密码并导入您的帐号。",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1162,11 +1162,11 @@
     "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hive": {
-    "message": "HIVE存款",
-    "description": "When clicking on the Pixagram arrow menu"
+    "message": "PIXA存款",
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
-    "message": "HBD存款",
+    "message": "PXS存款",
     "description": "When clicking on the PXS arrow menu"
   },
   "popup_html_deposit_param": {
@@ -1338,7 +1338,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "您可以选择使用 RPC 节点从 Pixagram 区块链读取讯息和广播交易。",
+    "message": "您可以选择使用 RPC 节点从 Pixa 区块链读取讯息和广播交易。",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

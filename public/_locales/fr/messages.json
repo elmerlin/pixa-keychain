@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Portefeuille sécurisé pour Pixagram.",
+    "message": "Portefeuille sécurisé pour Pixa.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -72,11 +72,11 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "Le meilleur portefeuille pour Pixagram<strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur PIXA et connectez-vous aux applications PIXA.<br/><br/>Simple. Léger. Sécurisé.",
+    "message": "Le meilleur portefeuille pour <strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur Pixa et connectez-vous aux applications Pixa.<br/><br/>Simple. Léger. Sécurisé.",
     "description": "Text on registration page"
   },
   "popup_html_unlock": {
-    "message": "Le meilleur portefeuille pour <strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur PIXA et connectez-vous aux applications PIXA.<br/><br/>Simple. Léger. Sécurisé.",
+    "message": "Le meilleur portefeuille pour <strong>PIXA</strong>!<br/><br/>Gérez vos actifs sur Pixa et connectez-vous aux applications Pixa.<br/><br/>Simple. Léger. Sécurisé.",
     "description": "Text on unlock page"
   },
   "popup_html_new_password": {
@@ -156,7 +156,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Entrez ci-dessous votre identifiant Pixagram et soit mot de passe principal de votre compte, soit une de vos clés privées (active ou de publication). Votre mot de passe principal ne sera PAS sauvegardé et ne sera utilisé que pour générer vos clés privées.<br/><br/> Vous pouvez ajouter/supprimer des comptes Pixagram ou des clés à tout moment. Si vous devez créer un nouveau compte Pixagram, vous pouvez le faire sur <a href=\"https://signup.hive.io/\" target=\"_blank\" style=\"text-decoration: underline; color: white;\">signup.hive.io/</a>.",
+    "message": "Entrez ci-dessous votre identifiant Pixa et soit mot de passe principal de votre compte, soit une de vos clés privées (active ou de publication). Votre mot de passe principal ne sera PAS sauvegardé et ne sera utilisé que pour générer vos clés privées.<br/><br/> Vous pouvez ajouter/supprimer des comptes Pixa ou des clés à tout moment.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -432,11 +432,11 @@
     "description": "Main page > Power Up . Current PP balance"
   },
   "popup_html_powerup_text": {
-    "message": "Utilisez le Power Up sur votre Pixagram pour obtenir du Pixa Power.",
+    "message": "Utilisez le Power Up sur votre PIXA pour obtenir du Pixa Power.",
     "description": "Main page > Power Up"
   },
   "popup_html_powerdown_text": {
-    "message": "Utilisez le Power Down sur votre Pixa Power pour obtenir du Pixagram liquide. La procédure de Power Down prendra 13 semaines.",
+    "message": "Utilisez le Power Down sur votre Pixa Power pour obtenir du PIXA liquide. La procédure de Power Down prendra 13 semaines.",
     "description": "Main page > Power Down"
   },
   "popup_html_powering_down": {
@@ -1022,7 +1022,7 @@
     "message": "Le vote du proposal #$1 a bien été retiré."
   },
   "bgd_ops_pu": {
-    "message": "A Power Up $1 Pixagram sur @$2."
+    "message": "A Power Up $1 PIXA sur @$2."
   },
   "bgd_ops_pd": {
     "message": "Un Power Down de $1 PP a été lancé pour @$2."
@@ -1125,7 +1125,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Veuillez enregistrer @$1 sur Pixtopia Keychain Pixagram avant de l'utiliser en tant que compte autorisé."
+    "message": "Veuillez enregistrer @$1 sur Pixtopia Keychain avant de l'utiliser en tant que compte autorisé."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 n'a pas autorité sur @$2.",
@@ -1171,7 +1171,7 @@
   },
   "popup_html_save_hive": {
     "message": "Épargne PIXA",
-    "description": "When clicking on the Pixagram arrow menu"
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "Épargne PXS",
@@ -1346,7 +1346,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Vous pouvez choisir quel RPC sera utilisé pour lire les informations et diffuser les transactions de/vers la blockchain Pixagram.",
+    "message": "Vous pouvez choisir quel RPC sera utilisé pour lire les informations et diffuser les transactions de/vers la blockchain Pixa.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

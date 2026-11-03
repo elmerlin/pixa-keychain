@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Sichere Pixagram Wallet Erweiterung.",
+    "message": "Sichere Pixa Wallet Erweiterung.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -96,7 +96,7 @@
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "PIXA Assets verwalten und mit PIXA Anwendungen verbinden",
+    "message": "Pixa Assets verwalten und mit Pixa Anwendungen verbinden",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
@@ -196,7 +196,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Gebe Sie Ihren Pixagram Account Namen und entweder das Master-Passwort oder den privaten Posting- oder Active Key für dieses Konto ein. Ihr Master-Passwort wird NICHT gespeichert und wird nur verwendet, um ihre privaten Schlüssel zu generieren.<br/><br/> Sie können Pixagram Accounts oder Schlüssel jederzeit hinzufügen oder entfernen. Wenn Sie einen neuen Pixagram Account erstellen möchten, können Sie dies unter <a href=\"https://signup.hive.io\" target=\"_blank\" >signup.hive.io</a> tun.",
+    "message": "Gebe Sie Ihren Pixa Account Namen und entweder das Master-Passwort oder den privaten Posting- oder Active Key für dieses Konto ein. Ihr Master-Passwort wird NICHT gespeichert und wird nur verwendet, um ihre privaten Schlüssel zu generieren.<br/><br/> Sie können Pixa Accounts oder Schlüssel jederzeit hinzufügen oder entfernen.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -1451,7 +1451,7 @@
   },
   "popup_html_save_hive": {
     "message": "PIXA Ersparnisse",
-    "description": "When clicking on the Pixagram arrow menu"
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "PXS Ersparnisse",
@@ -1526,7 +1526,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Pixagram",
+    "message": "Pixa",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1638,7 +1638,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Sie können auswählen, welche RPC-Node verwendet wird, um Informationen zu lesen und Transaktionen von/zur Pixagram Blockchain zu übertragen.",
+    "message": "Sie können auswählen, welche RPC-Node verwendet wird, um Informationen zu lesen und Transaktionen von/zur Pixa Blockchain zu übertragen.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

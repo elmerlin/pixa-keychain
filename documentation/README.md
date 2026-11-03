@@ -88,13 +88,11 @@
 *   [requestCallback][88]
     *   [Parameters][89]## About Keychain![][90]
 
-Putting private keys directly into websites is not safe or secure, even ones run by reputable community members. Yet this is currently how nearly every Pixagram-based site or service currently works. On top of that, most Pixagram users likely use their master password which is even worse.
-
-The Vessel desktop wallet software is a secure alternative, but it is too difficult to use for the majority of Pixagram users and does not easily interact with websites - which is Pixagram's primary use case.
+Putting private keys directly into websites is not safe or secure, even ones run by reputable community members. Yet this is currently how nearly every Pixa-based site or service currently works. On top of that, most Pixa users likely use their master password which is even worse.
 
 On Ethereum, you never have to enter your private key into a website to use a dApp. You can just use a browser extension like Metamask, which dApp websites can interface with to securely store your keys and broadcast transactions to the blockchain.
 
-Pixtopia Keychain aims to bring the security and ease-of-use of Metamask to the Pixagram blockchain platform.
+Pixtopia Keychain aims to bring the security and ease-of-use of Metamask to the Pixa blockchain platform.
 
 ### Installation
 
@@ -114,12 +112,11 @@ You can download and install the latest published version of the extension for t
 
 The Pixtopia Keychain extension includes the following features:
 
-*   Store an unlimited number of Pixagram account keys, encrypted with AES
+*   Store an unlimited number of Pixa account keys, encrypted with AES
 *   View balances, transaction history, voting power, and resource credits
 *   Send PIXA and PXS transfers, manage witness votes, and update PP delegation right from the extension
-*   Manage your Pixagram Engine tokens
 *   Power up or down
-*   Securely interact with Pixagram-based websites that have integrated with Pixtopia Keychain
+*   Securely interact with Pixa-based websites that have integrated with Pixtopia Keychain
 *   Manage transaction confirmation preferences by account and by website
 *   Locks automatically on browser shutdown or manually using the lock button
 
@@ -128,12 +125,11 @@ The Pixtopia Keychain extension includes the following features:
 Websites can currently request the Pixtopia Keychain extension to perform the following functions / broadcast operations:
 
 *   Send a handshake to make sure the extension is installed
-*   Decrypt a message encrypted by a Pixagram account private key (commonly used for "logging in")
+*   Decrypt a message encrypted by a Pixa account private key (commonly used for "logging in")
 *   Post a comment (top level or reply)
 *   Broadcast a vote
 *   Broadcast a custom JSON operation
 *   Send a transfer
-*   Send Pixagram Engine tokens
 *   Send Delegations
 *   Power up/down
 *   Vote for witnesses
@@ -161,7 +157,7 @@ Alternatively, you can use `requestSignTx` and verify the signature on your back
 
 ## @hiveio/keychain
 
-This [npm module][96] makes it easy to add Keychain support within the browser. It also includes helpful functions to check whether Keychain was used before. It was developed by @therealwolf (witness).## OperationsThe Pixtopia Keychain extension will inject a "pixa\_keychain" JavaScript into all web pages opened in the browser while the extension is running. You can therefore check if the current user has the extension installed using the following code:### pixa\_keychainUse the `pixa_keychain` methods listed below to issue requests to the Pixagram blockchain.#### requestHandshakeThis function is called to verify Keychain installation on a user's device##### Parameters*   `callback` **[function][97]** Confirms Keychain installation (has no parameters)#### requestEncodeMessageThis function is called to verify that the user has a certain authority over an account, by requesting to decode a message##### Parameters*   `username` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+This [npm module][96] makes it easy to add Keychain support within the browser. It also includes helpful functions to check whether Keychain was used before. It was developed by @therealwolf (witness).## OperationsThe Pixtopia Keychain extension will inject a "pixa\_keychain" JavaScript into all web pages opened in the browser while the extension is running. You can therefore check if the current user has the extension installed using the following code:### pixa\_keychainUse the `pixa_keychain` methods listed below to issue requests to the Pixa blockchain.#### requestHandshakeThis function is called to verify Keychain installation on a user's device##### Parameters*   `callback` **[function][97]** Confirms Keychain installation (has no parameters)#### requestEncodeMessageThis function is called to verify that the user has a certain authority over an account, by requesting to decode a message##### Parameters*   `username` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `receiver` **[String][98]** Account that will decode the string
 *   `message` **[String][98]** Message to be encrypted
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
@@ -174,7 +170,7 @@ keychain.requestEncodeMessage(username, myUsername, message, 'Memo', (response) 
     // Send message to a server where you can use your private key to decode it
   }
 });
-```#### requestEncodeWithKeysThis function is called to allow encoding a message with multiple receivers. Useful when a message has several receivers##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestEncodeWithKeysThis function is called to allow encoding a message with multiple receivers. Useful when a message has several receivers##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `publicKeys` **[Array][99]<[String][98]>** Key that can decode the string
 *   `message` **[String][98]** Message to be encrypted
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
@@ -187,7 +183,7 @@ keychain.requestEncodeMessage(username, [pubKey1, pubKey2], message, 'Memo', (re
     // Send message to a server where you can use your private key to decode it
   }
 });
-```#### requestVerifyKeyThis function is called to verify that the user has a certain authority over an account, by requesting to decode a message##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestVerifyKeyThis function is called to verify that the user has a certain authority over an account, by requesting to decode a message##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `message` **[String][98]** Message to be decoded by the account
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request##### Examples```javascript
@@ -197,12 +193,12 @@ keychain.requestVerifyKey('pixtopia', encodedMessage, 'Posting', (response) => {
     const decodedMessage = response.result;
   }
 });
-```#### requestSignBufferRequests a message to be signed with proper authority##### Parameters*   `account` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+```#### requestSignBufferRequests a message to be signed with proper authority##### Parameters*   `account` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `message` **[String][98]** Message to be signed by the account
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
 *   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)
-*   `title` **[String][98]** Override "Sign message" title (optional, default `null`)#### requestAddAccountAuthorityRequests to add account authority over another account.##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+*   `title` **[String][98]** Override "Sign message" title (optional, default `null`)#### requestAddAccountAuthorityRequests to add account authority over another account.##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `authorizedUsername` **[String][98]** Authorized account
 *   `role` **[String][98]** Type of authority. Can be 'Posting','Active' or 'Memo'
 *   `weight` **[number][100]** Weight of the authority
@@ -213,7 +209,7 @@ const keychain = window.pixa_keychain
 keychain.requestAddAccountAuthority(account, 'pixtopia', 'Active', 2, (response) => {
   console.log(response);
 });
-```#### requestRemoveAccountAuthorityRequests to remove an account authority over another account.##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestRemoveAccountAuthorityRequests to remove an account authority over another account.##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `authorizedUsername` **[String][98]** Account to lose authority
 *   `role` **[String][98]** Type of authority. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -223,7 +219,7 @@ const keychain = window.pixa_keychain;
 keychain.requestRemoveAccountAuthority(account, 'pixtopia', 'Active', (response) => {
   console.log(response);
 });
-```#### requestAddKeyAuthorityRequests to add a new key authority to an account.##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestAddKeyAuthorityRequests to add a new key authority to an account.##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `authorizedKey` **[String][98]** New public key to be associated with the account
 *   `role` **[String][98]** Type of authority. Can be 'Posting','Active' or 'Memo'
 *   `weight` **[number][100]** Weight of the key authority
@@ -233,7 +229,7 @@ const keychain = window.pixa_keychain;
 keychain.requestAddKeyAuthority(username, publicKey, 'Memo', 1, (response) => {
   console.log(response);
 });
-```#### requestRemoveKeyAuthorityRequests to remove a key to an account.##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestRemoveKeyAuthorityRequests to remove a key to an account.##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `authorizedKey` **[String][98]** Key to be removed (public key).
 *   `role` **[String][98]** Type of authority. Can be 'Posting','Active' or 'Memo'.
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -242,7 +238,7 @@ const keychain = window.pixa_keychain;
 keychain.requestRemoveKeyAuthority(username, publicKey, 'Memo', (response) => {
   console.log(response);
 });
-```#### requestBroadcastGeneric broadcast request##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestBroadcastGeneric broadcast request##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `operations` **[Array][99]** Array of operations to be broadcasted
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -260,7 +256,7 @@ keychain.requestBroadcast('pixa.team', [
 ], 'Active', (response) => {
   console.log(response);
 });
-```#### requestSignTxRequests to sign a transaction with a given authority##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestSignTxRequests to sign a transaction with a given authority##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `tx` **[Object][101]** Unsigned transaction
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -289,12 +285,12 @@ keychain.requestSignTx(username, op, 'Posting', async (response) => {
     await client.broadcast.send(response.result);
   }
 });
-```#### requestSignedCallRequests a signed call##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestSignedCallRequests a signed call##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `method` **[String][98]** Method of the call
 *   `params` **[String][98]** Parameters of the call
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
-*   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)**Meta***   **deprecated**: This is deprecated.#### requestPostRequests to broadcast a blog post/comment##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+*   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)**Meta***   **deprecated**: This is deprecated.#### requestPostRequests to broadcast a blog post/comment##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `title` **[String][98]** Title of the blog post
 *   `body` **[String][98]** Content of the blog post
 *   `parent_perm` **[String][98]** Permlink of the parent post. Main tag for a root post
@@ -310,7 +306,7 @@ keychain.requestPost('pixtopia', 'Hello World!', '## This is a blog post \
 And this is some text', 'Blog', null, {format:'markdown',description:'A blog post',tags:['Blog']},'hello-world', {"author":"pixtopia","permlink":"hi","max_accepted_payout":"100000.000 PXS","percent_pxs":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}, (response) => {
   console.log(response);
 });
-```#### requestVoteRequests a vote##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
+```#### requestVoteRequests a vote##### Parameters*   `account` **[String][98]** Pixa account to perform the request
 *   `permlink` **[String][98]** Permlink of the blog post
 *   `author` **[String][98]** Author of the blog post
 *   `weight` **[Number][100]** Weight of the vote, comprised between -10,000 (-100%) and 10,000 (100%)
@@ -321,7 +317,7 @@ const keychain = window.pixa_keychain;
 keychain.requestVote('pixa.team', 'hello-world', 'pixtopia', 5000, (response) => {
   console.log(response);
 });
-```#### requestCustomJsonRequests a custom JSON broadcast##### Parameters*   `account` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+```#### requestCustomJsonRequests a custom JSON broadcast##### Parameters*   `account` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `id` **[String][98]** Type of custom\_json to be broadcasted
 *   `key` **[String][98]** Type of key. Can be 'Posting','Active' or 'Memo'
 *   `json` **[String][98]** Stringified custom json
@@ -332,8 +328,8 @@ const keychain = window.pixa_keychain;
 keychain.requestCustomJson(null, 'sm_market_rent', 'Active', JSON.stringify({items:["9292cd44ccaef8b73a607949cc787f1679ede10b-93"],currency:"DEC",days:1}), 'Rent 1 card on Splinterlands', (response) => {
   console.log(response);
 });
-```#### requestTransferRequests a transfer##### Parameters*   `account` **[String][98]** Pixagram account to perform the request
-*   `to` **[String][98]** Pixagram account to receive the transfer
+```#### requestTransferRequests a transfer##### Parameters*   `account` **[String][98]** Pixa account to perform the request
+*   `to` **[String][98]** Pixa account to receive the transfer
 *   `amount` **[String][98]** Amount to be transfered. Requires 3 decimals.
 *   `memo` **[String][98]** The memo will be automatically encrypted if starting by '#' and the memo key is available on Keychain. It will also overrule the account to be enforced, regardless of the 'enforce' parameter
 *   `currency` **[String][98]** 'PIXA' or 'PXS'
@@ -344,7 +340,7 @@ const keychain = window.pixa_keychain;
 keychain.requestTransfer(username, toUsername, amount.toFixed(3),'','PIXA',(response) => {
   console.log(response)
 }, true);
-```#### requestSavingsOperationRequests a savings operation (deposit or withdraw)##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestSavingsOperationRequests a savings operation (deposit or withdraw)##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `to` **[String][98]** Account to receive the savings transfer
 *   `amount` **[String][98]** Amount to be transferred. Requires 3 decimals.
 *   `currency` **[String][98]** 'PIXA' or 'PXS'
@@ -356,7 +352,7 @@ const keychain = window.pixa_keychain;
 keychain.requestSavingsOperation(username, toUsername, '1.000', 'PXS', 'deposit', 'test memo', (response) => {
   console.log(response);
 });
-```#### requestDelegationRequests a delegation broadcast##### Parameters*   `username` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+```#### requestDelegationRequests a delegation broadcast##### Parameters*   `username` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `delegatee` **[String][98]** Account to receive the delegation
 *   `amount` **[String][98]** Amount to be transfered. Requires 3 decimals for PP, 6 for VESTS.
 *   `unit` **[String][98]** PP or VESTS
@@ -370,7 +366,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestWitnessVoteRequests a witness vote broadcast##### Parameters*   `username` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+```#### requestWitnessVoteRequests a witness vote broadcast##### Parameters*   `username` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `witness` **[String][98]** Account to receive the witness vote
 *   `vote` **[boolean][102]** Set to true to vote for the witness, false to unvote
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -384,7 +380,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestProxySelect an account as proxy##### Parameters*   `username` **[String][98]** Pixagram account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
+```#### requestProxySelect an account as proxy##### Parameters*   `username` **[String][98]** Pixa account to perform the request. If null, user can choose the account from a dropdown (optional, default `null`)
 *   `proxy` **[String][98]** Account to become the proxy. Empty string ('') to remove a proxy
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
 *   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)##### Examples```javascript
@@ -407,7 +403,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestPowerUpRequest a power up##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestPowerUpRequest a power up##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `recipient` **[String][98]** Account to receive the power up
 *   `hive` **[String][98]** Amount of PIXA to be powered up
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -421,7 +417,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestPowerDownRequest a power down##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestPowerDownRequest a power down##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `hive_power` **[String][98]** Amount of PIXA to be powered down
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
 *   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)##### Examples```javascript
@@ -434,14 +430,14 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestCreateClaimedAccountRequest the creation of an account using claimed tokens##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestCreateClaimedAccountRequest the creation of an account using claimed tokens##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `new_account` **[String][98]** New account to be created
 *   `owner` **[object][101]** owner authority object
 *   `active` **[object][101]** active authority object
 *   `posting` **[object][101]** posting authority object
 *   `memo` **[String][98]** public memo key
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
-*   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)#### requestCreateProposalRequest the creation of a DHF proposal##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+*   `rpc` **[String][98]** Override user's RPC settings (optional, default `null`)#### requestCreateProposalRequest the creation of a DHF proposal##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `receiver` **[String][98]** Account receiving the funding if the proposal is voted
 *   `subject` **[String][98]** Title of the DAO
 *   `permlink` **[String][98]** Permlink to the proposal description
@@ -459,7 +455,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestRemoveProposalRequest the removal of a DHF proposal##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestRemoveProposalRequest the removal of a DHF proposal##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `proposal_ids` **[String][98]** Stringified Array of ids of the proposals to be removed
 *   `extensions` **[String][98]** Stringified Array of extensions
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -472,7 +468,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestUpdateProposalVoteVote/Unvote a DHF proposal##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestUpdateProposalVoteVote/Unvote a DHF proposal##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `proposal_ids` **[String][98]** Stringified Array of Ids of the proposals to be voted
 *   `approve` **[boolean][102]** Set to true to support the proposal, false to remove a vote
 *   `extensions` **[String][98]** Stringified Array of extensions
@@ -511,7 +507,7 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestConversionRequest currency conversion##### Parameters*   `username` **[String][98]** Pixagram account to perform the request
+```#### requestConversionRequest currency conversion##### Parameters*   `username` **[String][98]** Pixa account to perform the request
 *   `amount` **[String][98]** amount to be converted.
 *   `collaterized` **[Boolean][102]** true to convert PIXA to PXS. false to convert PXS to PIXA.
 *   `callback` **[requestCallback][88]** Function that handles Keychain's response to the request
@@ -525,8 +521,8 @@ if (window.pixa_keychain) {
 } else {
   alert('You do not have hive keychain installed');
 }
-```#### requestRecurrentTransferRequest recurrent transfer##### Parameters*   `username` **[String][98]** Pixagram account to perform the request (optional, default `null`)
-*   `to` **[String][98]** Pixagram account receiving the transfers.
+```#### requestRecurrentTransferRequest recurrent transfer##### Parameters*   `username` **[String][98]** Pixa account to perform the request (optional, default `null`)
+*   `to` **[String][98]** Pixa account receiving the transfers.
 *   `amount` **[String][98]** amount to be sent on each execution.
 *   `currency` **[String][98]** PIXA or PXS on mainnet.
 *   `memo` **[String][98]** transfer memo

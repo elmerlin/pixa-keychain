@@ -1,10 +1,10 @@
 # Pixtopia Keychain
 
-A wallet browser extension for the [Pixagram](https://pixagram.com) blockchain. Keep your keys in
+A wallet browser extension for the Pixa blockchain. Keep your keys in
 your browser, and let sites ask you to sign without ever seeing them.
 
 It's a fork of [Hive Keychain](https://github.com/hive-keychain/hive-keychain-extension), ported to
-Pixagram and restyled for [Pixtopia](https://pixtopia.net).
+Pixa and restyled for [Pixtopia](https://pixtopia.net).
 
 ## Install it
 

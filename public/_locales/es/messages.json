@@ -4,7 +4,7 @@
     "description": "Extension name, night not need to translate it."
   },
   "description": {
-    "message": "Extensión Segura del Monedero Pixagram.",
+    "message": "Extensión Segura del Monedero Pixa.",
     "description": "Extension description, as shown in the store."
   },
   "popup_html_wrong_key": {
@@ -88,7 +88,7 @@
     "description": "Full in x days x hours x minutes"
   },
   "popup_html_register": {
-    "message": "El monedero <strong>PIXA</strong> definitivo.<br/><br/>Administra los activos PIXA y conéctate a aplicaciones PIXA.<br/><br/>Simple. Ligero. Seguro.",
+    "message": "El monedero <strong>PIXA</strong> definitivo.<br/><br/>Administra los activos de Pixa y conéctate a aplicaciones Pixa.<br/><br/>Simple. Ligero. Seguro.",
     "description": "Text on registration page"
   },
   "popup_html_unlock1": {
@@ -96,7 +96,7 @@
     "description": "Text on unlock page"
   },
   "popup_html_unlock2": {
-    "message": "Gestiona los activos y conéctate a las aplicaciones de PIXA",
+    "message": "Gestiona los activos y conéctate a las aplicaciones de Pixa",
     "description": "Text on unlock page"
   },
   "popup_html_unlock3": {
@@ -196,7 +196,7 @@
     "description": "Upon clicking on History"
   },
   "popup_html_setup_text": {
-    "message": "Introduce el nombre de tu cuenta Pixagram y la contraseña maestra o la llave privada o activa de esa cuenta a continuación. Tu contraseña maestra NO se guardará y solo se utilizará para generar tus llaves privadas.<br/><br/>Puedes añadir / eliminar cuentas o llaves de Pixagram en cualquier momento. Si necesitas crear una nueva cuenta de Pixagram, puedes hacerlo en <a href=\"https://signup.hive.io\" target=\"_blank\" >signup.hive.io</a>.",
+    "message": "Introduce el nombre de tu cuenta Pixa y la contraseña maestra o la llave privada o activa de esa cuenta a continuación. Tu contraseña maestra NO se guardará y solo se utilizará para generar tus llaves privadas.<br/><br/>Puedes añadir / eliminar cuentas o llaves de Pixa en cualquier momento.",
     "description": "When adding new account"
   },
   "popup_html_setup": {
@@ -1451,7 +1451,7 @@
   },
   "popup_html_save_hive": {
     "message": "Ahorros PIXA",
-    "description": "When clicking on the Pixagram arrow menu"
+    "description": "When clicking on the PIXA arrow menu"
   },
   "popup_html_save_hbd": {
     "message": "Ahorros PXS",
@@ -1526,7 +1526,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
-    "message": "Pixagram",
+    "message": "Pixa",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1638,7 +1638,7 @@
     "description": "No accounts available for shortcuts"
   },
   "popup_html_rpc_node_text": {
-    "message": "Puede elegir qué nodo RPC se utiliza para leer información y transmitir transacciones desde/hacia el Pixagram Blockchain.",
+    "message": "Puede elegir qué nodo RPC se utiliza para leer información y transmitir transacciones desde/hacia el Pixa Blockchain.",
     "description": "Text on rpc node settings page"
   },
   "popup_html_rpc_missing_fields": {

@@ -156,7 +156,7 @@ const RpcNodes = ({
 
       <div className="rpc-form-container">
         <div className="rpc-section hive-rpc" data-testid="section-hive-rpc">
-          <div className="title">Pixagram</div>
+          <div className="title">Pixa</div>
           <CheckboxPanelComponent
             dataTestId="checkbox-rpc-nodes-automatic-mode"
             title="popup_html_rpc_automatic_mode"
