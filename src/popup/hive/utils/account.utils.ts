@@ -39,7 +39,10 @@ export enum AccountErrorMessages {
   PASSWORD_IS_PUBLIC_KEY = 'popup_account_password_is_public_key',
 }
 
-const getKeys = async (username: string, password: string) => {
+const getKeys = async (
+  username: string,
+  password: string,
+): Promise<Keys> => {
   const hiveAccounts = await AccountUtils.getAccount(username);
   if (hiveAccounts.length === 0) {
     throw new Error(AccountErrorMessages.INCORRECT_USER);
@@ -76,19 +79,31 @@ const getKeys = async (username: string, password: string) => {
         activePubkey: pubUnknown,
       };
     }
-    return matchingKeys;
+    if (KeysUtils.keysCount(matchingKeys) > 0) {
+      return matchingKeys;
+    }
   }
 
+  // Anything else may be a master key, whatever it looks like: Pixagram doesn't fix its shape.
   const keys = KeysUtils.derivateFromMasterPassword(
     username,
     password,
     hiveAccounts[0],
   );
-
-  if (!keys) {
-    throw new Error(AccountErrorMessages.INCORRECT_KEY);
+  if (keys) {
+    return keys;
   }
-  return keys;
+
+  // Copied from a PDF, a long key can pick up a space or a line break.
+  const compact = password.replace(/\s+/g, '');
+  if (compact !== password) {
+    return getKeys(username, compact);
+  }
+
+  if (isWif(password)) {
+    return {};
+  }
+  throw new Error(AccountErrorMessages.INCORRECT_KEY);
 };
 
 const verifyAccount = async (
@@ -96,10 +111,6 @@ const verifyAccount = async (
   password: string,
   existingAccounts: LocalAccount[],
 ): Promise<Keys | null> => {
-  if (password.startsWith('PIX')) {
-    throw new Error(AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY);
-  }
-
   if (username.length === 0 || password.length === 0) {
     throw new Error(AccountErrorMessages.MISSING_FIELDS);
   }
@@ -107,9 +118,23 @@ const verifyAccount = async (
     throw new Error(AccountErrorMessages.ALREADY_REGISTERED);
   }
 
-  const keys = await getKeys(username, password);
+  // Only once nothing has matched can it be a public key: a master key could begin with these letters too.
+  const notKeys = () =>
+    new Error(
+      password.startsWith('PIX')
+        ? AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY
+        : AccountErrorMessages.INCORRECT_KEY,
+    );
+  let keys;
+  try {
+    keys = await getKeys(username, password);
+  } catch (error) {
+    throw (error as Error).message === AccountErrorMessages.INCORRECT_KEY
+      ? notKeys()
+      : error;
+  }
   if (!keys || KeysUtils.keysCount(keys) === 0) {
-    throw new Error(AccountErrorMessages.INCORRECT_KEY);
+    throw notKeys();
   }
   return keys;
 };

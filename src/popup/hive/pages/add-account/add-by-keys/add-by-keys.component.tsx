@@ -34,10 +34,11 @@ const AddByKeys = ({
   }, []);
 
   const submitForm = async (): Promise<void> => {
+    const name = username.trim().replace(/^@/, '').toLowerCase();
     if (
       localAccounts
         .map((localAccount: LocalAccount) => localAccount.name)
-        .includes(username)
+        .includes(name)
     ) {
       setErrorMessage('popup_html_account_already_existing');
       return;
@@ -45,7 +46,7 @@ const AddByKeys = ({
     let keys;
     try {
       keys = await AccountUtils.verifyAccount(
-        username.trim(),
+        name,
         privateKey.trim(),
         localAccounts,
       );
@@ -58,9 +59,12 @@ const AddByKeys = ({
     }
 
     if (KeysUtils.keysCount(keys) > 2) {
-      navigateToWithParams(Screen.ACCOUNT_PAGE_SELECT_KEYS, { keys, username });
+      navigateToWithParams(Screen.ACCOUNT_PAGE_SELECT_KEYS, {
+        keys,
+        username: name,
+      });
     } else {
-      addAccount({ name: username, keys: keys });
+      addAccount({ name, keys: keys });
     }
   };
 

@@ -24,6 +24,8 @@ export interface PageTitleProps {
   };
   onCloseAdditional?: () => void;
   onBackAdditional?: () => void;
+  // Where back goes when there's nothing behind this screen in the navigation.
+  onBack?: () => void;
 }
 
 const PageTitle = ({
@@ -34,6 +36,7 @@ const PageTitle = ({
   isCloseButtonDisabled,
   rightAction,
   onBackAdditional,
+  onBack,
   onCloseAdditional,
   goBack,
   navigateTo,
@@ -42,6 +45,10 @@ const PageTitle = ({
   showDetachWindowOption,
 }: PropsType) => {
   const handleBackButtonClick = (): void => {
+    if (onBack) {
+      onBack();
+      return;
+    }
     if (onBackAdditional) onBackAdditional();
     if (isBackButtonEnabled) {
       goBack();
@@ -70,7 +77,7 @@ const PageTitle = ({
 
   return (
     <div className="title-section">
-      {isBackButtonEnabled && canGoBack && (
+      {((isBackButtonEnabled && canGoBack) || onBack) && (
         <SVGIcon
           dataTestId="arrow-back-icon"
           onClick={handleBackButtonClick}

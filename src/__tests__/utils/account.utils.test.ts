@@ -262,6 +262,131 @@ describe('account.utils tests:\n', () => {
     });
   });
 
+  describe('master keys, whatever they look like:\n', () => {
+    const { PrivateKey } = require('hive-tx');
+    const name = 'somebody';
+    // Later tests here lean on the mock the ones before them left behind.
+    let getAccount: typeof AccountUtils.getAccount;
+    beforeAll(() => {
+      getAccount = AccountUtils.getAccount;
+    });
+    afterAll(() => {
+      AccountUtils.getAccount = getAccount;
+    });
+    const accountFor = (master: string) => {
+      const authority = (role: string) => ({
+        weight_threshold: 1,
+        account_auths: [],
+        key_auths: [
+          [PrivateKey.fromLogin(name, master, role).createPublic().toString(), 1],
+        ],
+      });
+      return {
+        owner: authority('owner'),
+        active: authority('active'),
+        posting: authority('posting'),
+        memo_key: PrivateKey.fromLogin(name, master, 'memo')
+          .createPublic()
+          .toString(),
+      };
+    };
+    const keyShaped = PrivateKey.fromSeed('made up for this test').toString();
+    const shapes: [string, string][] = [
+      ['a private key', keyShaped],
+      ['P and a private key', `P${keyShaped}`],
+      ['long base58', '3mJr7AoUXx2Wqd'.repeat(6)],
+      ['beginning with PIX', `PIX${keyShaped}`],
+      ['a passphrase', 'correct horse battery staple'],
+    ];
+
+    it.each(shapes)('derives from %s', async (_, master) => {
+      AccountUtils.getAccount = jest
+        .fn()
+        .mockResolvedValue([accountFor(master)]);
+      const keys = await AccountUtils.verifyAccount(name, master, []);
+      expect(keys!.posting).toBe(
+        PrivateKey.fromLogin(name, master, 'posting').toString(),
+      );
+      expect(keys!.active).toBe(
+        PrivateKey.fromLogin(name, master, 'active').toString(),
+      );
+      // The owner key is never kept, even when the master key could derive it.
+      expect(JSON.stringify(keys)).not.toContain(
+        PrivateKey.fromLogin(name, master, 'owner').toString(),
+      );
+    });
+
+    it.each([
+      ['a space', ' '],
+      ['a line break', '\n'],
+    ])('copes with %s inside a master key', async (_, gap) => {
+      const master = `P${keyShaped}`;
+      AccountUtils.getAccount = jest
+        .fn()
+        .mockResolvedValue([accountFor(master)]);
+      const keys = await AccountUtils.verifyAccount(
+        name,
+        `${master.slice(0, 20)}${gap}${master.slice(20)}`,
+        [],
+      );
+      expect(keys!.posting).toBeTruthy();
+    });
+
+    it('copes with a space inside a posting key', async () => {
+      const posting = PrivateKey.fromLogin(name, 'master', 'posting').toString();
+      AccountUtils.getAccount = jest
+        .fn()
+        .mockResolvedValue([accountFor('master')]);
+      const keys = await AccountUtils.verifyAccount(
+        name,
+        `${posting.slice(0, 20)} ${posting.slice(20)}`,
+        [],
+      );
+      expect(keys).toEqual({
+        posting,
+        postingPubkey: PrivateKey.fromLogin(name, 'master', 'posting')
+          .createPublic()
+          .toString(),
+      });
+    });
+
+    it('still refuses an owner key, in any form', async () => {
+      const owner = PrivateKey.fromLogin(name, 'master', 'owner').toString();
+      AccountUtils.getAccount = jest
+        .fn()
+        .mockResolvedValue([accountFor('master')]);
+      await expect(AccountUtils.verifyAccount(name, owner, [])).rejects.toThrow(
+        AccountErrorMessages.OWNER_KEY,
+      );
+      await expect(
+        AccountUtils.verifyAccount(
+          name,
+          `${owner.slice(0, 20)} ${owner.slice(20)}`,
+          [],
+        ),
+      ).rejects.toThrow(AccountErrorMessages.OWNER_KEY);
+    });
+
+    it.each([
+      ['a key of the wrong account', keyShaped],
+      ['a wrong master key', 'not the right one'],
+    ])('refuses %s', async (_, input) => {
+      AccountUtils.getAccount = jest
+        .fn()
+        .mockResolvedValue([accountFor('the real master')]);
+      await expect(AccountUtils.verifyAccount(name, input, [])).rejects.toThrow(
+        AccountErrorMessages.INCORRECT_KEY,
+      );
+    });
+
+    it('says so when given a public key', async () => {
+      const account = accountFor('master');
+      AccountUtils.getAccount = jest.fn().mockResolvedValue([account]);
+      await expect(
+        AccountUtils.verifyAccount(name, account.posting.key_auths[0][0] as string, []),
+      ).rejects.toThrow(AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY);
+    });
+  });
   describe('verifyAccount tests:\n', () => {
     test('Must throw error if empty username', async () => {
       try {

@@ -42,7 +42,8 @@ const ACCOUNT = arg('account', 'pixtopia');
 const PASSWORD = `e2e-${Math.random().toString(36).slice(2)}-Aa1!`;
 const POPUP = { width: 435, height: 600 };
 
-const seed = `e2e-${Date.now()}`;
+// A master key that looks like a private key, the hardest shape to tell apart.
+const seed = PrivateKey.fromSeed(`e2e-${Date.now()}`).toString();
 const keys = Object.fromEntries(
   ['posting', 'active', 'memo', 'owner'].map((role) => {
     const key = PrivateKey.fromLogin(ACCOUNT, seed, role);
@@ -630,6 +631,18 @@ const run = async () => {
   await clickTest(page, 'signup-button');
   await settle();
   await shotBoth('add-account');
+  // Nothing is saved yet, so back returns to choosing a password.
+  await clickTest(page, 'arrow-back-icon');
+  await page.waitForSelector('[data-testid="password-input"]', {
+    timeout: 15000,
+  });
+  await settle();
+  await shot('signup-after-back');
+  await typeTest(page, 'password-input', PASSWORD);
+  await typeTest(page, 'password-input-confirmation', PASSWORD);
+  await clickTest(page, 'accept-terms-and-condition');
+  await clickTest(page, 'signup-button');
+  await settle();
   await clickTest(page, 'add-by-keys-button').catch(async () =>
     clickText(page, 'Use keys/pwd'),
   );

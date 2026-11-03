@@ -1,3 +1,4 @@
+import { forgetMk } from '@popup/multichain/actions/mk.actions';
 import { navigateTo } from '@popup/multichain/actions/navigation.actions';
 import { setTitleContainerProperties } from '@popup/multichain/actions/title-container.actions';
 import { RootState } from '@popup/multichain/store';
@@ -17,14 +18,23 @@ const AddAccountMain = ({
   accounts,
   setAccounts,
   setTitleContainerProperties,
+  forgetMk,
+  hasFinishedSignup,
 }: PropsFromRedux) => {
   const [importWindow, setImportWindow] = useState<number>();
+
+  // During first setup all that's behind this screen is choosing a password, and nothing's saved yet.
+  const backToPassword = () => {
+    forgetMk();
+    navigateTo(Screen.SIGN_UP_PAGE, true);
+  };
 
   useEffect(() => {
     setTitleContainerProperties({
       title: 'popup_html_setup',
       isBackButtonEnabled: true,
       isCloseButtonDisabled: !accounts || !accounts.length,
+      ...(hasFinishedSignup ? {} : { onBack: backToPassword }),
     });
   });
 
@@ -104,6 +114,7 @@ const AddAccountMain = ({
 const mapStateToProps = (state: RootState) => {
   return {
     accounts: state.hive.accounts,
+    hasFinishedSignup: state.hasFinishedSignup,
   };
 };
 
@@ -111,6 +122,7 @@ const connector = connect(mapStateToProps, {
   navigateTo,
   setAccounts,
   setTitleContainerProperties,
+  forgetMk,
 });
 type PropsFromRedux = ConnectedProps<typeof connector>;
 

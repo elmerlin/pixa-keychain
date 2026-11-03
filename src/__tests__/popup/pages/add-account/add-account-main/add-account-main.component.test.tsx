@@ -17,6 +17,28 @@ describe('add-account-main.component tests:\n', () => {
     cleanup();
   });
 
+  it('Must offer a way back to choosing a password during first setup', async () => {
+    const base = initialStates.iniStateAs.defaultExistent;
+    await reactTestingLibrary.renderWithConfiguration(
+      <HiveAppComponent />,
+      {
+        ...base,
+        hasFinishedSignup: false,
+        hive: { ...base.hive, accounts: [] },
+      },
+      {
+        app: {
+          accountsRelated: {
+            AccountUtils: {
+              hasStoredAccounts: false,
+            },
+          },
+        },
+      },
+    );
+    expect(await screen.findByTestId('arrow-back-icon')).toBeInTheDocument();
+  });
+
   describe('No Accounts cases: ', () => {
     beforeEach(async () => {
       const base = initialStates.iniStateAs.defaultExistent;
@@ -42,6 +64,11 @@ describe('add-account-main.component tests:\n', () => {
       expect(
         await screen.findByTestId(`${Screen.ACCOUNT_PAGE_INIT_ACCOUNT}-page`),
       ).toBeInTheDocument();
+    });
+
+    it('Must not offer a way back once setup has finished', async () => {
+      await screen.findByTestId(`${Screen.ACCOUNT_PAGE_INIT_ACCOUNT}-page`);
+      expect(screen.queryByTestId('arrow-back-icon')).not.toBeInTheDocument();
     });
 
     it('Must navigate to add-by-keys', async () => {

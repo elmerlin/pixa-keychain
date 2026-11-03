@@ -736,7 +736,7 @@
     "description": "when trying to add an account already saved on keychain"
   },
   "popup_accounts_incorrect_key": {
-    "message": "Incorrect private key or password.",
+    "message": "This doesn't match the account's keys. Check the account name and every character of the key.",
     "description": "when adding new account with incorrect key"
   },
   "popup_accounts_incorrect_user": {

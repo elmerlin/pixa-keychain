@@ -49,6 +49,7 @@ const AddAccountRouter = ({
             titleParams={titleProperties.titleParams}
             skipTitleTranslation={titleProperties.skipTitleTranslation}
             isBackButtonEnabled={titleProperties.isBackButtonEnabled}
+            onBack={titleProperties.onBack}
             isCloseButtonDisabled={
               titleProperties.isCloseButtonDisabled
             }></PageTitleComponent>
