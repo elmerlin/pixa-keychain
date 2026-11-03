@@ -1230,7 +1230,7 @@
     "description": "When adding an account by request"
   },
   "popup_html_automated_intro": {
-    "message": "如果适合您的条件，设置将每小时执行自动化任务。",
+    "message": "如果适合您的条件，设置将每 10 分钟执行自动化任务。",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1246,7 +1246,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "当您的 RC 百分比超过 1% 时，索取免费帐号券。 根据您的 Pixa Power，这可能会耗尽您的 RC 的很大一部分。",
+    "message": "每当您的 RC 达到 $1% 时索取一张帐号券，钱包需保持解锁。",
     "description": "When on automated tasks page"
   },
   "popup_html_proposal_vote_successful": {

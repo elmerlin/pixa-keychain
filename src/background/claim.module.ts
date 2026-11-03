@@ -1,6 +1,7 @@
 import { ActiveAccountModule } from '@background/active-account.module';
 import MkModule from '@background/mk.module';
 import BgdAccountsUtils from '@background/utils/accounts.utils';
+import { ActiveAccount } from '@interfaces/active-account.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { LocalStorageClaimItem } from '@interfaces/local-storage-claim-item.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
@@ -173,18 +174,38 @@ const iterateClaimAccounts = async (users: string[], mk: string) => {
   const localAccounts: LocalAccount[] =
     await BgdAccountsUtils.getAccountsFromLocalStorage(mk);
   for (const userAccount of userExtendedAccounts) {
-    const activeAccount = await ActiveAccountModule.createActiveAccount(
-      userAccount,
-      localAccounts,
-    );
-
-    if (
-      activeAccount &&
-      activeAccount.rc.percentage > Config.claims.freeAccount.MIN_RC_PCT
-    ) {
-      await AccountUtils.claimAccounts(activeAccount.rc, activeAccount);
+    // A refused ticket mustn't stop the rewards and savings claims that come after it.
+    try {
+      const activeAccount = await ActiveAccountModule.createActiveAccount(
+        userAccount,
+        localAccounts,
+      );
+      if (activeAccount) await claimTicketIfFull(activeAccount);
+    } catch (err) {
+      Logger.error(`Could not claim a ticket for @${userAccount.name}`, err);
     }
   }
+};
+
+// One ticket each time RC fills. An alarm that wakes the service worker runs the claims twice at
+// once, and the node can take a block to show RC going down, so a claim is remembered for a while.
+// Losing this when the worker stops is fine: by then the node has caught up.
+const lastTicketClaim: { [username: string]: number } = {};
+
+const claimTicketIfFull = async (activeAccount: ActiveAccount) => {
+  const { name, rc, keys } = activeAccount;
+  if (!keys.active || rc.percentage < Config.claims.freeAccount.MIN_RC_PCT) {
+    return;
+  }
+  const available = Number(rc.max_rc) * (rc.percentage / 100);
+  if (available < (await AccountUtils.getAccountTicketCost())) {
+    Logger.info(`@${name} doesn't have enough RC for a ticket`);
+    return;
+  }
+  const claimedAgo = Date.now() - (lastTicketClaim[name!] ?? 0);
+  if (claimedAgo < Config.claims.FREQUENCY * 60 * 1000) return;
+  lastTicketClaim[name!] = Date.now();
+  await AccountUtils.claimAccounts(activeAccount);
 };
 
 const ClaimModule = {

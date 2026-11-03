@@ -1538,7 +1538,7 @@
     "description": "When registering from request"
   },
   "popup_html_automated_intro": {
-    "message": "These tasks are checked every hour while your wallet is unlocked.",
+    "message": "These tasks are checked every 10 minutes while your wallet is unlocked.",
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
@@ -1554,11 +1554,11 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts": {
-    "message": "Claim accounts",
+    "message": "Claim account tickets",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Claim an account creation credit when RC is above $1%. This uses resource credits.",
+    "message": "Claims one ticket each time RC reaches $1%, while the wallet is unlocked.",
     "description": "When on automated tasks page"
   },
   "popup_html_insufficient_hp_claim_accounts": {
@@ -2803,7 +2803,7 @@
     "description": "automated tasks => need active key claim savings"
   },
   "popup_html_need_active_key_for_claim_accounts": {
-    "message": "You need to add your active key to Keychain to claim accounts",
+    "message": "Add this account's active key to claim tickets.",
     "description": "automated tasks => need active key claim accounts"
   },
   "popup_html_need_posting_key_to_claim_rewards": {
@@ -2827,7 +2827,7 @@
     "description": "create account => username start or end not valid"
   },
   "popup_html_not_enough_rc_to_claim_account": {
-    "message": "You don't have enough RC to claim an account.",
+    "message": "This account's RC can't cover a ticket, even when full.",
     "description": "automated tasks => need more RC to claim account"
   },
   "local": {

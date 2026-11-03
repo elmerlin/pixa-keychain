@@ -2,8 +2,7 @@ const Config = {
   claims: {
     FREQUENCY: +(process.env.DEV_CLAIM_FREQUENCY || 10),
     freeAccount: {
-      MIN_RC_PCT: +(process.env.DEV_CLAIM_ACCOUNT_RC_PCT || 85),
-      MIN_RC: +(process.env.DEV_CLAIM_ACCOUNT_MIN_RC || 9484331370472),
+      MIN_RC_PCT: +(process.env.DEV_CLAIM_ACCOUNT_RC_PCT || 100),
     },
     savings: {
       delay: +(process.env.DEV_CLAIM_SAVINGS_DELAY || 30),

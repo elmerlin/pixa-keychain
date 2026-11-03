@@ -1522,7 +1522,7 @@
     "description": "When adding an account by request"
   },
   "popup_html_automated_intro": {
-    "message": "Configurar tarefas automatizadas que serão executadas a cada hora se adequando suas condições.",
+    "message": "Configurar tarefas automatizadas que serão executadas a cada 10 minutos se adequando suas condições.",
     "description": "When on automated tasks page"
   },
   "popup_html_automated_hive_section_title": {
@@ -1542,7 +1542,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Resgatar um token de conta gratuita quando o seu RC estiver acima de US$ 1%. Dependendo do seu Pixa Power, este pode ser uma grande parte de seu RC.",
+    "message": "Resgata um token de conta cada vez que o seu RC chega a $1%, enquanto a wallet estiver desbloqueada.",
     "description": "When on automated tasks page"
   },
   "popup_html_insufficient_hp_claim_accounts": {

@@ -10,7 +10,6 @@ import { HiveInternalMarketLockedInOrders } from '@interfaces/hive-market.interf
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
 import { isWif } from 'hive-keychain-commons';
-import Config from 'src/config';
 import { Accounts } from 'src/interfaces/accounts.interface';
 import { ActiveAccount, RC } from 'src/interfaces/active-account.interface';
 import {
@@ -516,33 +515,64 @@ const getRCMana = async (username: string) => {
 /* istanbul ignore next */
 
 const claimAccounts = async (
-  rc: RC,
   activeAccount: ActiveAccount,
   options?: TransactionOptions,
 ) => {
-  const freeAccountConfig = Config.claims.freeAccount;
-  if (
-    activeAccount.rc.percentage > freeAccountConfig.MIN_RC_PCT &&
-    parseFloat(rc.rc_manabar.current_mana) > freeAccountConfig.MIN_RC
-  ) {
-    Logger.info(`Claiming free account for @${activeAccount.name}`);
+  Logger.info(`Claiming free account for @${activeAccount.name}`);
 
-    return HiveTxUtils.sendOperation(
+  return HiveTxUtils.sendOperation(
+    [
       [
-        [
-          'claim_account',
-          {
-            creator: activeAccount.name,
-            extensions: [],
-            fee: '0.000 PIXA',
-          },
-        ] as ClaimAccountOperation,
-      ],
-      activeAccount.keys.active!,
-      false,
-      options,
+        'claim_account',
+        {
+          creator: activeAccount.name,
+          extensions: [],
+          fee: '0.000 PIXA',
+        },
+      ] as ClaimAccountOperation,
+    ],
+    activeAccount.keys.active!,
+    false,
+    options,
+  );
+};
+
+// What one account ticket costs in RC right now. The price moves with how many were claimed lately,
+// so it's worked out from what the chain publishes: its price curve for each resource a claim uses.
+const getAccountTicketCost = async (): Promise<number> => {
+  const [params, pools, stats, globals] = await Promise.all([
+    HiveTxUtils.getData('rc_api.get_resource_params', {}),
+    HiveTxUtils.getData('rc_api.get_resource_pool', {}),
+    HiveTxUtils.getData('rc_api.get_rc_stats', {}),
+    HiveTxUtils.getData('condenser_api.get_dynamic_global_properties', []),
+  ]);
+  const { resource_state_bytes: state, resource_execution_time: time } =
+    params.size_info;
+  const used: { [resource: string]: number } = {
+    resource_history_bytes: 110,
+    resource_new_accounts: 1,
+    resource_state_bytes: state.transaction_base_size,
+    resource_execution_time:
+      time.claim_account_time +
+      time.transaction_time +
+      time.verify_authority_time,
+  };
+  const regen =
+    (parseFloat(globals.total_vesting_shares) * 1e6) / (432000 / 3);
+  return (params.resource_names as string[]).reduce((total, name, index) => {
+    if (!used[name]) return total;
+    const { resource_dynamics_params: dynamics, price_curve_params: curve } =
+      params.resource_params[name];
+    const share = (regen * (stats.rc_stats.share[index] ?? 10000)) / 10000;
+    const pool = Math.max(0, pools.resource_pool[name].pool);
+    return (
+      total +
+      (((share * Number(curve.coeff_a)) / Math.pow(2, curve.shift) + 1) *
+        (used[name] * dynamics.resource_unit)) /
+        (curve.coeff_b + pool) +
+      1
     );
-  } else Logger.info('Not enough RC% to claim account');
+  }, 0);
 };
 
 const updateAccount = (
@@ -777,6 +807,7 @@ const AccountUtils = {
 
   encryptAccounts,
   claimAccounts,
+  getAccountTicketCost,
   updateAccount,
   getUpdateAccountOperation,
   getUpdateAccountTransaction,

@@ -26,6 +26,8 @@ How it differs from Hive, which is where bugs come from:
   `reward_pxs`. The exceptions are real too: `get_ticker` still answers `hive_volume`/`hbd_volume`,
   and `get_config` keeps its `HIVE_*` keys.
 - **Keys derive as on Hive:** `sha256(account + role + password)`, WIF, `PIX` public keys.
+- **RC amounts are far smaller than Hive's,** so never fix one in code: read the price
+  (`getAccountTicketCost`). A ticket is claimed each time RC reaches 100% (`claim.module.ts`).
 - **No Hive Engine, swaps, multisig backend, Ledger app, HiveAuth or `api.hive-keychain.com`.**
   Nothing here may call a Hive service.
 

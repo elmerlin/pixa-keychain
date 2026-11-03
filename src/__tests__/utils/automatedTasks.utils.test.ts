@@ -468,4 +468,39 @@ describe('automatedTasks.utils tests', () => {
       expect(result).toBeUndefined();
     });
   });
+
+  describe('canClaimAccountErrorMessage tests', () => {
+    const account = (active: string | undefined, maxRc: number) =>
+      ({ keys: { active }, rc: { max_rc: maxRc } } as any);
+
+    test('Without the active key, must ask for it', () => {
+      expect(
+        AutomatedTasksUtils.canClaimAccountErrorMessage(
+          account(undefined, 4e9),
+          3e8,
+        ),
+      ).toBe('popup_html_need_active_key_for_claim_accounts');
+    });
+    test('When full RC cannot cover a ticket, must say so', () => {
+      expect(
+        AutomatedTasksUtils.canClaimAccountErrorMessage(
+          account('key', 1e8),
+          3e8,
+        ),
+      ).toBe('popup_html_not_enough_rc_to_claim_account');
+    });
+    test('When it can, must allow it', () => {
+      expect(
+        AutomatedTasksUtils.canClaimAccountErrorMessage(
+          account('key', 4e9),
+          3e8,
+        ),
+      ).toBeUndefined();
+    });
+    test('Until the price is known, must allow it', () => {
+      expect(
+        AutomatedTasksUtils.canClaimAccountErrorMessage(account('key', 1e8)),
+      ).toBeUndefined();
+    });
+  });
 });

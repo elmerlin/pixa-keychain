@@ -14,6 +14,7 @@ import { SelectAccountSectionComponent } from 'src/common-ui/select-account-sect
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import Config from 'src/config';
 import { loadActiveAccount } from 'src/popup/hive/actions/active-account.actions';
+import AccountUtils from 'src/popup/hive/utils/account.utils';
 import AutomatedTasksUtils from 'src/utils/automatedTasks.utils';
 
 const AutomatedTasks = ({
@@ -27,6 +28,7 @@ const AutomatedTasks = ({
   const [claimRewards, setClaimRewards] = useState(false);
   const [claimAccounts, setClaimAccounts] = useState(false);
   const [claimSavings, setClaimSavings] = useState(false);
+  const [ticketCost, setTicketCost] = useState<number>();
 
   const [selectedLocalAccount, setSelectedLocalAccount] = useState(
     accounts[0].name,
@@ -36,7 +38,7 @@ const AutomatedTasks = ({
   const claimSavingsErrorMessage =
     AutomatedTasksUtils.canClaimSavingsErrorMessage(activeAccount);
   const claimAccountErrorMessage =
-    AutomatedTasksUtils.canClaimAccountErrorMessage(activeAccount);
+    AutomatedTasksUtils.canClaimAccountErrorMessage(activeAccount, ticketCost);
   const claimRewardsErrorMessage =
     AutomatedTasksUtils.canClaimRewardsErrorMessage(activeAccount);
 
@@ -45,6 +47,9 @@ const AutomatedTasks = ({
       title: 'popup_html_automated_tasks',
       isBackButtonEnabled: true,
     });
+    AccountUtils.getAccountTicketCost()
+      .then(setTicketCost)
+      .catch(() => setTicketCost(undefined));
   }, []);
 
   useEffect(() => {
@@ -123,8 +128,6 @@ const AutomatedTasks = ({
     );
   };
 
-  const isClaimedAccountDisabled =
-    activeAccount.rc.max_rc < Config.claims.freeAccount.MIN_RC * 1.5;
   return (
     <div
       data-testid={`${Screen.SETTINGS_AUTOMATED_TASKS}-page`}
@@ -173,7 +176,7 @@ const AutomatedTasks = ({
             <CheckboxPanelComponent
               dataTestId="checkbox-autoclaim-accounts"
               title="popup_html_enable_autoclaim_accounts"
-              checked={claimAccounts && !isClaimedAccountDisabled}
+              checked={claimAccounts && !claimAccountErrorMessage}
               onChange={(value) =>
                 saveClaims(claimRewards, value, claimSavings)
               }
@@ -182,12 +185,8 @@ const AutomatedTasks = ({
                 'popup_html_enable_autoclaim_accounts_info',
                 [Config.claims.freeAccount.MIN_RC_PCT + ''],
               )}
-              tooltipMessage={
-                claimAccountErrorMessage || isClaimedAccountDisabled
-                  ? 'popup_html_insufficient_hp_claim_accounts'
-                  : undefined
-              }
-              disabled={!!claimSavingsErrorMessage || isClaimedAccountDisabled}
+              tooltipMessage={claimAccountErrorMessage}
+              disabled={!!claimAccountErrorMessage}
             />
             <CheckboxPanelComponent
               dataTestId="checkbox-autoclaim-savings"

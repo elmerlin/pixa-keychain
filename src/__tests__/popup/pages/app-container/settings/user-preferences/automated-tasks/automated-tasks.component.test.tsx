@@ -30,9 +30,9 @@ describe('automated-tasks.component tests:\n', () => {
                   getRCMana: {
                     current_mana: 1000,
                     percentage: 100,
-                    max_mana: Config.claims.freeAccount.MIN_RC + 1,
+                    max_mana: 4000000000,
                     received_delegated_rc: 0,
-                    max_rc: Config.claims.freeAccount.MIN_RC * 1.5 + 1,
+                    max_rc: 4000000000,
                     delegated_rc: 0,
                     rc_manabar: {
                       current_mana: '10000000',

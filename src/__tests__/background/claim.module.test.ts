@@ -2,6 +2,7 @@ import ClaimModule from '@background/claim.module';
 import MkModule from '@background/mk.module';
 import BgdAccountsUtils from '@background/utils/accounts.utils';
 import AccountUtils from '@hiveapp/utils/account.utils';
+import { RewardsUtils } from '@hiveapp/utils/rewards.utils';
 import { SavingsUtils } from '@hiveapp/utils/savings.utils';
 import { Client } from '@hiveio/dhive';
 import { DefaultRpcs } from '@reference-data/default-rpc.list';
@@ -156,5 +157,115 @@ describe('claim.module tests:\n', () => {
       `Not time to claim yet for @${accounts.active.name}`,
     );
     expect(sClaimSavings).not.toHaveBeenCalled();
+  });
+
+  describe('Account tickets:\n', () => {
+    const TICKET_COST = 3e8;
+    let tests = 0;
+
+    // Each test has its own account, because a claim is remembered by name for a while.
+    const setUp = ({
+      percentage = 100,
+      maxRc = 4e9,
+      active = 'active-key',
+    } = {}) => {
+      const name = `ticket.tests.${++tests}`;
+      jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
+      LocalStorageUtils.getMultipleValueFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue({
+          claimAccounts: { [name]: true },
+          claimRewards: undefined,
+          claimSavings: undefined,
+        });
+      AccountUtils.getExtendedAccounts = jest
+        .fn()
+        .mockResolvedValue([{ ...accounts.extended, name }]);
+      BgdAccountsUtils.getAccountsFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue([{ name, keys: { active, posting: 'posting-key' } }]);
+      AccountUtils.getRCMana = jest.fn().mockResolvedValue({
+        percentage,
+        max_rc: String(maxRc),
+        rc_manabar: { current_mana: '1', last_update_time: 1 },
+      });
+      AccountUtils.getAccountTicketCost = jest
+        .fn()
+        .mockResolvedValue(TICKET_COST);
+      return {
+        name,
+        claim: jest
+          .spyOn(AccountUtils, 'claimAccounts')
+          .mockResolvedValue(null as any),
+      };
+    };
+
+    it('Must claim one when RC reaches 100%', async () => {
+      const { name, claim } = setUp();
+      await ClaimModule.start();
+      expect(claim).toHaveBeenCalledTimes(1);
+      expect(claim.mock.calls[0][0].name).toBe(name);
+    });
+
+    it('Must wait while RC is below 100%, however close', async () => {
+      const { claim } = setUp({ percentage: 99.99 });
+      await ClaimModule.start();
+      expect(claim).not.toHaveBeenCalled();
+    });
+
+    it('Must not claim without the active key', async () => {
+      const { claim } = setUp({ active: '' });
+      await ClaimModule.start();
+      expect(claim).not.toHaveBeenCalled();
+    });
+
+    it('Must not claim when full RC cannot cover a ticket', async () => {
+      const { claim } = setUp({ maxRc: TICKET_COST - 1 });
+      await ClaimModule.start();
+      expect(claim).not.toHaveBeenCalled();
+    });
+
+    it('Must claim once when an alarm and waking up both run the claims', async () => {
+      const { claim } = setUp();
+      await Promise.all([ClaimModule.start(), ClaimModule.start()]);
+      expect(claim).toHaveBeenCalledTimes(1);
+    });
+
+    it('Must not claim again before the node shows RC going down', async () => {
+      const { claim } = setUp();
+      await ClaimModule.start();
+      await ClaimModule.start();
+      expect(claim).toHaveBeenCalledTimes(1);
+    });
+
+    it('Must claim again once RC is back at 100% later on', async () => {
+      const { claim } = setUp();
+      const now = Date.now();
+      await ClaimModule.start();
+      jest
+        .spyOn(Date, 'now')
+        .mockReturnValue(now + Config.claims.FREQUENCY * 60 * 1000 + 1000);
+      await ClaimModule.start();
+      expect(claim).toHaveBeenCalledTimes(2);
+    });
+
+    it('Must still claim rewards when a ticket is refused', async () => {
+      const { name, claim } = setUp();
+      LocalStorageUtils.getMultipleValueFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue({
+          claimAccounts: { [name]: true },
+          claimRewards: { [name]: true },
+          claimSavings: undefined,
+        });
+      claim.mockRejectedValue(new Error('refused'));
+      const sError = jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      const sHasReward = jest
+        .spyOn(RewardsUtils, 'hasReward')
+        .mockReturnValue(false);
+      await ClaimModule.start();
+      expect(sError).toHaveBeenCalled();
+      expect(sHasReward).toHaveBeenCalled();
+    });
   });
 });

@@ -1238,7 +1238,7 @@
     "description": "When adding an account by request"
   },
   "popup_html_automated_intro": {
-    "message": "Configurez des tâches automatisées qui s'exécuteront toutes les heures selon vos spécifications.",
+    "message": "Configurez des tâches automatisées qui s'exécuteront toutes les 10 minutes selon vos spécifications.",
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_rewards": {
@@ -1254,7 +1254,7 @@
     "description": "When on automated tasks page"
   },
   "popup_html_enable_autoclaim_accounts_info": {
-    "message": "Réclamez un ticket de création de compte lorsque le pourcentage de votre RC est supérieur à $1 %. Selon votre Pixa Power, cette opération peut utiliser une grosse partie de votre RC.",
+    "message": "Réclame un ticket de création de compte chaque fois que votre RC atteint $1 %, tant que le portefeuille est déverrouillé.",
     "description": "When on automated tasks page"
   },
   "popup_html_proposal_vote_successful": {

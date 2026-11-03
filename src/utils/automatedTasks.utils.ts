@@ -1,7 +1,6 @@
 import { ActiveAccount } from '@interfaces/active-account.interface';
 import { BackgroundCommand } from '@reference-data/background-message-key.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
-import Config from 'src/config';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
 const getClaims = async (username: string) => {
@@ -132,10 +131,16 @@ const canClaimRewardsErrorMessage = (activeAccount: ActiveAccount) => {
   } else;
 };
 
-const canClaimAccountErrorMessage = (activeAccount: ActiveAccount) => {
+const canClaimAccountErrorMessage = (
+  activeAccount: ActiveAccount,
+  ticketCost?: number,
+) => {
   if (!activeAccount.keys.active) {
-    return 'popup_html_need_active_key_for_claim_savings';
-  } else if (activeAccount.rc.max_mana < Config.claims.freeAccount.MIN_RC) {
+    return 'popup_html_need_active_key_for_claim_accounts';
+  } else if (
+    ticketCost !== undefined &&
+    Number(activeAccount.rc.max_rc) < ticketCost
+  ) {
     return 'popup_html_not_enough_rc_to_claim_account';
   }
 };
