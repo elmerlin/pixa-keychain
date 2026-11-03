@@ -191,4 +191,24 @@ describe('preferences.utils tests:\n', () => {
       expect(spySaveValue).toHaveBeenCalledWith('no_confirm', arr);
     });
   });
+
+  it('never approves a post with reward settings in advance', () => {
+    const allowed = { alice: { 'site.test': { post: true } } } as any;
+    const post = {
+      type: KeychainRequestTypes.post,
+      username: 'alice',
+      title: 't',
+      body: 'b',
+    } as any;
+    const rpc = { uri: 'https://node.test', testnet: false };
+    expect(isWhitelisted(allowed, post, 'site.test', rpc)).toBe(true);
+    expect(
+      isWhitelisted(
+        allowed,
+        { ...post, comment_options: '{"author":"alice"}' },
+        'site.test',
+        rpc,
+      ),
+    ).toBe(false);
+  });
 });

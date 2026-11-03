@@ -11,7 +11,6 @@ import { Rpc } from '@interfaces/rpc.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import Config from 'src/config';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
-import RpcUtils from 'src/popup/hive/utils/rpc.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
 import { isWhitelisted } from 'src/utils/preferences.utils';
@@ -36,13 +35,8 @@ export default async (
     LocalStorageKeyEnum.NO_CONFIRM,
     LocalStorageKeyEnum.CURRENT_RPC,
   ]);
-  let rpc = items.current_rpc || Config.rpc.DEFAULT;
-  if (request.rpc) {
-    const override_rpc = await RpcUtils.findRpc(request.rpc);
-    if (override_rpc) {
-      rpc = override_rpc;
-    }
-  }
+  // Always the person's own node. A site doesn't get to choose who answers for this request.
+  const rpc = items.current_rpc || Config.rpc.DEFAULT;
   const { username, type } = request;
   const mk = await MkModule.getMk();
   Logger.info('Initializing request logic');

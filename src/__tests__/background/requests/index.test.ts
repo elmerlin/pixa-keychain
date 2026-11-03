@@ -143,7 +143,7 @@ describe('index tests:\n', () => {
     );
   });
 
-  it('sendRequest stores rpc from request payload', () => {
+  it('sendRequest ignores an rpc a site sends', () => {
     const sInit = jest.spyOn(Init, 'default').mockResolvedValue(undefined);
     const requestHandler = new RequestsHandler();
     requestHandler.sendRequest(
@@ -156,11 +156,60 @@ describe('index tests:\n', () => {
         },
       } as KeychainRequestWrapper,
     );
-    expect(requestHandler.data.rpc).toEqual({
-      uri: 'https://hived.example',
-      testnet: false,
-    });
+    expect(requestHandler.data.rpc).toBeUndefined();
     sInit.mockRestore();
+  });
+
+  describe('answer', () => {
+    const send = () => jest.spyOn(chrome.tabs, 'sendMessage').mockImplementation();
+    afterEach(() => jest.restoreAllMocks());
+
+    it('goes to the document that asked', () => {
+      const sInit = jest.spyOn(Init, 'default').mockResolvedValue(undefined);
+      const sSend = send();
+      const requestHandler = new RequestsHandler();
+      requestHandler.sendRequest(
+        { tab: { id: 2 }, frameId: 7, documentId: 'doc-1' } as any,
+        { domain: 'd', request: keychainRequest.noValues.decode } as any,
+      );
+      requestHandler.answer(2, { command: 'x' });
+      expect(sSend).toHaveBeenCalledWith(
+        2,
+        { command: 'x' },
+        { documentId: 'doc-1' },
+        expect.any(Function),
+      );
+      sInit.mockRestore();
+    });
+
+    it('goes to the frame that asked where documents have no ID', () => {
+      const sInit = jest.spyOn(Init, 'default').mockResolvedValue(undefined);
+      const sSend = send();
+      const requestHandler = new RequestsHandler();
+      requestHandler.sendRequest(
+        { tab: { id: 2 }, frameId: 7 } as any,
+        { domain: 'd', request: keychainRequest.noValues.decode } as any,
+      );
+      requestHandler.answer(2, { command: 'x' });
+      expect(sSend).toHaveBeenCalledWith(
+        2,
+        { command: 'x' },
+        { frameId: 7 },
+        expect.any(Function),
+      );
+      sInit.mockRestore();
+    });
+
+    it('never goes to every frame', () => {
+      const sSend = send();
+      new RequestsHandler().answer(2, { command: 'x' });
+      expect(sSend).toHaveBeenCalledWith(
+        2,
+        { command: 'x' },
+        { frameId: 0 },
+        expect.any(Function),
+      );
+    });
   });
 
   it('getUserKeyPair and getUserPrivateKey resolve keys from loaded accounts', () => {

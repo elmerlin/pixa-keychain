@@ -23,6 +23,7 @@ export const getRequiredWifType = (request: KeychainRequest) => {
   switch (request.type) {
     case KeychainRequestTypes.decode:
     case KeychainRequestTypes.encode:
+    case KeychainRequestTypes.encodeWithKeys:
     case KeychainRequestTypes.signBuffer:
     case KeychainRequestTypes.broadcast:
     case KeychainRequestTypes.signTx:

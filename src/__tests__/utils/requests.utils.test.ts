@@ -153,4 +153,16 @@ describe('requests.utils tests:\n', () => {
       ).toBe(KeychainKeyTypesLC.active);
     });
   });
+
+  it.each(['Memo', 'Posting', 'Active'])(
+    'encodeWithKeys uses the %s key it asked for',
+    (method) => {
+      expect(
+        getRequiredWifType({
+          type: KeychainRequestTypes.encodeWithKeys,
+          method,
+        } as any),
+      ).toBe(method.toLowerCase());
+    },
+  );
 });

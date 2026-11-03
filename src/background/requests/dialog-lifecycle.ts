@@ -60,7 +60,7 @@ chrome.windows.onRemoved.addListener(async (id: number) => {
     isWaitingForConfirmation,
   } = requestHandler.data;
   if (id == windowId && !confirmed && tab) {
-    chrome.tabs.sendMessage(tab!, {
+    requestHandler.answer(tab!, {
       command: DialogCommand.ANSWER_REQUEST,
       msg: {
         success: false,

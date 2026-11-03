@@ -9,7 +9,10 @@ import { CurrencyPrices } from '@interfaces/bittrex.interface';
 import { HiveInternalMarketLockedInOrders } from '@interfaces/hive-market.interface';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
+import axios from 'axios';
 import { isWif } from 'hive-keychain-commons';
+import { config as HiveTxConfig, PublicKey } from 'hive-tx';
+import Config from 'src/config';
 import { Accounts } from 'src/interfaces/accounts.interface';
 import { ActiveAccount, RC } from 'src/interfaces/active-account.interface';
 import {
@@ -90,6 +93,16 @@ const getKeys = async (
     hiveAccounts[0],
   );
   if (keys) {
+    // The same rule as a key typed in directly: this one may also be the account's owner key.
+    if (
+      [keys.postingPubkey, keys.activePubkey, keys.memoPubkey].some(
+        (publicKey) =>
+          publicKey &&
+          KeysUtils.getPubkeyWeight(publicKey, hiveAccounts[0].owner),
+      )
+    ) {
+      throw new Error(AccountErrorMessages.OWNER_KEY);
+    }
     return keys;
   }
 
@@ -479,6 +492,35 @@ const getExtendedAccount = async (
   return (await AccountUtils.getExtendedAccounts([username]))[0];
 };
 
+// An authority change is built on what a node says the account looks like, and that gets signed
+// with the active key. So a node the person chose has to agree with the default one first.
+const getExtendedAccountToChange = async (
+  username: string,
+): Promise<ExtendedAccount> => {
+  const account = await AccountUtils.getExtendedAccount(username);
+  const defaultNode = Config.rpc.DEFAULT.uri;
+  if (HiveTxConfig.node.replace(/\/$/, '') !== defaultNode) {
+    const authorities = ({ active, posting, memo_key }: ExtendedAccount) =>
+      JSON.stringify({ active, posting, memo_key });
+    let second: ExtendedAccount | undefined;
+    try {
+      const { data } = await axios.post(defaultNode, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'condenser_api.get_accounts',
+        params: [[username]],
+      });
+      second = data?.result?.[0];
+    } catch (e) {
+      Logger.error('Could not check the account with the default node', e);
+    }
+    if (!second || authorities(second) !== authorities(account)) {
+      throw new KeychainError('bgd_ops_authority_node_mismatch', [defaultNode]);
+    }
+  }
+  return account;
+};
+
 const getExtendedAccounts = async (
   usernames: string[],
 ): Promise<ExtendedAccount[]> => {
@@ -666,6 +708,29 @@ const reorderAccounts = (
   return list;
 };
 
+// A weight of 0 used to fall through to the threshold, so approving 0 granted full control.
+const authorityWeight = (weight: number | undefined, threshold: number) => {
+  if (weight === undefined || weight === null) return threshold;
+  if (!Number.isInteger(+weight) || +weight < 1 || +weight > 0xffff) {
+    throw new KeychainError('bgd_ops_authority_weight_invalid');
+  }
+  return +weight;
+};
+
+// In the chain's own order: by name for accounts, by the key's bytes for keys. Any other order
+// signs different bytes from the ones the node checks.
+const compareNames = (a: [string, number], b: [string, number]) =>
+  a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0;
+const compareKeys = (a: [any, number], b: [any, number]) =>
+  Buffer.compare(PublicKey.from(a[0]).key, PublicKey.from(b[0]).key);
+
+// Only the role that was asked about goes in the operation. The other one stays as it is on chain,
+// so whatever a node says about it can't be signed along with this.
+const onlyRole = (role: 'posting' | 'active', authority: Authority) =>
+  role === 'active'
+    ? { active: authority, posting: undefined }
+    : { active: undefined, posting: authority };
+
 const processAuthorityUpdate = async (
   userAccount: ExtendedAccount,
   role: 'posting' | 'active',
@@ -685,14 +750,11 @@ const processAuthorityUpdate = async (
   }
 
   /** Use weight_threshold as default weight */
-  const finalWeight = weight || userAccount[role].weight_threshold;
-  updatedAuthority.account_auths.push([authorizedUsername, +finalWeight]);
-  updatedAuthority.account_auths.sort((a, b) => a[0].localeCompare(b[0]));
+  const finalWeight = authorityWeight(weight, userAccount[role].weight_threshold);
+  updatedAuthority.account_auths.push([authorizedUsername, finalWeight]);
+  updatedAuthority.account_auths.sort(compareNames);
 
-  const active = role === 'active' ? updatedAuthority : userAccount.active;
-  const posting = role === 'posting' ? updatedAuthority : userAccount.posting;
-
-  return { active, posting };
+  return onlyRole(role, updatedAuthority);
 };
 
 const processAuthorityRemoval = async (
@@ -717,10 +779,7 @@ const processAuthorityRemoval = async (
     throw new KeychainError('nothing_to_remove_error');
   }
 
-  const active = role === 'active' ? updatedAuthority : userAccount.active;
-  const posting = role === 'posting' ? updatedAuthority : userAccount.posting;
-
-  return { active, posting };
+  return onlyRole(role, updatedAuthority);
 };
 
 const processKeyAuthorityUpdate = async (
@@ -739,16 +798,11 @@ const processKeyAuthorityUpdate = async (
   }
 
   /** Use weight_threshold as default weight */
-  const finalWeight = weight || userAccount[role].weight_threshold;
-  updatedAuthority.key_auths.push([authorizedKey, +finalWeight]);
-  updatedAuthority.key_auths.sort((a, b) =>
-    (a[0] as string).localeCompare(b[0] as string),
-  );
+  const finalWeight = authorityWeight(weight, userAccount[role].weight_threshold);
+  updatedAuthority.key_auths.push([authorizedKey, finalWeight]);
+  updatedAuthority.key_auths.sort(compareKeys);
 
-  const active = role === 'active' ? updatedAuthority : userAccount.active;
-  const posting = role === 'posting' ? updatedAuthority : userAccount.posting;
-
-  return { active, posting };
+  return onlyRole(role, updatedAuthority);
 };
 
 const processKeyAuthorityRemoval = async (
@@ -773,10 +827,7 @@ const processKeyAuthorityRemoval = async (
     throw new KeychainError('missing_authority_error');
   }
 
-  const active = role === 'active' ? updatedAuthority : userAccount.active;
-  const posting = role === 'posting' ? updatedAuthority : userAccount.posting;
-
-  return { active, posting };
+  return onlyRole(role, updatedAuthority);
 };
 
 const AccountUtils = {
@@ -814,6 +865,7 @@ const AccountUtils = {
   addAccount,
   reorderAccounts,
   addAuthorizedKey,
+  getExtendedAccountToChange,
   processAuthorityUpdate,
   processAuthorityRemoval,
   processKeyAuthorityUpdate,

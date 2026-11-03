@@ -1271,6 +1271,18 @@
   "bgd_ops_sign_error": {
     "message": "Could not sign."
   },
+  "bgd_ops_sign_refused_transaction": {
+    "message": "This is a transaction, not a message, so it wasn't signed."
+  },
+  "bgd_ops_authority_weight_invalid": {
+    "message": "That authority weight isn't valid. Nothing was changed."
+  },
+  "bgd_ops_authority_node_mismatch": {
+    "message": "Your node and $1 disagree about this account, so nothing was changed. Try again in a moment."
+  },
+  "dialog_post_options_invalid": {
+    "message": "This post's reward settings aren't valid. Nothing was sent."
+  },
   "bgd_ops_proposal_create": {
     "message": "Successfully created a new proposal."
   },

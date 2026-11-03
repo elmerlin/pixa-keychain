@@ -4,8 +4,10 @@ import React from 'react';
 import { Separator } from 'src/common-ui/separator/separator.component';
 import UsernameWithAvatar from 'src/common-ui/username-with-avatar/username-with-avatar';
 import CollaspsibleItem from 'src/dialog/components/collapsible-item/collapsible-item';
+import OperationSummaries from 'src/dialog/components/operation-summary/operation-summary';
 import Operation from 'src/dialog/components/operation/operation';
 import RequestItem from 'src/dialog/components/request-item/request-item';
+import { readCommentOptions } from 'src/utils/comment-options.utils';
 
 type Props = {
   data: RequestPost & RequestId;
@@ -16,11 +18,16 @@ type Props = {
 
 const Post = (props: Props) => {
   const { data } = props;
+  const options = readCommentOptions(
+    data.comment_options,
+    data.username,
+    data.permlink,
+  );
   return (
     <Operation
       title={chrome.i18n.getMessage('dialog_title_post')}
       {...props}
-      canWhitelist>
+      canWhitelist={!options}>
       <UsernameWithAvatar title="dialog_account" username={data.username} />
       <Separator type={'horizontal'} fullSize />
       {data.title ? (
@@ -50,6 +57,17 @@ const Post = (props: Props) => {
       <CollaspsibleItem title="dialog_body" content={data.body} />
       <Separator type={'horizontal'} fullSize />
       <CollaspsibleItem title="dialog_meta" content={data.json_metadata} pre />
+      <>
+        {options && (
+          <>
+            <Separator type={'horizontal'} fullSize />
+            <OperationSummaries
+              operations={[['comment_options', options]]}
+              username={data.username}
+            />
+          </>
+        )}
+      </>
     </Operation>
   );
 };

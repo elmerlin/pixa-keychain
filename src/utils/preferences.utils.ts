@@ -1,5 +1,6 @@
 import {
   KeychainKeyTypesLC,
+  KeychainRequestTypes,
   KeychainRequest,
 } from '@interfaces/keychain.interface';
 import { NoConfirm } from '@interfaces/no-confirm.interface';
@@ -19,7 +20,9 @@ export const isWhitelisted = (
       getRequiredWifType(data) === KeychainKeyTypesLC.active ||
       !arr ||
       !data.username ||
-      current_rpc.testnet
+      current_rpc.testnet ||
+      // Who a post's rewards go to is reviewed every time.
+      (data.type === KeychainRequestTypes.post && data.comment_options)
     ) {
       return false;
     } else {

@@ -65,7 +65,12 @@ document.addEventListener('swRequest_pixa', (request: object) => {
 
 // Get notification from the background upon request completion and pass it back to the dApp.
 chrome.runtime.onMessage.addListener(function (obj, sender, sendResp) {
-  if (obj.command === DialogCommand.ANSWER_REQUEST) {
+  // Only the answer this document is waiting for. A page that's taken over the frame isn't.
+  if (
+    obj.command === DialogCommand.ANSWER_REQUEST &&
+    req &&
+    obj.msg?.request_id === req.request_id
+  ) {
     sendResponse(obj.msg);
     req = null;
   }

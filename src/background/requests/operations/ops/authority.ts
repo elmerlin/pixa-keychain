@@ -26,7 +26,7 @@ export const broadcastAddAccountAuthority = async (
   let { weight } = data;
   try {
     const key = requestHandler.data.key;
-    const userAccount = await AccountUtils.getExtendedAccount(username);
+    const userAccount = await AccountUtils.getExtendedAccountToChange(username);
 
     const { active, posting } = await AccountUtils.processAuthorityUpdate(
       userAccount,
@@ -77,7 +77,7 @@ export const broadcastRemoveAccountAuthority = async (
   let role = data.role.toLowerCase();
   try {
     const key = requestHandler.data.key;
-    const userAccount = await AccountUtils.getExtendedAccount(username);
+    const userAccount = await AccountUtils.getExtendedAccountToChange(username);
 
     const { active, posting } = await AccountUtils.processAuthorityRemoval(
       userAccount,
@@ -128,7 +128,7 @@ export const broadcastAddKeyAuthority = async (
 
   try {
     const key = requestHandler.data.key;
-    const userAccount = await AccountUtils.getExtendedAccount(username);
+    const userAccount = await AccountUtils.getExtendedAccountToChange(username);
 
     const { active, posting } = await AccountUtils.processKeyAuthorityUpdate(
       userAccount,
@@ -180,7 +180,7 @@ export const broadcastRemoveKeyAuthority = async (
 
   try {
     const key = requestHandler.data.key;
-    const userAccount = await AccountUtils.getExtendedAccount(username);
+    const userAccount = await AccountUtils.getExtendedAccountToChange(username);
 
     const { active, posting } = await AccountUtils.processKeyAuthorityRemoval(
       userAccount,

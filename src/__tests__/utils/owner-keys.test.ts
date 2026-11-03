@@ -51,6 +51,20 @@ describe('AccountUtils key import policy', () => {
     },
   );
 
+  it.each(['active', 'posting', 'memo'])(
+    'refuses a master password whose %s key also holds owner authority',
+    async (role) => {
+      jest
+        .spyOn(AccountUtils, 'getAccount')
+        .mockResolvedValue([
+          { ...account, owner: authority(keys[role].pub) },
+        ] as never);
+      await expect(AccountUtils.getKeys(username, password)).rejects.toThrow(
+        'popup_accounts_owner_key_refused',
+      );
+    },
+  );
+
   it('derives only posting, active and memo keys from a master password', async () => {
     await expect(AccountUtils.getKeys(username, password)).resolves.toEqual({
       posting: keys.posting.wif,

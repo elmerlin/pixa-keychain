@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import Joi from 'joi';
+import { readCommentOptions } from 'src/utils/comment-options.utils';
 
 const arrayPublicKeys = Joi.array().items(Joi.string());
 const username = Joi.string().required().min(3);
@@ -7,6 +8,7 @@ const optionalUsername = Joi.string().allow(null);
 const method = Joi.string()
   .valid('Posting', 'Active', 'Memo', 'posting', 'active', 'memo')
   .required();
+const authorityWeight = Joi.number().integer().min(1).max(65535).required();
 const authority = Joi.string()
   .valid('Posting', 'Active', 'posting', 'active')
   .required();
@@ -69,7 +71,7 @@ const vote = Joi.object({
   username: optionalUsername,
   permlink: Joi.string().required(),
   author: username,
-  weight: Joi.number().required(),
+  weight: Joi.number().integer().min(-10000).max(10000).required(),
   rpc,
 });
 
@@ -85,7 +87,13 @@ const post = Joi.object({
   parent_perm: Joi.string().required(),
   json_metadata: Joi.string().required(),
   permlink: Joi.string().required(),
-  comment_options: Joi.string().allow(''),
+  comment_options: Joi.string()
+    .allow('')
+    .custom((value, helpers) => {
+      const { username: author, permlink } = helpers.state.ancestors[0];
+      readCommentOptions(value, author, permlink);
+      return value;
+    }),
   // comment_options: Joi.object({
   //   author: username,
   //   permlink: Joi.string().required(),
@@ -123,7 +131,7 @@ const addAccountAuthority = Joi.object({
   username,
   authorizedUsername: username,
   role: authority,
-  weight: Joi.number().integer().required(),
+  weight: authorityWeight,
   method: Joi.string().valid('Active'),
   rpc,
 });
@@ -140,7 +148,7 @@ const addKeyAuthority = Joi.object({
   username,
   authorizedKey: Joi.string().required(),
   role: authority,
-  weight: Joi.number().integer().required(),
+  weight: authorityWeight,
   method: Joi.string().valid('Active'),
   rpc,
 });

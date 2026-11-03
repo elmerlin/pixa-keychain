@@ -34,7 +34,7 @@ const SignBuffer = (props: Props) => {
   };
   return (
     <Operation
-      title={data.title || chrome.i18n.getMessage('dialog_title_sign')}
+      title={chrome.i18n.getMessage('dialog_title_sign')}
       header={
         data.username
           ? chrome.i18n.getMessage('dialog_desc_sign', [
@@ -55,14 +55,7 @@ const SignBuffer = (props: Props) => {
       {...props}
       {...anonymousProps}>
       {renderUsername()}
-      <RequestItem
-        title="dialog_message"
-        content={
-          data.message.length > 500
-            ? data.message.substring(0, 500) + ' ...'
-            : data.message
-        }
-      />
+      <RequestItem title="dialog_message" content={data.message} />
     </Operation>
   );
 };

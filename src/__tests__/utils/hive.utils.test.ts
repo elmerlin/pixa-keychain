@@ -239,17 +239,4 @@ describe('hive.utils tests:\n', () => {
     });
   });
 
-  describe('signMessage tests:\n', () => {
-    test('Must return a stable hex signature for a given message and key', () => {
-      const key = userData.one.nonEncryptKeys.posting;
-      const result = HiveUtils.signMessage('test message', key);
-      expect(result).toBe(HiveUtils.signMessage('test message', key));
-      expect(result).toMatch(/^[0-9a-f]{130}$/);
-    });
-    test('Must throw when given a public key instead of a private key', () => {
-      expect(() =>
-        HiveUtils.signMessage('test message', userData.one.encryptKeys.posting),
-      ).toThrow();
-    });
-  });
 });

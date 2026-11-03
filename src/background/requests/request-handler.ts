@@ -26,6 +26,8 @@ if (!process.env.IS_FIREFOX && !global.window) {
 
 type RequestData = {
   tab?: number;
+  frameId?: number;
+  documentId?: string;
   request?: KeychainRequest;
   request_id?: number;
   confirmed: boolean;
@@ -111,11 +113,22 @@ export class RequestsHandler {
     msg: KeychainRequestWrapper,
   ) {
     this.data.tab = sender.tab!.id;
+    this.data.frameId = sender.frameId;
+    this.data.documentId = (sender as { documentId?: string }).documentId;
     this.data.request = msg.request;
     this.data.request_id = msg.request_id;
-    if (msg.request.rpc)
-      this.data.rpc = { uri: msg.request.rpc, testnet: false };
     init(msg.request, this.data.tab, msg.domain, this);
+  }
+
+  /** Only the document that asked hears the answer. Other frames in the tab can belong to anyone. */
+  answer(tab: number, message: object) {
+    const { frameId, documentId } = this.data;
+    chrome.tabs.sendMessage(
+      tab,
+      message,
+      documentId ? { documentId } : { frameId: frameId ?? 0 },
+      () => void chrome.runtime.lastError,
+    );
   }
 
   getUserKeyPair(username: string, keyType: KeychainKeyTypesLC) {
@@ -181,6 +194,8 @@ export class RequestsHandler {
       defaultRpcConfig: this.defaultRpcConfig,
       data: {
         tab: this.data.tab,
+        frameId: this.data.frameId,
+        documentId: this.data.documentId,
         request: this.data.request,
         request_id: this.data.request_id,
         confirmed: this.data.confirmed,

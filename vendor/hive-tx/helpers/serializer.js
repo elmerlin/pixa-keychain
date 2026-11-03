@@ -11,39 +11,62 @@ const StringSerializer = (buffer, data) => {
   buffer.writeVString(data)
 }
 
+// ByteBuffer wraps a number that doesn't fit its type instead of refusing it, so 65560 hours
+// reviewed would be signed as 24. Nothing is signed that doesn't fit exactly.
+const fits = (data, min, max, type) => {
+  if (!Number.isInteger(data) || data < min || data > max) {
+    throw new Error(`Not a valid ${type}: ${data}`)
+  }
+  return data
+}
+
+const fitsLong = (data, unsigned, type) => {
+  const valid =
+    typeof data === 'number'
+      ? Number.isSafeInteger(data) && (!unsigned || data >= 0)
+      : typeof data === 'string'
+        ? (unsigned ? /^\d+$/ : /^-?\d+$/).test(data)
+        : data !== null && typeof data === 'object' && 'low' in data && 'high' in data
+  if (!valid) throw new Error(`Not a valid ${type}: ${data}`)
+  return data
+}
+
 const Int8Serializer = (buffer, data) => {
-  buffer.writeInt8(data)
+  buffer.writeInt8(fits(data, -0x80, 0x7f, 'int8'))
 }
 
 const Int16Serializer = (buffer, data) => {
-  buffer.writeInt16(data)
+  buffer.writeInt16(fits(data, -0x8000, 0x7fff, 'int16'))
 }
 
 const Int32Serializer = (buffer, data) => {
-  buffer.writeInt32(data)
+  buffer.writeInt32(fits(data, -0x80000000, 0x7fffffff, 'int32'))
 }
 
 const Int64Serializer = (buffer, data) => {
-  buffer.writeInt64(data)
+  buffer.writeInt64(fitsLong(data, false, 'int64'))
 }
 
 const UInt8Serializer = (buffer, data) => {
-  buffer.writeUint8(data)
+  buffer.writeUint8(fits(data, 0, 0xff, 'uint8'))
 }
 
 const UInt16Serializer = (buffer, data) => {
-  buffer.writeUint16(data)
+  buffer.writeUint16(fits(data, 0, 0xffff, 'uint16'))
 }
 
 const UInt32Serializer = (buffer, data) => {
-  buffer.writeUint32(data)
+  buffer.writeUint32(fits(data, 0, 0xffffffff, 'uint32'))
 }
 
 const UInt64Serializer = (buffer, data) => {
-  buffer.writeUint64(data)
+  buffer.writeUint64(fitsLong(data, true, 'uint64'))
 }
 
 const BooleanSerializer = (buffer, data) => {
+  if (data !== true && data !== false) {
+    throw new Error(`Not a valid boolean: ${data}`)
+  }
   buffer.writeByte(data ? 1 : 0)
 }
 
@@ -63,7 +86,11 @@ const StaticVariantSerializer = (itemSerializers) => {
 const AssetSerializer = (buffer, data) => {
   const asset = Asset.from(data)
   const precision = asset.getPrecision()
-  buffer.writeInt64(Math.round(asset.amount * Math.pow(10, precision)))
+  // More decimals than the asset has would be rounded into a different amount.
+  if (typeof data === 'string' && (data.split(' ')[0].split('.')[1] ?? '').length > precision) {
+    throw new Error(`Too many decimals: ${data}`)
+  }
+  buffer.writeInt64(fitsLong(Math.round(asset.amount * Math.pow(10, precision)), false, 'amount'))
   buffer.writeUint8(precision)
   for (let i = 0; i < 7; i++) {
     buffer.writeUint8(asset.symbol.charCodeAt(i) || 0)
@@ -139,7 +166,9 @@ const ObjectSerializer = (keySerializers) => {
 
 const OptionalSerializer = (valueSerializer) => {
   return (buffer, data) => {
-    if (data !== undefined) {
+    // null means absent, as it does to whoever reviewed it. Written as present, a null key signs
+    // the same bytes as a real replacement of that key.
+    if (data !== undefined && data !== null) {
       buffer.writeByte(1)
       valueSerializer(buffer, data)
     } else {

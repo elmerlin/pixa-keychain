@@ -28,6 +28,16 @@ describe('post tests:\n', () => {
     request_id: 1,
   } as RequestPost & RequestId;
 
+  const validOptions = JSON.stringify({
+    author: data.username,
+    permlink: data.permlink,
+    max_accepted_payout: '1000000.000 PXS',
+    percent_pxs: 10000,
+    allow_votes: true,
+    allow_curation_rewards: true,
+    extensions: [],
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
@@ -64,7 +74,7 @@ describe('post tests:\n', () => {
   it('Must return error if no key prop in data', async () => {
     const requestHandler = new RequestsHandler();
     delete requestHandler.data.key;
-    data.comment_options = '{"keychain":10000,"points":6}';
+    data.comment_options = validOptions;
     const result = await broadcastPost(requestHandler, data);
     const { request_id, ...datas } = data;
     expect(result).toEqual({
@@ -114,6 +124,25 @@ describe('post tests:\n', () => {
   });
 
   describe('With comment_options:\n', () => {
+    it.each([
+      ['another author', { author: 'someone.else' }],
+      ['another post', { permlink: 'another-post' }],
+    ])('Must refuse options for %s', async (_, change) => {
+      const sSend = jest.spyOn(HiveTxUtils, 'sendOperation');
+      const requestHandler = new RequestsHandler();
+      requestHandler.data.key = userData.one.nonEncryptKeys.posting;
+      const result = (await broadcastPost(requestHandler, {
+        ...data,
+        comment_options: JSON.stringify({
+          author: data.username,
+          permlink: data.permlink,
+          ...change,
+        }),
+      })) as ResultOperation;
+      expect(result.msg.success).toBe(false);
+      expect(sSend).not.toHaveBeenCalled();
+    });
+
     it('Must return error if bad json', async () => {
       data.comment_options = '!{!}';
       const requestHandler = new RequestsHandler();
@@ -124,7 +153,7 @@ describe('post tests:\n', () => {
       const { success, result, error } = resultOperation.msg;
       expect(success).toBe(false);
       expect(result).toBeUndefined();
-      expect((error as TypeError).message).toContain('JSON');
+      expect((error as Error).message).toBe('dialog_post_options_invalid');
     });
 
     it('Must return success', async () => {
@@ -135,7 +164,7 @@ describe('post tests:\n', () => {
       } as TransactionResult);
       const requestHandler = new RequestsHandler();
       requestHandler.data.key = userData.one.nonEncryptKeys.posting;
-      data.comment_options = '{"keychain":10000,"points":6}';
+      data.comment_options = validOptions;
       const result = await broadcastPost(requestHandler, data);
       const { request_id, ...datas } = data;
       expect(result).toEqual({

@@ -158,7 +158,7 @@ export const performOperation = async (
         message = await recurrentTransfer(requestHandler, data, options);
         break;
     }
-    chrome.tabs.sendMessage(tab, message);
+    requestHandler.answer(tab, message!);
   } catch (e) {
     Logger.error(e);
     sendErrors(
@@ -175,7 +175,7 @@ export const performOperation = async (
       if (!!requestHandler.data.windowId) {
         removeWindow(requestHandler.data.windowId!);
       }
-    } else chrome.runtime.sendMessage(message);
+    } else chrome.runtime.sendMessage(message, () => void chrome.runtime.lastError);
     requestHandler.reset(false);
   }
 };

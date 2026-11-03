@@ -105,8 +105,13 @@ const chromeMessageHandler = async (
     }
     case BackgroundCommand.ACCEPT_TRANSACTION:
       const { keep, data, tab, domain, options } = backgroundMessage.value;
+      const approvedHandler = await RequestsHandler.getFromLocalStorage();
+      // From here it runs to the end. Closing the window no longer means cancelled, and saying so
+      // could get a transfer that's going through sent twice.
+      approvedHandler.setConfirmed(true);
+      await approvedHandler.saveInLocalStorage();
       performOperation(
-        await RequestsHandler.getFromLocalStorage(),
+        approvedHandler,
         data,
         tab,
         domain,

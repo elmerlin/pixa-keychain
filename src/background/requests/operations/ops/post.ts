@@ -4,6 +4,7 @@ import { RequestId, RequestPost } from '@interfaces/keychain.interface';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import { KeychainError } from 'src/keychain-error';
 import { BloggingUtils } from 'src/popup/hive/utils/blogging.utils';
+import { readCommentOptions } from 'src/utils/comment-options.utils';
 import Logger from 'src/utils/logger.utils';
 
 // TODO : when compatible
@@ -15,6 +16,7 @@ export const broadcastPost = async (
   let err, result, err_message;
   const key = requestHandler.data.key;
   try {
+    readCommentOptions(data.comment_options, data.username, data.permlink);
     if (data.comment_options === '') {
       result = await BloggingUtils.post(
         data.parent_username || '',

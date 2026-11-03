@@ -11,6 +11,48 @@ describe('dialog-lifecycle tests:\n', () => {
     jest.resetAllMocks();
   });
 
+  describe('closing the window:\n', () => {
+    const closeWindow = async (confirmed: boolean) => {
+      const handler = new RequestsHandler();
+      handler.data = {
+        windowId: 1,
+        tab: 2,
+        frameId: 3,
+        request_id: 4,
+        confirmed,
+        isWaitingForConfirmation: false,
+      };
+      jest
+        .spyOn(RequestsHandler, 'getFromLocalStorage')
+        .mockResolvedValue(handler);
+      jest.spyOn(RequestsHandler, 'clearLocalStorage').mockResolvedValue();
+      chrome.i18n.getMessage = jest.fn().mockReturnValue('Cancelled');
+      const send = jest
+        .spyOn(chrome.tabs, 'sendMessage')
+        .mockImplementation();
+      chrome.windows.onRemoved.callListeners(1);
+      await new Promise((resolve) => setTimeout(resolve));
+      return send;
+    };
+
+    it('Must report a cancel while waiting for approval', async () => {
+      const send = await closeWindow(false);
+      expect(send).toHaveBeenCalledWith(
+        2,
+        expect.objectContaining({
+          msg: expect.objectContaining({ error: 'user_cancel', request_id: 4 }),
+        }),
+        { frameId: 3 },
+        expect.any(Function),
+      );
+    });
+
+    it('Must not report a cancel once approved', async () => {
+      const send = await closeWindow(true);
+      expect(send).not.toHaveBeenCalled();
+    });
+  });
+
   describe('createPopup cases:\n', () => {
     it('Must createPopup', () => {
       jest

@@ -7,7 +7,6 @@ import {
 } from 'src/interfaces/global-properties.interface';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 
-const signature = require('@hiveio/hive-js/lib/auth/ecc');
 
 const HIVE_VOTING_MANA_REGENERATION_SECONDS = 432000;
 const HIVE_100_PERCENT = 10000;
@@ -179,33 +178,6 @@ const decodeMemo = (memo: string, privateKey: string) => {
   return decode(privateKey, memo);
 };
 
-const signMessage = (message: string, privateKey: string) => {
-  let buf;
-  try {
-    const o = JSON.parse(message, (k, v) => {
-      if (
-        v !== null &&
-        typeof v === 'object' &&
-        'type' in v &&
-        v.type === 'Buffer' &&
-        'data' in v &&
-        Array.isArray(v.data)
-      ) {
-        return Buffer.from(v.data);
-      }
-      return v;
-    });
-    if (Buffer.isBuffer(o)) {
-      buf = o;
-    } else {
-      buf = message;
-    }
-  } catch (e) {
-    buf = message;
-  }
-  return signature.Signature.signBuffer(buf, privateKey).toHex();
-};
-
 const getCurrentMedianHistoryPrice = async (): Promise<Price> => {
   return HiveTxUtils.getData(
     'condenser_api.get_current_median_history_price',
@@ -230,7 +202,6 @@ const HiveUtils = {
   getTimeBeforeFull,
   encodeMemo,
   decodeMemo,
-  signMessage,
   getRewardBalance,
   getRecentClaims,
   getHivePrice,

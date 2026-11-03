@@ -53,7 +53,7 @@ var pixa_keychain = {
    * @example
    * const keychain = window.pixa_keychain;
    * const message = username + Date.now();
-   * keychain.requestEncodeMessage(username, [pubKey1, pubKey2], message, 'Memo', (response) => {
+   * keychain.requestEncodeWithKeys(username, [pubKey1, pubKey2], message, 'Memo', (response) => {
    *   if (response.success) {
    *     const encodedMessages = response.result;
    *     // Send message to a server where you can use your private key to decode it
@@ -113,8 +113,8 @@ var pixa_keychain = {
    * @param {String} message Message to be signed by the account
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
-   * @param {String} [title=null] Override "Sign message" title
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
+   * @param {String} [title=null] Ignored. The wallet writes its own title
    */
   requestSignBuffer: function (account, message, key, callback, rpc, title) {
     var request = {
@@ -142,7 +142,7 @@ var pixa_keychain = {
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {number} weight Weight of the authority
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestAddAccountAuthority: function (
     account,
@@ -177,7 +177,7 @@ var pixa_keychain = {
    * @param {String} authorizedUsername Account to lose authority
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestRemoveAccountAuthority: function (
     account,
@@ -210,7 +210,7 @@ var pixa_keychain = {
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
    * @param {number} weight Weight of the key authority
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestAddKeyAuthority: function (
     account,
@@ -243,7 +243,7 @@ var pixa_keychain = {
    * @param {String} authorizedKey Key to be removed (public key).
    * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'.
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestRemoveKeyAuthority: function (
     account,
@@ -284,7 +284,7 @@ var pixa_keychain = {
    * @param {Array} operations Array of operations to be broadcasted
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestBroadcast: function (account, operations, key, callback, rpc) {
     var request = {
@@ -329,7 +329,7 @@ var pixa_keychain = {
    * @param {Object} tx Unsigned transaction
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestSignTx: function (account, tx, key, callback, rpc) {
     var request = {
@@ -350,7 +350,7 @@ var pixa_keychain = {
    * @param {String} params Parameters of the call
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestSignedCall: function (account, method, params, key, callback, rpc) {
     console.warn('requestSignedCall has been deprecated.');
@@ -385,7 +385,7 @@ var pixa_keychain = {
    * @param {String} permlink Permlink of the blog post
    * @param {Object} comment_options Options attached to the blog post. It takes the comment_options operation's fields to learn more about it
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestPost: function (
     account,
@@ -426,7 +426,7 @@ var pixa_keychain = {
    * @param {String} author Author of the blog post
    * @param {Number} weight Weight of the vote, comprised between -10,000 (-100%) and 10,000 (100%)
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestVote: function (account, permlink, author, weight, callback, rpc) {
     var request = {
@@ -453,7 +453,7 @@ var pixa_keychain = {
    * @param {String} json Stringified custom json
    * @param {String} display_msg Message to display to explain to the user what this broadcast is about
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestCustomJson: function (
     account,
@@ -490,7 +490,7 @@ var pixa_keychain = {
    * @param {String} currency 'PIXA' or 'PXS'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {boolean} [enforce=false] If set to true, user cannot chose to make the transfer from another account
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestTransfer: function (
     account,
@@ -529,7 +529,7 @@ var pixa_keychain = {
    * @param {String} operation 'deposit' or 'withdraw'
    * @param {String} [memo=''] Memo attached to the savings operation
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestSavingsOperation: function (
     username,
@@ -575,7 +575,7 @@ var pixa_keychain = {
    * @param {String} amount Amount to be transfered. Requires 3 decimals for PP, 6 for VESTS.
    * @param {String} unit PP or VESTS
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestDelegation: function (
     username,
@@ -611,7 +611,7 @@ var pixa_keychain = {
    * @param {String} witness Account to receive the witness vote
    * @param {boolean} vote Set to true to vote for the witness, false to unvote
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestWitnessVote: function (username, witness, vote, callback, rpc) {
     var request = {
@@ -648,7 +648,7 @@ var pixa_keychain = {
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} proxy Account to become the proxy. Empty string ('') to remove a proxy
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestProxy: function (username, proxy, callback, rpc) {
     var request = {
@@ -675,7 +675,7 @@ var pixa_keychain = {
    * @param {String} recipient Account to receive the power up
    * @param {String} hive Amount of PIXA to be powered up
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestPowerUp: function (username, recipient, hive, callback, rpc) {
     var request = {
@@ -702,7 +702,7 @@ var pixa_keychain = {
    * @param {String} username Pixa account to perform the request
    * @param {String} hive_power Amount of PIXA to be powered down
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestPowerDown: function (username, hive_power, callback, rpc) {
     var request = {
@@ -722,7 +722,7 @@ var pixa_keychain = {
    * @param {object} posting posting authority object
    * @param {String} memo public memo key
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestCreateClaimedAccount: function (
     username,
@@ -769,7 +769,7 @@ var pixa_keychain = {
    * @param {String} end Ending date
    * @param {String} extensions Stringified Array of extensions
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestCreateProposal: function (
     username,
@@ -813,7 +813,7 @@ var pixa_keychain = {
    * @param {String} proposal_ids Stringified Array of ids of the proposals to be removed
    * @param {String} extensions Stringified Array of extensions
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestRemoveProposal: function (
     username,
@@ -859,7 +859,7 @@ var pixa_keychain = {
    * @param {boolean} approve Set to true to support the proposal, false to remove a vote
    * @param {String} extensions Stringified Array of extensions
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestUpdateProposalVote: function (
     username,
@@ -924,7 +924,7 @@ var pixa_keychain = {
    * @param {String} amount amount to be converted.
    * @param {Boolean} collaterized true to convert PIXA to PXS. false to convert PXS to PIXA.
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
   requestConversion: function (username, amount, collaterized, callback, rpc) {
     const request = {
@@ -957,7 +957,7 @@ var pixa_keychain = {
    * @param {Number} recurrence How often will the payment be triggered (in hours) - minimum 24.
    * @param {Number} executions The times the recurrent payment will be executed - minimum 2.
    * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Override user's RPC settings
+   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    * @param {Number} [pair_id=0] Pair id of the recurrent transfer
    */
   requestRecurrentTransfer: function (

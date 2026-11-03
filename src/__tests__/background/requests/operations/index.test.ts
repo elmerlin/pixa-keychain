@@ -70,6 +70,8 @@ describe('index tests:\n', () => {
     expect(sSendMessage).toHaveBeenCalledWith(
       0,
       `mocked message for ${KeychainRequestTypes.addAccount}`,
+      { frameId: 0 },
+      expect.any(Function),
     );
     expect(sAddToWhitelist).toHaveBeenCalledWith(
       data.username!,
@@ -255,6 +257,8 @@ describe('index tests:\n', () => {
       expect(sSendMessage).toHaveBeenCalledWith(
         0,
         `mocked message for ${RequestTypeList[i]}`,
+        { frameId: 0 },
+        expect.any(Function),
       );
       sSendMessage.mockReset();
     }

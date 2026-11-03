@@ -5,6 +5,7 @@ import {
   RequestId,
   RequestSignBuffer,
 } from '@interfaces/keychain.interface';
+import { config } from 'hive-tx';
 import { KeychainError } from 'src/keychain-error';
 import Logger from 'src/utils/logger.utils';
 const signature = require('@hiveio/hive-js/lib/auth/ecc');
@@ -48,29 +49,13 @@ export const signBuffer = async (
   }
 };
 
+// A message is signed as the text the person read, never as bytes decoded from it. A transaction's
+// signature covers the chain ID and then its bytes, so text starting with the chain ID could be
+// signed into a real transaction nobody reviewed.
 const signMessage = (message: string, privateKey: string): SignedBuffer => {
-  let buf;
-  try {
-    const o = JSON.parse(message, (k, v) => {
-      if (
-        v !== null &&
-        typeof v === 'object' &&
-        'type' in v &&
-        v.type === 'Buffer' &&
-        'data' in v &&
-        Array.isArray(v.data)
-      ) {
-        return Buffer.from(v.data);
-      }
-      return v;
-    });
-    if (Buffer.isBuffer(o)) {
-      buf = o;
-    } else {
-      buf = message;
-    }
-  } catch (e) {
-    buf = message;
+  const chainId = Buffer.from(config.chain_id, 'hex');
+  if (Buffer.from(message).subarray(0, chainId.length).equals(chainId)) {
+    throw new KeychainError('bgd_ops_sign_refused_transaction');
   }
-  return signature.Signature.signBuffer(buf, privateKey).toHex();
+  return signature.Signature.signBuffer(message, privateKey).toHex();
 };
