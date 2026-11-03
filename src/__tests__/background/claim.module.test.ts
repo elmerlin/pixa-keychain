@@ -268,4 +268,71 @@ describe('claim.module tests:\n', () => {
       expect(sHasReward).toHaveBeenCalled();
     });
   });
+
+  describe('Rewards:\n', () => {
+    let tests = 0;
+
+    const setUp = (savings = false) => {
+      const name = `reward.tests.${++tests}`;
+      jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
+      LocalStorageUtils.getMultipleValueFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue({
+          claimAccounts: undefined,
+          claimRewards: { [name]: true },
+          claimSavings: savings ? { [name]: true } : undefined,
+        });
+      AccountUtils.getExtendedAccounts = jest.fn().mockResolvedValue([
+        {
+          ...accounts.extended,
+          name,
+          reward_vesting_balance: '1.898998 VESTS',
+          savings_pxs_seconds: '0',
+          savings_pxs_balance: '0.000 PXS',
+        },
+      ]);
+      BgdAccountsUtils.getAccountsFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue([{ name, keys: { posting: 'posting-key' } }]);
+      AccountUtils.getRCMana = jest.fn().mockResolvedValue(accounts.active.rc);
+      jest.spyOn(RewardsUtils, 'hasReward').mockReturnValue(true);
+      return {
+        name,
+        claim: jest
+          .spyOn(RewardsUtils, 'claimRewards')
+          .mockResolvedValue(null as any),
+      };
+    };
+
+    it('Must claim once when an alarm and waking up both run the claims', async () => {
+      const { claim } = setUp();
+      await Promise.all([ClaimModule.start(), ClaimModule.start()]);
+      expect(claim).toHaveBeenCalledTimes(1);
+    });
+
+    it('Must not throw when the chain refuses a claim', async () => {
+      const { claim } = setUp();
+      claim.mockRejectedValue(new Error('Cannot claim that much'));
+      jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      await expect(ClaimModule.start()).resolves.toBeUndefined();
+    });
+
+    it('Must still get to savings after a refused claim', async () => {
+      const { name, claim } = setUp(true);
+      claim.mockRejectedValue(new Error('Cannot claim that much'));
+      jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      const sInfo = jest.spyOn(Logger, 'info');
+      await ClaimModule.start();
+      expect(sInfo).toHaveBeenCalledWith(
+        `@${name} doesn't have any savings interests to claim`,
+      );
+    });
+
+    it('Must not throw when the node stops answering', async () => {
+      setUp();
+      AccountUtils.getExtendedAccounts = jest.fn().mockResolvedValue(undefined);
+      jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      await expect(ClaimModule.start()).resolves.toBeUndefined();
+    });
+  });
 });

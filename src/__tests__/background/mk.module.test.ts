@@ -70,10 +70,13 @@ describe('mk.module tests:\n', () => {
 
     const sSendMessage = jest.spyOn(chrome.runtime, 'sendMessage');
     await MkModule.sendBackMk();
-    expect(sSendMessage).toHaveBeenCalledWith({
-      command: BackgroundCommand.SEND_BACK_MK,
-      value: mk.user.one,
-    });
+    expect(sSendMessage).toHaveBeenCalledWith(
+      {
+        command: BackgroundCommand.SEND_BACK_MK,
+        value: mk.user.one,
+      },
+      expect.any(Function),
+    );
   });
 
   it('Must set new MK', () => {

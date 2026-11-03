@@ -114,7 +114,7 @@ The user can choose any Pixa node by its address, so the wallet can't list node 
 Content script on all `https://` sites, plus `localhost` and `127.0.0.1` for development:
 
 ```text
-Any website can be a Pixa app, so there's no fixed list of sites. The script only adds an object sites use to ask for a signature. It reads nothing from the page, and each request opens a window where the user reviews it. Plain http sites are excluded, apart from local development.
+Any website can be a Pixa app, so there's no fixed list of sites. One script adds an object sites use to ask for a signature, and the other passes those requests to the wallet. They read nothing from the page, and each request opens a window where the user reviews it. Plain http sites are excluded, apart from local development.
 ```
 
 **Remote code:** No, I am not using remote code.

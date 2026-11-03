@@ -22,6 +22,28 @@ const start = async () => {
   await alarmHandler();
 };
 
+// One claim of each kind at a time. An alarm that wakes the service worker runs the claims twice at
+// once, and the node can take a block to show a claim, so a second one would be refused or wasted.
+// Losing this when the worker stops is fine: by then the node has caught up.
+const lastClaim: { [claim: string]: number } = {};
+
+const claimedJustNow = (type: LocalStorageKeyEnum, username: string) => {
+  const claim = `${type}:${username}`;
+  const claimedAgo = Date.now() - (lastClaim[claim] ?? 0);
+  if (claimedAgo < Config.claims.FREQUENCY * 60 * 1000) return true;
+  lastClaim[claim] = Date.now();
+  return false;
+};
+
+// Nobody is waiting on a claim, so a refusal is only logged, and the next claim still runs.
+const attempt = async (claim: () => Promise<void>) => {
+  try {
+    await claim();
+  } catch (err) {
+    Logger.error('Automatic claim failed', err);
+  }
+};
+
 const alarmHandler = async () => {
   const localStorage = await LocalStorageUtils.getMultipleValueFromLocalStorage(
     [
@@ -36,13 +58,13 @@ const alarmHandler = async () => {
   const claimSavings = localStorage[LocalStorageKeyEnum.CLAIM_SAVINGS];
   if (!mk) return;
   if (claimAccounts) {
-    await initClaimAccounts(claimAccounts, mk);
+    await attempt(() => initClaimAccounts(claimAccounts, mk));
   }
   if (claimRewards) {
-    await initClaimRewards(claimRewards, mk);
+    await attempt(() => initClaimRewards(claimRewards, mk));
   }
   if (claimSavings) {
-    await initClaimSavings(claimSavings, mk);
+    await attempt(() => initClaimSavings(claimSavings, mk));
   }
 };
 
@@ -67,30 +89,33 @@ const iterateClaimRewards = async (users: string[], mk: string) => {
   const localAccounts: LocalAccount[] =
     await BgdAccountsUtils.getAccountsFromLocalStorage(mk);
   for (const userAccount of userExtendedAccounts) {
-    const activeAccount = await ActiveAccountModule.createActiveAccount(
-      userAccount,
-      localAccounts,
-    );
-    if (
-      activeAccount &&
-      RewardsUtils.hasReward(
-        activeAccount.account.reward_pxs_balance as string,
-        activeAccount.account.reward_vesting_balance
-          .toString()
-          .replace('VESTS', ''),
-        activeAccount.account.reward_pixa_balance as string,
-      )
-    ) {
-      Logger.info(`Claiming rewards for @${activeAccount.name}`);
-
-      await RewardsUtils.claimRewards(
-        activeAccount.name!,
-        userAccount.reward_pixa_balance,
-        userAccount.reward_pxs_balance,
-        userAccount.reward_vesting_balance,
-        activeAccount.keys.posting!,
+    await attempt(async () => {
+      const activeAccount = await ActiveAccountModule.createActiveAccount(
+        userAccount,
+        localAccounts,
       );
-    }
+      if (
+        activeAccount &&
+        RewardsUtils.hasReward(
+          activeAccount.account.reward_pxs_balance as string,
+          activeAccount.account.reward_vesting_balance
+            .toString()
+            .replace('VESTS', ''),
+          activeAccount.account.reward_pixa_balance as string,
+        ) &&
+        !claimedJustNow(LocalStorageKeyEnum.CLAIM_REWARDS, activeAccount.name!)
+      ) {
+        Logger.info(`Claiming rewards for @${activeAccount.name}`);
+
+        await RewardsUtils.claimRewards(
+          activeAccount.name!,
+          userAccount.reward_pixa_balance,
+          userAccount.reward_pxs_balance,
+          userAccount.reward_vesting_balance,
+          activeAccount.keys.posting!,
+        );
+      }
+    });
   }
 };
 
@@ -140,7 +165,10 @@ const iterateClaimSavings = async (users: string[], mk: string) => {
       const canClaimSavings =
         moment(moment().utc()).diff(baseDate, 'days') >=
         Config.claims.savings.delay;
-      if (canClaimSavings) {
+      if (
+        canClaimSavings &&
+        !claimedJustNow(LocalStorageKeyEnum.CLAIM_SAVINGS, activeAccount.name!)
+      ) {
         try {
           if (await SavingsUtils.claimSavings(activeAccount!)) {
             Logger.info(`Claim savings for @${activeAccount?.name} successful`);
@@ -148,7 +176,7 @@ const iterateClaimSavings = async (users: string[], mk: string) => {
         } catch (err: any) {
           Logger.error('Error while claiming savings');
         }
-      } else {
+      } else if (!canClaimSavings) {
         Logger.info(`Not time to claim yet for @${activeAccount?.name}`);
       }
     }
@@ -174,24 +202,17 @@ const iterateClaimAccounts = async (users: string[], mk: string) => {
   const localAccounts: LocalAccount[] =
     await BgdAccountsUtils.getAccountsFromLocalStorage(mk);
   for (const userAccount of userExtendedAccounts) {
-    // A refused ticket mustn't stop the rewards and savings claims that come after it.
-    try {
+    await attempt(async () => {
       const activeAccount = await ActiveAccountModule.createActiveAccount(
         userAccount,
         localAccounts,
       );
       if (activeAccount) await claimTicketIfFull(activeAccount);
-    } catch (err) {
-      Logger.error(`Could not claim a ticket for @${userAccount.name}`, err);
-    }
+    });
   }
 };
 
-// One ticket each time RC fills. An alarm that wakes the service worker runs the claims twice at
-// once, and the node can take a block to show RC going down, so a claim is remembered for a while.
-// Losing this when the worker stops is fine: by then the node has caught up.
-const lastTicketClaim: { [username: string]: number } = {};
-
+// One ticket each time RC fills.
 const claimTicketIfFull = async (activeAccount: ActiveAccount) => {
   const { name, rc, keys } = activeAccount;
   if (!keys.active || rc.percentage < Config.claims.freeAccount.MIN_RC_PCT) {
@@ -202,9 +223,7 @@ const claimTicketIfFull = async (activeAccount: ActiveAccount) => {
     Logger.info(`@${name} doesn't have enough RC for a ticket`);
     return;
   }
-  const claimedAgo = Date.now() - (lastTicketClaim[name!] ?? 0);
-  if (claimedAgo < Config.claims.FREQUENCY * 60 * 1000) return;
-  lastTicketClaim[name!] = Date.now();
+  if (claimedJustNow(LocalStorageKeyEnum.CLAIM_ACCOUNTS, name!)) return;
   await AccountUtils.claimAccounts(activeAccount);
 };
 

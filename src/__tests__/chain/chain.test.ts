@@ -195,5 +195,23 @@ describe('Pixagram chain', () => {
         expect(manifest).not.toContain('hive_keychain.js');
       }
     });
+
+    it('declares the provider on Chromium, instead of fetching it into the page', () => {
+      const manifest = JSON.parse(
+        readFileSync('manifests/chromium/manifest.json', 'utf8'),
+      );
+      const [listener, provider] = manifest.content_scripts;
+      // The listener comes first, so a page's first request has somewhere to go.
+      expect(listener.js).toEqual(['web_interfaceBundle.js']);
+      expect(listener.world).toBeUndefined();
+      expect(provider.js).toEqual(['pixa_keychain.js']);
+      expect(provider.world).toBe('MAIN');
+      expect(provider.matches).toEqual(listener.matches);
+      expect(provider.all_frames).toBe(listener.all_frames);
+      expect(
+        manifest.web_accessible_resources.flatMap((entry: any) => entry.resources),
+      ).not.toContain('pixa_keychain.js');
+      expect(Number(manifest.minimum_chrome_version)).toBeGreaterThanOrEqual(111);
+    });
   });
 });

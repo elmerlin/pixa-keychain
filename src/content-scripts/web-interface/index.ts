@@ -19,7 +19,8 @@ if (window.chrome) {
 
 let req: KeychainRequest | null = null;
 
-// Injecting Keychain
+// Injecting Keychain. Chromium's manifest declares the provider in the page's own world, so only
+// Firefox's older manifest needs this script tag.
 
 const setupInjection = () => {
   try {
@@ -31,7 +32,7 @@ const setupInjection = () => {
     Logger.error('Pixtopia Keychain injection failed.', e);
   }
 };
-setupInjection();
+if (process.env.IS_FIREFOX) setupInjection();
 // Answering the handshakes
 document.addEventListener('swHandshake_pixa', () => {
   window.postMessage(

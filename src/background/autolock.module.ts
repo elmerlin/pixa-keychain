@@ -41,9 +41,13 @@ chrome.idle.onStateChanged.addListener(async (state: any) => {
       }`,
     );
     MkModule.lock();
-    chrome.runtime.sendMessage({
-      command: BackgroundCommand.LOCK_APP,
-    });
+    // The popup is usually closed, so there may be nobody to tell.
+    chrome.runtime.sendMessage(
+      {
+        command: BackgroundCommand.LOCK_APP,
+      },
+      () => void chrome.runtime.lastError,
+    );
   }
 });
 

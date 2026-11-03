@@ -25,6 +25,8 @@ const askIfReady = (ms: number, command: DialogCommand) => {
         command,
       },
       (resp) => {
+        // Nothing is listening until the dialog has loaded, which is why this asks again.
+        void chrome.runtime.lastError;
         if (resp) resolve(resp);
       },
     );

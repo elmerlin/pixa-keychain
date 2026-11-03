@@ -3,6 +3,7 @@
   "description": "__MSG_description__",
   "default_locale": "en",
   "version": "0.1.0",
+  "minimum_chrome_version": "111",
   "permissions": ["storage", "idle", "alarms", "offscreen"],
   "host_permissions": ["https://*/*"],
   "action": {
@@ -23,7 +24,7 @@
   "background": { "service_worker": "backgroundBundle.js", "type": "module" },
   "web_accessible_resources": [
     {
-      "resources": ["/assets/images/icon-16.png", "/assets/images/icon-32.png", "/assets/images/icon-48.png", "/assets/images/icon-128.png", "pixa_keychain.js", "_locales/*"],
+      "resources": ["/assets/images/icon-16.png", "/assets/images/icon-32.png", "/assets/images/icon-48.png", "/assets/images/icon-128.png", "_locales/*"],
       "matches": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
       "extension_ids": []
     }
@@ -33,6 +34,12 @@
       "matches": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
       "js": ["web_interfaceBundle.js"],
       "all_frames": true
+    },
+    {
+      "matches": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
+      "js": ["pixa_keychain.js"],
+      "all_frames": true,
+      "world": "MAIN"
     }
   ],
   "manifest_version": 3

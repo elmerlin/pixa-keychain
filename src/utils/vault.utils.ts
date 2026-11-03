@@ -14,6 +14,8 @@ const sendVaultCommand = (
       resolve(response);
     };
     const handleDisconnect = () => {
+      // The vault may not have loaded yet: the caller gets nothing, as when it's locked.
+      void chrome.runtime.lastError;
       cleanup();
       resolve(undefined);
     };

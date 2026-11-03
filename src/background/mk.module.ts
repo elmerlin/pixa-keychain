@@ -31,10 +31,14 @@ const login = async (password: string): Promise<boolean> => {
 };
 
 async function sendBackMk() {
-  chrome.runtime.sendMessage({
-    command: BackgroundCommand.SEND_BACK_MK,
-    value: await getMk(),
-  });
+  // The popup that asked may have closed since.
+  chrome.runtime.sendMessage(
+    {
+      command: BackgroundCommand.SEND_BACK_MK,
+      value: await getMk(),
+    },
+    () => void chrome.runtime.lastError,
+  );
 }
 
 function saveMk(newMk: string) {
