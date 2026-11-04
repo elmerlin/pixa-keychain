@@ -5,6 +5,7 @@ import {
   loadActiveAccount,
   refreshKeys,
 } from 'src/popup/hive/actions/active-account.actions';
+import { setErrorMessage } from '@popup/multichain/actions/message.actions';
 import { setProcessingDecryptAccount } from 'src/popup/hive/actions/app-status.actions';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import { ActionPayload, AppThunk } from '../../multichain/actions/interfaces';
@@ -48,7 +49,7 @@ export const addKey =
   (
     privateKey: string,
     keyType: KeyType,
-    setErrorMessage: (key: string, params?: string[]) => ActionPayload<Message>,
+    showError: (key: string, params?: string[]) => ActionPayload<Message>,
   ): AppThunk =>
   async (dispatch, getState) => {
     const {
@@ -65,7 +66,7 @@ export const addKey =
         mk,
       );
     } catch (err: any) {
-      setErrorMessage(err.message);
+      showError(err.message);
     }
 
     if (newAccounts && newAccounts?.length > 0) {
@@ -82,17 +83,23 @@ export const addKey =
   };
 
 export const removeKey =
-  (type: KeyType): AppThunk =>
+  (type: KeyType, accountName?: string): AppThunk =>
   async (dispatch, getState) => {
     const {
       hive: { activeAccount, accounts },
       mk,
     } = getState();
+    // The confirmation named this account. Another window may have moved this one on since, and
+    // then the key to delete isn't the one it would find.
+    if (accountName && accountName !== activeAccount.name) {
+      dispatch(setErrorMessage('popup_html_delete_key_account_changed'));
+      return;
+    }
     const activeLocalAccount = accounts.find(
       (account: LocalAccount) => account.name === activeAccount.name,
     );
 
-    let newAccounts = AccountUtils.deleteKey(type, accounts, activeAccount, mk);
+    let newAccounts = AccountUtils.deleteKey(type, accounts, activeAccount);
 
     const finalAccounts = [];
     for (let i = 0; i < newAccounts.length; i++) {

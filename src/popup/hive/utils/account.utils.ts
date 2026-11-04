@@ -355,12 +355,13 @@ const addKey = async (
   }
 };
 
+// Works on a copy and saves nothing: the caller has more to take out, and saves the one final list.
 const deleteKey = (
   keyType: KeyType,
-  accounts: LocalAccount[],
+  savedAccounts: LocalAccount[],
   activeAccount: ActiveAccount,
-  mk: string,
 ): LocalAccount[] => {
+  const accounts: LocalAccount[] = JSON.parse(JSON.stringify(savedAccounts));
   const account = accounts.find(
     (account: LocalAccount) => account.name === activeAccount.name,
   );
@@ -380,7 +381,6 @@ const deleteKey = (
         delete account?.keys.memoPubkey;
         break;
     }
-    AccountUtils.saveAccounts(accounts, mk);
     return accounts;
   } else {
     Logger.error('Cannot delete the last key');

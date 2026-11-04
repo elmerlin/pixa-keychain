@@ -1304,6 +1304,9 @@
   "import_html_success_without_owner_keys": {
     "message": "Accounts added, without their owner keys. This wallet never keeps those."
   },
+  "popup_html_delete_key_account_changed": {
+    "message": "The account changed in another window, so no key was deleted."
+  },
   "bgd_ops_busy": {
     "message": "The last request is still being sent. Wait for its answer."
   },

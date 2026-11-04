@@ -77,6 +77,7 @@ const AccountKeysListItem = ({
 
   const handleClickOnRemoveKey = () => {
     const keyTypeLabel = chrome.i18n.getMessage(keyType.toLowerCase());
+    const accountName = activeAccount.name!;
 
     navigateToWithParams(Screen.CONFIRMATION_PAGE, {
       method: null,
@@ -97,7 +98,7 @@ const AccountKeysListItem = ({
           LocalStorageKeyEnum.NO_KEY_CHECK,
           actualNoKeyCheck,
         );
-        removeKey(keyType);
+        removeKey(keyType, accountName);
         goBack();
       },
     } as ConfirmationPageParams);

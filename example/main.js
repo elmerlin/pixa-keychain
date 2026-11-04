@@ -52,7 +52,7 @@ $('#send_post').click(function () {
     $('#post_title').val(),
     $('#post_body').val(),
     $('#post_pp').val(),
-    $('#post_pu').val().length ? $('#post_pu').val() : null,
+    $('#post_pu').val(),
     $('#post_json').val(),
     $('#post_perm').val(),
     $('#comment_options').val().length
@@ -111,21 +111,6 @@ $('#send_tra').click(function () {
       console.log(response);
     },
     $('#transfer_enforce').is(':checked'),
-  );
-});
-
-// Send tokens request
-$('#sendTokens').click(function () {
-  pixa_keychain.requestSendToken(
-    $('#tokens_username').val(),
-    $('#tokens_to').val(),
-    $('#tokens_qt').val(),
-    $('#tokens_memo').val(),
-    $('#tokens_unit').val(),
-    function (response) {
-      console.log('main js response - tokens');
-      console.log(response);
-    },
   );
 });
 

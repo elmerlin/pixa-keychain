@@ -119,6 +119,23 @@ describe('account.actions tests:\n', () => {
     });
   });
 
+  describe('removeKey with an account named', () => {
+    it('Deletes nothing if that is no longer the account on show', async () => {
+      const fakeStore = getFakeStore({
+        hive: {
+          activeAccount: { name: 'bob' },
+          accounts: [{ name: 'bob', keys: {} }],
+        },
+      } as any);
+      const sDelete = jest.spyOn(AccountUtils, 'deleteKey');
+      await fakeStore.dispatch<any>(
+        accountActions.removeKey(KeyType.ACTIVE, 'alice'),
+      );
+      expect(sDelete).not.toHaveBeenCalled();
+      sDelete.mockRestore();
+    });
+  });
+
   describe('removeKey tests:\n', () => {
     const fakeExtendedAccountResponse = [
       {

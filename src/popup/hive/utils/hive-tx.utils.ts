@@ -172,6 +172,8 @@ const broadcastAndConfirmTransactionWithSignature = async (
     throw ErrorUtils.parse(response.error);
   }
 };
+const READ_TIMEOUT_SECONDS = 20;
+
 /* istanbul ignore next */
 const getData = async (
   method: string,
@@ -179,7 +181,7 @@ const getData = async (
   key?: string,
 ) => {
   try {
-    const response = await call(method, params, 3000);
+    const response = await call(method, params, READ_TIMEOUT_SECONDS);
     if (response?.result) {
       return key ? response.result[key] : response.result;
     } else {
