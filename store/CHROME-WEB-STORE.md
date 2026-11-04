@@ -143,17 +143,15 @@ Leave the others unticked. Then tick all the certifications, which are true: the
 
 ## Test instructions
 
-Make a separate Pixa account for this, with no funds that matter, and fill in its name and posting key. Never use a key from a real account.
+Make a separate Pixa account for this, with no funds that matter, and fill in its name and posting key. Never use a key from a real account. The field takes 500 characters.
 
 ```text
-The wallet needs a Pixa account before it opens. Use this test account:
+Test account (no funds, so spending is refused):
 Account: REPLACE_WITH_TEST_ACCOUNT
 Posting key: REPLACE_WITH_TEST_POSTING_KEY
 
-1. Open the extension, create a password, accept the Terms and press Continue.
-2. Choose "Use a key or password", enter the account and key above, and press Continue.
-3. Go to https://pixtopia.net/sign-in and choose "Use PIXA Keychain". Confirm in the window that opens.
-4. Open any post and press the heart, then choose "Like at". The extension opens a window saying "Like at" and naming the post. Confirm or Cancel: both are fine.
-
-The test account holds no funds, so wallet actions that spend money will be refused by the chain.
+1. Open the extension, create a password, accept the Terms, press Continue.
+2. Choose "Use a key or password", enter the above, press Continue.
+3. At https://pixtopia.net/sign-in choose "Use PIXA Keychain" and confirm.
+4. Open any post, press the heart, choose "Like at". A window names the post. Confirm or Cancel.
 ```
