@@ -2003,6 +2003,12 @@
   "popup_html_vm_full_vote_value": {
     "message": "Un vote complet vaut $1 PXS."
   },
+  "popup_html_wallet_lent": {
+    "message": "prêté"
+  },
+  "popup_html_wallet_received": {
+    "message": "reçu"
+  },
   "popup_html_holdings": {
     "message": "Votre compte se compose de $1 PIXA, $2 PXS et $3 Pixa Power."
   }

@@ -20,9 +20,7 @@ const WalletInfoSection = ({
   conversions,
   fetchConversionRequests,
 }: PropsFromRedux) => {
-  const [delegationAmount, setDelegationAmount] = useState<string | number>(
-    '...',
-  );
+  const [delegations, setDelegations] = useState({ lent: 0, received: 0 });
   const [opened, setOpened] = useState<string | null>(null);
   const toggle = (tokenSymbol: string) =>
     setOpened(opened === tokenSymbol ? null : tokenSymbol);
@@ -31,25 +29,16 @@ const WalletInfoSection = ({
     if (activeAccount && !ActiveAccountUtils.isEmpty(activeAccount)) {
       fetchConversionRequests(activeAccount.name!);
 
-      const delegatedVestingShares = parseFloat(
-        activeAccount.account.delegated_vesting_shares
-          .toString()
-          .replace(' VESTS', ''),
-      );
-      const receivedVestingShares = parseFloat(
-        activeAccount.account.received_vesting_shares
-          .toString()
-          .replace(' VESTS', ''),
-      );
-      const delegationVestingShares = (
-        receivedVestingShares - delegatedVestingShares
-      ).toFixed(3);
-
-      const delegation = FormatUtils.toHP(
-        delegationVestingShares,
-        globalProperties.globals,
-      );
-      setDelegationAmount(delegation);
+      setDelegations({
+        lent: FormatUtils.toHP(
+          activeAccount.account.delegated_vesting_shares.toString(),
+          globalProperties.globals,
+        ),
+        received: FormatUtils.toHP(
+          activeAccount.account.received_vesting_shares.toString(),
+          globalProperties.globals,
+        ),
+      });
     }
     /** Re-run when chain account data arrives (name alone is stable while `account` is still loading). */
   }, [
@@ -97,8 +86,12 @@ const WalletInfoSection = ({
           icon={SVGIcons.WALLET_HIVE_LOGO}
           mainValue={activeAccount.account.balance}
           mainValueLabel={currencyLabels.hive}
-          subValue={activeAccount.account.savings_balance}
-          subValueLabel={chrome.i18n.getMessage('popup_html_wallet_savings')}
+          subValues={[
+            {
+              value: activeAccount.account.savings_balance,
+              label: chrome.i18n.getMessage('popup_html_wallet_savings'),
+            },
+          ]}
         />
         <WalletInfoSectionItemComponent
           tokenSymbol="PXS"
@@ -107,8 +100,12 @@ const WalletInfoSection = ({
           icon={SVGIcons.WALLET_HBD_LOGO}
           mainValue={activeAccount.account.pxs_balance}
           mainValueLabel={currencyLabels.hbd}
-          subValue={activeAccount.account.savings_pxs_balance}
-          subValueLabel={chrome.i18n.getMessage('popup_html_wallet_savings')}
+          subValues={[
+            {
+              value: activeAccount.account.savings_pxs_balance,
+              label: chrome.i18n.getMessage('popup_html_wallet_savings'),
+            },
+          ]}
         />
         <WalletInfoSectionItemComponent
           tokenSymbol="PP"
@@ -120,13 +117,16 @@ const WalletInfoSection = ({
             globalProperties.globals,
           )}
           mainValueLabel={currencyLabels.hp}
-          subValue={delegationAmount}
-          subValueLabel={
-            chrome.i18n.getMessage('popup_html_delegations').length <= 5
-              ? chrome.i18n.getMessage('popup_html_delegations')
-              : chrome.i18n.getMessage('popup_html_delegations').slice(0, 5) +
-                '.'
-          }
+          subValues={[
+            {
+              value: -delegations.lent,
+              label: chrome.i18n.getMessage('popup_html_wallet_lent'),
+            },
+            {
+              value: delegations.received,
+              label: chrome.i18n.getMessage('popup_html_wallet_received'),
+            },
+          ]}
         />
         </div>
         {opened && <WalletInfoActionsPanelComponent tokenSymbol={opened} />}

@@ -3389,6 +3389,12 @@
   "popup_html_vm_full_vote_value": {
     "message": "A full vote is worth $1 PXS."
   },
+  "popup_html_wallet_lent": {
+    "message": "lent"
+  },
+  "popup_html_wallet_received": {
+    "message": "received"
+  },
   "popup_html_holdings": {
     "message": "Your account is $1 PIXA, $2 PXS and $3 Pixa Power."
   }

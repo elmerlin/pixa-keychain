@@ -41,30 +41,19 @@ describe('wallet-info-section.component tests:\n', () => {
           dynamic.globalProperties,
         ),
       );
-      const delegatedVestingShares = parseFloat(
-        accounts.asArray.extended[0].delegated_vesting_shares
-          .toString()
-          .replace(' VESTS', ''),
-      );
-      const receivedVestingShares = parseFloat(
-        accounts.asArray.extended[0].received_vesting_shares
-          .toString()
-          .replace(' VESTS', ''),
-      );
-      const delegationVestingShares = (
-        receivedVestingShares - delegatedVestingShares
-      ).toFixed(3);
-
-      const delegationAmountSubValueFormatted = FormatUtils.formatCurrencyValue(
-        FormatUtils.toHP(delegationVestingShares, dynamic.globalProperties),
+      const toPP = (vests: unknown) =>
+        FormatUtils.formatCurrencyValue(
+          FormatUtils.toHP(`${vests}`, dynamic.globalProperties),
+        );
+      const lent = toPP(accounts.asArray.extended[0].delegated_vesting_shares);
+      const received = toPP(
+        accounts.asArray.extended[0].received_vesting_shares,
       );
       const infoSectionRowListHTMLElements = await screen.findAllByTestId(
         /^dropdown-arrow-/,
       );
       expect(infoSectionRowListHTMLElements).toHaveLength(3);
       const savingsLabel = chrome.i18n.getMessage('popup_html_wallet_savings');
-      const delegShort =
-        chrome.i18n.getMessage('popup_html_delegations').slice(0, 5) + '.';
       expect(infoSectionRowListHTMLElements[0].textContent).toBe(
         `${CurrencyUtils.getCurrencyLabels(false).hive}${hiveBalanceFormatted}+${hiveSavingsBalanceFormatted} ${savingsLabel}`,
       );
@@ -72,8 +61,61 @@ describe('wallet-info-section.component tests:\n', () => {
         `${CurrencyUtils.getCurrencyLabels(false).hbd}${hbdBalanceFormatted}+${hbdSavingsBalanceFormatted} ${savingsLabel}`,
       );
       expect(infoSectionRowListHTMLElements[2].textContent).toBe(
-        `${CurrencyUtils.getCurrencyLabels(false).hp}${delegationsMainValueFormatted}+${delegationAmountSubValueFormatted} ${delegShort}`,
+        `${CurrencyUtils.getCurrencyLabels(false).hp}${delegationsMainValueFormatted}-${lent} ${chrome.i18n.getMessage(
+          'popup_html_wallet_lent',
+        )}+${received} ${chrome.i18n.getMessage('popup_html_wallet_received')}`,
       );
+    });
+  });
+
+  describe('Delegations:\n', () => {
+    const render = (delegated: string, received: string) =>
+      reactTestingLibrary.renderWithConfiguration(
+        <HiveAppComponent />,
+        initialStates.iniStateAs.defaultExistent,
+        {
+          app: {
+            accountsRelated: {
+              AccountUtils: {
+                getExtendedAccount: {
+                  ...accounts.extended,
+                  delegated_vesting_shares: delegated,
+                  received_vesting_shares: received,
+                },
+              },
+            },
+          },
+        },
+      );
+    const subValues = async () =>
+      [
+        ...(await screen.findByTestId('dropdown-arrow-pp')).querySelectorAll(
+          '.sub-value',
+        ),
+      ].map((element) => element.textContent);
+    const lentLabel = () => chrome.i18n.getMessage('popup_html_wallet_lent');
+    const receivedLabel = () =>
+      chrome.i18n.getMessage('popup_html_wallet_received');
+
+    it('Must show what is lent and what is received apart, not their difference', async () => {
+      await render('150.000000 VESTS', '100.000000 VESTS');
+      const pp = (vests: string) =>
+        FormatUtils.formatCurrencyValue(
+          FormatUtils.toHP(vests, dynamic.globalProperties),
+        );
+      expect(await subValues()).toEqual([
+        `-${pp('150')} ${lentLabel()}`,
+        `+${pp('100')} ${receivedLabel()}`,
+      ]);
+    });
+    it('Must leave out what is zero', async () => {
+      await render('0.000000 VESTS', '100.000000 VESTS');
+      expect(await subValues()).toHaveLength(1);
+      expect((await subValues())[0]).toContain(receivedLabel());
+    });
+    it('Must show both even when they cancel out', async () => {
+      await render('100.000000 VESTS', '100.000000 VESTS');
+      expect(await subValues()).toHaveLength(2);
     });
   });
 

@@ -1991,6 +1991,12 @@
   "popup_html_vm_full_vote_value": {
     "message": "一次满额投票价值 $1 PXS。"
   },
+  "popup_html_wallet_lent": {
+    "message": "借出"
+  },
+  "popup_html_wallet_received": {
+    "message": "收到"
+  },
   "popup_html_holdings": {
     "message": "你的账户由 $1 PIXA、$2 PXS 和 $3 Pixa Power 组成。"
   }

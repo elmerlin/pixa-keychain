@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- **Lent and received, apart.** The home screen's Pixa Power column now shows what you've lent and what you've received on
+  their own lines. It used to show one number, the difference between them, which looked like the amount you'd delegated.
+- **Nothing gets squashed.** When the home screen runs out of room, it now scrolls instead of flattening what's on it.
+
 ## 0.1.2
 
 Pixtopia Keychain is now PIXA Keychain. It's the same wallet: your accounts, settings and `window.pixa_keychain` are

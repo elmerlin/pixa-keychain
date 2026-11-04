@@ -49,8 +49,7 @@ interface WalletSectionInfoItemProps {
   addBackground?: boolean;
   mainValue: Amount;
   mainValueLabel: string;
-  subValue?: Amount;
-  subValueLabel?: string;
+  subValues?: { value: Amount; label: string }[];
   isOpen: boolean;
   onToggle: () => void;
 }
@@ -61,8 +60,7 @@ const walletInfoSectionItem = ({
   addBackground,
   mainValue,
   mainValueLabel,
-  subValue,
-  subValueLabel,
+  subValues = [],
   isOpen,
   onToggle,
 }: WalletSectionInfoItemProps) => {
@@ -87,13 +85,17 @@ const walletInfoSectionItem = ({
       />
       <span className="main-value-label">{mainValueLabel}</span>
       <span className={`main-value ${valueSize}`}>{formattedValue}</span>
-      {!!subValue &&
-        parseFloat(FormatUtils.formatCurrencyValue(subValue as string)) !== 0 && (
-          <span className="sub-value">
-            {parseFloat(subValue?.toString()) > 0 ? '+' : ''}
-            {FormatUtils.formatCurrencyValue(subValue as string)} {subValueLabel}
+      {subValues
+        .filter(
+          ({ value }) =>
+            parseFloat(FormatUtils.formatCurrencyValue(value as string)) !== 0,
+        )
+        .map(({ value, label }) => (
+          <span key={label} className="sub-value">
+            {parseFloat(value.toString()) > 0 ? '+' : ''}
+            {FormatUtils.formatCurrencyValue(value as string)} {label}
           </span>
-        )}
+        ))}
     </button>
   );
 };

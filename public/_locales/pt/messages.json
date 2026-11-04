@@ -2940,6 +2940,12 @@
   "popup_html_vm_full_vote_value": {
     "message": "Um voto completo vale $1 PXS."
   },
+  "popup_html_wallet_lent": {
+    "message": "emprestado"
+  },
+  "popup_html_wallet_received": {
+    "message": "recebido"
+  },
   "popup_html_holdings": {
     "message": "A sua conta é composta por $1 PIXA, $2 PXS e $3 Pixa Power."
   }

@@ -2952,6 +2952,12 @@
   "popup_html_vm_full_vote_value": {
     "message": "Satu suara penuh bernilai $1 PXS."
   },
+  "popup_html_wallet_lent": {
+    "message": "dipinjamkan"
+  },
+  "popup_html_wallet_received": {
+    "message": "diterima"
+  },
   "popup_html_holdings": {
     "message": "Akun Anda terdiri dari $1 PIXA, $2 PXS, dan $3 Pixa Power."
   }
