@@ -139,7 +139,10 @@ const getWitnessAccountUpdateOperation = (
           witnessParamsForm.accountCreationFee,
         ).toFixed(3)} PIXA`,
         maximum_block_size: Number(witnessParamsForm.maximumBlockSize),
-        pxs_interest_rate: Number(witnessParamsForm.hbdInterestRate) * 100,
+        // Rounded: 1.13 * 100 is 112.99999999999999 in floating point.
+        pxs_interest_rate: Math.round(
+          Number(witnessParamsForm.hbdInterestRate) * 100,
+        ),
       },
       fee: '0.000 PIXA',
     },

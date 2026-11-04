@@ -93,6 +93,17 @@ describe('what gets signed is what was reviewed', () => {
     it('takes a number or the same number written out', () => {
       expect(bytes(removal('7'))).toBe(bytes(removal(7)));
     });
+    const removals = (ids: unknown[]) =>
+      transaction([
+        'remove_proposal',
+        { proposal_owner: 'alice', proposal_ids: ids, extensions: [] },
+      ]);
+    it('signs proposal IDs in the chain\'s order, however they were listed', () => {
+      expect(bytes(removals([3, 10, 2]))).toBe(bytes(removals([2, 3, 10])));
+    });
+    it('refuses the same proposal twice', () => {
+      expect(() => bytes(removals([2, 2]))).toThrow('twice');
+    });
   });
 
   describe('dates', () => {

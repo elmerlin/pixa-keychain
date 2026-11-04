@@ -200,15 +200,27 @@ const AuthorityFieldsSerializer = ObjectSerializer([
 
 // The node reads these as sorted maps, so any other order signs bytes it won't check. A name or key
 // listed twice has no one meaning, so it's refused.
-const inChainOrder = (entries, order) => {
+const inChainOrder = (entries, order, keyOf = (entry) => entry[0]) => {
   if (!Array.isArray(entries)) throw new Error(`Not a list: ${entries}`)
-  const sorted = [...entries].sort((a, b) => order(a[0], b[0]))
+  const sorted = [...entries].sort((a, b) => order(keyOf(a), keyOf(b)))
   sorted.forEach((entry, index) => {
-    if (index && order(sorted[index - 1][0], entry[0]) === 0) {
-      throw new Error(`Listed twice: ${entry[0]}`)
+    if (index && order(keyOf(sorted[index - 1]), keyOf(entry)) === 0) {
+      throw new Error(`Listed twice: ${keyOf(entry)}`)
     }
   })
   return sorted
+}
+
+// The chain reads these as a sorted set too.
+const ProposalIdsSerializer = (buffer, data) => {
+  ArraySerializer(Int64Serializer)(
+    buffer,
+    inChainOrder(
+      data,
+      (a, b) => (BigInt(a) < BigInt(b) ? -1 : BigInt(a) > BigInt(b) ? 1 : 0),
+      (id) => fitsLong(id, false, 'int64')
+    )
+  )
 }
 
 const AuthoritySerializer = (buffer, data) => {
@@ -602,14 +614,14 @@ OperationSerializers.create_proposal = OperationDataSerializer(44, [
 
 OperationSerializers.update_proposal_votes = OperationDataSerializer(45, [
   ['voter', StringSerializer],
-  ['proposal_ids', ArraySerializer(Int64Serializer)],
+  ['proposal_ids', ProposalIdsSerializer],
   ['approve', BooleanSerializer],
   ['extensions', ArraySerializer(VoidSerializer)]
 ])
 
 OperationSerializers.remove_proposal = OperationDataSerializer(46, [
   ['proposal_owner', StringSerializer],
-  ['proposal_ids', ArraySerializer(Int64Serializer)],
+  ['proposal_ids', ProposalIdsSerializer],
   ['extensions', ArraySerializer(VoidSerializer)]
 ])
 

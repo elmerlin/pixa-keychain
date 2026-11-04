@@ -16,7 +16,7 @@ import Logger from 'src/utils/logger.utils';
 import { ObjectUtils } from 'src/utils/object.utils';
 
 const start = async () => {
-  if (!!process.env.STOP_AUTOLOCK) return;
+  if (!!process.env.STOP_AUTOTASKS) return;
   Logger.info(`Will autoclaim every ${Config.claims.FREQUENCY}mn`);
   chrome.alarms.create({ periodInMinutes: Config.claims.FREQUENCY });
   await alarmHandler();

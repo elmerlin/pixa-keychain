@@ -76,6 +76,12 @@ export const addAccount = async (
       }
       if (!savedKeys.postingPubkey) throw new Error('Invalid posting key');
     }
+    if (
+      keys.memo &&
+      KeysUtils.getPublicKeyFromPrivateKeyString(keys.memo) !== account.memo_key
+    ) {
+      throw new Error('Invalid memo key');
+    }
     if (Object.keys(savedKeys).length && mk) {
       // addAccount
       await AccountUtils.saveAccounts(

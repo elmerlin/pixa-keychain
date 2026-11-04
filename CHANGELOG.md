@@ -50,6 +50,11 @@ The first public release. Everything here came from a review before opening the 
 - Adding a second key to an authority no longer fails on key order.
 - `requestEncodeWithKeys` uses the key it asked for.
 - Your balance counts what's still locked in market orders, not the orders' original size.
+- Wallet windows left open now pick up what others save. An old window could have saved its list over newer keys. Logging out
+  in one window locks them all.
+- `requestAddAccount` checks a memo key against the account.
+- Every request a site makes now gets an answer, even if something goes wrong unexpectedly.
+- Proposal IDs and authorities can be listed in any order. A small power down still shows, with its cancel button.
 
 ### Added
 

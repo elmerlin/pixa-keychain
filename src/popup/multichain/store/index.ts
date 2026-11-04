@@ -1,4 +1,6 @@
 import { LocalAccount } from '@interfaces/local-account.interface';
+import { setAccounts } from '@popup/hive/actions/account.actions';
+import { MultichainActionType } from '@popup/multichain/actions/action-type.enum';
 import { setHasFinishedSignup } from '@popup/multichain/actions/has-finished-signup.actions';
 import reducers from '@popup/multichain/reducers';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
@@ -6,6 +8,7 @@ import { VaultKey } from '@reference-data/vault-message-key.enum';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
+import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
 import ActiveAccountUtils from 'src/popup/hive/utils/active-account.utils';
 import RpcUtils from 'src/popup/hive/utils/rpc.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
@@ -22,6 +25,24 @@ if (store.getState().hive) {
   let previousRpc = store.getState().hive.activeRpc;
   let previousActiveAccountName = store.getState().hive.activeAccount?.name;
   let previousMk = store.getState().mk;
+
+  // Another wallet window saved something. Without this, this one would later save its old list over
+  // the top, and any keys added since would be gone.
+  /* istanbul ignore next */
+  chrome.storage.onChanged.addListener(async (changes, area) => {
+    const saved = changes[LocalStorageKeyEnum.ACCOUNTS]?.newValue;
+    const { mk, hive } = store.getState();
+    if (area !== 'local' || !saved || !mk) return;
+    const latest = await EncryptUtils.decryptToJson(saved, mk).catch(() => null);
+    if (!latest?.list) {
+      // The password was changed elsewhere, so this window's is no good. The vault has the new one.
+      previousMk = '';
+      store.dispatch({ type: MultichainActionType.SET_MK, payload: '' });
+    } else if (!AccountUtils.isAccountListIdentical(hive.accounts, latest.list)) {
+      previousAccounts = latest.list;
+      store.dispatch(setAccounts(latest.list));
+    }
+  });
 
   /* istanbul ignore next */
 
