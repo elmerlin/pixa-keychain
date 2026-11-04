@@ -342,16 +342,7 @@ window.pixa_keychain.requestSignTx(username, tx, 'Posting', async (response) => 
 
 ### requestSignedCall
 
-Requests a signed call @deprecated
-
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `account` | String | Pixa account to perform the request |
-| `method` | String | Method of the call |
-| `params` | String | Parameters of the call |
-| `key` | String | Type of key. Can be 'Posting','Active' or 'Memo' |
-| `callback` | function | Function that handles Keychain's response to the request |
-| `rpc` (optional) | String | Ignored. The wallet always uses the person's own node |
+Disabled, as upstream left it. It does nothing and never calls back. Use requestBroadcast or requestSignTx.
 
 ### requestPost
 

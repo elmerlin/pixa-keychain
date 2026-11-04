@@ -237,6 +237,16 @@ describe('what gets signed is what was reviewed', () => {
     });
   });
 
+  it('signs who a custom_json needs in the chain\'s order', () => {
+    const custom = (names: string[]) =>
+      transaction([
+        'custom_json',
+        { required_auths: [], required_posting_auths: names, id: 'x', json: '{}' },
+      ]);
+    expect(bytes(custom(['carol', 'bob']))).toBe(bytes(custom(['bob', 'carol'])));
+    expect(() => bytes(custom(['bob', 'bob']))).toThrow('twice');
+  });
+
   it('refuses a list that is really some text', () => {
     const removal = transaction([
       'remove_proposal',

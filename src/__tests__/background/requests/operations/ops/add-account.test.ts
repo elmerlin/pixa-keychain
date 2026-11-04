@@ -192,7 +192,9 @@ describe('add-account tests:\n', () => {
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(mk.user.one);
     jest
       .spyOn(AccountUtils, 'getAccountsToAddTo')
-      .mockResolvedValue(accounts.twoAccounts);
+      .mockResolvedValue(
+        accounts.twoAccounts.filter(({ name }) => name !== data.username),
+      );
     const sSaveAccounts = jest
       .spyOn(AccountUtils, 'saveAccounts')
       .mockResolvedValue(undefined);
@@ -229,5 +231,28 @@ describe('add-account tests:\n', () => {
         publicKey: undefined,
       },
     });
+  });
+
+  it('Must not save over an account added since the review', async () => {
+    jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
+    const sSaveAccounts = jest
+      .spyOn(AccountUtils, 'saveAccounts')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(AccountUtils, 'getAccountsToAddTo')
+      .mockResolvedValue([{ name: data.username, keys: {} }] as never);
+    jest
+      .spyOn(AccountUtils, 'getExtendedAccount')
+      .mockResolvedValue({
+        ...accounts.extended,
+        name: data.username,
+        memo_key: userData.one.encryptKeys.memo,
+      } as never);
+    const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
+    cloneData.keys = { posting: userData.one.nonEncryptKeys.posting };
+    await expect(
+      addAccount(new RequestsHandler(), cloneData),
+    ).rejects.toThrow('already added');
+    expect(sSaveAccounts).not.toHaveBeenCalled();
   });
 });

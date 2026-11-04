@@ -1,3 +1,5 @@
+import { Autolock } from '@interfaces/autolock.interface';
+import AutolockModule from '@background/autolock.module';
 import { FavoriteUserItems } from '@interfaces/favorite-user.interface';
 import { ImportCallbackPayload } from '@interfaces/import-callback.interface';
 import { LocalStorageClaimItem } from '@interfaces/local-storage-claim-item.interface';
@@ -47,6 +49,7 @@ const sendBackImportedFileContent = async (fileContent: any) => {
           LocalStorageKeyEnum.AUTOLOCK,
           importedSettings.autolock,
         );
+        AutolockModule.set(importedSettings.autolock as unknown as Autolock);
       }
       if (importedSettings.claimAccounts) {
         let existingClaimsAccounts: LocalStorageClaimItem =

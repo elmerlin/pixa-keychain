@@ -58,7 +58,8 @@ The first public release. Everything here came from a review before opening the 
   removes its keys.
 - `requestAddAccount` checks a memo key against the account.
 - Every request a site makes now gets an answer, even if something goes wrong unexpectedly.
-- Proposal IDs and authorities can be listed in any order. A small power down still shows, with its cancel button.
+- An incoming delegation no longer offers Edit and Delete, which acted on your own outgoing one instead.
+- Proposal IDs, authorities and who a custom_json needs can be listed in any order. A small power down still shows, with its cancel button.
 
 ### Added
 

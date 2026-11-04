@@ -34,6 +34,11 @@ describe('add-key.component tests:\n', () => {
     cleanup();
   });
   beforeEach(async () => {
+    AccountUtils.getAccountsToAddTo = jest
+      .fn()
+      .mockImplementation(async () =>
+        JSON.parse(JSON.stringify([accounts.local.justTwoKeys])),
+      );
     const clonedLocalAccount = objects.clone(
       accounts.local.justTwoKeys,
     ) as LocalAccount;

@@ -335,6 +335,8 @@ const addKey = async (
     throw new Error(AccountErrorMessages.PASSWORD_IS_PUBLIC_KEY);
   }
   const keys = await AccountUtils.getKeys(activeAccount.name!, privateKey);
+  // What's saved by now: that lookup can take a while, and anything added meanwhile has to stay.
+  accounts = await AccountUtils.getAccountsToAddTo(mk);
   let account = accounts.find(
     (account: LocalAccount) => account.name === activeAccount.name,
   );
@@ -363,7 +365,7 @@ const addKey = async (
         break;
     }
 
-    AccountUtils.saveAccounts(accounts, mk);
+    await AccountUtils.saveAccounts(accounts, mk);
     return accounts;
   }
 };

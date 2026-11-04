@@ -211,7 +211,14 @@ const inChainOrder = (entries, order, keyOf = (entry) => entry[0]) => {
   return sorted
 }
 
-// The chain reads these as a sorted set too.
+// The chain reads these as sorted sets too.
+const AccountNamesSerializer = (buffer, data) => {
+  ArraySerializer(StringSerializer)(
+    buffer,
+    inChainOrder(data, (a, b) => (a < b ? -1 : a > b ? 1 : 0), (name) => name)
+  )
+}
+
 const ProposalIdsSerializer = (buffer, data) => {
   ArraySerializer(Int64Serializer)(
     buffer,
@@ -391,23 +398,23 @@ OperationSerializers.create_claimed_account = OperationDataSerializer(23, [
 ])
 
 OperationSerializers.custom = OperationDataSerializer(15, [
-  ['required_auths', ArraySerializer(StringSerializer)],
+  ['required_auths', AccountNamesSerializer],
   ['id', UInt16Serializer],
   ['data', VariableBinarySerializer]
 ])
 
 OperationSerializers.custom_binary = OperationDataSerializer(35, [
-  ['required_owner_auths', ArraySerializer(StringSerializer)],
-  ['required_active_auths', ArraySerializer(StringSerializer)],
-  ['required_posting_auths', ArraySerializer(StringSerializer)],
+  ['required_owner_auths', AccountNamesSerializer],
+  ['required_active_auths', AccountNamesSerializer],
+  ['required_posting_auths', AccountNamesSerializer],
   ['required_auths', ArraySerializer(AuthoritySerializer)],
   ['id', StringSerializer],
   ['data', VariableBinarySerializer]
 ])
 
 OperationSerializers.custom_json = OperationDataSerializer(18, [
-  ['required_auths', ArraySerializer(StringSerializer)],
-  ['required_posting_auths', ArraySerializer(StringSerializer)],
+  ['required_auths', AccountNamesSerializer],
+  ['required_posting_auths', AccountNamesSerializer],
   ['id', StringSerializer],
   ['json', StringSerializer]
 ])

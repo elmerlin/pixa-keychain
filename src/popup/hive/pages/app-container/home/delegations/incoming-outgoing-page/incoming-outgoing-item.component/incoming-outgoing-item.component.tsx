@@ -257,7 +257,7 @@ const IncomingOutgoing = ({
               )}
             </div>
           </div>
-          {isExpanded && (
+          {isExpanded && delegationType === DelegationType.OUTGOING && (
             <div className="expanded-panel">
               {!editModeActivated && (
                 <>

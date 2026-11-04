@@ -86,11 +86,12 @@ export const addAccount = async (
       // addAccount. What's saved by now: looking this account up can take a while, and anything
       // added in the meantime has to stay.
       const latest = await AccountUtils.getAccountsToAddTo(mk);
+      // Added since this was reviewed. Saving over it would lose whichever keys it has now.
+      if (latest.some(({ name }) => name === username)) {
+        throw new Error('Account already added');
+      }
       await AccountUtils.saveAccounts(
-        [
-          ...latest.filter(({ name }) => name !== username),
-          { name: username, keys: savedKeys },
-        ],
+        [...latest, { name: username, keys: savedKeys }],
         mk,
       );
     } else {

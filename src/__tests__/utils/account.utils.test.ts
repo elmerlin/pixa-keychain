@@ -582,6 +582,9 @@ describe('account.utils tests:\n', () => {
     });
     it('Must return an unhandled error if not keys', async () => {
       AccountUtils.getKeys = jest.fn().mockResolvedValue({});
+      AccountUtils.getAccountsToAddTo = jest
+        .fn()
+        .mockResolvedValue(constants.accounts);
       for (let i = 0; i < keyTypeArray.length; i++) {
         const element = keyTypeArray[i];
         try {

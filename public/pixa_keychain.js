@@ -341,14 +341,7 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Requests a signed call
-   * @deprecated
-   * @param {String} account Pixa account to perform the request
-   * @param {String} method Method of the call
-   * @param {String} params Parameters of the call
-   * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
-   * @param {requestCallback} callback Function that handles Keychain's response to the request
-   * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
+   * Disabled, as upstream left it. It does nothing and never calls back. Use requestBroadcast or requestSignTx.
    */
   requestSignedCall: function (account, method, params, key, callback, rpc) {
     console.warn('requestSignedCall has been deprecated.');
