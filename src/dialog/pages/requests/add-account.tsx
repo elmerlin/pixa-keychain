@@ -18,8 +18,7 @@ const AddAccount = (props: Props) => {
   return (
     <Operation
       title={chrome.i18n.getMessage('popup_html_add_account')}
-      {...props}
-      canWhitelist>
+      {...props}>
       <UsernameWithAvatar title="dialog_account" username={data.username} />
       <Separator type={'horizontal'} fullSize />
       <CollaspsibleItem

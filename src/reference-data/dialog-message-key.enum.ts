@@ -6,6 +6,7 @@ export enum DialogCommand {
   BROADCASTING_WITHOUT_CONFIRMATION = 'broadcastingNoConfirm',
   WRONG_MK = 'WRONG_MK',
   ANSWER_REQUEST = 'answerRequest',
+  REQUEST_STARTED = 'requestStarted',
   READY = 'broadcastReady',
 
   RETURN_SIGNATURE = 'RETURN_SIGNATURE',

@@ -9,6 +9,7 @@ import { LoadingComponent } from 'src/common-ui/loading/loading.component';
 import DialogHeader from 'src/dialog/components/dialog-header/dialog-header.component';
 import RequestUsername from 'src/dialog/components/request-username/request-username';
 import { useDomainCheck } from 'src/dialog/hooks/domain-check';
+import { approvalFor } from 'src/utils/preferences.utils';
 
 type Props = {
   title: string;
@@ -24,6 +25,7 @@ type Props = {
   username?: string;
   setUsername?: (username: string) => void;
   redHeader?: boolean;
+  canConfirm?: boolean;
 };
 
 const Operation = ({
@@ -40,6 +42,7 @@ const Operation = ({
   username,
   redHeader,
   setUsername,
+  canConfirm = true,
 }: Props) => {
   const [keep, setKeep] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,7 +100,7 @@ const Operation = ({
         </div>
       </div>
 
-      {canWhitelist && (
+      {canWhitelist && approvalFor(data) !== null && (
         <CheckboxPanelComponent
           onChange={setKeep}
           checked={keep}
@@ -123,12 +126,14 @@ const Operation = ({
             }}
             height="small"
           />
-          <ButtonComponent
-            type={ButtonType.IMPORTANT}
-            label="dialog_confirm"
-            onClick={onConfirm || genericOnConfirm}
-            height="small"
-          />
+          {canConfirm && (
+            <ButtonComponent
+              type={ButtonType.IMPORTANT}
+              label="dialog_confirm"
+              onClick={onConfirm || genericOnConfirm}
+              height="small"
+            />
+          )}
         </div>
       )}
 

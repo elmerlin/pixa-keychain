@@ -19,7 +19,7 @@ describe('sign-tx tests:\n', () => {
     tx: {
       ref_block_num: 1000,
       ref_block_prefix: 1,
-      expiration: '12/12/2023',
+      expiration: '2023-12-12T00:00:00',
       operations: [] as Operation[],
       extensions: [],
     } as Transaction,

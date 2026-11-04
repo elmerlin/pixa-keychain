@@ -50,12 +50,13 @@ describe('response.logic tests:\n', () => {
         .spyOn(chrome.runtime, 'sendMessage')
         .mockImplementation(async () => undefined);
 
-      sendRequestToBackground(req, chrome);
+      sendRequestToBackground(req, 'document-token', chrome);
       expect(sSendMessage).toHaveBeenCalledWith({
         command: 'sendRequest',
         request: req,
         domain: window.location.hostname,
         request_id: req.request_id,
+        documentToken: 'document-token',
       });
     });
   });

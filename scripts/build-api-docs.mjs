@@ -39,7 +39,7 @@ Every callback gets one object:
 | --- | --- |
 | \`success\` | \`true\` if it worked |
 | \`result\` | What the request produced, such as a signature or the broadcast's result |
-| \`error\` | Why it didn't work. \`user_cancel\` means the person said no |
+| \`error\` | Why it didn't work: \`user_cancel\` if the person said no, \`incomplete\` if the request wasn't valid, \`ignored\` or \`busy\` as below |
 | \`message\` | A sentence you can show |
 | \`data\` | The request as the wallet received it |
 | \`publicKey\` | The public key that signed, when there is one |
@@ -50,7 +50,8 @@ extension from a script pretending to be it.
 
 ## Good to know
 
-- **One at a time.** The wallet keeps one request per tab, and a new one replaces the one before it. Wait for each answer.
+- **One at a time.** A page has one request at a time. A new one replaces one still waiting for the person (it answers
+  \`ignored\`), and is itself refused with \`busy\` if the last one is already being sent. Wait for each answer.
 - **Amounts** are strings with three decimals (\`"1.000"\`), in \`PIXA\` and \`PXS\`. Delegations are in \`PP\` or \`VESTS\`. A request
   in \`HIVE\` or \`HBD\` is refused.
 - **Don't ask unprompted.** A request opens a window, so make it the result of something the person did.
@@ -59,6 +60,8 @@ extension from a script pretending to be it.
   that starts with Pixa's chain ID, because that could be signed into a transaction.
 - **Reward settings** on \`requestPost\` must be about that post, and they're shown in the review every time.
 - **Weights** in authority requests must be whole numbers from 1 to 65535.
+- **Don't ask again** is the person's choice, and narrow: one kind of request with the posting key. Requests with any other
+  key always open a window.
 
 ## Coming from Hive Keychain
 

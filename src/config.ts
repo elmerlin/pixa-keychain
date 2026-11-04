@@ -1,3 +1,4 @@
+import { AutoLockType } from 'src/interfaces/autolock.interface';
 const Config = {
   claims: {
     FREQUENCY: +(process.env.DEV_CLAIM_FREQUENCY || 10),
@@ -13,6 +14,8 @@ const Config = {
   rpc: {
     DEFAULT: { uri: 'https://api.pixagram.com', testnet: false },
   },
+  // Until someone chooses otherwise, in Settings.
+  autolock: { DEFAULT: { type: AutoLockType.IDLE_LOCK, mn: 10 } },
   treasuryAccount: 'pixa.omnibus',
   explorer: {
     baseURL: 'https://pixtopia.net/chain',

@@ -100,9 +100,10 @@ Keychain, you mostly need to rename its one global and use Pixa's tokens.
 
 - Your accounts are encrypted with AES-GCM, using a key derived from your password with 600,000 rounds of PBKDF2. The
   password itself is never saved, and it's held in memory only while the wallet is unlocked.
-- The wallet locks itself when you step away. You choose after how long.
+- The wallet locks itself after 10 idle minutes. You can change that in Settings.
 - Owner keys are always refused. Keep yours offline.
-- A site gets only what you approve: a signature, an account name, a result. Never a key.
+- A site gets only what you approve: a signature, an account name, a result. Never a key. "Don't ask again" covers one
+  kind of request on one site, only ever with the posting key.
 - It talks only to the Pixa node you chose (`api.pixagram.com` unless you change it).
 
 [SECURITY.md](SECURITY.md) has more, including what it can't protect you from.

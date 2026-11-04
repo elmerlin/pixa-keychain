@@ -46,6 +46,12 @@ transaction. It is the test oracle for anything that serializes.
   say it in words (`src/dialog/utils/operation-summary.utils.ts`) and that code treats every request
   as hostile: what it can't read exactly is reported as not understood, opens the raw transaction and
   drops "Don't ask again". Never guess, and never put what a site wrote into a title.
+- **Don't ask again stays narrow.** `approvalFor` in `src/utils/preferences.utils.ts` says what a saved approval covers: one
+  kind of request or set of operations, with the posting key, and nothing unreadable.
+- **Authority changes sign what the review built** (`getAuthorityChangeOperation`, `useAuthorityChange`), and read nothing
+  again. Only the role asked about goes in. Every byte comes from a site or a node, so the serializer refuses what it can't
+  write exactly instead of rounding or wrapping it.
+- Answers to a site go through `requestHandler.answer`, to the document that asked. Never to a whole tab.
 - Internal names stay as upstream has them (`HiveUtils`, `src/popup/hive`, `hive-tx`), so merging
   upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, Pixtopia Keychain.
 - Copy says Pixa for the chain and its accounts, and PIXA and PXS for its tokens. Pixagram is only

@@ -211,14 +211,32 @@ const customJson = (v: Fields): Described => {
   throw new Unreadable();
 };
 
+// Who holds it isn't enough: weights decide who can act alone. So they're shown with what's needed,
+// and a change that leaves it out of reach isn't read as something ordinary.
 const authorityText = (value: unknown) => {
   const v = fields(value);
-  whole(v.weight_threshold, 1);
+  const threshold = whole(v.weight_threshold, 1, 0xffffffff);
+  const holder = (name: string, auth: unknown) => {
+    const weight = whole(list(auth)[1], 1, 0xffff);
+    return { weight, text: `${name} (${weight})` };
+  };
   const holders = [
-    ...list(v.account_auths).map((auth) => handle(list(auth)[0])),
-    ...list(v.key_auths).map((auth) => matching(PUBLIC_KEY, list(auth)[0])),
+    ...list(v.account_auths).map((auth) =>
+      holder(handle(list(auth)[0]), auth),
+    ),
+    ...list(v.key_auths).map((auth) =>
+      holder(matching(PUBLIC_KEY, list(auth)[0]), auth),
+    ),
   ];
-  return holders.length ? holders.join(', ') : say('dialog_op_nobody');
+  if (!holders.length) return say('dialog_op_nobody');
+  if (holders.reduce((sum, { weight }) => sum + weight, 0) < threshold) {
+    throw new Unreadable();
+  }
+  return say(
+    'dialog_op_holders',
+    String(threshold),
+    holders.map(({ text }) => text).join(', '),
+  );
 };
 
 const accountUpdate = (v: Fields): Described => {

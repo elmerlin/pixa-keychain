@@ -3,6 +3,7 @@ import AutolockModule from '@background/autolock.module';
 import ClaimModule from '@background/claim.module';
 import LocalStorageModule from '@background/local-storage.module';
 import init from '@background/requests/init';
+import { noteApproval } from '@background/requests/dialog-lifecycle';
 import { performOperation } from '@background/requests/operations';
 import { RequestsHandler } from '@background/requests/request-handler';
 import RPCModule from '@background/rpc.module';
@@ -104,6 +105,7 @@ const chromeMessageHandler = async (
       break;
     }
     case BackgroundCommand.ACCEPT_TRANSACTION:
+      noteApproval();
       const { keep, data, tab, domain, options } = backgroundMessage.value;
       const approvedHandler = await RequestsHandler.getFromLocalStorage();
       // From here it runs to the end. Closing the window no longer means cancelled, and saying so

@@ -11,7 +11,7 @@ import { HiveTxUtils } from '@popup/hive/utils/hive-tx.utils';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import _ from 'lodash';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
-import Logger from 'src/utils/logger.utils';
+import { KeychainError } from 'src/keychain-error';
 
 const getVestingRoutes = async (
   name: string,
@@ -227,35 +227,34 @@ const revertAccountRoutes = async (
   account: string,
   options?: TransactionOptions,
 ) => {
-  const broadcastOperations: SetWithdrawVestingRouteOperation[] = [];
   const activeKey = accounts.find((a) => a.name === account)?.keys.active!;
-  if (activeKey) {
-    differences.map(({ oldRoute, newRoute }) => {
-      if (oldRoute) {
-        const { fromAccount, toAccount, percent, autoVest } = oldRoute;
-        broadcastOperations.push(
-          getVestingRouteOperation(fromAccount, toAccount, percent, autoVest),
-        );
-      } else if (newRoute) {
-        const { fromAccount, toAccount, autoVest } = newRoute;
-        broadcastOperations.push(
-          getVestingRouteOperation(fromAccount, toAccount, 0, autoVest),
-        );
-      }
-    });
-    try {
-      const options: TransactionOptions = {};
-
-      const result = await HiveTxUtils.sendOperation(
-        broadcastOperations,
-        activeKey,
-        false,
-        options,
-      );
-    } catch (error) {
-      Logger.error('Error while reverting vesting route(s)', true);
-    }
+  if (!activeKey) {
+    throw new KeychainError('popup_html_vesting_routes_revert_failed');
   }
+  // Routes can't add up to more than 100% at any step, so what shrinks goes first.
+  const steps = differences
+    .map(({ oldRoute, newRoute }) => ({
+      route: (oldRoute ?? newRoute)!,
+      from: newRoute?.percent ?? 0,
+      to: oldRoute?.percent ?? 0,
+    }))
+    .sort((a, b) => a.to - a.from - (b.to - b.from));
+  const broadcastOperations: SetWithdrawVestingRouteOperation[] = steps.map(
+    ({ route, to }) =>
+      getVestingRouteOperation(
+        route.fromAccount,
+        route.toAccount,
+        to,
+        route.autoVest,
+      ),
+  );
+  // If this fails it has to be seen: the power down is still going to the wrong place.
+  await HiveTxUtils.sendOperation(
+    broadcastOperations,
+    activeKey,
+    false,
+    options,
+  );
 };
 
 export const VestingRoutesUtils = {

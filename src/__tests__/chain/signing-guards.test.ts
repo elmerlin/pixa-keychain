@@ -3,13 +3,18 @@
  */
 // jsdom has its own Uint8Array, which the key libraries don't recognise.
 import { PublicKey, config } from 'hive-tx';
+import { KeychainRequestTypes } from '@interfaces/keychain.interface';
 import { readCommentOptions } from 'src/utils/comment-options.utils';
+import {
+  approvalFor,
+  approvalLabel,
+  isWhitelisted,
+} from 'src/utils/preferences.utils';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import { describeOperations } from 'src/dialog/utils/operation-summary.utils';
 import schemas, {
   commonRequestParams,
 } from 'src/content-scripts/web-interface/input-validation';
-import axios from 'axios';
 import { broadcastSavings } from '@background/requests/operations/ops/savings';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
@@ -61,6 +66,45 @@ describe('what gets signed is what was reviewed', () => {
     expect(() => bytes(transaction(recurrent(24, -1)))).toThrow('uint16');
     expect(() => bytes(transaction(recurrent(24.5)))).toThrow('uint16');
     expect(() => bytes(transaction(recurrent(24)))).not.toThrow();
+  });
+
+  describe('64-bit numbers', () => {
+    const removal = (id: unknown) =>
+      transaction([
+        'remove_proposal',
+        { proposal_owner: 'alice', proposal_ids: [id], extensions: [] },
+      ]);
+    it('refuses one too long for 64 bits', () => {
+      expect(() => bytes(removal('18446744073709551617'))).toThrow('int64');
+      expect(() => bytes(removal('9223372036854775808'))).toThrow('int64');
+    });
+    it('refuses anything that is not a whole number', () => {
+      for (const id of [1.5, '1.5', 'x', null, { low: 1, high: 0 }]) {
+        expect(() => bytes(removal(id))).toThrow('int64');
+      }
+    });
+    it('takes a number or the same number written out', () => {
+      expect(bytes(removal('7'))).toBe(bytes(removal(7)));
+    });
+  });
+
+  describe('dates', () => {
+    const at = (expiration: unknown) => ({
+      ...transaction(['delete_comment', { author: 'alice', permlink: 'p' }]),
+      expiration,
+    });
+    it.each([
+      ['past the end of its range', '2107-01-01T00:00:00'],
+      ['that does not exist', '2026-02-31T00:00:00'],
+      ['written any other way', '12/12/2023'],
+      ['with a time zone', '2026-12-01T00:00:00Z'],
+      ['missing', undefined],
+    ])('refuses one %s', (_, date) => {
+      expect(() => bytes(at(date))).toThrow('date');
+    });
+    it('takes a real one', () => {
+      expect(() => bytes(at('2026-12-01T00:00:00'))).not.toThrow();
+    });
   });
 
   it('refuses a vote strength that would wrap around', () => {
@@ -202,53 +246,83 @@ describe('authority changes', () => {
     expect(keys).toEqual(inChainOrder);
   });
 
-  describe('on a node the person chose', () => {
-    const defaultNode = config.node;
+  describe('the update a site asks for', () => {
+    const request = (change: object) => ({
+      username: 'alice',
+      role: 'Posting',
+      ...change,
+    });
     beforeEach(() => {
-      config.node = 'https://their-node.test';
       jest
         .spyOn(AccountUtils, 'getExtendedAccount')
-        .mockResolvedValue(account());
+        .mockImplementation(async () => account());
     });
-    afterEach(() => {
-      config.node = defaultNode;
-      jest.restoreAllMocks();
+    afterEach(() => jest.restoreAllMocks());
+
+    it('holds only the role that was asked about', async () => {
+      const [name, update] = await AccountUtils.getAuthorityChangeOperation(
+        request({
+          type: 'addAccountAuthority',
+          authorizedUsername: 'bob',
+          weight: 1,
+        }) as never,
+      );
+      expect(name).toBe('account_update');
+      expect(update.active).toBeUndefined();
+      expect(update.owner).toBeUndefined();
+      expect(update.posting!.account_auths).toEqual([['bob', 1]]);
     });
 
-    it('goes ahead when the default node agrees', async () => {
-      jest
-        .spyOn(axios, 'post')
-        .mockResolvedValue({ data: { result: [account()] } });
+    it('is shown with who can act, and how much each one counts', async () => {
+      (globalThis as any).chrome.i18n.getMessage = jest.fn(
+        (key: string, values?: string[]) => [key, ...(values ?? [])].join(' '),
+      );
+      const operation = await AccountUtils.getAuthorityChangeOperation(
+        request({
+          type: 'addAccountAuthority',
+          authorizedUsername: 'bob',
+          weight: 2,
+        }) as never,
+      );
+      const [summary] = describeOperations([operation], 'alice');
+      expect(summary.understood).toBe(true);
+      expect(JSON.stringify(summary.rows)).toContain(
+        `dialog_op_holders 1 @bob (2), ${KEY_A} (1)`,
+      );
+    });
+
+    it('never leaves nobody able to use the role', async () => {
       await expect(
-        AccountUtils.getExtendedAccountToChange('alice'),
-      ).resolves.toEqual(account());
+        AccountUtils.getAuthorityChangeOperation(
+          request({
+            type: 'removeKeyAuthority',
+            authorizedKey: KEY_A,
+          }) as never,
+        ),
+      ).rejects.toThrow('bgd_ops_authority_lockout');
     });
 
-    it('stops when the default node says otherwise', async () => {
-      jest.spyOn(axios, 'post').mockResolvedValue({
-        data: {
-          result: [{ ...(account() as object), active: authority([[KEY_B, 1]]) }],
-        },
-      });
-      await expect(
-        AccountUtils.getExtendedAccountToChange('alice'),
-      ).rejects.toThrow('bgd_ops_authority_node_mismatch');
+    it('is read as not understood when the threshold is out of reach', () => {
+      const [summary] = describeOperations(
+        [
+          [
+            'account_update',
+            {
+              account: 'alice',
+              posting: {
+                weight_threshold: 5,
+                account_auths: [['bob', 1]],
+                key_auths: [],
+              },
+              memo_key: KEY_C,
+              json_metadata: '',
+            },
+          ],
+        ],
+        'alice',
+      );
+      expect(summary.understood).toBe(false);
     });
-
-    it('stops when the default node can not be asked', async () => {
-      jest.spyOn(axios, 'post').mockRejectedValue(new Error('offline'));
-      await expect(
-        AccountUtils.getExtendedAccountToChange('alice'),
-      ).rejects.toThrow('bgd_ops_authority_node_mismatch');
-    });
-  });
-
-  it('does not ask twice on the default node', async () => {
-    const post = jest.spyOn(axios, 'post');
-    jest.spyOn(AccountUtils, 'getExtendedAccount').mockResolvedValue(account());
-    await AccountUtils.getExtendedAccountToChange('alice');
-    expect(post).not.toHaveBeenCalled();
-    jest.restoreAllMocks();
   });
 });
 
@@ -386,5 +460,117 @@ describe('what a site can ask for', () => {
       expect(summary.understood).toBe(true);
       expect(JSON.stringify(summary.rows)).toContain('mallory');
     });
+  });
+});
+
+describe('saved approvals', () => {
+  const vote = ['vote', { voter: 'alice', author: 'bob', permlink: 'p', weight: 100 }];
+  const follow = [
+    'custom_json',
+    {
+      id: 'follow',
+      required_auths: [],
+      required_posting_auths: ['alice'],
+      json: JSON.stringify(['follow', { follower: 'alice', following: 'bob', what: ['blog'] }]),
+    },
+  ];
+  const unreadable = [
+    'custom_json',
+    {
+      id: 'rc',
+      required_auths: [],
+      required_posting_auths: ['alice'],
+      json: '[]',
+    },
+  ];
+  const rewards = [
+    'comment_options',
+    {
+      author: 'alice',
+      permlink: 'p',
+      max_accepted_payout: '1000000.000 PXS',
+      percent_pxs: 10000,
+      allow_votes: true,
+      allow_curation_rewards: true,
+      extensions: [[0, { beneficiaries: [{ account: 'mallory', weight: 10000 }] }]],
+    },
+  ];
+  const signTx = (operations: unknown[], method = 'Posting') =>
+    ({
+      type: KeychainRequestTypes.signTx,
+      username: 'alice',
+      method,
+      tx: { operations },
+    }) as never;
+  const broadcast = (operations: unknown[], method = 'Posting') =>
+    ({
+      type: KeychainRequestTypes.broadcast,
+      username: 'alice',
+      method,
+      operations,
+    }) as never;
+  const rpc = { uri: 'https://node.test', testnet: false };
+  const saved = (approval: string) =>
+    ({ alice: { 'site.test': { [approval]: true } } }) as never;
+
+  beforeEach(() => {
+    (globalThis as any).chrome.i18n.getMessage = jest.fn(
+      (key: string, values?: string[]) => [key, ...(values ?? [])].join(' '),
+    );
+  });
+
+  it('covers only the kinds of operation that were approved', () => {
+    const approval = approvalFor(signTx([vote]))!;
+    expect(approval).toBe('signTx:vote');
+    expect(isWhitelisted(saved(approval), signTx([vote]), 'site.test', rpc)).toBe(true);
+    expect(isWhitelisted(saved(approval), signTx([follow]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved(approval), signTx([vote, follow]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved(approval), broadcast([vote]), 'site.test', rpc)).toBe(false);
+  });
+
+  it.each([
+    ['an unreadable transaction', signTx([unreadable])],
+    ['an unreadable broadcast', broadcast([unreadable])],
+    ['a share of a post rewards', signTx([rewards])],
+    ['the active key', signTx([vote], 'Active')],
+    ['the memo key', signTx([vote], 'Memo')],
+  ])('never covers %s', (_, request) => {
+    expect(approvalFor(request)).toBeNull();
+  });
+
+  it('ignores an approval saved for every transaction', () => {
+    expect(isWhitelisted(saved('signTx'), signTx([vote]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved('broadcast'), broadcast([unreadable]), 'site.test', rpc)).toBe(false);
+  });
+
+  it.each(['decode', 'encode', 'encodeWithKeys', 'signBuffer'])(
+    'keeps %s with the memo key out of an approval for the posting key',
+    (type) => {
+      const request = (method: string) =>
+        ({ type, username: 'alice', method }) as never;
+      expect(approvalFor(request('Posting'))).toBe(type);
+      expect(approvalFor(request('Memo'))).toBeNull();
+      expect(approvalFor(request('Active'))).toBeNull();
+      expect(
+        isWhitelisted(saved(type), request('Memo'), 'site.test', rpc),
+      ).toBe(false);
+    },
+  );
+
+  it('keeps one custom_json apart from another', () => {
+    const custom = (id: string) =>
+      ({
+        type: KeychainRequestTypes.custom,
+        username: 'alice',
+        method: 'Posting',
+        id,
+      }) as never;
+    expect(approvalFor(custom('follow'))).toBe('custom:follow');
+    expect(isWhitelisted(saved('custom:follow'), custom('rc'), 'site.test', rpc)).toBe(false);
+  });
+
+  it('says in the settings what an approval covers', () => {
+    expect(approvalLabel('signTx:comment+vote')).toBe('popup_sign_tx: comment, vote');
+    expect(approvalLabel('vote')).toBe('popup_vote');
   });
 });

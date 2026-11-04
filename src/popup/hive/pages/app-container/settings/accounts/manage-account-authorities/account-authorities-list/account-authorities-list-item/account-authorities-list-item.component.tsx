@@ -79,8 +79,13 @@ const AccountAuthoritiesListItem = ({
             );
           let success = await AccountUtils.updateAccount(
             updatedActiveAccountAuth.name!,
-            updatedActiveAccountAuth.account.active,
-            updatedActiveAccountAuth.account.posting,
+            // Only the role being changed: the other stays as it is on chain.
+            role === 'active'
+              ? updatedActiveAccountAuth.account.active
+              : undefined,
+            role === 'posting'
+              ? updatedActiveAccountAuth.account.posting
+              : undefined,
             updatedActiveAccountAuth.account.memo_key,
             updatedActiveAccountAuth.account.json_metadata,
             updatedActiveAccountAuth.keys.active!,

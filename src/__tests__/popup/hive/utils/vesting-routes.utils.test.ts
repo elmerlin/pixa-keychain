@@ -269,30 +269,62 @@ describe('VestingRoutesUtils', () => {
       expect(sendSpy).toHaveBeenCalled();
     });
 
-    it('logs on send failure', async () => {
+    it('says when it fails, so the warning stays up', async () => {
       jest.spyOn(HiveTxUtils, 'sendOperation').mockRejectedValue(new Error('fail'));
-      const logSpy = jest.spyOn(Logger, 'error').mockImplementation(() => {});
+      await expect(
+        VestingRoutesUtils.revertAccountRoutes(
+          [{ name: 'alice', keys: { active: 'k' } } as any],
+          [
+            {
+              oldRoute: {
+                fromAccount: 'a',
+                toAccount: 'b',
+                percent: 1,
+                autoVest: false,
+              },
+              newRoute: undefined,
+            },
+          ],
+          'alice',
+        ),
+      ).rejects.toThrow('fail');
+    });
 
+    it('says when there is no active key', async () => {
+      const sendSpy = jest.spyOn(HiveTxUtils, 'sendOperation');
+      await expect(
+        VestingRoutesUtils.revertAccountRoutes(
+          [{ name: 'alice', keys: {} } as any],
+          [],
+          'alice',
+        ),
+      ).rejects.toThrow();
+      expect(sendSpy).not.toHaveBeenCalled();
+    });
+
+    it('takes a route away before restoring one, so the total never passes 100%', async () => {
+      const sendSpy = jest
+        .spyOn(HiveTxUtils, 'sendOperation')
+        .mockResolvedValue({} as any);
+      const route = (toAccount: string, percent: number) => ({
+        fromAccount: 'alice',
+        toAccount,
+        percent,
+        autoVest: false,
+      });
       await VestingRoutesUtils.revertAccountRoutes(
         [{ name: 'alice', keys: { active: 'k' } } as any],
         [
-          {
-            oldRoute: {
-              fromAccount: 'a',
-              toAccount: 'b',
-              percent: 1,
-              autoVest: false,
-            },
-            newRoute: undefined,
-          },
+          { oldRoute: route('bob', 10000), newRoute: undefined },
+          { oldRoute: undefined, newRoute: route('carol', 10000) },
         ],
         'alice',
       );
-
-      expect(logSpy).toHaveBeenCalledWith(
-        'Error while reverting vesting route(s)',
-        true,
-      );
+      const operations = sendSpy.mock.calls[0][0] as any[];
+      expect(operations.map(([, op]) => [op.to_account, op.percent])).toEqual([
+        ['carol', 0],
+        ['bob', 10000],
+      ]);
     });
 
     it('uses percent 0 when reverting a newly added route (oldRoute missing)', async () => {

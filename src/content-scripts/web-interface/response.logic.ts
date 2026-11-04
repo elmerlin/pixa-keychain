@@ -18,6 +18,7 @@ export const cancelPreviousRequest = (prevReq: KeychainRequest) => {
 
 export const sendRequestToBackground = (
   req: KeychainRequest,
+  documentToken: string,
   chrome: typeof globalThis.chrome,
 ) => {
   chrome.runtime.sendMessage({
@@ -25,6 +26,18 @@ export const sendRequestToBackground = (
     request: req,
     domain: window.location.hostname,
     request_id: req.request_id,
+    documentToken,
+  });
+};
+
+export const sendBusyResponse = (value: KeychainRequest) => {
+  sendResponse({
+    success: false,
+    error: 'busy',
+    result: null,
+    message: 'The last request is still being sent. Wait for its answer.',
+    data: value,
+    request_id: value.request_id,
   });
 };
 

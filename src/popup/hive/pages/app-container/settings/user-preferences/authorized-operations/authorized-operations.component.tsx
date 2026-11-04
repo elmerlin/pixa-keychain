@@ -11,7 +11,7 @@ import { InputType } from 'src/common-ui/input/input-type.enum';
 import InputComponent from 'src/common-ui/input/input.component';
 import { SelectAccountSectionComponent } from 'src/common-ui/select-account-section/select-account-section.component';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
-import { removeFromWhitelist } from 'src/utils/preferences.utils';
+import { approvalLabel, removeFromWhitelist } from 'src/utils/preferences.utils';
 
 const AuthorizedOperations = ({
   activeAccount,
@@ -68,12 +68,7 @@ const AuthorizedOperations = ({
         filtered[website] = operations;
       } else {
         const op = Object.entries(operations).find((operation) => {
-          const readableOperation = chrome.i18n.getMessage(
-            `popup_${operation[0]
-              .split(/(?=[A-Z])/)
-              .join('_')
-              .toLowerCase()}`,
-          );
+          const readableOperation = approvalLabel(operation[0]);
           if (
             operation[0].toLowerCase().includes(lowerCaseValueToFilter) ||
             readableOperation.toLowerCase().includes(lowerCaseValueToFilter)
@@ -123,12 +118,7 @@ const AuthorizedOperations = ({
                     title={website}
                     key={operation}
                     icon={SVGIcons.GLOBAL_DELETE}
-                    subtitle={chrome.i18n.getMessage(
-                      `popup_${operation
-                        .split(/(?=[A-Z])/)
-                        .join('_')
-                        .toLowerCase()}`,
-                    )}
+                    subtitle={approvalLabel(operation)}
                     onClickIcon={() =>
                       handleEraseButtonClick(website, operation)
                     }

@@ -172,6 +172,7 @@ const decryptV2 = async (
 };
 
 const encryptJson = async (content: any, encryptPassword: string) => {
+  if (!encryptPassword) throw new Error('Nothing to encrypt this with');
   return encryptV2(JSON.stringify(content), encryptPassword);
 };
 

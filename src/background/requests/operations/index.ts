@@ -40,7 +40,8 @@ import {
 } from '@interfaces/keychain.interface';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import Logger from 'src/utils/logger.utils';
-import { addToWhitelist } from 'src/utils/preferences.utils';
+import { DialogCommand } from '@reference-data/dialog-message-key.enum';
+import { addToWhitelist, approvalFor } from 'src/utils/preferences.utils';
 
 export const performOperation = async (
   requestHandler: RequestsHandler,
@@ -51,6 +52,10 @@ export const performOperation = async (
   options?: TransactionOptions,
 ) => {
   let message = null;
+  requestHandler.answer(tab, {
+    command: DialogCommand.REQUEST_STARTED,
+    request_id: data.request_id,
+  });
   try {
     Logger.info('-- PERFORMING TRANSACTION --');
     Logger.log(data);
@@ -171,7 +176,8 @@ export const performOperation = async (
     );
   } finally {
     if (no_confirm) {
-      addToWhitelist(data.username!, domain, data.type);
+      const approval = approvalFor(data);
+      if (approval) addToWhitelist(data.username!, domain, approval);
       if (!!requestHandler.data.windowId) {
         removeWindow(requestHandler.data.windowId!);
       }

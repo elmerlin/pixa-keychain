@@ -8,7 +8,10 @@ import {
   addToLoadingList,
   removeFromLoadingList,
 } from '@popup/multichain/actions/loading.actions';
-import { setSuccessMessage } from '@popup/multichain/actions/message.actions';
+import {
+  setErrorMessage,
+  setSuccessMessage,
+} from '@popup/multichain/actions/message.actions';
 import { RootState } from '@popup/multichain/store';
 import React from 'react';
 import { ConnectedProps, connect } from 'react-redux';
@@ -16,6 +19,7 @@ import ButtonComponent, {
   ButtonType,
 } from 'src/common-ui/button/button.component';
 import { OperationButtonComponent } from 'src/common-ui/button/operation-button.component';
+import Logger from 'src/utils/logger.utils';
 
 interface Props {
   account: string;
@@ -30,6 +34,7 @@ const VestingRouteItem = ({
   nextCarouselSlide,
   isLast,
   setSuccessMessage,
+  setErrorMessage,
   clearDisplayWrongVestingRoutes,
   accounts,
   addToLoadingList,
@@ -105,13 +110,20 @@ const VestingRouteItem = ({
     account: string,
   ) => {
     addToLoadingList('html_popup_revert_vesting_route_operation');
-    await VestingRoutesUtils.revertAccountRoutes(
-      accounts,
-      differences,
-      account,
-    );
-    removeFromLoadingList('html_popup_revert_vesting_route_operation');
-    checkForNextSlideOrHidePopup();
+    try {
+      await VestingRoutesUtils.revertAccountRoutes(
+        accounts,
+        differences,
+        account,
+      );
+      checkForNextSlideOrHidePopup();
+    } catch (error) {
+      // The warning stays up: the routes are still wrong.
+      Logger.error('Error while reverting vesting route(s)', error);
+      setErrorMessage('popup_html_vesting_routes_revert_failed');
+    } finally {
+      removeFromLoadingList('html_popup_revert_vesting_route_operation');
+    }
   };
   return (
     <div className={`carousel-item`} key={`${account}-vesting-routes`}>
@@ -182,6 +194,7 @@ const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, {
   setSuccessMessage,
+  setErrorMessage,
   addToLoadingList,
   removeFromLoadingList,
 });

@@ -9,10 +9,8 @@ import { CurrencyPrices } from '@interfaces/bittrex.interface';
 import { HiveInternalMarketLockedInOrders } from '@interfaces/hive-market.interface';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { VaultKey } from '@reference-data/vault-message-key.enum';
-import axios from 'axios';
 import { isWif } from 'hive-keychain-commons';
-import { config as HiveTxConfig, PublicKey } from 'hive-tx';
-import Config from 'src/config';
+import { PublicKey } from 'hive-tx';
 import { Accounts } from 'src/interfaces/accounts.interface';
 import { ActiveAccount, RC } from 'src/interfaces/active-account.interface';
 import {
@@ -22,6 +20,7 @@ import {
   TransactionOptions,
 } from 'src/interfaces/keys.interface';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
+import { KeychainRequestTypes } from '@interfaces/keychain.interface';
 import { KeychainError } from 'src/keychain-error';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
@@ -492,35 +491,6 @@ const getExtendedAccount = async (
   return (await AccountUtils.getExtendedAccounts([username]))[0];
 };
 
-// An authority change is built on what a node says the account looks like, and that gets signed
-// with the active key. So a node the person chose has to agree with the default one first.
-const getExtendedAccountToChange = async (
-  username: string,
-): Promise<ExtendedAccount> => {
-  const account = await AccountUtils.getExtendedAccount(username);
-  const defaultNode = Config.rpc.DEFAULT.uri;
-  if (HiveTxConfig.node.replace(/\/$/, '') !== defaultNode) {
-    const authorities = ({ active, posting, memo_key }: ExtendedAccount) =>
-      JSON.stringify({ active, posting, memo_key });
-    let second: ExtendedAccount | undefined;
-    try {
-      const { data } = await axios.post(defaultNode, {
-        jsonrpc: '2.0',
-        id: 1,
-        method: 'condenser_api.get_accounts',
-        params: [[username]],
-      });
-      second = data?.result?.[0];
-    } catch (e) {
-      Logger.error('Could not check the account with the default node', e);
-    }
-    if (!second || authorities(second) !== authorities(account)) {
-      throw new KeychainError('bgd_ops_authority_node_mismatch', [defaultNode]);
-    }
-  }
-  return account;
-};
-
 const getExtendedAccounts = async (
   usernames: string[],
 ): Promise<ExtendedAccount[]> => {
@@ -731,6 +701,64 @@ const onlyRole = (role: 'posting' | 'active', authority: Authority) =>
     ? { active: authority, posting: undefined }
     : { active: undefined, posting: authority };
 
+// The whole update a site's authority request comes to, built before the review so that what's
+// shown is what's signed. Refuses to leave nobody able to use the role.
+const getAuthorityChangeOperation = async (request: {
+  type: string;
+  username: string;
+  role: string;
+  authorizedUsername?: string;
+  authorizedKey?: string;
+  weight?: number;
+}) => {
+  const account = await AccountUtils.getExtendedAccount(request.username);
+  if (!account) {
+    throw new KeychainError('bgd_ops_transfer_get_account', [request.username]);
+  }
+  const role = request.role.toLowerCase() as 'posting' | 'active';
+  const change =
+    request.type === KeychainRequestTypes.addAccountAuthority
+      ? await AccountUtils.processAuthorityUpdate(
+          account,
+          role,
+          request.authorizedUsername!,
+          request.weight,
+        )
+      : request.type === KeychainRequestTypes.removeAccountAuthority
+      ? await AccountUtils.processAuthorityRemoval(
+          account,
+          role,
+          request.authorizedUsername!,
+        )
+      : request.type === KeychainRequestTypes.addKeyAuthority
+      ? await AccountUtils.processKeyAuthorityUpdate(
+          account,
+          role,
+          request.authorizedKey!,
+          request.weight,
+        )
+      : await AccountUtils.processKeyAuthorityRemoval(
+          account,
+          role,
+          request.authorizedKey!,
+        );
+  const after = change[role]!;
+  const total = [...after.account_auths, ...after.key_auths].reduce(
+    (sum, [, weight]) => sum + weight,
+    0,
+  );
+  if (total < after.weight_threshold) {
+    throw new KeychainError('bgd_ops_authority_lockout', [role]);
+  }
+  return AccountUtils.getUpdateAccountOperation(
+    account.name,
+    change.active,
+    change.posting,
+    account.memo_key,
+    account.json_metadata,
+  );
+};
+
 const processAuthorityUpdate = async (
   userAccount: ExtendedAccount,
   role: 'posting' | 'active',
@@ -865,7 +893,7 @@ const AccountUtils = {
   addAccount,
   reorderAccounts,
   addAuthorizedKey,
-  getExtendedAccountToChange,
+  getAuthorityChangeOperation,
   processAuthorityUpdate,
   processAuthorityRemoval,
   processKeyAuthorityUpdate,

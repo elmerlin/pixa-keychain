@@ -21,7 +21,11 @@ const hasVotedForProposal = async (
     'condenser_api.list_proposal_votes',
     [[proposalId, username], 1, 'by_proposal_voter', 'ascending', 'all'],
   );
-  return listProposalVotes[0].voter === username;
+  // The list starts at this proposal and voter, and carries on past them if there's no such vote.
+  const [vote] = listProposalVotes;
+  if (vote?.voter !== username) return false;
+  const found = vote.proposal?.proposal_id;
+  return found === undefined || proposalId === undefined || found === proposalId;
 };
 /* istanbul ignore next */
 const voteForProposal = async (

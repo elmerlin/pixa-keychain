@@ -23,7 +23,7 @@ var pixa_keychain = {
    * This function is called to verify that the user has a certain authority over an account, by requesting to decode a message
    * @example
    * const keychain = window.pixa_keychain;
-   * const message = username + Date.now();
+   * const message = '#' + username + Date.now();
    * keychain.requestEncodeMessage(username, myUsername, message, 'Memo', (response) => {
    *   if (response.success) {
    *     const encodedMessage = response.result;
@@ -33,7 +33,7 @@ var pixa_keychain = {
    *
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} receiver Account that will decode the string
-   * @param {String} message Message to be encrypted
+   * @param {String} message Message to be encrypted. It has to start with #
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    */
@@ -52,7 +52,7 @@ var pixa_keychain = {
    * This function is called to allow encoding a message with multiple receivers. Useful when a message has several receivers
    * @example
    * const keychain = window.pixa_keychain;
-   * const message = username + Date.now();
+   * const message = '#' + username + Date.now();
    * keychain.requestEncodeWithKeys(username, [pubKey1, pubKey2], message, 'Memo', (response) => {
    *   if (response.success) {
    *     const encodedMessages = response.result;
@@ -62,7 +62,7 @@ var pixa_keychain = {
    *
    * @param {String} username Pixa account to perform the request
    * @param {Array<String>} publicKeys Key that can decode the string
-   * @param {String} message Message to be encrypted
+   * @param {String} message Message to be encrypted. It has to start with #
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    */
@@ -139,7 +139,7 @@ var pixa_keychain = {
    *
    * @param {String} account Pixa account to perform the request
    * @param {String} authorizedUsername Authorized account
-   * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
+   * @param {String} role Type of authority. Can be 'Posting' or 'Active'
    * @param {number} weight Weight of the authority
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
@@ -175,7 +175,7 @@ var pixa_keychain = {
    *
    * @param {String} account Pixa account to perform the request
    * @param {String} authorizedUsername Account to lose authority
-   * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
+   * @param {String} role Type of authority. Can be 'Posting' or 'Active'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
@@ -201,13 +201,13 @@ var pixa_keychain = {
    * Requests to add a new key authority to an account.
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestAddKeyAuthority(username, publicKey, 'Memo', 1, (response) => {
+   * keychain.requestAddKeyAuthority(username, publicKey, 'Posting', 1, (response) => {
    *   console.log(response);
    * });
    *
    * @param {String} account Pixa account to perform the request
    * @param {String} authorizedKey New public key to be associated with the account
-   * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'
+   * @param {String} role Type of authority. Can be 'Posting' or 'Active'
    * @param {number} weight Weight of the key authority
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
@@ -236,12 +236,12 @@ var pixa_keychain = {
    * Requests to remove a key to an account.
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestRemoveKeyAuthority(username, publicKey, 'Memo', (response) => {
+   * keychain.requestRemoveKeyAuthority(username, publicKey, 'Posting', (response) => {
    *   console.log(response);
    * });
    * @param {String} account Pixa account to perform the request
    * @param {String} authorizedKey Key to be removed (public key).
-   * @param {String} role Type of authority. Can be 'Posting','Active' or 'Memo'.
+   * @param {String} role Type of authority. Can be 'Posting' or 'Active'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
@@ -364,26 +364,40 @@ var pixa_keychain = {
     // };
     // this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
-
-  // Example comment_options: {"author":"pixtopia","permlink":"hi","max_accepted_payout":"100000.000 PXS","percent_pxs":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}
   /**
    * Requests to broadcast a blog post/comment
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestPost('pixtopia', 'Hello World!', '## This is a blog post \
-   * \
-   * And this is some text', 'Blog', null, {format:'markdown',description:'A blog post',tags:['Blog']},'hello-world', {"author":"pixtopia","permlink":"hi","max_accepted_payout":"100000.000 PXS","percent_pxs":10000,"allow_votes":true,"allow_curation_rewards":true,"extensions":[[0,{"beneficiaries":[{"account":"yabapmatt","weight":1000},{"account":"steemplus-pay","weight":500}]}]]}, (response) => {
-   *   console.log(response);
-   * });
+   * keychain.requestPost(
+   *   'pixtopia',
+   *   'Hello World!',
+   *   'This is a blog post',
+   *   'blog',
+   *   '',
+   *   JSON.stringify({ format: 'markdown', tags: ['blog'] }),
+   *   'hello-world',
+   *   JSON.stringify({
+   *     author: 'pixtopia',
+   *     permlink: 'hello-world',
+   *     max_accepted_payout: '100000.000 PXS',
+   *     percent_pxs: 10000,
+   *     allow_votes: true,
+   *     allow_curation_rewards: true,
+   *     extensions: [[0, { beneficiaries: [{ account: 'pixa.team', weight: 1000 }] }]],
+   *   }),
+   *   (response) => {
+   *     console.log(response);
+   *   },
+   * );
    *
    * @param {String} account Pixa account to perform the request
    * @param {String} title Title of the blog post
    * @param {String} body Content of the blog post
    * @param {String} parent_perm Permlink of the parent post. Main tag for a root post
-   * @param {String} parent_account Author of the parent post. Pass null for root post
-   * @param {Object} json_metadata Parameters of the call
+   * @param {String} parent_account Author of the parent post. Pass '' for a root post
+   * @param {String} json_metadata The post's metadata, as JSON
    * @param {String} permlink Permlink of the blog post
-   * @param {Object} comment_options Options attached to the blog post. It takes the comment_options operation's fields to learn more about it
+   * @param {String} comment_options Reward settings for this post, as JSON, or ''. They must name this author and permlink, and they're shown in the review
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
@@ -479,7 +493,7 @@ var pixa_keychain = {
    * Requests a transfer
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestTransfer(username, toUsername, amount.toFixed(3),'','PIXA',(response) => {
+   * keychain.requestTransfer(username, toUsername, '1.000', '', 'PIXA', (response) => {
    *   console.log(response)
    * }, true);
    *
@@ -567,7 +581,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    *
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
@@ -605,7 +619,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} witness Account to receive the witness vote
@@ -633,7 +647,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @example
    * // Remove voting proxy
@@ -643,7 +657,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} proxy Account to become the proxy. Empty string ('') to remove a proxy
@@ -669,7 +683,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} recipient Account to receive the power up
@@ -697,7 +711,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} hive_power Amount of PIXA to be powered down
@@ -750,23 +764,23 @@ var pixa_keychain = {
 
   //HF21
   /**
-   * Request the creation of a DHF proposal
+   * Request the creation of a proposal
    * @example
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestCreateProposal('pixtopia', 'pixtopia', 'Pixtopia Keychain development', 'pixtopia-keychain-proposal', '10.000', '2022-03-22', '2023-03-21', JSON.stringify([]), (response) => {
+   *   keychain.requestCreateProposal('pixtopia', 'pixtopia', 'Pixtopia Keychain development', 'pixtopia-keychain-proposal', '10.000 PXS', '2027-01-01T00:00:00', '2027-12-31T00:00:00', JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} receiver Account receiving the funding if the proposal is voted
-   * @param {String} subject Title of the DAO
+   * @param {String} subject Title of the proposal
    * @param {String} permlink Permlink to the proposal description
-   * @param {String} daily_pay Daily amount to be received by `receiver`
-   * @param {String} start Starting date
-   * @param {String} end Ending date
+   * @param {String} daily_pay Daily amount to be received by `receiver`, such as '10.000 PXS'
+   * @param {String} start Starting date, such as '2027-01-01T00:00:00'
+   * @param {String} end Ending date, in the same form
    * @param {String} extensions Stringified Array of extensions
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
@@ -807,7 +821,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} proposal_ids Stringified Array of ids of the proposals to be removed
@@ -833,7 +847,7 @@ var pixa_keychain = {
     this.dispatchCustomEvent('swRequest_pixa', request, callback);
   },
   /**
-   * Vote/Unvote a DHF proposal
+   * Vote for a proposal, or take a vote back
    * @example
    * // Approve a proposal
    * if (window.pixa_keychain) {
@@ -842,7 +856,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @example
    * // Unapprove a proposal
@@ -852,7 +866,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} proposal_ids Stringified Array of Ids of the proposals to be voted
@@ -886,13 +900,13 @@ var pixa_keychain = {
    * if (window.pixa_keychain) {
    *   const postingKey = '...';
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestConversion(username, {
+   *   keychain.requestAddAccount(username, {
    *     posting: postingKey
    *   }, (response) => {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} username username of the account to be added
    * @param {Object} keys private keys of the account : {active:'...',posting:'...',memo:'...'}. At least one must be specified. Alternatively, authorized accounts can be specified with @${username}.
@@ -917,7 +931,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    *
    * @param {String} username Pixa account to perform the request
@@ -943,11 +957,11 @@ var pixa_keychain = {
    * // Let's send @pixtopia 5 PIXA a day
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestConversion(null, 'pixtopia', '5.000', 'PIXA', memo, 24, 7, (response) => {
+   *   keychain.requestRecurrentTransfer(null, 'pixtopia', '5.000', 'PIXA', '', 24, 7, (response) => {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('You do not have hive keychain installed');
+   *   alert('Pixtopia Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request
    * @param {String} to Pixa account receiving the transfers.

@@ -408,7 +408,9 @@ describe('describing what gets signed', () => {
       ]);
       expect(summary.title).toBe('Change who controls this account');
       expect(summary.warning).toContain('can act as this account');
-      expect(value(summary, 'Active')).toBe(`@mallory, ${key}`);
+      expect(value(summary, 'Active')).toBe(
+        `Needs a weight of 1 from: @mallory (1), ${key} (1)`,
+      );
       expect(value(summary, 'Memo key')).toBe(key);
     });
 

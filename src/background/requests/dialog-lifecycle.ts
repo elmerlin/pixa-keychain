@@ -2,6 +2,13 @@ import { RequestsHandler } from '@background/requests/request-handler';
 import { waitUntilDialogIsReady } from '@background/utils/window.utils';
 import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 
+// Set the moment someone approves, before anything that takes time, so a window closed straight
+// afterwards can't still be reported as cancelled.
+let approved = false;
+export const noteApproval = () => {
+  approved = true;
+};
+
 export const createPopup = (
   callback: () => void,
   requestHandler: RequestsHandler,
@@ -10,6 +17,7 @@ export const createPopup = (
   let width = 435;
   let height = 600;
   requestHandler.setConfirmed(false);
+  approved = false;
   //Ensuring only one window is opened by the extension at a time.
   if (requestHandler.data.windowId) {
     removeWindow(requestHandler.data.windowId!);
@@ -59,7 +67,7 @@ chrome.windows.onRemoved.addListener(async (id: number) => {
     confirmed,
     isWaitingForConfirmation,
   } = requestHandler.data;
-  if (id == windowId && !confirmed && tab) {
+  if (id == windowId && !confirmed && !approved && tab) {
     requestHandler.answer(tab!, {
       command: DialogCommand.ANSWER_REQUEST,
       msg: {

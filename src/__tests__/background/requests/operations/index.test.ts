@@ -69,15 +69,15 @@ describe('index tests:\n', () => {
     expect(sLoggerLog).toHaveBeenCalledWith(data);
     expect(sSendMessage).toHaveBeenCalledWith(
       0,
-      `mocked message for ${KeychainRequestTypes.addAccount}`,
+      {
+        documentToken: undefined,
+        message: `mocked message for ${KeychainRequestTypes.addAccount}`,
+      },
       { frameId: 0 },
       expect.any(Function),
     );
-    expect(sAddToWhitelist).toHaveBeenCalledWith(
-      data.username!,
-      'domain',
-      data.type,
-    );
+    // Adding an account is reviewed every time.
+    expect(sAddToWhitelist).not.toHaveBeenCalled();
     expect(sRemoveWindow).toHaveBeenCalledWith(requestHandler.data.windowId);
     expect(sReset).toHaveBeenCalledWith(false);
   });
@@ -256,7 +256,10 @@ describe('index tests:\n', () => {
       );
       expect(sSendMessage).toHaveBeenCalledWith(
         0,
-        `mocked message for ${RequestTypeList[i]}`,
+        {
+          documentToken: undefined,
+          message: `mocked message for ${RequestTypeList[i]}`,
+        },
         { frameId: 0 },
         expect.any(Function),
       );

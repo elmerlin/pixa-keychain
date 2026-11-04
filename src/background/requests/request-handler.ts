@@ -28,6 +28,7 @@ type RequestData = {
   tab?: number;
   frameId?: number;
   documentId?: string;
+  documentToken?: string;
   request?: KeychainRequest;
   request_id?: number;
   confirmed: boolean;
@@ -110,11 +111,12 @@ export class RequestsHandler {
 
   sendRequest(
     sender: chrome.runtime.MessageSender,
-    msg: KeychainRequestWrapper,
+    msg: KeychainRequestWrapper & { documentToken?: string },
   ) {
     this.data.tab = sender.tab!.id;
     this.data.frameId = sender.frameId;
     this.data.documentId = (sender as { documentId?: string }).documentId;
+    this.data.documentToken = msg.documentToken;
     this.data.request = msg.request;
     this.data.request_id = msg.request_id;
     init(msg.request, this.data.tab, msg.domain, this);
@@ -122,10 +124,10 @@ export class RequestsHandler {
 
   /** Only the document that asked hears the answer. Other frames in the tab can belong to anyone. */
   answer(tab: number, message: object) {
-    const { frameId, documentId } = this.data;
+    const { frameId, documentId, documentToken } = this.data;
     chrome.tabs.sendMessage(
       tab,
-      message,
+      { documentToken, message },
       documentId ? { documentId } : { frameId: frameId ?? 0 },
       () => void chrome.runtime.lastError,
     );
@@ -149,33 +151,39 @@ export class RequestsHandler {
       LocalStorageKeyEnum.__REQUEST_HANDLER,
     );
 
-    const accounts = await AccountUtils.getAccountsFromLocalStorage(
-      await VaultUtils.getValueFromVault(VaultKey.__MK),
-    );
+    const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
+    const accounts = mk
+      ? await AccountUtils.getAccountsFromLocalStorage(mk)
+      : undefined;
 
     const handler = new RequestsHandler();
-    if (accounts && params) {
+    // What was asked, and by whom, is kept while locked too: closing the unlock window still has
+    // to answer the site. Only the keys wait for the password.
+    if (params) {
       if (
+        accounts &&
         params.data.request &&
-        params.data.request.type === KeychainRequestTypes.addAccount
+        params.data.request.type === KeychainRequestTypes.addAccount &&
+        params.data.request.encryptedKeys
       ) {
-        const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
         params.data.request = {
           ...params.data.request,
-          keys: await EncryptUtils.decryptToJson(
-            params.data.request.encryptedKeys,
-            mk!,
-          ),
+          keys: (
+            await EncryptUtils.decryptToJson(
+              params.data.request.encryptedKeys,
+              mk!,
+            )
+          )?.keys,
         };
       }
       await handler.initFromLocalStorage(
         params.data,
-        accounts,
+        accounts as LocalAccount[],
         params.defaultRpcConfig,
       );
 
       const username = params.data?.request?.username;
-      if (username) {
+      if (accounts && username) {
         const selectedAccount = accounts.find((acc) => acc.name === username);
         if (selectedAccount) {
           let typeWif = getRequiredWifType(params.data.request);
@@ -196,6 +204,7 @@ export class RequestsHandler {
         tab: this.data.tab,
         frameId: this.data.frameId,
         documentId: this.data.documentId,
+        documentToken: this.data.documentToken,
         request: this.data.request,
         request_id: this.data.request_id,
         confirmed: this.data.confirmed,
@@ -210,15 +219,21 @@ export class RequestsHandler {
       dataToSave.data.request &&
       this.data.request?.type === KeychainRequestTypes.addAccount
     ) {
+      // A site's keys are only ever saved under the wallet's password. While it's locked they stay
+      // with the window that's asking for it.
       const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
       dataToSave.data.request = {
         request_id: this.data.request_id,
         type: this.data.request.type,
         username: this.data.request.username,
-        encryptedKeys: await EncryptUtils.encryptJson(
-          { keys: this.data.request.keys },
-          mk!,
-        ),
+        ...(mk
+          ? {
+              encryptedKeys: await EncryptUtils.encryptJson(
+                { keys: this.data.request.keys },
+                mk,
+              ),
+            }
+          : {}),
       } as any;
     }
     await LocalStorageUtils.saveValueInLocalStorage(

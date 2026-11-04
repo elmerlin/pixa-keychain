@@ -58,7 +58,7 @@ describe('proposal.utils tests:\n', () => {
 
       const result = await ProposalUtils.hasVotedForProposal(
         'theghost1980',
-        proposal.fakeListProposalVotesResponse[0].id,
+        proposal.fakeVotedAccountResponse[0].proposal.proposal_id,
       );
       expect(result).toBe(true);
     });

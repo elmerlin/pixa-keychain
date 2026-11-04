@@ -23,9 +23,14 @@ npm run typecheck
 npm test
 ```
 
-If you touched anything that serializes a transaction, run `npm run check:chain` too. If you touched a screen, run
-`npm run build:chromium`, then `node scripts/e2e.mjs --account pixa.team --theme both` and look through the screenshots in
-`.e2e`, in both themes.
+If you touched anything that serializes a transaction, run `npm run check:chain` too. If you touched a screen, build it and
+look through the screenshots in `.e2e`, in both themes:
+
+```bash
+npx @puppeteer/browsers install chrome@stable --path ~/.cache/puppeteer # once, or set CHROME_PATH
+npm run build:chromium
+node scripts/e2e.mjs --account pixa.team --theme both
+```
 
 ## The rules that matter most
 

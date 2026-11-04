@@ -1,14 +1,15 @@
 import MkModule from '@background/mk.module';
 import { BackgroundCommand } from '@reference-data/background-message-key.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
+import Config from 'src/config';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
 import { Autolock, AutoLockType } from '../interfaces/autolock.interface';
 
-const set = async (autoLock: Autolock) => {
+const set = async (saved?: Autolock) => {
+  const autoLock = saved ?? Config.autolock.DEFAULT;
   //Receive autoLock from the popup (upon registration or unlocking)
   if (
-    autoLock &&
     (autoLock.type === AutoLockType.DEVICE_LOCK ||
       autoLock.type === AutoLockType.IDLE_LOCK)
   ) {
@@ -24,10 +25,10 @@ const start = async () => {
   Logger.info('Starting autolock');
 };
 chrome.idle.onStateChanged.addListener(async (state: any) => {
-  const autoLock: Autolock = await LocalStorageUtils.getValueFromLocalStorage(
-    LocalStorageKeyEnum.AUTOLOCK,
-  );
-  if (!autoLock) return;
+  const autoLock: Autolock =
+    (await LocalStorageUtils.getValueFromLocalStorage(
+      LocalStorageKeyEnum.AUTOLOCK,
+    )) ?? Config.autolock.DEFAULT;
   if (
     (autoLock.type === AutoLockType.DEVICE_LOCK &&
       state === AutoLockType.DEVICE_LOCK) ||

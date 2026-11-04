@@ -245,16 +245,21 @@ const server = createServer(async (req, res) => {
   }
 });
 
+// CHROME_PATH, or the newest Chrome for Testing from: npx @puppeteer/browsers install chrome@stable --path ~/.cache/puppeteer
 const chromePath = () => {
+  if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
   const base = path.join(homedir(), '.cache/puppeteer/chrome');
   const versions = readdirSync(base).sort((a, b) =>
     a.localeCompare(b, undefined, { numeric: true }),
   );
   const version = versions[versions.length - 1];
+  const mac = 'Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
   return path.join(
     base,
     version,
-    'chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing',
+    process.platform === 'linux'
+      ? 'chrome-linux64/chrome'
+      : `chrome-mac-${process.arch}/${mac}`,
   );
 };
 
@@ -391,7 +396,11 @@ const run = async () => {
   await page.goto(url('LICENSE.txt'));
   await page.evaluate(
     (proxy) =>
-      chrome.storage.local.set({ current_rpc: { uri: proxy, testnet: false } }),
+      chrome.storage.local.set({
+        current_rpc: { uri: proxy, testnet: false },
+        // The run outlasts the idle timer, and it shouldn't depend on someone using the machine.
+        autolock: { type: 'default', mn: 10 },
+      }),
     PROXY,
   );
   await page.evaluate(

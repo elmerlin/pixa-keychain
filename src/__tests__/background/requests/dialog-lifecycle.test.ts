@@ -1,4 +1,4 @@
-import { createPopup } from '@background/requests/dialog-lifecycle';
+import { createPopup, noteApproval } from '@background/requests/dialog-lifecycle';
 import { RequestsHandler } from '@background/requests/request-handler';
 import * as DialogLifeCycle from 'src/background/requests/dialog-lifecycle';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
@@ -40,7 +40,12 @@ describe('dialog-lifecycle tests:\n', () => {
       expect(send).toHaveBeenCalledWith(
         2,
         expect.objectContaining({
-          msg: expect.objectContaining({ error: 'user_cancel', request_id: 4 }),
+          message: expect.objectContaining({
+            msg: expect.objectContaining({
+              error: 'user_cancel',
+              request_id: 4,
+            }),
+          }),
         }),
         { frameId: 3 },
         expect.any(Function),
@@ -50,6 +55,14 @@ describe('dialog-lifecycle tests:\n', () => {
     it('Must not report a cancel once approved', async () => {
       const send = await closeWindow(true);
       expect(send).not.toHaveBeenCalled();
+    });
+
+    it('Must not report a cancel if closed straight after approving', async () => {
+      // Not saved yet: the approval is still on its way to storage.
+      noteApproval();
+      const send = await closeWindow(false);
+      expect(send).not.toHaveBeenCalled();
+      createPopup(() => {}, new RequestsHandler());
     });
   });
 

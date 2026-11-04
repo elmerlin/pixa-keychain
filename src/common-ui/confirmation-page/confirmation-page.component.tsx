@@ -4,7 +4,7 @@ import { setTitleContainerProperties } from '@popup/multichain/actions/title-con
 import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
 import { KeychainKeyTypes } from 'hive-keychain-commons';
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import AmountWithLogo from 'src/common-ui/amount-with-logo/amount-with-logo';
 import ButtonComponent, {
@@ -62,7 +62,18 @@ const ConfirmationPage = ({
     });
   }, []);
 
+  // Once, however it's pressed. Each press would build a new transaction, and both could land.
+  const confirmed = useRef(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  useEffect(() => {
+    confirmed.current = false;
+    setIsConfirmed(false);
+  }, [afterConfirmAction]);
+
   const handleClickOnConfirm = () => {
+    if (confirmed.current) return;
+    confirmed.current = true;
+    setIsConfirmed(true);
     afterConfirmAction();
   };
 
@@ -168,10 +179,8 @@ const ConfirmationPage = ({
         <ButtonComponent
           dataTestId="dialog_confirm-button"
           label={'popup_html_confirm'}
-          onClick={($event: BaseSyntheticEvent) => {
-            $event.target.disabled = true;
-            handleClickOnConfirm();
-          }}
+          disabled={isConfirmed}
+          onClick={handleClickOnConfirm}
           type={ButtonType.IMPORTANT}></ButtonComponent>
       </div>
     </div>

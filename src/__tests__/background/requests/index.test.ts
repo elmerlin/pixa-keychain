@@ -170,12 +170,16 @@ describe('index tests:\n', () => {
       const requestHandler = new RequestsHandler();
       requestHandler.sendRequest(
         { tab: { id: 2 }, frameId: 7, documentId: 'doc-1' } as any,
-        { domain: 'd', request: keychainRequest.noValues.decode } as any,
+        {
+          domain: 'd',
+          documentToken: 'token-1',
+          request: keychainRequest.noValues.decode,
+        } as any,
       );
       requestHandler.answer(2, { command: 'x' });
       expect(sSend).toHaveBeenCalledWith(
         2,
-        { command: 'x' },
+        { documentToken: 'token-1', message: { command: 'x' } },
         { documentId: 'doc-1' },
         expect.any(Function),
       );
@@ -193,7 +197,7 @@ describe('index tests:\n', () => {
       requestHandler.answer(2, { command: 'x' });
       expect(sSend).toHaveBeenCalledWith(
         2,
-        { command: 'x' },
+        { documentToken: undefined, message: { command: 'x' } },
         { frameId: 7 },
         expect.any(Function),
       );
@@ -205,7 +209,7 @@ describe('index tests:\n', () => {
       new RequestsHandler().answer(2, { command: 'x' });
       expect(sSend).toHaveBeenCalledWith(
         2,
-        { command: 'x' },
+        { documentToken: undefined, message: { command: 'x' } },
         { frameId: 0 },
         expect.any(Function),
       );

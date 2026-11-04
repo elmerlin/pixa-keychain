@@ -21,13 +21,15 @@ const fits = (data, min, max, type) => {
 }
 
 const fitsLong = (data, unsigned, type) => {
-  const valid =
-    typeof data === 'number'
-      ? Number.isSafeInteger(data) && (!unsigned || data >= 0)
-      : typeof data === 'string'
-        ? (unsigned ? /^\d+$/ : /^-?\d+$/).test(data)
-        : data !== null && typeof data === 'object' && 'low' in data && 'high' in data
-  if (!valid) throw new Error(`Not a valid ${type}: ${data}`)
+  const whole =
+    (typeof data === 'number' && Number.isSafeInteger(data)) ||
+    (typeof data === 'string' && /^-?\d+$/.test(data))
+  const value = whole ? BigInt(data) : null
+  const min = unsigned ? BigInt(0) : -BigInt('9223372036854775808')
+  const max = unsigned ? BigInt('18446744073709551615') : BigInt('9223372036854775807')
+  if (value === null || value < min || value > max) {
+    throw new Error(`Not a valid ${type}: ${data}`)
+  }
   return data
 }
 
@@ -97,8 +99,16 @@ const AssetSerializer = (buffer, data) => {
   }
 }
 
+// The date has to be the one that's written: 31 February would be signed as 3 March, and a year
+// past 2106 would wrap around to this one.
 const DateSerializer = (buffer, data) => {
-  buffer.writeUint32(Math.floor(new Date(data + 'Z').getTime() / 1000))
+  const seconds = Date.parse(data + 'Z') / 1000
+  const exact =
+    typeof data === 'string' &&
+    Number.isInteger(seconds) &&
+    new Date(seconds * 1000).toISOString().slice(0, 19) === data
+  if (!exact) throw new Error(`Not a valid date: ${data}`)
+  buffer.writeUint32(fits(seconds, 0, 0xffffffff, 'date'))
 }
 
 const PublicKeySerializer = (buffer, data) => {

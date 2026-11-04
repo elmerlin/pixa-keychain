@@ -1277,8 +1277,26 @@
   "bgd_ops_authority_weight_invalid": {
     "message": "That authority weight isn't valid. Nothing was changed."
   },
-  "bgd_ops_authority_node_mismatch": {
-    "message": "Your node and $1 disagree about this account, so nothing was changed. Try again in a moment."
+  "popup_html_vesting_routes_revert_failed": {
+    "message": "Your routes couldn't be put back, so they're still as shown. Try again."
+  },
+  "bgd_ops_authority_not_reviewed": {
+    "message": "This change couldn't be shown for review, so nothing was changed."
+  },
+  "bgd_ops_authority_lockout": {
+    "message": "That would leave nobody able to use the $1 role on this account, so nothing was changed."
+  },
+  "dialog_after_change": {
+    "message": "After this"
+  },
+  "dialog_op_holders": {
+    "message": "Needs a weight of $1 from: $2"
+  },
+  "popup_broadcast": {
+    "message": "Send transaction"
+  },
+  "popup_encode_with_keys": {
+    "message": "Encrypt with keys"
   },
   "dialog_post_options_invalid": {
     "message": "This post's reward settings aren't valid. Nothing was sent."

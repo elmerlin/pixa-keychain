@@ -6,6 +6,7 @@ import { RootState } from '@popup/multichain/store';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { Screen } from '@reference-data/screen.enum';
 import React, { useEffect, useState } from 'react';
+import Config from 'src/config';
 import { connect, ConnectedProps } from 'react-redux';
 import ButtonComponent from 'src/common-ui/button/button.component';
 import { CheckboxPanelComponent } from 'src/common-ui/checkbox/checkbox-panel/checkbox-panel.component';
@@ -34,10 +35,8 @@ const AutoLock = ({
     const autolock: Autolock = await LocalStorageUtils.getValueFromLocalStorage(
       LocalStorageKeyEnum.AUTOLOCK,
     );
-    setSelectedType(
-      autolock && autolock.type ? autolock.type : AutoLockType.DEFAULT,
-    );
-    setInterval(autolock && autolock.mn ? autolock.mn : 10);
+    setSelectedType(autolock?.type ?? Config.autolock.DEFAULT.type);
+    setInterval(autolock?.mn ?? Config.autolock.DEFAULT.mn);
   };
 
   const save = async () => {
