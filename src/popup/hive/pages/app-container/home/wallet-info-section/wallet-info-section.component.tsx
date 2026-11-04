@@ -1,5 +1,8 @@
 import { Conversion } from '@interfaces/conversion.interface';
-import { WalletInfoSectionItemComponent } from '@popup/hive/pages/app-container/home/wallet-info-section/wallet-info-section-item/wallet-info-section-item.component';
+import {
+  WalletInfoActionsPanelComponent,
+  WalletInfoSectionItemComponent,
+} from '@popup/hive/pages/app-container/home/wallet-info-section/wallet-info-section-item/wallet-info-section-item.component';
 import { RootState } from '@popup/multichain/store';
 import { Asset } from 'hive-keychain-commons';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +23,9 @@ const WalletInfoSection = ({
   const [delegationAmount, setDelegationAmount] = useState<string | number>(
     '...',
   );
+  const [opened, setOpened] = useState<string | null>(null);
+  const toggle = (tokenSymbol: string) =>
+    setOpened(opened === tokenSymbol ? null : tokenSymbol);
 
   useEffect(() => {
     if (activeAccount && !ActiveAccountUtils.isEmpty(activeAccount)) {
@@ -83,8 +89,11 @@ const WalletInfoSection = ({
   return (
     <div className="wallet-info-wrapper">
       <div className="wallet-info-section">
+        <div className="wallet-columns">
         <WalletInfoSectionItemComponent
           tokenSymbol="PIXA"
+          isOpen={opened === 'PIXA'}
+          onToggle={() => toggle('PIXA')}
           icon={SVGIcons.WALLET_HIVE_LOGO}
           mainValue={activeAccount.account.balance}
           mainValueLabel={currencyLabels.hive}
@@ -93,6 +102,8 @@ const WalletInfoSection = ({
         />
         <WalletInfoSectionItemComponent
           tokenSymbol="PXS"
+          isOpen={opened === 'PXS'}
+          onToggle={() => toggle('PXS')}
           icon={SVGIcons.WALLET_HBD_LOGO}
           mainValue={activeAccount.account.pxs_balance}
           mainValueLabel={currencyLabels.hbd}
@@ -101,6 +112,8 @@ const WalletInfoSection = ({
         />
         <WalletInfoSectionItemComponent
           tokenSymbol="PP"
+          isOpen={opened === 'PP'}
+          onToggle={() => toggle('PP')}
           icon={SVGIcons.WALLET_HP_LOGO}
           mainValue={FormatUtils.toHP(
             activeAccount.account.vesting_shares as string,
@@ -115,6 +128,8 @@ const WalletInfoSection = ({
                 '.'
           }
         />
+        </div>
+        {opened && <WalletInfoActionsPanelComponent tokenSymbol={opened} />}
       </div>
     </div>
   );

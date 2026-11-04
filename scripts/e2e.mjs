@@ -341,7 +341,7 @@ const run = async () => {
   mkdirSync(OUT, { recursive: true });
   await new Promise((resolve) => server.listen(PORT, '127.0.0.1', resolve));
 
-  const profile = path.join(tmpdir(), `pixtopia-keychain-e2e-${Date.now()}`);
+  const profile = path.join(tmpdir(), `pixa-keychain-e2e-${Date.now()}`);
   const browser = await puppeteer.launch({
     executablePath: chromePath(),
     headless: true,
@@ -835,6 +835,7 @@ const run = async () => {
     ],
     ['export-accounts', [...accountsMenu, 'popup_html_export']],
     ['preferences-menu', preferencesMenu],
+    ['currency', [...preferencesMenu, 'popup_html_currency']],
     ['authorized-operations', [...preferencesMenu, 'popup_html_operations']],
     ['automated-tasks', [...preferencesMenu, 'popup_html_automated_tasks']],
     ['favorite-accounts', [...preferencesMenu, 'popup_html_favorite_accounts']],
@@ -957,7 +958,7 @@ const run = async () => {
         el.textContent = 'long.accountname';
       });
       document.querySelector(
-        '.estimated-account-value-section .value',
+        '.estimated-account-value-section .equivalent',
       ).textContent = '999,999,999,999.999 PXS';
       document
         .querySelectorAll('.wallet-info-row .main-value')
@@ -1146,7 +1147,7 @@ const run = async () => {
   };
 
   // A signature is local, so it can be approved. It must verify against the posting key.
-  const message = `pixtopia-keychain-e2e-${Date.now()}`;
+  const message = `pixa-keychain-e2e-${Date.now()}`;
   await dapp.evaluate((m) => {
     window.__signed = new Promise((resolve) => {
       window.__resolveSigned = resolve;

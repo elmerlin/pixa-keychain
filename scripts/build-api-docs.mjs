@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const source = readFileSync(join(root, 'public/pixa_keychain.js'), 'utf8');
 
-const INTRO = `# Add Pixtopia Keychain to your site
+const INTRO = `# Add PIXA Keychain to your site
 
 <!-- Written by scripts/build-api-docs.mjs from public/pixa_keychain.js. Change it there, then run npm run doc. -->
 

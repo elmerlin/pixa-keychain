@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -192,7 +192,7 @@
     "description": "on popup main page"
   },
   "popup_html_estimation_info_text": {
-    "message": "The estimated account value is a ballpark idea of what your funds are worth.<br><br>You can switch between the PXS, PIXA or hidden modes by clicking on the displayed amount.",
+    "message": "A rough idea of what your funds are worth, from Pixa's price feed. Click the amount to switch between your currency, PXS and PIXA, or to hide it.",
     "description": "on popup main page, click info near estimated value"
   },
   "popup_html_wallet_history": {
@@ -1180,7 +1180,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Open Pixtopia Keychain from your browser’s extensions menu. Create a password, then add your account to continue.",
+    "message": "Open PIXA Keychain from your browser’s extensions menu. Create a password, then add your account to continue.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1221,16 +1221,16 @@
     "message": "Request was canceled by the user."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "The current website is trying to send a transfer request to the Pixtopia Keychain browser extension for account @$1 using the active key, which has not been added to the wallet."
+    "message": "The current website is trying to send a transfer request to the PIXA Keychain browser extension for account @$1 using the active key, which has not been added to the wallet."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "The current website is trying to send a request to the Pixtopia Keychain browser extension for account @$1 using the memo key, which has not been added to the wallet."
+    "message": "The current website is trying to send a request to the PIXA Keychain browser extension for account @$1 using the memo key, which has not been added to the wallet."
   },
   "bgd_auth_no_account": {
-    "message": "The current website is trying to send a request to the Pixtopia Keychain browser extension for account @$1 which has not been added to the wallet."
+    "message": "The current website is trying to send a request to the PIXA Keychain browser extension for account @$1 which has not been added to the wallet."
   },
   "bgd_auth_no_key": {
-    "message": "The current website is trying to send a request to the Pixtopia Keychain browser extension for account @$1 using the $2 key, which has not been added to the wallet."
+    "message": "The current website is trying to send a request to the PIXA Keychain browser extension for account @$1 using the $2 key, which has not been added to the wallet."
   },
   "bgd_ops_witness_voted": {
     "message": "Successfully voted @$1 for witness."
@@ -1260,7 +1260,7 @@
     "message": "This account username does not exist."
   },
   "bgd_ops_add_account": {
-    "message": "Added @$1 to Pixtopia Keychain."
+    "message": "Added @$1 to PIXA Keychain."
   },
   "bgd_ops_transfer_success": {
     "message": "Successfully transfered $1 $2 from @$3 to @$4."
@@ -2646,7 +2646,7 @@
     "description": "Create account payment message"
   },
   "html_popup_create_account_successful": {
-    "message": "Account created and added to Pixtopia Keychain.",
+    "message": "Account created and added to PIXA Keychain.",
     "description": "Create account successful message"
   },
   "html_popup_creating_account": {
@@ -2995,8 +2995,7 @@
     "description": "there was an error"
   },
   "popup_html_currency": {
-    "message": "Currency",
-    "description": "Currency"
+    "message": "Currency"
   },
   "popup_html_savings_operation_type": {
     "message": "Operation type",
@@ -3374,5 +3373,23 @@
   },
   "dialog_op_rate": {
     "message": "Rate"
+  },
+  "popup_html_currency_intro": {
+    "message": "Values are rough: 1 PXS is taken as 1 US dollar. For any other currency, the wallet gets exchange rates from frankfurter.dev, which sees your IP address and nothing else."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "Couldn't get exchange rates, so this shows US dollars for now."
+  },
+  "popup_html_price_feed": {
+    "message": "Price feed"
+  },
+  "popup_html_price_feed_info": {
+    "message": "What Pixa's witnesses say PIXA is worth, taking 1 PXS as 1 US dollar. Right now 1 PXS is $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "A full vote is worth $1 PXS."
+  },
+  "popup_html_holdings": {
+    "message": "Your account is $1 PIXA, $2 PXS and $3 Pixa Power."
   }
 }

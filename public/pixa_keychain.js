@@ -572,7 +572,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    *
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
@@ -610,7 +610,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} witness Account to receive the witness vote
@@ -638,7 +638,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @example
    * // Remove voting proxy
@@ -648,7 +648,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} proxy Account to become the proxy. Empty string ('') to remove a proxy
@@ -674,7 +674,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} recipient Account to receive the power up
@@ -702,7 +702,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} hive_power Amount of PIXA to be powered down
@@ -759,11 +759,11 @@ var pixa_keychain = {
    * @example
    * if (window.pixa_keychain) {
    *   const keychain = window.pixa_keychain;
-   *   keychain.requestCreateProposal('pixtopia', 'pixtopia', 'Pixtopia Keychain development', 'pixtopia-keychain-proposal', '10.000 PXS', '2027-01-01T00:00:00', '2027-12-31T00:00:00', JSON.stringify([]), (response) => {
+   *   keychain.requestCreateProposal('pixtopia', 'pixtopia', 'PIXA Keychain development', 'pixa-keychain-proposal', '10.000 PXS', '2027-01-01T00:00:00', '2027-12-31T00:00:00', JSON.stringify([]), (response) => {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} receiver Account receiving the funding if the proposal is voted
@@ -812,7 +812,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} proposal_ids Stringified Array of ids of the proposals to be removed
@@ -847,7 +847,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @example
    * // Unapprove a proposal
@@ -857,7 +857,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username Pixa account to perform the request
    * @param {String} proposal_ids Stringified Array of Ids of the proposals to be voted
@@ -897,7 +897,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} username username of the account to be added
    * @param {Object} keys private keys of the account : {active:'...',posting:'...',memo:'...'}. At least one must be specified. Alternatively, authorized accounts can be specified with @${username}.
@@ -922,7 +922,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    *
    * @param {String} username Pixa account to perform the request
@@ -952,7 +952,7 @@ var pixa_keychain = {
    *     console.log(response);
    *   });
    * } else {
-   *   alert('Pixtopia Keychain is not installed');
+   *   alert('PIXA Keychain is not installed');
    * }
    * @param {String} [username=null] Pixa account to perform the request
    * @param {String} to Pixa account receiving the transfers.

@@ -1,43 +1,121 @@
 .estimated-account-value-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px 16px;
-  align-items: flex-start;
-  .label-panel {
+  padding-top: 24px;
+  .value-row {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    .label {
-      @include eyebrow;
-      cursor: help;
-    }
-    .icon {
-      width: 16px;
-      height: 16px;
+    align-items: flex-end;
+    min-height: 79px;
+    .tooltip-container,
+    .tooltip-anchor {
+      display: flex;
+      flex: 1;
+      min-width: 0;
     }
   }
-  .estimated-value-button-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    width: 100%;
-  }
+  // The unit holds the left margin and the number the right: the row's weight is in its two ends.
   .value {
-    @include mono(28px);
-    line-height: 1.25;
-    letter-spacing: -0.035em;
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-xs);
+    background: none;
     color: var(--ink);
-    max-width: 100%;
-    overflow-wrap: anywhere;
     cursor: pointer;
+    &:hover .unit {
+      color: var(--ink);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 4px;
+    }
   }
-  .spacing {
-    margin-left: 8px;
+  .unit {
+    @include mono(15px);
+    line-height: 1;
+    color: var(--inkSecondary);
+    white-space: nowrap;
+    transition: color var(--motion-soft) var(--ease-gentle);
   }
-  .account-value-explanation-section {
-    font-size: 13px;
+  .pixel-number {
+    display: block;
+    flex: none;
+    margin-left: auto;
+  }
+  .pixel-number-mark {
+    fill: var(--spark);
+  }
+  .value-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 28px;
+    margin-top: 2px;
+  }
+  .equivalent {
+    @include mono(13px);
+    color: var(--inkSecondary);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .currency-button {
+    @include mono(12px);
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+    height: 28px;
+    padding: 0 6px 0 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background var(--motion-soft) var(--ease-gentle);
+    &:hover {
+      background: var(--hover);
+    }
+    .arrow {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  .holdings-bar {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    rect {
+      fill: var(--border);
+    }
+    .pixa {
+      fill: var(--prism-pink);
+    }
+    .pxs {
+      fill: var(--prism-mint);
+    }
+    .pp {
+      fill: var(--prism-amber);
+    }
+    &.held rect {
+      // One column at a time, in whole steps: it fills the way a game's bar does.
+      animation: holdings-cell-in 1ms steps(1) backwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      &.held rect {
+        animation: none;
+      }
+    }
+  }
+}
+@keyframes holdings-cell-in {
+  from {
+    fill: var(--border);
   }
 }
 .estimated-account-value-tooltip {

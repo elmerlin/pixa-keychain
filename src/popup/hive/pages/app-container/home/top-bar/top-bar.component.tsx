@@ -131,18 +131,18 @@ const TopBar = ({
         onClick={refresh}
         dataTestId="top-bar-refresh-icon"
       />
-      <div className="spacer"></div>
-
-      {hasRewardToClaim && (
-        <SVGIcon
-          icon={SVGIcons.TOP_BAR_CLAIM_REWARDS_BTN}
-          dataTestId="reward-claim-icon"
-          className="claim-button"
-          onClick={() => handleClickOnClaim()}
-          hoverable
-        />
-      )}
-      <SelectAccountSectionComponent isOnMain />
+      <div className="top-bar-end">
+        {hasRewardToClaim && (
+          <SVGIcon
+            icon={SVGIcons.TOP_BAR_CLAIM_REWARDS_BTN}
+            dataTestId="reward-claim-icon"
+            className="claim-button"
+            onClick={() => handleClickOnClaim()}
+            hoverable
+          />
+        )}
+        <SelectAccountSectionComponent isOnMain />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,47 @@
+.home-page .resources-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  padding: 20px 0 0;
+  > .tooltip-container {
+    min-width: 0;
+  }
+}
+.energy-meter {
+  &.has-tooltip {
+    cursor: help;
+  }
+  .energy-text {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .label {
+    @include geist400(12px);
+    min-width: 0;
+    color: var(--inkSecondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .percent {
+    @include mono(12px);
+    flex: none;
+    color: var(--ink);
+  }
+  .energy-cells {
+    display: grid;
+    grid-template-columns: repeat(22, 1fr);
+    gap: 2px;
+    i {
+      display: block;
+      height: 7px;
+      background: var(--border);
+    }
+    i.full {
+      background: var(--ink);
+    }
+  }
+}

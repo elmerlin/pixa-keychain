@@ -40,7 +40,6 @@ describe('resources-section.component tests:\n', () => {
         chrome.i18n.getMessage('popup_html_vm'),
       );
       expect(vm).toHaveTextContent('%');
-      expect(vm).toHaveTextContent('1.00 PXS');
       const rcEl = await screen.findByTestId(dataTestIdDiv.resources.rc);
       expect(rcEl).toHaveTextContent(
         chrome.i18n.getMessage('popup_html_rc'),
@@ -55,6 +54,9 @@ describe('resources-section.component tests:\n', () => {
       expect(
         await screen.findByTestId(dataTestIdToolTip.content),
       ).toHaveTextContent(HiveUtils.getTimeBeforeFull(mana!));
+      expect(
+        await screen.findByTestId(dataTestIdToolTip.content),
+      ).toHaveTextContent('1.00 PXS');
     });
 
     it('Must show tool tip when hover on credits', async () => {

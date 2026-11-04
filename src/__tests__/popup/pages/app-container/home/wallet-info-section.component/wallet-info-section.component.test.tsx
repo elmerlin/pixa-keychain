@@ -66,13 +66,13 @@ describe('wallet-info-section.component tests:\n', () => {
       const delegShort =
         chrome.i18n.getMessage('popup_html_delegations').slice(0, 5) + '.';
       expect(infoSectionRowListHTMLElements[0].textContent).toBe(
-        `${CurrencyUtils.getCurrencyLabels(false).hive}${hiveBalanceFormatted}+${hiveSavingsBalanceFormatted} (${savingsLabel})`,
+        `${CurrencyUtils.getCurrencyLabels(false).hive}${hiveBalanceFormatted}+${hiveSavingsBalanceFormatted} ${savingsLabel}`,
       );
       expect(infoSectionRowListHTMLElements[1].textContent).toBe(
-        `${CurrencyUtils.getCurrencyLabels(false).hbd}${hbdBalanceFormatted}+${hbdSavingsBalanceFormatted} (${savingsLabel})`,
+        `${CurrencyUtils.getCurrencyLabels(false).hbd}${hbdBalanceFormatted}+${hbdSavingsBalanceFormatted} ${savingsLabel}`,
       );
       expect(infoSectionRowListHTMLElements[2].textContent).toBe(
-        `${CurrencyUtils.getCurrencyLabels(false).hp}${delegationsMainValueFormatted}+${delegationAmountSubValueFormatted} (${delegShort})`,
+        `${CurrencyUtils.getCurrencyLabels(false).hp}${delegationsMainValueFormatted}+${delegationAmountSubValueFormatted} ${delegShort}`,
       );
     });
   });

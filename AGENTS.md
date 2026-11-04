@@ -1,6 +1,6 @@
-# Pixtopia Keychain: agent guide
+# PIXA Keychain: agent guide
 
-Pixtopia Keychain is a wallet browser extension for the **Pixa** blockchain, a Hive fork. It is
+PIXA Keychain is a wallet browser extension for the **Pixa** blockchain, a Hive fork. It is
 a fork of [hive-keychain-extension](https://github.com/hive-keychain/hive-keychain-extension) (MIT;
 the `upstream` remote, push disabled). Sites reach it through `window.pixa_keychain`. It must be
 able to run next to the real Hive Keychain in one browser, so nothing it exposes to a page shares a
@@ -53,9 +53,14 @@ transaction. It is the test oracle for anything that serializes.
   write exactly instead of rounding or wrapping it.
 - Answers to a site go through `requestHandler.answer`, to the document that asked. Never to a whole tab.
 - Internal names stay as upstream has them (`HiveUtils`, `src/popup/hive`, `hive-tx`), so merging
-  upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, Pixtopia Keychain.
+  upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, PIXA Keychain.
 - Copy says Pixa for the chain and its accounts, and PIXA and PXS for its tokens. Pixagram is only
   the app Pixa's founders launched first. Code and `api.pixagram.com` keep their names.
+- **Fiat is for looking at** (`src/popup/hive/utils/fiat.utils.ts`). 1 PXS is taken as 1 US dollar, as the chain's feed does.
+  Rates come from `api.frankfurter.dev`, only once someone picks another currency, saved for 12 hours and checked when they
+  arrive. It's the one request that doesn't go to the person's node: send it nothing about them, never let a rate near an
+  amount that gets signed, and keep `SECURITY.md`, the README, the store guide and Pixtopia's `app/keychain/privacy.tsx`
+  true to it.
 - `src/popup/hive/utils/hive-tx.utils.ts` and `vendor/hive-tx` are the signing path. Keep changes to
   them small and covered by `npm test`.
 
@@ -63,7 +68,7 @@ transaction. It is the test oracle for anything that serializes.
 
 The Pixtopia design system: dark-first monochrome, charcoal tonal
 steps, 1px hairlines, Geist and Geist Mono. The one accent is `spark`. The Prism (`#FF4F8B`,
-`#FFB547`, `#3EE0A1`, `#4CA8FF`) appears in the logo and empty states, never in chrome. Light and
+`#FFB547`, `#3EE0A1`, `#4CA8FF`) appears in the logo, empty states and the home screen's holdings bar, never in chrome. Light and
 dark must both work, and state never relies on color alone. Tokens live in
 `src/common-style/theme.scss`; components never hardcode colors. Copy is short, human and
 task-first, with no developer copy.

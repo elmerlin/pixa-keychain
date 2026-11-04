@@ -25,5 +25,5 @@ jobs:
       - run: npm run build:firefox
       - name: Hash the Chromium build
         run: |
-          rm -rf /tmp/built && mkdir /tmp/built && unzip -q pixtopia-keychain-*-chromium.zip -d /tmp/built
+          rm -rf /tmp/built && mkdir /tmp/built && unzip -q pixa-keychain-*-chromium.zip -d /tmp/built
           (cd /tmp/built && find . -type f | LC_ALL=C sort | xargs sha256sum) | sha256sum | tee -a "$GITHUB_STEP_SUMMARY"

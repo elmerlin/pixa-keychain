@@ -1,4 +1,4 @@
-# Add Pixtopia Keychain to your site
+# Add PIXA Keychain to your site
 
 <!-- Written by scripts/build-api-docs.mjs from public/pixa_keychain.js. Change it there, then run npm run doc. -->
 
@@ -492,7 +492,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -516,7 +516,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -539,7 +539,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 // Remove voting proxy
 if (window.pixa_keychain) {
@@ -548,7 +548,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -572,7 +572,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -595,7 +595,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -634,11 +634,11 @@ Request the creation of a proposal
 ```js
 if (window.pixa_keychain) {
   const keychain = window.pixa_keychain;
-  keychain.requestCreateProposal('pixtopia', 'pixtopia', 'Pixtopia Keychain development', 'pixtopia-keychain-proposal', '10.000 PXS', '2027-01-01T00:00:00', '2027-12-31T00:00:00', JSON.stringify([]), (response) => {
+  keychain.requestCreateProposal('pixtopia', 'pixtopia', 'PIXA Keychain development', 'pixa-keychain-proposal', '10.000 PXS', '2027-01-01T00:00:00', '2027-12-31T00:00:00', JSON.stringify([]), (response) => {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -661,7 +661,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -686,7 +686,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 // Unapprove a proposal
 if (window.pixa_keychain) {
@@ -695,7 +695,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -719,7 +719,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -743,7 +743,7 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```
 
@@ -772,6 +772,6 @@ if (window.pixa_keychain) {
     console.log(response);
   });
 } else {
-  alert('Pixtopia Keychain is not installed');
+  alert('PIXA Keychain is not installed');
 }
 ```

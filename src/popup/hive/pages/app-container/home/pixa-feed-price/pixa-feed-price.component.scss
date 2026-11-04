@@ -1,0 +1,19 @@
+.pixa-feed-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  cursor: help;
+  .label {
+    @include geist400(12px);
+    color: var(--inkSecondary);
+  }
+  .price {
+    @include mono(13px);
+    color: var(--ink);
+    min-width: 0;
+    text-align: right;
+  }
+}

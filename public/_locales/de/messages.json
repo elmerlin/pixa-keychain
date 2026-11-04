@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -232,7 +232,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Import erfolgreich! <br><br>Bitte wähle die Schlüssel, welche Du mit Pixtopia Keychain speichern möchtest:",
+    "message": "Import erfolgreich! <br><br>Bitte wähle die Schlüssel, welche Du mit PIXA Keychain speichern möchtest:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -1172,7 +1172,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Um Pixtopia Keychain zu verwenden, richten Sie bitte Ihre Wallet ein. Klicken Sie auf das Pixtopia Keychain Logo in der oberen rechten Ecke Ihres Browsers (es könnte im Erweiterungsmenü ausgeblendet sein) dann richten Sie Ihr Passwort ein und importieren Sie Ihre Konten.",
+    "message": "Um PIXA Keychain zu verwenden, richten Sie bitte Ihre Wallet ein. Klicken Sie auf das PIXA Keychain Logo in der oberen rechten Ecke Ihres Browsers (es könnte im Erweiterungsmenü ausgeblendet sein) dann richten Sie Ihr Passwort ein und importieren Sie Ihre Konten.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1207,22 +1207,22 @@
     "message": "Das Wallet ist gesperrt!"
   },
   "bgd_auth_locked_desc": {
-    "message": "Die aktuelle Webseite versucht eine Anfrage an die Pixtopia Keychain Browser-Erweiterung zu senden. Bitte geben Sie Ihr Passwort ein, um die Wallet zu entsperren und fortzufahren."
+    "message": "Die aktuelle Webseite versucht eine Anfrage an die PIXA Keychain Browser-Erweiterung zu senden. Bitte geben Sie Ihr Passwort ein, um die Wallet zu entsperren und fortzufahren."
   },
   "bgd_auth_canceled": {
     "message": "Die Anfrage wurde vom Benutzer abgebrochen."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "Die aktuelle Website versucht eine Überweisungsanfrage an die Pixtopia Keychain Browser-Erweiterung für Konto @$1 mit dem aktiven Schlüssel zu senden, die nicht zur Wallet hinzugefügt wurde."
+    "message": "Die aktuelle Website versucht eine Überweisungsanfrage an die PIXA Keychain Browser-Erweiterung für Konto @$1 mit dem aktiven Schlüssel zu senden, die nicht zur Wallet hinzugefügt wurde."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "Die aktuelle Website versucht eine Anfrage an die Pixtopia Keychain Browser-Erweiterung für Konto @$1 mit dem Memo-Schlüssel zu senden, der nicht zur Wallet hinzugefügt wurde."
+    "message": "Die aktuelle Website versucht eine Anfrage an die PIXA Keychain Browser-Erweiterung für Konto @$1 mit dem Memo-Schlüssel zu senden, der nicht zur Wallet hinzugefügt wurde."
   },
   "bgd_auth_no_account": {
-    "message": "Die aktuelle Website versucht eine Anfrage an die Pixtopia Keychain Browser-Erweiterung für Konto @$1 zu senden, die nicht zur Wallet hinzugefügt wurde."
+    "message": "Die aktuelle Website versucht eine Anfrage an die PIXA Keychain Browser-Erweiterung für Konto @$1 zu senden, die nicht zur Wallet hinzugefügt wurde."
   },
   "bgd_auth_no_key": {
-    "message": "Die aktuelle Website versucht eine Anfrage an die Pixtopia Keychain Browser-Erweiterung für Konto @$1 mit dem $2-Schlüssel zu senden, der nicht zur Wallet hinzugefügt wurde."
+    "message": "Die aktuelle Website versucht eine Anfrage an die PIXA Keychain Browser-Erweiterung für Konto @$1 mit dem $2-Schlüssel zu senden, der nicht zur Wallet hinzugefügt wurde."
   },
   "bgd_ops_witness_voted": {
     "message": "Erfolgreich für @$1 als Witness gestimmt."
@@ -1377,7 +1377,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Fügen Sie das neue Konto hinzu, indem Sie ein Konto angeben, das über Autorität verfügt und das bereits in Pixtopia Keychain gespeichert ist.",
+    "message": "Fügen Sie das neue Konto hinzu, indem Sie ein Konto angeben, das über Autorität verfügt und das bereits in PIXA Keychain gespeichert ist.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1385,7 +1385,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Bitte speichern Sie @$1 in Pixtopia Keychain, um es als autorisiertes Konto zu verwenden."
+    "message": "Bitte speichern Sie @$1 in PIXA Keychain, um es als autorisiertes Konto zu verwenden."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 hat keine ausreichende Autorität über @$2.",
@@ -2875,8 +2875,7 @@
     "description": "there was an error"
   },
   "popup_html_currency": {
-    "message": "Währung",
-    "description": "Currency"
+    "message": "Währung"
   },
   "popup_html_savings_operation_type": {
     "message": "Art der Transaktion",
@@ -2937,5 +2936,23 @@
   "error_granularity": {
     "message": "Dieser Vorgang ist unter Granularitätsregeln nicht zulässig",
     "description": "Error message if granularity failed has been used already"
+  },
+  "popup_html_currency_intro": {
+    "message": "Werte sind grob: 1 PXS gilt als 1 US-Dollar. Für jede andere Währung holt die Wallet Wechselkurse von frankfurter.dev, das deine IP-Adresse sieht und sonst nichts."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "Wechselkurse konnten nicht geladen werden, daher vorerst US-Dollar."
+  },
+  "popup_html_price_feed": {
+    "message": "Preis-Feed"
+  },
+  "popup_html_price_feed_info": {
+    "message": "Was die Witnesses von Pixa für den Wert von PIXA halten, wobei 1 PXS als 1 US-Dollar gilt. Aktuell ist 1 PXS $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "Eine volle Stimme ist $1 PXS wert."
+  },
+  "popup_html_holdings": {
+    "message": "Dein Konto besteht aus $1 PIXA, $2 PXS und $3 Pixa Power."
   }
 }

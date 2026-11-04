@@ -1,59 +1,87 @@
 .wallet-info-row {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 16px 0;
-  gap: 16px;
-  border-top: 1px solid var(--border);
+  align-items: flex-start;
+  min-width: 0;
+  padding: 16px 12px;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: none;
+  color: var(--ink);
+  text-align: left;
   cursor: pointer;
-  scroll-margin: 12px;
-  .information-panel {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    min-width: 0;
+  transition: background var(--motion-soft) var(--ease-gentle);
+  &:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  &:hover {
+    background: var(--surface);
+  }
+  &:first-child:hover {
+    background: none;
+    .main-value-label {
+      color: var(--inkSecondary);
+    }
+  }
+  // Open isn't only a colour: a bar of the page's own ink sits on top of the column.
+  &.opened {
+    box-shadow: inset 0 2px 0 var(--ink);
   }
   .currency-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 12px;
     flex-shrink: 0;
   }
   .main-value-label {
-    @include geist600(15px);
+    @include geist600(13px);
     color: var(--ink);
-    flex: 1;
-    min-width: 0;
-  }
-  .value {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    min-width: 0;
-    max-width: 65%;
-    text-align: right;
+    margin-bottom: 2px;
   }
   .main-value {
-    @include mono(14px);
+    @include mono(15px);
+    max-width: 100%;
     color: var(--ink);
     overflow-wrap: anywhere;
+    &.small {
+      font-size: 13px;
+    }
+    &.smaller {
+      font-size: 12px;
+    }
   }
   .sub-value {
     @include mono(11px);
+    margin-top: 2px;
+    max-width: 100%;
     color: var(--inkMuted);
+    overflow-wrap: anywhere;
+  }
+}
+.wallet-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin: 12px;
+  .actions-panel {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    min-width: 0;
   }
   .history-icon {
     display: flex;
     align-items: center;
+    flex: none;
+    height: 40px;
     color: var(--inkSecondary);
+    cursor: pointer;
     &:hover {
       color: var(--ink);
     }
-  }
-  .actions-panel {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    width: 100%;
   }
 }

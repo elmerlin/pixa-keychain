@@ -6,8 +6,7 @@ import { WalletInfoSectionItemButton } from '@popup/hive/pages/app-container/hom
 import { navigateToWithParams } from '@popup/multichain/actions/navigation.actions';
 import { RootState } from '@popup/multichain/store';
 import { Screen } from '@reference-data/screen.enum';
-import { Asset } from 'hive-keychain-commons';
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
@@ -41,14 +40,19 @@ const walletInfoSectionActionButtonTestId = (
   }
 };
 
+// A balance as the chain or a calculation has it.
+type Amount = string | number | { toString(): string };
+
 interface WalletSectionInfoItemProps {
   tokenSymbol: string;
   icon: SVGIcons;
   addBackground?: boolean;
-  mainValue: string | Asset | number;
+  mainValue: Amount;
   mainValueLabel: string;
-  subValue?: string | Asset | number;
+  subValue?: Amount;
   subValueLabel?: string;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 const walletInfoSectionItem = ({
@@ -59,26 +63,58 @@ const walletInfoSectionItem = ({
   mainValueLabel,
   subValue,
   subValueLabel,
-  hive,
-  navigateToWithParams,
-}: PropsFromRedux) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [actionButtons, setActionButtons] = useState<ActionButton[]>([]);
-  const reff = useRef<HTMLDivElement>(null);
+  isOpen,
+  onToggle,
+}: WalletSectionInfoItemProps) => {
+  const formattedValue = FormatUtils.formatCurrencyValue(mainValue as string);
+  // Set smaller rather than broken in two, up to the billions.
+  const valueSize =
+    formattedValue.length > 14
+      ? 'smaller'
+      : formattedValue.length > 12
+      ? 'small'
+      : '';
+  return (
+    <button
+      type="button"
+      className={`wallet-info-row ${isOpen ? 'opened' : ''}`}
+      data-testid={`dropdown-arrow-${tokenSymbol.toLowerCase()}`}
+      aria-expanded={isOpen}
+      onClick={onToggle}>
+      <SVGIcon
+        icon={icon}
+        className={`currency-icon ${addBackground ? 'add-background' : ''}`}
+      />
+      <span className="main-value-label">{mainValueLabel}</span>
+      <span className={`main-value ${valueSize}`}>{formattedValue}</span>
+      {!!subValue &&
+        parseFloat(FormatUtils.formatCurrencyValue(subValue as string)) !== 0 && (
+          <span className="sub-value">
+            {parseFloat(subValue?.toString()) > 0 ? '+' : ''}
+            {FormatUtils.formatCurrencyValue(subValue as string)} {subValueLabel}
+          </span>
+        )}
+    </button>
+  );
+};
 
-  const [hasButtonsInList, setHasButtonInList] = useState(false);
+/** What can be done with a token, opened under all three columns. */
+const WalletInfoActionsPanel = ({
+  tokenSymbol,
+  navigateToWithParams,
+}: { tokenSymbol: string } & ConnectedProps<typeof connector>) => {
+  const panel = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    init();
-  }, []);
-
-  const init = async () => {
-    setActionButtons(WalletInfoSectionActions(tokenSymbol));
-  };
-
-  const toggleDropdown = () => {
-    setIsExpanded(!isExpanded);
-  };
+    if (!process.env.IS_FIREFOX) {
+      panel.current?.scrollIntoView?.({
+        behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+          ? 'auto'
+          : 'smooth',
+        block: 'nearest',
+      });
+    }
+  }, [tokenSymbol]);
 
   const handleClick = (
     event: BaseSyntheticEvent,
@@ -91,90 +127,39 @@ const walletInfoSectionItem = ({
     );
   };
 
-  const handleHistoryClick = (event: BaseSyntheticEvent) => {
-    event.stopPropagation();
-    navigateToWithParams(Screen.WALLET_HISTORY_PAGE, []);
-  };
-
   return (
-    <div
-      className={`wallet-info-row ${isExpanded ? 'opened' : ''}`}
-      data-testid={`dropdown-arrow-${tokenSymbol.toLowerCase()}`}
-      ref={reff}
-      onClick={() => {
-        toggleDropdown();
-        !process.env.IS_FIREFOX &&
-          reff.current?.scrollIntoView({
-            behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)')
-              .matches
-              ? 'auto'
-              : 'smooth',
-            block: 'start',
-            inline: 'center',
-          });
-      }}
-    >
-      <div className="information-panel">
-        <SVGIcon
-          icon={icon}
-          className={`currency-icon ${addBackground ? 'add-background' : ''}`}
-        />
-
-        <div className="main-value-label">{mainValueLabel}</div>
-        <div className="value">
-          <div className="main-value">
-            {FormatUtils.formatCurrencyValue(mainValue)}
-          </div>
-          {!!subValue &&
-            parseFloat(FormatUtils.formatCurrencyValue(subValue)) !== 0 && (
-              <div className="sub-value">
-                {parseFloat(subValue?.toString()) > 0 ? '+' : ''}
-                {FormatUtils.formatCurrencyValue(subValue)} ({subValueLabel})
-              </div>
+    <div className="wallet-actions" ref={panel}>
+      <div className="actions-panel">
+        {WalletInfoSectionActions(tokenSymbol).map((ab, index) => (
+          <WalletInfoSectionItemButton
+            key={`action-${ab.label}-${index}`}
+            actionButton={ab}
+            handleClick={handleClick}
+            dataTestId={walletInfoSectionActionButtonTestId(
+              tokenSymbol,
+              ab.label,
             )}
-        </div>
-        {isExpanded && (
-          <SVGIcon
-            icon={SVGIcons.WALLET_HISTORY_BUTTON}
-            className={`history-icon`}
-            dataTestId={`icon-token-history-${tokenSymbol}`}
-            onClick={($event) => handleHistoryClick($event)}
-            hoverable
           />
-        )}
+        ))}
       </div>
-      {isExpanded && (
-        <>
-          <div className="actions-panel">
-            {actionButtons.map((ab, index) => (
-              <WalletInfoSectionItemButton
-                key={`action-${ab.label}-${index}`}
-                actionButton={ab}
-                handleClick={handleClick}
-                dataTestId={walletInfoSectionActionButtonTestId(
-                  tokenSymbol,
-                  ab.label,
-                )}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      <SVGIcon
+        icon={SVGIcons.WALLET_HISTORY_BUTTON}
+        className="history-icon"
+        dataTestId={`icon-token-history-${tokenSymbol}`}
+        onClick={() => navigateToWithParams(Screen.WALLET_HISTORY_PAGE, [])}
+        hoverable
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state: RootState) => {
-  return {
-    globalProperties: state.hive.globalProperties,
-    hive: state.hive.currencyPrices.hive,
-  };
+  return {};
 };
 
 const connector = connect(mapStateToProps, {
   navigateToWithParams,
 });
-type PropsFromRedux = ConnectedProps<typeof connector> &
-  WalletSectionInfoItemProps;
 
-export const WalletInfoSectionItemComponent = connector(walletInfoSectionItem);
+export const WalletInfoSectionItemComponent = walletInfoSectionItem;
+export const WalletInfoActionsPanelComponent = connector(WalletInfoActionsPanel);

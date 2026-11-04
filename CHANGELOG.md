@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.2
+
+Pixtopia Keychain is now PIXA Keychain. It's the same wallet: your accounts, settings and `window.pixa_keychain` are
+unchanged.
+
+- **Your value in your currency.** Choose from 30 currencies under Settings, then Preferences, then Currency. US dollars need
+  nothing from anyone. For any other currency the wallet gets exchange rates from frankfurter.dev, which sees your IP address
+  and nothing else. These are rough: 1 PXS is taken as 1 US dollar, as the chain's own price feed does.
+- **PIXA's price.** The home screen shows what the price feed says 1 PIXA is worth, in your currency.
+- **A new home screen.** Your value drawn in pixels, a bar showing what your account is made of, your three balances side by
+  side, and Send on its own. A full vote's worth moved to the Voting mana tooltip.
+
 ## 0.1.1
 
 The first public release. Everything here came from a review before opening the source.

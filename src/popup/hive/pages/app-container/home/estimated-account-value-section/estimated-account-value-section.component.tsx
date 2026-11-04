@@ -1,22 +1,42 @@
 import { HiveInternalMarketLockedInOrders } from '@interfaces/hive-market.interface';
+import { useFiat } from '@popup/hive/hooks/use-fiat';
+import { FiatUtils } from '@popup/hive/utils/fiat.utils';
 import { HiveInternalMarketUtils } from '@popup/hive/utils/hive-internal-market.utils';
+import { navigateTo } from '@popup/multichain/actions/navigation.actions';
 import { RootState } from '@popup/multichain/store';
 import { AccountValueType } from '@reference-data/account-value-type.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
-import React, { useEffect, useState } from 'react';
+import { Screen } from '@reference-data/screen.enum';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { CustomTooltip } from 'src/common-ui/custom-tooltip/custom-tooltip.component';
+import { SVGIcons } from 'src/common-ui/icons.enum';
+import { PixelNumber } from 'src/common-ui/pixel-number/pixel-number.component';
+import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
+import { HoldingsBar } from 'src/popup/hive/pages/app-container/home/estimated-account-value-section/holdings-bar/holdings-bar.component';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
+
+const POPUP_WIDTH = 435;
+const MARGINS = 32;
+// The unit is set in 15px Geist Mono, about 9px a character, beside the number.
+const unitWidth = (unit: string) => unit.length * 9 + 8;
+const NEXT_TYPE: Record<AccountValueType, AccountValueType> = {
+  [AccountValueType.FIAT]: AccountValueType.PXS,
+  [AccountValueType.PXS]: AccountValueType.PIXA,
+  [AccountValueType.PIXA]: AccountValueType.HIDDEN,
+  [AccountValueType.HIDDEN]: AccountValueType.FIAT,
+};
 
 const EstimatedAccountValueSection = ({
   activeAccount,
   currencyPrices,
   globalProperties,
+  navigateTo,
 }: PropsFromRedux) => {
-  const [accountValue, setAccountValue] = useState<string | number>('...');
+  const fiat = useFiat();
   const [accountValueType, setAccountValueType] = useState<AccountValueType>(
-    AccountValueType.PXS,
+    AccountValueType.FIAT,
   );
 
   const [
@@ -32,7 +52,7 @@ const EstimatedAccountValueSection = ({
     setAccountValueType(
       (await LocalStorageUtils.getValueFromLocalStorage(
         LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
-      )) || AccountValueType.PXS,
+      )) || AccountValueType.FIAT,
     );
   };
 
@@ -48,77 +68,128 @@ const EstimatedAccountValueSection = ({
     }
   }, [activeAccount]);
 
-  useEffect(() => {
+  const holdings = useMemo(() => {
     if (
-      activeAccount &&
-      currencyPrices &&
-      globalProperties?.globals &&
-      hiveMarketLockedOpenOrdersValues
+      !activeAccount?.account?.balance ||
+      !currencyPrices?.hive?.usd ||
+      !globalProperties?.globals
     ) {
-      setAccountValue(
-        AccountUtils.getAccountValue(
-          activeAccount.account,
-          currencyPrices,
-          globalProperties.globals!,
-          accountValueType,
-          hiveMarketLockedOpenOrdersValues,
-        ),
-      );
+      return undefined;
     }
+    return AccountUtils.getHoldings(
+      activeAccount.account,
+      currencyPrices,
+      globalProperties.globals,
+      hiveMarketLockedOpenOrdersValues,
+    );
   }, [
     activeAccount,
     currencyPrices,
     globalProperties,
-    accountValueType,
     hiveMarketLockedOpenOrdersValues,
   ]);
 
+  const total = holdings ? holdings.pixa + holdings.pxs + holdings.pp : 0;
+  const inFiat = holdings ? FiatUtils.getParts(total, fiat) : undefined;
+
+  const display = () => {
+    if (accountValueType === AccountValueType.HIDDEN) {
+      return { unit: '', number: '***', equivalent: '' };
+    }
+    if (!holdings || !inFiat) return { unit: '', number: '...', equivalent: '' };
+    if (accountValueType === AccountValueType.FIAT) {
+      return {
+        unit: `≈ ${inFiat.unit}`,
+        number: inFiat.number,
+        equivalent: `${AccountUtils.getAccountValue(
+          activeAccount.account,
+          currencyPrices,
+          globalProperties.globals!,
+          AccountValueType.PXS,
+          hiveMarketLockedOpenOrdersValues,
+        )} PXS`,
+      };
+    }
+    return {
+      unit: accountValueType,
+      number: `${AccountUtils.getAccountValue(
+        activeAccount.account,
+        currencyPrices,
+        globalProperties.globals!,
+        accountValueType,
+        hiveMarketLockedOpenOrdersValues,
+      )}`,
+      equivalent: `≈ ${inFiat.text}`,
+    };
+  };
+  const { unit, number, equivalent } = display();
+  const available =
+    Math.min(window.innerWidth || POPUP_WIDTH, POPUP_WIDTH) -
+    MARGINS -
+    unitWidth(unit);
+
+  const percentOf = (part: number) =>
+    total > 0 ? `${Math.round((part / total) * 100)}%` : '0%';
+
   const onClickEstimatedValue = () => {
-    const newAccountValueType =
-      accountValueType === AccountValueType.PXS
-        ? AccountValueType.PIXA
-        : accountValueType === AccountValueType.PIXA
-        ? AccountValueType.HIDDEN
-        : AccountValueType.PXS;
+    const newAccountValueType = NEXT_TYPE[accountValueType];
     setAccountValueType(newAccountValueType);
     LocalStorageUtils.saveValueInLocalStorage(
       LocalStorageKeyEnum.ACCOUNT_VALUE_TYPE,
       newAccountValueType,
     );
   };
-  const getSuffix = () => {
-    return accountValueType === AccountValueType.HIDDEN ? '' : accountValueType;
-  };
 
   return (
-    <>
-      <div className="estimated-account-value-section">
-        <div className="label-panel">
-          <CustomTooltip
-            dataTestId="custom-tool-tip-estimated-value-section"
-            message="popup_html_estimation_info_text"
-            delayShow={500}
-            position="bottom">
-            <div className="label">
-              {chrome.i18n.getMessage('popup_html_estimation')}
-            </div>
-          </CustomTooltip>
-        </div>
-        <div className="estimated-value-button-container">
-          {' '}
-          <div
+    <div className="estimated-account-value-section">
+      <div className="value-row">
+        <CustomTooltip
+          dataTestId="custom-tool-tip-estimated-value-section"
+          message="popup_html_estimation_info_text"
+          delayShow={500}
+          position="bottom">
+          <button
+            type="button"
             data-testid="estimated-account-div-value"
-            className={`value ${
-              accountValueType === AccountValueType.HIDDEN ? 'with-margin' : ''
-            }`}
+            className="value"
+            aria-label={
+              accountValueType === AccountValueType.HIDDEN
+                ? chrome.i18n.getMessage('popup_html_estimation')
+                : `${chrome.i18n.getMessage(
+                    'popup_html_estimation',
+                  )}: ${unit} ${number}`
+            }
             onClick={onClickEstimatedValue}>
-            {accountValue
-              ? `${accountValue} ${getSuffix()}`.trim()
-              : '...'}
-          </div>
-        </div>
+            {unit && <span className="unit">{unit}</span>}
+            <PixelNumber value={number} available={available} />
+          </button>
+        </CustomTooltip>
       </div>
-    </>
+      <div className="value-details">
+        <span className="equivalent">{equivalent}</span>
+        <button
+          type="button"
+          data-testid="button-currency"
+          className="currency-button"
+          title={
+            fiat.unavailable
+              ? chrome.i18n.getMessage('popup_html_currency_unavailable')
+              : chrome.i18n.getMessage('popup_html_currency')
+          }
+          onClick={() => navigateTo(Screen.SETTINGS_CURRENCY)}>
+          {fiat.code}
+          <SVGIcon icon={SVGIcons.SELECT_ARROW_DOWN} className="arrow" />
+        </button>
+      </div>
+      <HoldingsBar
+        holdings={holdings}
+        label={chrome.i18n.getMessage('popup_html_holdings', [
+          percentOf(holdings?.pixa ?? 0),
+          percentOf(holdings?.pxs ?? 0),
+          percentOf(holdings?.pp ?? 0),
+        ])}
+      />
+    </div>
   );
 };
 
@@ -130,7 +201,7 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-const connector = connect(mapStateToProps, {});
+const connector = connect(mapStateToProps, { navigateTo });
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export const EstimatedAccountValueSectionComponent = connector(

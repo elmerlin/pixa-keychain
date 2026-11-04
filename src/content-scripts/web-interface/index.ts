@@ -35,7 +35,7 @@ const setupInjection = () => {
     var container = document.head || document.documentElement;
     container.insertBefore(scriptTag, container.children[0]);
   } catch (e) {
-    Logger.error('Pixtopia Keychain injection failed.', e);
+    Logger.error('PIXA Keychain injection failed.', e);
   }
 };
 if (process.env.IS_FIREFOX) setupInjection();

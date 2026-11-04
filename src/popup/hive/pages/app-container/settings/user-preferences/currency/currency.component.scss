@@ -1,0 +1,57 @@
+.currency-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  min-height: 0;
+  padding: 0 16px 16px;
+  .caption {
+    @include geist400(13px);
+    line-height: 1.5;
+    color: var(--inkSecondary);
+  }
+  .currency-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .currency-row {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 4px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    background: none;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--motion-soft) var(--ease-gentle);
+    &:hover {
+      background: var(--surface);
+    }
+    .code {
+      @include mono(13px);
+      flex: none;
+      width: 36px;
+    }
+    .name {
+      @include geist400(13px);
+      flex: 1;
+      min-width: 0;
+      color: var(--inkSecondary);
+    }
+    &.selected .name {
+      color: var(--ink);
+    }
+    .check {
+      flex: none;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}

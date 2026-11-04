@@ -1,10 +1,10 @@
 # Security
 
-Pixtopia Keychain holds the keys to people's money. If you find a problem, please tell us privately before anyone else.
+PIXA Keychain holds the keys to people's money. If you find a problem, please tell us privately before anyone else.
 
 ## Report a problem
 
-Use [Report a vulnerability](https://github.com/elmerlin/pixtopia-keychain/security/advisories/new). Please don't open a
+Use [Report a vulnerability](https://github.com/elmerlin/pixa-keychain/security/advisories/new). Please don't open a
 public issue for it.
 
 Tell us what an attacker could do, and how to reproduce it on the latest release. Never send anyone a real private key or
@@ -42,6 +42,9 @@ Worth reporting first:
   refused.
 - **Network:** only the Pixa node the person chose. If it stops answering, the wallet asks before trying another, unless the
   person has turned on automatic switching. There are no analytics and no servers of ours.
+- **Exchange rates:** the one exception. If the person picks a currency other than US dollars, the wallet asks
+  `api.frankfurter.dev` for the day's rates, at most twice a day, sending nothing about them or their accounts. A rate only
+  changes a number shown for information, and nothing that gets signed ever comes from one.
 
 ## What it can't protect against
 

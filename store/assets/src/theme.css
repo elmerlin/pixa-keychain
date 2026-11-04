@@ -17,7 +17,6 @@
   --success: #3ee0a1;
   --warning: #ffb547;
   --danger: #ff6b6b;
-  --glass: rgba(21, 21, 21, 0.75);
   --scrim: rgba(0, 0, 0, 0.7);
   --dot: rgba(255, 255, 255, 0.06);
   --overlay-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
@@ -140,7 +139,6 @@
   --success: #0e8f63;
   --warning: #b8751c;
   --danger: #c0352d;
-  --glass: rgba(255, 255, 255, 0.78);
   --scrim: rgba(0, 0, 0, 0.4);
   --dot: rgba(0, 0, 0, 0.06);
   --overlay-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
@@ -230,7 +228,6 @@
   --success: #3ee0a1;
   --warning: #ffb547;
   --danger: #ff6b6b;
-  --glass: rgba(21, 21, 21, 0.75);
   --scrim: rgba(0, 0, 0, 0.7);
   --dot: rgba(255, 255, 255, 0.06);
   --overlay-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);

@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -232,7 +232,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Impor berhasil!<br><br>Silakan pilih kunci yang ingin Anda simpan di Pixtopia Keychain:",
+    "message": "Impor berhasil!<br><br>Silakan pilih kunci yang ingin Anda simpan di PIXA Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -1172,7 +1172,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Untuk menggunakan Pixtopia Keychain, silakan atur dompet Anda. Klik logo Pixtopia Keychain di pojok kanan atas peramban Anda (mungkin tersembunyi di menu ekstensi), lalu atur kata sandi dan impor akun Anda.",
+    "message": "Untuk menggunakan PIXA Keychain, silakan atur dompet Anda. Klik logo PIXA Keychain di pojok kanan atas peramban Anda (mungkin tersembunyi di menu ekstensi), lalu atur kata sandi dan impor akun Anda.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1207,22 +1207,22 @@
     "message": "Dompet terkunci!"
   },
   "bgd_auth_locked_desc": {
-    "message": "Situs web ini sedang mengirimkan permintaan ke ekstensi Pixtopia Keychain di peramban Anda. Masukkan kata sandi Anda untuk membuka dompet dan melanjutkan proses."
+    "message": "Situs web ini sedang mengirimkan permintaan ke ekstensi PIXA Keychain di peramban Anda. Masukkan kata sandi Anda untuk membuka dompet dan melanjutkan proses."
   },
   "bgd_auth_canceled": {
     "message": "Permintaan dibatalkan oleh pengguna."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "Situs web saat ini mencoba mengirim permintaan transfer ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan active key, yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan transfer ke ekstensi browser PIXA Keychain untuk akun @$1 menggunakan active key, yang belum ditambahkan ke dompet."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan memo key yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser PIXA Keychain untuk akun @$1 menggunakan memo key yang belum ditambahkan ke dompet."
   },
   "bgd_auth_no_account": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser PIXA Keychain untuk akun @$1 yang belum ditambahkan ke dompet."
   },
   "bgd_auth_no_key": {
-    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser Pixtopia Keychain untuk akun @$1 menggunakan kunci $2, yang belum ditambahkan ke dompet."
+    "message": "Situs web saat ini mencoba mengirim permintaan ke ekstensi browser PIXA Keychain untuk akun @$1 menggunakan kunci $2, yang belum ditambahkan ke dompet."
   },
   "bgd_ops_witness_voted": {
     "message": "Berhasil memilih @$1 untuk witness."
@@ -1377,7 +1377,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Tambahkan akun baru melalui akun berotoritas yang telah tersimpan di Pixtopia Keychain.",
+    "message": "Tambahkan akun baru melalui akun berotoritas yang telah tersimpan di PIXA Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1385,7 +1385,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Harap simpan @$1 di Pixtopia Keychain untuk menggunakannya sebagai akun terotorisasi."
+    "message": "Harap simpan @$1 di PIXA Keychain untuk menggunakannya sebagai akun terotorisasi."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 tidak memiliki otoritas yang cukup atas @$2",
@@ -1396,7 +1396,7 @@
     "description": "Title of import keys popup"
   },
   "import_html_text": {
-    "message": "Impor kunci Anda dari instalasi Pixtopia Keychain lain menggunakan file .kc.<br/><br/>Anda perlu menggunakan master password yang sama pada keduanya untuk mengaksesnya. "
+    "message": "Impor kunci Anda dari instalasi PIXA Keychain lain menggunakan file .kc.<br/><br/>Anda perlu menggunakan master password yang sama pada keduanya untuk mengaksesnya. "
   },
   "import_html_success": {
     "message": "Anda berhasil mengimpor kunci Anda!"
@@ -1408,7 +1408,7 @@
     "message": "Pengaturan impor"
   },
   "import_permissions_html_text": {
-    "message": "Impor pengaturan Anda dari instalasi Pixtopia Keychain lain menggunakan file .kc.json."
+    "message": "Impor pengaturan Anda dari instalasi PIXA Keychain lain menggunakan file .kc.json."
   },
   "bgd_auth_no_active": {
     "message": "Tidak ada akun dengan otoritas aktif"
@@ -2875,8 +2875,7 @@
     "description": "there was an error"
   },
   "popup_html_currency": {
-    "message": "Mata uang",
-    "description": "Currency"
+    "message": "Mata uang"
   },
   "popup_html_savings_operation_type": {
     "message": "Jenis operasi",
@@ -2937,5 +2936,23 @@
   "error_granularity": {
     "message": "Operasi ini dibatasi oleh ketentuan granularitas.",
     "description": "Error message if granularity failed has been used already"
+  },
+  "popup_html_currency_intro": {
+    "message": "Nilainya perkiraan: 1 PXS dianggap 1 dolar AS. Untuk mata uang lain, dompet mengambil kurs dari frankfurter.dev, yang melihat alamat IP Anda dan tidak ada yang lain."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "Kurs tidak bisa diambil, jadi untuk sementara ditampilkan dalam dolar AS."
+  },
+  "popup_html_price_feed": {
+    "message": "Harga feed"
+  },
+  "popup_html_price_feed_info": {
+    "message": "Nilai PIXA menurut witness Pixa, dengan 1 PXS dianggap 1 dolar AS. Saat ini 1 PXS sama dengan $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "Satu suara penuh bernilai $1 PXS."
+  },
+  "popup_html_holdings": {
+    "message": "Akun Anda terdiri dari $1 PIXA, $2 PXS, dan $3 Pixa Power."
   }
 }

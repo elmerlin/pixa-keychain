@@ -7,6 +7,11 @@ const UserPreferencesMenuItems = (
 ): MenuItem[] => {
   return [
     {
+      label: 'popup_html_currency',
+      icon: SVGIcons.MENU_USER_PREFERENCES_CURRENCY,
+      nextScreen: Screen.SETTINGS_CURRENCY,
+    },
+    {
       label: 'popup_html_operations',
       icon: SVGIcons.MENU_USER_PREFERENCES_OPERATIONS,
       nextScreen: Screen.SETTINGS_AUTHORIZED_OPERATIONS,

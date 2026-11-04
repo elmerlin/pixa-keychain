@@ -32,6 +32,7 @@ import { AddKeyComponent } from 'src/popup/hive/pages/app-container/settings/acc
 import { ManageAccountComponent } from 'src/popup/hive/pages/app-container/settings/accounts/manage-account/manage-account.component';
 import { AdvancedSettingsPageComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/advanced-settings.component';
 import { AutoLockComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/auto-lock/auto-lock.component';
+import { CurrencyComponent } from 'src/popup/hive/pages/app-container/settings/user-preferences/currency/currency.component';
 import { ChangePasswordComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/change-password/change-password.component';
 import { ClearAllDataComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/clear-all-data/clear-all-data.component';
 import { ImportExportPreferencesComponent } from 'src/popup/hive/pages/app-container/settings/advanced-settings/import-export-preferences/import-export-preferences.component';
@@ -121,6 +122,8 @@ const AppRouter = ({
         return <RpcNodesComponent />;
       case Screen.SETTINGS_AUTO_LOCK:
         return <AutoLockComponent />;
+      case Screen.SETTINGS_CURRENCY:
+        return <CurrencyComponent />;
 
       case Screen.SETTINGS_CLEAR_ALL_DATA:
         return <ClearAllDataComponent />;

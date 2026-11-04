@@ -1,7 +1,7 @@
 {
-  "name": "pixtopia-keychain",
-  "version": "0.1.1",
-  "description": "Pixtopia Keychain: a wallet browser extension for the Pixa blockchain",
+  "name": "pixa-keychain",
+  "version": "0.1.2",
+  "description": "PIXA Keychain: a wallet browser extension for the Pixa blockchain",
   "main": "index.js",
   "directories": {
     "example": "example"
@@ -22,7 +22,7 @@
     "test:watch": "jest --verbose --watch",
     "test:cov": "jest --verbose --coverage",
     "check-installed-libs": "node scripts/check-installed-libs.js",
-    "git:archive": "rm -rf pixtopia-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"pixtopia-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'",
+    "git:archive": "rm -rf pixa-keychain*.zip; sh -c 'uploadStash=$(git stash create); git archive -o \"pixa-keychain-$(date +%Y%m%d-%H%M%S).zip\" ${uploadStash:-HEAD}'",
     "postinstall": "patch-package",
     "check:chain": "node scripts/check-serializer.js",
     "package:chromium": "./scripts/package-chromium.sh",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elmerlin/pixtopia-keychain.git"
+    "url": "git+https://github.com/elmerlin/pixa-keychain.git"
   },
   "keywords": [
     "pixa",
@@ -158,7 +158,7 @@
   ],
   "private": true,
   "bugs": {
-    "url": "https://github.com/elmerlin/pixtopia-keychain/issues"
+    "url": "https://github.com/elmerlin/pixa-keychain/issues"
   },
   "engines": {
     "node": ">=24"

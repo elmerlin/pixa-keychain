@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -232,7 +232,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Importação bem sucedida! <br><br>Por favor selecione as chaves que deseja armazenar com o Pixtopia Keychain:",
+    "message": "Importação bem sucedida! <br><br>Por favor selecione as chaves que deseja armazenar com o PIXA Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -1172,7 +1172,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Para usar o Pixtopia Keychain, por favor, configure a sua carteira. Clique no logotipo da Pixtopia Keychain no canto superior direito do seu navegador (ele pode estar escondido no menu extensão), em seguida, configure a sua senha e importe as suas contas.",
+    "message": "Para usar o PIXA Keychain, por favor, configure a sua carteira. Clique no logotipo da PIXA Keychain no canto superior direito do seu navegador (ele pode estar escondido no menu extensão), em seguida, configure a sua senha e importe as suas contas.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1207,22 +1207,22 @@
     "message": "A carteira está bloqueada!"
   },
   "bgd_auth_locked_desc": {
-    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador do Pixtopia Keychain. Por favor, digite sua senha abaixo para desbloquear a carteira e continuar."
+    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador do PIXA Keychain. Por favor, digite sua senha abaixo para desbloquear a carteira e continuar."
   },
   "bgd_auth_canceled": {
     "message": "A solicitação foi cancelada pelo usuário."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "O site atual está tentando enviar uma solicitação de transferência para a extensão de navegador Pixtopia Keychain para a conta @$1 usando a chave active, que não foi adicionada à carteira."
+    "message": "O site atual está tentando enviar uma solicitação de transferência para a extensão de navegador PIXA Keychain para a conta @$1 usando a chave active, que não foi adicionada à carteira."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador Pixtopia Keychain para a conta @$1 usando a chave memo, que não foi adicionada à carteira."
+    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador PIXA Keychain para a conta @$1 usando a chave memo, que não foi adicionada à carteira."
   },
   "bgd_auth_no_account": {
-    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador Pixtopia Keychain para conta @$1 que não foi adicionada à carteira."
+    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador PIXA Keychain para conta @$1 que não foi adicionada à carteira."
   },
   "bgd_auth_no_key": {
-    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador Pixtopia Keychain para a conta @$1 usando a chave $2, que não foi adicionado à carteira."
+    "message": "O site atual está tentando enviar uma solicitação para a extensão de navegador PIXA Keychain para a conta @$1 usando a chave $2, que não foi adicionado à carteira."
   },
   "bgd_ops_witness_voted": {
     "message": "Votou com sucesso para @$1 como testemunha."
@@ -1377,7 +1377,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Adicione a nova conta especificando uma conta que tenha autoridade sobre ela, e que já esteja salva na Pixtopia Keychain.",
+    "message": "Adicione a nova conta especificando uma conta que tenha autoridade sobre ela, e que já esteja salva na PIXA Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1385,7 +1385,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Salve @$1 no Pixtopia Keychain para usá-lo como uma conta autorizada."
+    "message": "Salve @$1 no PIXA Keychain para usá-lo como uma conta autorizada."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 não tem autoridade suficiente sobre @$2.",
@@ -2863,8 +2863,7 @@
     "description": "there was an error"
   },
   "popup_html_currency": {
-    "message": "Moeda",
-    "description": "Currency"
+    "message": "Moeda"
   },
   "popup_html_savings_operation_type": {
     "message": "Tipo de operação",
@@ -2925,5 +2924,23 @@
   "error_granularity": {
     "message": "Esta operação não é permitida sob as regras de granularidade",
     "description": "Error message if granularity failed has been used already"
+  },
+  "popup_html_currency_intro": {
+    "message": "Os valores são aproximados: 1 PXS é considerado 1 dólar americano. Para qualquer outra moeda, a carteira obtém as taxas de câmbio de frankfurter.dev, que vê o seu endereço IP e mais nada."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "Não foi possível obter as taxas de câmbio, por isso os valores estão em dólares americanos por agora."
+  },
+  "popup_html_price_feed": {
+    "message": "Preço de referência"
+  },
+  "popup_html_price_feed_info": {
+    "message": "O que as testemunhas da Pixa dizem que PIXA vale, considerando 1 PXS como 1 dólar americano. Neste momento, 1 PXS são $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "Um voto completo vale $1 PXS."
+  },
+  "popup_html_holdings": {
+    "message": "A sua conta é composta por $1 PIXA, $2 PXS e $3 Pixa Power."
   }
 }

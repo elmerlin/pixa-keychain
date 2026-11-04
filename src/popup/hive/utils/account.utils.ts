@@ -448,24 +448,51 @@ const getAccountValue = (
   if (accountValueType === AccountValueType.HIDDEN) return '⁎ ⁎ ⁎';
   if (!prices.hive_dollar?.usd || !prices.hive?.usd) return 0;
 
-  const totalLockedValueInHiveMarket =
-    hiveMarketLockedOpenOrdersValues.hbd * prices.hive_dollar.usd +
-    hiveMarketLockedOpenOrdersValues.hive * prices.hive.usd;
-  const dollarValue =
-    (parseFloat(pxs_balance as string) +
-      parseFloat(savings_pxs_balance as string)) *
-      prices.hive_dollar.usd +
-    (FormatUtils.toHP(vesting_shares as string, props) +
-      parseFloat(balance as string) +
-      parseFloat(savings_balance as string)) *
-      prices.hive.usd +
-    totalLockedValueInHiveMarket;
+  const { pixa, pxs, pp } = AccountUtils.getHoldings(
+    {
+      pxs_balance,
+      balance,
+      vesting_shares,
+      savings_balance,
+      savings_pxs_balance,
+    } as ExtendedAccount,
+    prices,
+    props,
+    hiveMarketLockedOpenOrdersValues,
+  );
+  const dollarValue = pixa + pxs + pp;
   const value =
     accountValueType === AccountValueType.PXS
       ? dollarValue
       : dollarValue / prices.hive.usd;
   return FormatUtils.withCommas(value.toString());
 };
+
+/** What each thing the account holds is worth in PXS, at the price feed. */
+const getHoldings = (
+  {
+    pxs_balance,
+    balance,
+    vesting_shares,
+    savings_balance,
+    savings_pxs_balance,
+  }: ExtendedAccount,
+  prices: CurrencyPrices,
+  props: DynamicGlobalProperties,
+  lockedInMarket: HiveInternalMarketLockedInOrders,
+) => ({
+  pixa:
+    (parseFloat(balance as string) +
+      parseFloat(savings_balance as string) +
+      lockedInMarket.hive) *
+    prices.hive.usd!,
+  pxs:
+    (parseFloat(pxs_balance as string) +
+      parseFloat(savings_pxs_balance as string) +
+      lockedInMarket.hbd) *
+    prices.hive_dollar.usd!,
+  pp: FormatUtils.toHP(vesting_shares as string, props) * prices.hive.usd!,
+});
 /* istanbul ignore next */
 const getPublicMemo = async (username: string): Promise<string> => {
   const extendedAccounts = await AccountUtils.getAccount(username);
@@ -909,6 +936,7 @@ const AccountUtils = {
   reorderAccounts,
   addAuthorizedKey,
   getAuthorityChangeOperation,
+  getHoldings,
   getAccountsToAddTo,
   processAuthorityUpdate,
   processAuthorityRemoval,

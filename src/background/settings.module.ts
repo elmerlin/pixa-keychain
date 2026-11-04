@@ -51,6 +51,12 @@ const sendBackImportedFileContent = async (fileContent: any) => {
         );
         AutolockModule.set(importedSettings.autolock as unknown as Autolock);
       }
+      if (importedSettings.FIAT_CURRENCY) {
+        await LocalStorageUtils.saveValueInLocalStorage(
+          LocalStorageKeyEnum.FIAT_CURRENCY,
+          importedSettings.FIAT_CURRENCY,
+        );
+      }
       if (importedSettings.claimAccounts) {
         let existingClaimsAccounts: LocalStorageClaimItem =
           await LocalStorageUtils.getValueFromLocalStorage(

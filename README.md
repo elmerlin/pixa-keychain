@@ -2,7 +2,7 @@
   <img src="store/assets/promo-marquee.png" alt="The Pixtopia mark on a field of pixels" width="100%">
 </p>
 
-<h1 align="center">Pixtopia Keychain</h1>
+<h1 align="center">PIXA Keychain</h1>
 
 <p align="center">
   A wallet for the Pixa blockchain, in your browser.<br>
@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/elmerlin/pixtopia-keychain/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/elmerlin/pixtopia-keychain?label=release&color=ff4f8b"></a>
-  <a href="https://github.com/elmerlin/pixtopia-keychain/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/elmerlin/pixtopia-keychain/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/elmerlin/pixa-keychain/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/elmerlin/pixa-keychain?label=release&color=ff4f8b"></a>
+  <a href="https://github.com/elmerlin/pixa-keychain/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/elmerlin/pixa-keychain/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-3ee0a1"></a>
 </p>
 
@@ -47,6 +47,7 @@
   transfers.
 - **Takes part in governance.** Vote for witnesses and proposals, set a proxy, or run your own witness.
 - **Works for you while it's unlocked.** If you turn them on, it claims rewards, savings interest and account tickets.
+- **Shows what it's roughly worth.** Your value and PIXA's price feed, in any of 30 currencies.
 
 It keeps several accounts, each with its own history, in dark or light, and you can choose your own Pixa node. It has
 no ads and no analytics, and it sends nothing to us.
@@ -60,7 +61,7 @@ or your master password.
 
 **From a release**, for Chrome and other Chromium browsers (version 111 or newer):
 
-1. Download the zip from the [latest release](https://github.com/elmerlin/pixtopia-keychain/releases/latest) and unzip it.
+1. Download the zip from the [latest release](https://github.com/elmerlin/pixa-keychain/releases/latest) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode**.
 3. Choose **Load unpacked** and pick the unzipped folder.
 
@@ -70,8 +71,8 @@ accounts stay as long as you don't remove the extension or move it to a differen
 **From source:**
 
 ```bash
-git clone https://github.com/elmerlin/pixtopia-keychain.git
-cd pixtopia-keychain
+git clone https://github.com/elmerlin/pixa-keychain.git
+cd pixa-keychain
 npm ci
 npm run build:chromium
 ```
@@ -105,13 +106,14 @@ Keychain, you mostly need to rename its one global and use Pixa's tokens.
 - A site gets only what you approve: a signature, an account name, a result. Never a key. "Don't ask again" covers one
   kind of request on one site, only ever with the posting key.
 - It talks only to the Pixa node you chose (`api.pixagram.com` unless you change it). If that node stops answering, it asks
-  before switching, unless you've turned on automatic switching.
+  before switching, unless you've turned on automatic switching. If you pick a currency other than US dollars, it also gets
+  exchange rates from [frankfurter.dev](https://frankfurter.dev), which sees your IP address and nothing else.
 
 [SECURITY.md](SECURITY.md) has more, including what it can't protect you from.
 
 ## How it differs from Hive Keychain
 
-Pixtopia Keychain is a fork of [Hive Keychain](https://github.com/hive-keychain/hive-keychain-extension), ported to Pixa
+PIXA Keychain is a fork of [Hive Keychain](https://github.com/hive-keychain/hive-keychain-extension), ported to Pixa
 and given Pixtopia's look. It signs with Pixa's chain ID and `PIX` keys, uses `PIXA` and `PXS`, and refuses a request in
 `HIVE` or `HBD`.
 
@@ -144,13 +146,13 @@ A wallet should be something you can check. To compare a release with its source
 files:
 
 ```bash
-git clone --branch vX.Y.Z --depth 1 https://github.com/elmerlin/pixtopia-keychain.git
-cd pixtopia-keychain
+git clone --branch vX.Y.Z --depth 1 https://github.com/elmerlin/pixa-keychain.git
+cd pixa-keychain
 nvm use
 npm ci
 npm run package:chromium
-unzip -q /path/to/downloaded/pixtopia-keychain-X.Y.Z-chromium.zip -d /tmp/released
-unzip -q pixtopia-keychain-X.Y.Z-chromium.zip -d /tmp/built
+unzip -q /path/to/downloaded/pixa-keychain-X.Y.Z-chromium.zip -d /tmp/released
+unzip -q pixa-keychain-X.Y.Z-chromium.zip -d /tmp/built
 diff -r /tmp/released /tmp/built
 ```
 

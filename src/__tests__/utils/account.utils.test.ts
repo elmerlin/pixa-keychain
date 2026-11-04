@@ -774,6 +774,28 @@ describe('account.utils tests:\n', () => {
     });
   });
 
+  describe('getHoldings tests:\n', () => {
+    it('Must value each holding in PXS, savings and market orders included', () => {
+      const toHP = FormatUtils.toHP;
+      FormatUtils.toHP = jest.fn().mockReturnValue(100);
+      expect(
+        AccountUtils.getHoldings(
+          {
+            balance: '51.000 PIXA',
+            savings_balance: '51.000 PIXA',
+            pxs_balance: '2.000 PXS',
+            savings_pxs_balance: '3.000 PXS',
+            vesting_shares: '1000.000000 VESTS',
+          } as any,
+          { hive: { usd: 0.5 }, hive_dollar: { usd: 1 } } as CurrencyPrices,
+          dynamic.globalProperties,
+          { hive: 8, hbd: 5 },
+        ),
+      ).toEqual({ pixa: 55, pxs: 10, pp: 50 });
+      FormatUtils.toHP = toHP;
+    });
+  });
+
   describe('getAccountValue tests:\n', () => {
     FormatUtils.withCommas = jest.fn().mockReturnValue(1.51);
     FormatUtils.toHP = jest.fn().mockReturnValue(1.51);

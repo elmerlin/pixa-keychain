@@ -1,8 +1,8 @@
 const dataTestIdToolTip = {
   custom: {
     resources: {
-      votingMana: 'custom-tool-tip-popup_html_vm',
-      resourceCredits: 'custom-tool-tip-popup_html_rc',
+      votingMana: 'custom-tool-tip-resource-item-voting-mana',
+      resourceCredits: 'custom-tool-tip-resource-item-resource-credits',
     },
     estimatedValueSection: 'custom-tool-tip-estimated-value-section',
     powerUpDown: {

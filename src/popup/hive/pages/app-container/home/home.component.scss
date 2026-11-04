@@ -4,13 +4,16 @@
   flex-direction: column;
   overflow: hidden;
   background: var(--canvas);
-  gap: 16px;
+  // A tooltip only says something: it sits over the next row, and mustn't take its clicks.
+  .tooltip {
+    pointer-events: none;
+  }
   .home-page-content {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     flex: 1;
     min-height: 0;
+    padding: 0 16px 84px;
     overflow-y: auto;
   }
 }

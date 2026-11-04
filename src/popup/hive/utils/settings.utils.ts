@@ -6,6 +6,7 @@ import LocalStorageUtils from 'src/utils/localStorage.utils';
 const exportSettings = async () => {
   const val = await LocalStorageUtils.getMultipleValueFromLocalStorage([
     LocalStorageKeyEnum.AUTOLOCK,
+    LocalStorageKeyEnum.FIAT_CURRENCY,
     LocalStorageKeyEnum.CLAIM_ACCOUNTS,
     LocalStorageKeyEnum.CLAIM_REWARDS,
     LocalStorageKeyEnum.NO_CONFIRM,

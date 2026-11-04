@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -180,7 +180,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "导入成功！<br><br>请选择您要与Pixtopia Keychain一起储存的金钥：",
+    "message": "导入成功！<br><br>请选择您要与PIXA Keychain一起储存的金钥：",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -904,7 +904,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "为了能够使用 Pixtopia Keychain，请设定您的钱包。 点击浏览器右上角的 Pixtopia Keychain标誌(它可能隐藏在扩展清单中)，然後设定您的密码并导入您的帐号。",
+    "message": "为了能够使用 PIXA Keychain，请设定您的钱包。 点击浏览器右上角的 PIXA Keychain标誌(它可能隐藏在扩展清单中)，然後设定您的密码并导入您的帐号。",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -939,22 +939,22 @@
     "message": "钱包已上锁！"
   },
   "bgd_auth_locked_desc": {
-    "message": "目前网站正在尝试向 Pixtopia Keychain 浏览器扩充功能发送请求。 请在下面输入密码以解锁钱包并继续。"
+    "message": "目前网站正在尝试向 PIXA Keychain 浏览器扩充功能发送请求。 请在下面输入密码以解锁钱包并继续。"
   },
   "bgd_auth_canceled": {
     "message": "用户已取消请求。"
   },
   "bgd_auth_transfer_no_active": {
-    "message": "目前网站正尝试使用活跃金钥向帐户 @$1 的 Pixtopia Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
+    "message": "目前网站正尝试使用活跃金钥向帐户 @$1 的 PIXA Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "目前网站正尝试使用备註金钥向帐户 @$1 的 Pixtopia Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
+    "message": "目前网站正尝试使用备註金钥向帐户 @$1 的 PIXA Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
   },
   "bgd_auth_no_account": {
-    "message": "目前网站正尝试 Pixtopia Keychain 浏览器扩充功能发送请求，该帐户@$1尚未新增到钱包。"
+    "message": "目前网站正尝试 PIXA Keychain 浏览器扩充功能发送请求，该帐户@$1尚未新增到钱包。"
   },
   "bgd_auth_no_key": {
-    "message": "目前网站正尝试使用 $2 金钥向帐户 @$1 的 Pixtopia Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
+    "message": "目前网站正尝试使用 $2 金钥向帐户 @$1 的 PIXA Keychain 浏览器扩充功能发送转移请求，该钥尚未新增到钱包中。"
   },
   "bgd_ops_witness_voted": {
     "message": "成功投票通过@$1作为见證人。"
@@ -1109,7 +1109,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "通过指定对具有权限的帐户添加新帐户，该帐户已经保存在 Pixtopia Keychain 中。",
+    "message": "通过指定对具有权限的帐户添加新帐户，该帐户已经保存在 PIXA Keychain 中。",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1117,7 +1117,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "请在 Pixtopia Keychain 串中保存 @$1，以将其用作授权帐户。"
+    "message": "请在 PIXA Keychain 串中保存 @$1，以将其用作授权帐户。"
   },
   "popup_accounts_no_auth": {
     "message": "@$1 的权限不超过 @$2。",
@@ -1972,5 +1972,26 @@
   "html_popup_ok": {
     "message": "好的！",
     "description": "general word"
+  },
+  "popup_html_currency": {
+    "message": "货币"
+  },
+  "popup_html_currency_intro": {
+    "message": "数值仅为估算：1 PXS 按 1 美元计算。选择其他货币时，钱包会从 frankfurter.dev 获取汇率，对方只能看到你的 IP 地址。"
+  },
+  "popup_html_currency_unavailable": {
+    "message": "无法获取汇率，暂时以美元显示。"
+  },
+  "popup_html_price_feed": {
+    "message": "喂价"
+  },
+  "popup_html_price_feed_info": {
+    "message": "Pixa 见证人给出的 PIXA 价值，按 1 PXS 等于 1 美元计算。目前 1 PXS 等于 $1 PIXA。"
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "一次满额投票价值 $1 PXS。"
+  },
+  "popup_html_holdings": {
+    "message": "你的账户由 $1 PIXA、$2 PXS 和 $3 Pixa Power 组成。"
   }
 }

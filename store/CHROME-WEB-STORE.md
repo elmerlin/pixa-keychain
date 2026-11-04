@@ -20,18 +20,18 @@ Register at https://chrome.google.com/webstore/devconsole and pay the one-time f
 
 ## Package
 
-Upload the `pixtopia-keychain-<version>-chromium.zip` that `npm run package:chromium` makes.
+Upload the `pixa-keychain-<version>-chromium.zip` that `npm run package:chromium` makes.
 
 ## Store listing
 
-**Title (from the manifest):** Pixtopia Keychain
+**Title (from the manifest):** PIXA Keychain
 
 **Summary (from the manifest):** A wallet for Pixa. Your keys stay on your device, and you see what you're signing in plain words.
 
 **Description:**
 
 ```text
-Pixtopia Keychain is a wallet for the Pixa blockchain. Your keys stay on your device, encrypted with your password, and sites never see them. When a site asks you to sign something, the wallet says what it does in plain words before you decide.
+PIXA Keychain is a wallet for the Pixa blockchain. Your keys stay on your device, encrypted with your password, and sites never see them. When a site asks you to sign something, the wallet says what it does in plain words before you decide.
 
 What you can do:
 • Send PIXA and PXS, keep them in savings, and convert between them
@@ -39,6 +39,7 @@ What you can do:
 • Vote for witnesses and proposals
 • Sign in to Pixa sites and approve likes, posts and transfers without typing a key
 • Keep several accounts, and see each one's history
+• See what your account is roughly worth, and PIXA's price, in your own currency
 • Choose your own Pixa node, in dark or light
 
 Made to be careful:
@@ -49,7 +50,7 @@ Made to be careful:
 
 You'll need a Pixa account. You can make one at pixagram.com, and add it here with a key or your master password.
 
-No ads, no analytics, and nothing is sent to us. Open source under the MIT license, and built on Hive Keychain: https://github.com/elmerlin/pixtopia-keychain
+No ads, no analytics, and nothing is sent to us. Open source under the MIT license, and built on Hive Keychain: https://github.com/elmerlin/pixa-keychain
 ```
 
 **Category:** the one for tools or productivity, whichever the dashboard offers.
@@ -108,7 +109,7 @@ Holds the unlocked wallet in memory in a separate document, apart from the pages
 Host permission (`https://*/*`):
 
 ```text
-The user can choose any Pixa node by its address, so the wallet can't list node addresses in advance. It makes requests only to the node the user has chosen.
+The user can choose any Pixa node by its address, so the wallet can't list node addresses in advance. It makes requests only to the node the user has chosen and, if the user picks a currency other than US dollars, to api.frankfurter.dev for exchange rates. No account data is sent there.
 ```
 
 Content script on all `https://` sites, plus `localhost` and `127.0.0.1` for development:
@@ -151,7 +152,7 @@ Posting key: REPLACE_WITH_TEST_POSTING_KEY
 
 1. Open the extension, create a password, accept the Terms and press Continue.
 2. Choose "Use a key or password", enter the account and key above, and press Continue.
-3. Go to https://pixtopia.net/sign-in and choose "Use Pixtopia Keychain". Confirm in the window that opens.
+3. Go to https://pixtopia.net/sign-in and choose "Use PIXA Keychain". Confirm in the window that opens.
 4. Open any post and press the heart, then choose "Like at". The extension opens a window saying "Like at" and naming the post. Confirm or Cancel: both are fine.
 
 The test account holds no funds, so wallet actions that spend money will be refused by the chain.

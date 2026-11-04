@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 npm run build:chromium
 node scripts/third-party-licenses.mjs dist-prod
 VERSION="$(node -p "require('./dist-prod/manifest.json').version")"
-OUT="$PWD/pixtopia-keychain-$VERSION-chromium.zip"
+OUT="$PWD/pixa-keychain-$VERSION-chromium.zip"
 rm -f "$OUT"
 (
   cd dist-prod

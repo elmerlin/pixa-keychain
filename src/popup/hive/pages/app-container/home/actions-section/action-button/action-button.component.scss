@@ -2,14 +2,15 @@
   border: 0;
   padding: 0;
   height: 100%;
-  background: transparent;
+  background: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   width: 100%;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--onPrimary);
+  border-radius: var(--radius-md);
   .icon-container {
     display: flex;
     align-items: center;
@@ -24,7 +25,8 @@
   .label {
     @include geist500(15px);
   }
+  transition: opacity var(--motion-soft) var(--ease-gentle);
   &:hover {
-    color: var(--inkSecondary);
+    opacity: 0.82;
   }
 }

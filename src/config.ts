@@ -14,6 +14,7 @@ const Config = {
   rpc: {
     DEFAULT: { uri: 'https://api.pixagram.com', testnet: false },
   },
+  fiat: { RATES_URL: 'https://api.frankfurter.dev/v1/latest?base=USD' },
   // Until someone chooses otherwise, in Settings.
   autolock: { DEFAULT: { type: AutoLockType.IDLE_LOCK, mn: 10 } },
   treasuryAccount: 'pixa.omnibus',

@@ -1,75 +1,53 @@
 import { RootState } from '@popup/multichain/store';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ConnectedProps, connect } from 'react-redux';
-import { SVGIcons } from 'src/common-ui/icons.enum';
-import { ResourceItemComponent } from 'src/popup/hive/pages/app-container/home/resources-section/resource-item/resource-item.component';
+import { EnergyMeter } from 'src/popup/hive/pages/app-container/home/resources-section/energy-meter/energy-meter.component';
 import HiveUtils from 'src/popup/hive/utils/hive.utils';
 
 const ResourcesSection = ({
   activeAccount,
   globalProperties,
 }: PropsFromRedux) => {
-  const [votingMana, setVotingMana] = useState('--');
-  const [votingValue, setVotingValue] = useState<any>();
-  const [rc, setRc] = useState('--');
-  const [manaReadyIn, setManaReadyIn] = useState('');
-  const [rcReadyIn, setRcReadyIn] = useState('');
+  const loaded =
+    activeAccount?.account?.voting_manabar?.current_mana !== undefined &&
+    activeAccount.rc?.percentage !== undefined;
+  const hasMana =
+    loaded && activeAccount.account.voting_manabar.current_mana !== 0;
+  const mana = hasMana
+    ? HiveUtils.getVP(activeAccount.account) ?? undefined
+    : undefined;
+  const rc = loaded ? activeAccount.rc.percentage : undefined;
 
-  useEffect(() => {
-    if (
-      activeAccount?.account?.voting_manabar?.current_mana !== undefined &&
-      activeAccount.rc?.percentage !== undefined
-    ) {
-      const hasMana =
-        activeAccount?.account?.voting_manabar?.current_mana !== 0;
-
-      const mana = HiveUtils.getVP(activeAccount.account);
-      const manaValue = HiveUtils.getVotingDollarsPerAccount(
+  const manaTooltip = () => {
+    if (!loaded) return undefined;
+    if (!hasMana) return chrome.i18n.getMessage('html_popup_voting_no_hp');
+    const fullVote = parseFloat(
+      HiveUtils.getVotingDollarsPerAccount(
         100,
         globalProperties,
         activeAccount.account,
         false,
-      ) as string;
-      const voting = parseFloat(manaValue);
-      const resources = activeAccount.rc.percentage;
-
-      if (hasMana) {
-        setVotingMana(mana?.toFixed(2)!);
-        setVotingValue(`${voting.toFixed(2)} PXS`);
-      } else {
-        setVotingMana('--');
-        setVotingValue(null);
-      }
-
-      setRc(resources.toFixed(2));
-
-      setManaReadyIn(
-        hasMana
-          ? HiveUtils.getTimeBeforeFull(mana!)
-          : chrome.i18n.getMessage('html_popup_voting_no_hp'),
-      );
-      setRcReadyIn(HiveUtils.getTimeBeforeFull(resources));
-    }
-  }, [activeAccount]);
+      ) as string,
+    ).toFixed(2);
+    return `${HiveUtils.getTimeBeforeFull(mana!)} ${chrome.i18n.getMessage(
+      'popup_html_vm_full_vote_value',
+      [fullVote],
+    )}`;
+  };
 
   return (
     <div className="resources-section">
-      <ResourceItemComponent
-        ariaLabel="resource-item-voting-mana"
-        label={'popup_html_vm'}
-        value={`${votingMana}%`}
-        secondaryValue={votingValue}
-        icon={SVGIcons.RESOURCE_ITEM_MANA}
-        tooltipText={manaReadyIn}
-        additionalClass="blue"
+      <EnergyMeter
+        dataTestId="resource-item-voting-mana"
+        label={chrome.i18n.getMessage('popup_html_vm')}
+        percent={mana}
+        tooltip={manaTooltip()}
       />
-      <ResourceItemComponent
-        ariaLabel="resource-item-resource-credits"
-        label={'popup_html_rc'}
-        value={`${rc}%`}
-        icon={SVGIcons.RESOURCE_ITEM_RC}
-        tooltipText={rcReadyIn}
-        additionalClass="red"
+      <EnergyMeter
+        dataTestId="resource-item-resource-credits"
+        label={chrome.i18n.getMessage('popup_html_rc')}
+        percent={rc}
+        tooltip={loaded ? HiveUtils.getTimeBeforeFull(rc!) : undefined}
       />
     </div>
   );

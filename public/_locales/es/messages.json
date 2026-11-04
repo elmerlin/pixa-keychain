@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -232,7 +232,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "¡Importación exitosa! <br><br>Por favor, selecciona las claves que deseas almacenar con Pixtopia Keychain:",
+    "message": "¡Importación exitosa! <br><br>Por favor, selecciona las claves que deseas almacenar con PIXA Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -1172,7 +1172,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Para poder usar Pixtopia Keychain, por favor configura tu monedero. Haz clic en el logotipo de Pixtopia Keychain en la esquina superior derecha de tu navegador (puede estar oculto en el menú de extensiones), luego configura tu contraseña e importa tus cuentas.",
+    "message": "Para poder usar PIXA Keychain, por favor configura tu monedero. Haz clic en el logotipo de PIXA Keychain en la esquina superior derecha de tu navegador (puede estar oculto en el menú de extensiones), luego configura tu contraseña e importa tus cuentas.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -1207,22 +1207,22 @@
     "message": "¡La cartera está bloqueada!"
   },
   "bgd_auth_locked_desc": {
-    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador Pixtopia Keychain. Por favor, introduce tu contraseña a continuación para desbloquear el monedero y continuar."
+    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador PIXA Keychain. Por favor, introduce tu contraseña a continuación para desbloquear el monedero y continuar."
   },
   "bgd_auth_canceled": {
     "message": "La solicitud fue cancelada por el usuario."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "El sitio web actual está tratando de enviar una solicitud de transferencia a la extensión del navegador Pixtopia Keychain para la cuenta @$1 utilizando la clave activa, que no ha sido añadida al monedero."
+    "message": "El sitio web actual está tratando de enviar una solicitud de transferencia a la extensión del navegador PIXA Keychain para la cuenta @$1 utilizando la clave activa, que no ha sido añadida al monedero."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador Pixtopia Keychain para la cuenta @$1 usando la clave de memo, que no se ha añadido al monedero."
+    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador PIXA Keychain para la cuenta @$1 usando la clave de memo, que no se ha añadido al monedero."
   },
   "bgd_auth_no_account": {
-    "message": "El sitio web actual está tratando de enviar una solicitud a la extensión del navegador Pixtopia Keychain para la cuenta @$1 que no ha sido añadida al monedero."
+    "message": "El sitio web actual está tratando de enviar una solicitud a la extensión del navegador PIXA Keychain para la cuenta @$1 que no ha sido añadida al monedero."
   },
   "bgd_auth_no_key": {
-    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador Pixtopia Keychain para la cuenta @$1 usando la clave $2, que no se ha añadido a la cartera."
+    "message": "El sitio web actual está intentando enviar una solicitud a la extensión del navegador PIXA Keychain para la cuenta @$1 usando la clave $2, que no se ha añadido a la cartera."
   },
   "bgd_ops_witness_voted": {
     "message": "Votado con éxito @$1 por Witness."
@@ -1377,7 +1377,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Añade la nueva cuenta especificando una cuenta que tiene autoridad sobre ella, y que ya está guardada en Pixtopia Keychain.",
+    "message": "Añade la nueva cuenta especificando una cuenta que tiene autoridad sobre ella, y que ya está guardada en PIXA Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1385,7 +1385,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Por favor guarda @$1 en Pixtopia Keychain para usarlo como una cuenta autorizada."
+    "message": "Por favor guarda @$1 en PIXA Keychain para usarlo como una cuenta autorizada."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 no tiene suficiente autoridad sobre @$2.",
@@ -2875,8 +2875,7 @@
     "description": "there was an error"
   },
   "popup_html_currency": {
-    "message": "Moneda",
-    "description": "Currency"
+    "message": "Moneda"
   },
   "popup_html_savings_operation_type": {
     "message": "Tipo de operación",
@@ -2937,5 +2936,23 @@
   "error_granularity": {
     "message": "Esta operación no está permitida por reglas de granularidad",
     "description": "Error message if granularity failed has been used already"
+  },
+  "popup_html_currency_intro": {
+    "message": "Los valores son aproximados: 1 PXS se toma como 1 dólar estadounidense. Para cualquier otra moneda, la cartera obtiene los tipos de cambio de frankfurter.dev, que ve tu dirección IP y nada más."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "No se pudieron obtener los tipos de cambio, así que por ahora se muestran dólares estadounidenses."
+  },
+  "popup_html_price_feed": {
+    "message": "Precio de referencia"
+  },
+  "popup_html_price_feed_info": {
+    "message": "Lo que los testigos de Pixa dicen que vale PIXA, tomando 1 PXS como 1 dólar estadounidense. Ahora mismo 1 PXS son $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "Un voto completo vale $1 PXS."
+  },
+  "popup_html_holdings": {
+    "message": "Tu cuenta es $1 PIXA, $2 PXS y $3 Pixa Power."
   }
 }

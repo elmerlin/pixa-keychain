@@ -1,5 +1,5 @@
 ---
-name: "Pixtopia Keychain"
+name: "PIXA Keychain"
 description: "The Pixtopia monochrome system translated into a compact Pixa browser wallet."
 colors:
   dark-canvas: "#0b0b0c"
@@ -18,7 +18,6 @@ colors:
   dark-success: "#3ee0a1"
   dark-warning: "#ffb547"
   dark-danger: "#ff6b6b"
-  dark-glass: "rgba(21, 21, 21, 0.75)"
   dark-scrim: "rgba(0, 0, 0, 0.7)"
   dark-dot: "rgba(255, 255, 255, 0.06)"
   light-canvas: "#fafafa"
@@ -37,7 +36,6 @@ colors:
   light-success: "#0e8f63"
   light-warning: "#b8751c"
   light-danger: "#c0352d"
-  light-glass: "rgba(255, 255, 255, 0.78)"
   light-scrim: "rgba(0, 0, 0, 0.4)"
   light-dot: "rgba(0, 0, 0, 0.06)"
   prism-pink: "#ff4f8b"
@@ -267,13 +265,13 @@ components:
     padding: "{spacing.xxl}"
 ---
 
-# Design System: Pixtopia Keychain
+# Design System: PIXA Keychain
 
 ## Overview
 
 **Creative North Star: "The Pixel Gallery"**
 
-Pixtopia Keychain translates Pixtopia’s dark-first monochrome system into a compact wallet. Charcoal tonal steps, hairline borders, local Geist type and crisp pixel glyphs keep accounts, balances and actions legible. Light mode uses the same semantic relationships.
+PIXA Keychain translates Pixtopia’s dark-first monochrome system into a compact wallet. Charcoal tonal steps, hairline borders, local Geist type and crisp pixel glyphs keep accounts, balances and actions legible. Light mode uses the same semantic relationships.
 
 It follows the Pixtopia app's design system, and this file is the reference for the extension.
 
@@ -281,7 +279,7 @@ It follows the Pixtopia app's design system, and this file is the reference for 
 
 - Monochrome primary actions and quiet tonal surfaces.
 - Locally bundled Geist and Geist Mono, with chain data kept distinct from prose.
-- One spark accent; Prism belongs to branding, artwork, identicons and loading.
+- One spark accent; Prism belongs to branding, artwork, identicons, loading and the home screen's holdings bar.
 - Crisp pixel geometry, hairlines and compact rounded controls.
 - Visible keyboard focus, restrained press feedback and reduced-motion support.
 
@@ -303,9 +301,9 @@ The palette is neutral by default, with separate dark and light values for each 
 | `hover` | Focused field fill and hovered controls |
 | `border` / `borderStrong` | Hairlines / stronger interactive boundaries |
 | `ink` / `inkSecondary` / `inkMuted` | Main content / supporting copy / captions and placeholders |
-| `glass` / `scrim` / `dot` | Floating action surface / overlay ground / quiet dot artwork |
+| `scrim` / `dot` | Overlay ground / quiet dot artwork |
 
-The four `prism-*` values are the shared brand signature. The Keeper-tooth mark, approved empty and result artwork, identicons and pixel loading states carry it. They do not establish colored button variants.
+The four `prism-*` values are the shared brand signature. The Keeper-tooth mark, approved empty and result artwork, identicons, pixel loading states and the holdings bar carry it. They do not establish colored button variants.
 
 **The Monochrome Chrome Rule.** Primary actions use primary and onPrimary. Spark is the single accent; the Prism palette does not tint ordinary controls. Semantic success, warning and danger accompany state text or symbols.
 
@@ -336,13 +334,15 @@ The popup is 435px wide and its app surface is 600px high. It uses a compact sin
 
 The shared spacing scale is recorded in the frontmatter. Most page and form groups use 16px gaps, field lists use 8px, and transaction groups use 12px. The common page title is a nonshrinking 64px row. Form panels use a scrollable flex column with `min-height: 0`; their footer actions remain reachable. Long review data wraps anywhere, while compact identity rows may constrain their content.
 
-A request is arranged as site and title, account context, reviewed fields, then Cancel and Confirm. The introduction is nonshrinking, with an internal scroll limit at 46% for exceptionally long context; the detail area scrolls independently. The action row does not shrink. The floating home action surface sits 16px from the sides and bottom, is 56px high, and uses the larger sheet radius.
+A request is arranged as site and title, account context, reviewed fields, then Cancel and Confirm. The introduction is nonshrinking, with an internal scroll limit at 46% for exceptionally long context; the detail area scrolls independently. The action row does not shrink.
+
+**The home screen** is a strict grid, one idea to a row: value, three token columns, the price feed, two meters, one button. Its weight sits at the two ends of the value: the unit and the PXS line hold the left margin, the number and the currency button the right. The number is drawn (`PixelNumber`) with the logo's two-pixel stems on an 8px pitch, stepping down to 3px before a long number would overflow, and its comma or point is the screen's one spark. A button names the number for screen readers, so the picture never has to. The holdings bar under it is 45 columns by 2 rows, the content's exact width, in the colours of the three token glyphs, with one pixel stepping across where two meet; its label gives the same shares as percentages. Meters are 22 cells beside their own number. Send is a solid primary button in an 80px strip of the page, so what scrolls under it ends at an edge.
 
 ## Elevation & Depth
 
 **The Tonal Depth Rule.** Use canvas, surface and raised for ordinary hierarchy. Reserve the shared overlay shadow for floating surfaces; keep resting cards flat.
 
-The only shared shadow token is `--overlay-shadow`, with dark and light values recorded in the sidecar. Popups pair it with a surface fill and hairline. The floating home action surface uses `--glass` and a 12px backdrop blur. Glass is not a general card treatment. Dropdowns and popups remain bounded by the available viewport, with their own scrolling content.
+The only shared shadow token is `--overlay-shadow`, with dark and light values recorded in the sidecar. Popups pair it with a surface fill and hairline. Dropdowns and popups remain bounded by the available viewport, with their own scrolling content.
 
 ## Shapes
 

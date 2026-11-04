@@ -5,6 +5,7 @@ import { NoConfirm } from '@interfaces/no-confirm.interface';
 import { Rpc } from '@interfaces/rpc.interface';
 
 export interface Settings {
+  FIAT_CURRENCY?: string;
   autolock?: AutoLockType;
   claimAccounts?: LocalStorageClaimItem;
   claimRewards?: LocalStorageClaimItem;

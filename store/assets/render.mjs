@@ -17,7 +17,7 @@ import * as sass from 'sass';
 const assets = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(assets, '../..');
 const source = path.join(assets, 'src');
-const markPath = path.join(root, 'public/assets/images/pixtopia-keychain-mark.svg');
+const markPath = path.join(root, 'public/assets/images/pixa-keychain-mark.svg');
 const jobs = [
   { name: 'screenshot-1', width: 1280, height: 800, capture: 'home-dark.png', caption: 'Your keys stay on your device' },
   { name: 'screenshot-2', width: 1280, height: 800, capture: 'sign-like.png', caption: "See what you're signing, in plain words" },

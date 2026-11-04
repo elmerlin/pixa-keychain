@@ -1,9 +1,9 @@
 .wallet-info-wrapper {
-  flex: 1;
   position: relative;
-  .wallet-info-section {
-    display: flex;
-    flex-direction: column;
-    padding: 0 16px 100px;
+  .wallet-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 12px;
+    border-bottom: 1px solid var(--border);
   }
 }

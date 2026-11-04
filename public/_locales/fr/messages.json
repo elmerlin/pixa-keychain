@@ -1,6 +1,6 @@
 {
   "keychain": {
-    "message": "Pixtopia Keychain",
+    "message": "PIXA Keychain",
     "description": "Extension name, night not need to translate it."
   },
   "description": {
@@ -184,7 +184,7 @@
     "description": "Import one key"
   },
   "popup_html_import_success": {
-    "message": "Import réussi! <br><br>Veuillez sélectionner les clés que vous souhaitez stocker sur Pixtopia Keychain:",
+    "message": "Import réussi! <br><br>Veuillez sélectionner les clés que vous souhaitez stocker sur PIXA Keychain:",
     "description": "When adding an account via master key"
   },
   "popup_html_posting": {
@@ -912,7 +912,7 @@
     "description": "when user didnt create a wallet yet"
   },
   "bgd_init_no_wallet_explained": {
-    "message": "Pour pouvoir utiliser Pixtopia Keychain, veuillez créer votre portefeuille. Cliquez sur le logo Pixtopia Keychain en haut à droite de votre navigateur (il peut se trouver dans le menu extension), puis configurez votre mot de passe et importez vos comptes.",
+    "message": "Pour pouvoir utiliser PIXA Keychain, veuillez créer votre portefeuille. Cliquez sur le logo PIXA Keychain en haut à droite de votre navigateur (il peut se trouver dans le menu extension), puis configurez votre mot de passe et importez vos comptes.",
     "description": "when user didnt create a wallet yet"
   },
   "bgd_lifecycle_request_canceled": {
@@ -947,22 +947,22 @@
     "message": "Le portefeuille est verrouillé !"
   },
   "bgd_auth_locked_desc": {
-    "message": "Une dApp essaie d'envoyer une requête à l'extension Pixtopia Keychain. Veuillez entrer votre mot de passe ci-dessous pour déverrouiller le portefeuille et continuer."
+    "message": "Une dApp essaie d'envoyer une requête à l'extension PIXA Keychain. Veuillez entrer votre mot de passe ci-dessous pour déverrouiller le portefeuille et continuer."
   },
   "bgd_auth_canceled": {
     "message": "La requête a été annulée par l'utilisateur."
   },
   "bgd_auth_transfer_no_active": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à PIXA Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_auth_transfer_no_memo": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension PIXA Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_auth_no_account": {
-    "message": "Une dApp essaie d'envoyer une requête à l'extension Pixtopia Keychain pour le compte @$1 qui n'a pas été ajouté au portefeuille."
+    "message": "Une dApp essaie d'envoyer une requête à l'extension PIXA Keychain pour le compte @$1 qui n'a pas été ajouté au portefeuille."
   },
   "bgd_auth_no_key": {
-    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension Pixtopia Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
+    "message": "Une dApp essaie d'envoyer une demande de transfert à l'extension PIXA Keychain pour le compte @$1 en utilisant la clé de mémo, qui n'a pas été ajoutée au portefeuille."
   },
   "bgd_ops_witness_voted": {
     "message": "A voté pour @$1 en tant que witness."
@@ -1117,7 +1117,7 @@
     "description": "Text when adding new method."
   },
   "popup_html_auth_text": {
-    "message": "Ajoutez le nouveau compte en spécifiant un compte qui a autorité sur lui, et qui est déjà enregistré sur Pixtopia Keychain.",
+    "message": "Ajoutez le nouveau compte en spécifiant un compte qui a autorité sur lui, et qui est déjà enregistré sur PIXA Keychain.",
     "description": "On Add new account => via auth"
   },
   "popup_html_auth_placeholder_username_auth": {
@@ -1125,7 +1125,7 @@
     "description": "The placeholder for the authorized account that will use its keys for this account."
   },
   "popup_no_auth_account": {
-    "message": "Veuillez enregistrer @$1 sur Pixtopia Keychain avant de l'utiliser en tant que compte autorisé."
+    "message": "Veuillez enregistrer @$1 sur PIXA Keychain avant de l'utiliser en tant que compte autorisé."
   },
   "popup_accounts_no_auth": {
     "message": "@$1 n'a pas autorité sur @$2.",
@@ -1984,5 +1984,26 @@
   "html_popup_ok": {
     "message": "Ok!",
     "description": "general word"
+  },
+  "popup_html_currency": {
+    "message": "Devise"
+  },
+  "popup_html_currency_intro": {
+    "message": "Les valeurs sont approximatives : 1 PXS est compté comme 1 dollar américain. Pour toute autre devise, le portefeuille récupère les taux de change sur frankfurter.dev, qui voit votre adresse IP et rien d'autre."
+  },
+  "popup_html_currency_unavailable": {
+    "message": "Impossible d'obtenir les taux de change, les valeurs sont donc en dollars américains pour le moment."
+  },
+  "popup_html_price_feed": {
+    "message": "Prix de référence"
+  },
+  "popup_html_price_feed_info": {
+    "message": "Ce que les témoins de Pixa estiment que vaut PIXA, en comptant 1 PXS comme 1 dollar américain. En ce moment, 1 PXS vaut $1 PIXA."
+  },
+  "popup_html_vm_full_vote_value": {
+    "message": "Un vote complet vaut $1 PXS."
+  },
+  "popup_html_holdings": {
+    "message": "Votre compte se compose de $1 PIXA, $2 PXS et $3 Pixa Power."
   }
 }

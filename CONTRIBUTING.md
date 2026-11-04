@@ -44,7 +44,7 @@ node scripts/e2e.mjs --account pixa.team --theme both
 - **Nothing calls a Hive service,** and there are no analytics.
 - **Keep the signing path small.** `src/popup/hive/utils/hive-tx.utils.ts` and `vendor/hive-tx` change rarely, with tests.
 - **Internal names stay as upstream has them** (`HiveUtils`, `src/popup/hive`), so merging upstream stays cheap. Everything a
-  person can see says Pixa, PIXA, PXS and Pixtopia Keychain.
+  person can see says Pixa, PIXA, PXS and PIXA Keychain.
 - **Copy is short and human.** New text goes in `public/_locales/en/messages.json`, and colors come from the tokens in
   `src/common-style/theme.scss`. Check dark and light.
 

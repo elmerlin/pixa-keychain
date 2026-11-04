@@ -79,6 +79,6 @@ const body = sections
 
 writeFileSync(
   join(dist, 'THIRD-PARTY-LICENSES.txt'),
-  `Pixtopia Keychain bundles these packages. Each stays under its own license.\n\n${body}`,
+  `PIXA Keychain bundles these packages. Each stays under its own license.\n\n${body}`,
 );
 console.log(`THIRD-PARTY-LICENSES.txt: ${sections.length} packages`);

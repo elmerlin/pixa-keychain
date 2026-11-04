@@ -31,9 +31,11 @@ describe('home.component tests:\n', () => {
       initialStates.iniStateAs.defaultExistent,
       {
         app: {
+          currencyPrices: { getPrices: currencies.prices.data },
           accountsRelated: {
             AccountUtils: {
               getAccountsFromLocalStorage: accounts.twoAccounts,
+              getAccountValue: '100,000',
             },
           },
         },
@@ -68,20 +70,11 @@ describe('home.component tests:\n', () => {
 
     //EstimatedAccountValueSectionComponent
     expect(
-      screen.getByText(chrome.i18n.getMessage('popup_html_estimation'), {
-        exact: true,
-      }),
-    ).toBeInTheDocument();
-    const estimatedValueHTMLElement = screen.getByTestId(
-      dataTestIdDiv.estimatedAccountValue,
+      screen.getByTestId(dataTestIdDiv.estimatedAccountValue),
+    ).toHaveAccessibleName(
+      expect.stringContaining(chrome.i18n.getMessage('popup_html_estimation')),
     );
-    expect(estimatedValueHTMLElement).toBeInTheDocument();
-    const accountValue = AccountUtils.getAccountValue(
-      accounts.extended,
-      currencies.prices.data,
-      dynamic.globalProperties,
-    );
-    expect(estimatedValueHTMLElement).toHaveTextContent(`${accountValue} PXS`);
+    expect(screen.getByText('100,000 PXS', { exact: true })).toBeInTheDocument();
 
     //WalletInfoSectionComponent (PIXA, PXS, PP rows)
     expect(screen.getAllByTestId(/^dropdown-arrow-/).length).toBeGreaterThanOrEqual(
@@ -112,11 +105,8 @@ describe('home.component tests:\n', () => {
       );
     });
     expect(
-      await screen.findByTestId(dataTestIdToolTip.custom.resources.votingMana),
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText(manaReadyInText, { exact: true }),
-    ).toBeInTheDocument();
+      await screen.findByTestId(dataTestIdToolTip.content),
+    ).toHaveTextContent(manaReadyInText);
   });
 
   it('Must show tool tip when hover on credits with its value', async () => {
