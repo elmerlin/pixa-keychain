@@ -17,6 +17,9 @@ const fromTsconfigPaths = pathsToModuleNameMapper(tsPaths, {
 module.exports = {
   setupFiles: ['dotenv/config'],
   preset: 'ts-jest',
+  // Something in the suite leaves a handle open. With one worker, as on a 2-core machine, Jest would
+  // otherwise finish every test and then wait forever.
+  forceExit: true,
   testEnvironment: 'jsdom', //initial was testEnvironment: 'node', using jsdom
   rootDir: '.',
   testMatch: [
