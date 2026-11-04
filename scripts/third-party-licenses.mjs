@@ -55,7 +55,8 @@ const sections = [...packages]
     if (!isNotice(text)) missing.push(name);
     return { name, version: manifest.version, declared, text };
   })
-  .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : a.version < b.version ? -1 : 1));
+  .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : a.version < b.version ? -1 : 1))
+  .filter((section, index, all) => section.name !== all[index - 1]?.name || section.version !== all[index - 1]?.version);
 
 if (missing.length) {
   console.error(`No license notice for: ${missing.join(', ')}. Add one to scripts/third-party-notices.`);
