@@ -7,7 +7,7 @@ The name and summary come from the manifest and can't be changed in the dashboar
 ## Before submitting
 
 - [ ] A real like and a real small transfer have worked through the extension.
-- [ ] https://pixtopia.net/keychain/privacy is live.
+- [ ] https://pixtopia.net/keychain and https://pixtopia.net/keychain/privacy are live.
 - [ ] There's a test account for the reviewer (see Test instructions). Never give them a real key.
 
 ## Account
@@ -66,7 +66,7 @@ No ads, no analytics, and nothing is sent to us. Open source under the MIT licen
 | Small promo tile | `store/assets/promo-small.png` |
 | Marquee promo tile | `store/assets/promo-marquee.png` |
 
-**Homepage URL:** https://pixtopia.net
+**Homepage URL:** https://pixtopia.net/keychain
 
 **Support URL:** leave empty and use the store's built-in support hub.
 

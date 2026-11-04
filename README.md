@@ -16,8 +16,9 @@
 </p>
 
 <p align="center">
+  <a href="https://pixtopia.net/keychain">Website</a> ·
   <a href="#install-it">Install it</a> ·
-  <a href="docs/api.md">Add it to your site</a> ·
+  <a href="https://pixtopia.net/keychain/developers">Add it to your site</a> ·
   <a href="SECURITY.md">Report a security problem</a> ·
   <a href="https://pixtopia.net/keychain/privacy">Privacy</a>
 </p>
@@ -94,7 +95,8 @@ window.pixa_keychain.requestVote(account, permlink, author, 10000, (response) =>
 });
 ```
 
-[docs/api.md](docs/api.md) has every request, and how to detect the extension. If your site already works with Hive
+[The developer guide](https://pixtopia.net/keychain/developers) shows how to sign people in, with the code for your server,
+and lets you try it live. [docs/api.md](docs/api.md) has every request, and how to detect the extension. If your site already works with Hive
 Keychain, you mostly need to rename its one global and use Pixa's tokens.
 
 ## How your keys are kept

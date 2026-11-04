@@ -6,6 +6,9 @@ The extension adds `window.pixa_keychain` to every `https://` page, and to `loca
 site asks it to sign, the person reviews the request in the wallet's own window, and your callback gets the answer. You
 never see a key.
 
+[The developer guide](https://pixtopia.net/keychain/developers) walks through signing people in, with the code for your
+server, and lets you try it live.
+
 ## Detect it
 
 The object arrives once the page has loaded, so wait for it for a moment before saying it isn't installed:
