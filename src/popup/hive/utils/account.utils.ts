@@ -153,7 +153,7 @@ const verifyAccount = async (
 const saveAccounts = async (localAccounts: LocalAccount[], mk: string) => {
   const accounts: Accounts = { list: localAccounts };
   const encyptedAccounts = await AccountUtils.encryptAccounts(accounts, mk);
-  LocalStorageUtils.saveValueInLocalStorage(
+  await LocalStorageUtils.saveValueInLocalStorage(
     LocalStorageKeyEnum.ACCOUNTS,
     encyptedAccounts,
   );

@@ -1,3 +1,5 @@
+/** @jest-environment node */
+// jsdom has its own Uint8Array, which the key libraries don't recognise.
 import { encodeWithKeys } from '@background/requests/operations/ops/encode-with-keys';
 import * as MemoEncode from '@hiveio/hive-js/lib/auth/memo';
 
@@ -21,17 +23,17 @@ describe('encodeWithKeys', () => {
     } as any;
 
     const msg = await encodeWithKeys(requestHandler, {
-      publicKeys: ['PIX111', 'PIX222'],
+      publicKeys: ['PIX8RrW2Q65qHr3NULhsbmYArGUK1JnDpxzfao99JXbXjxbER5aEo', 'PIX89L4B5EgYwhGv3794kEgq7bteLMgWj1vXefEyBrr7vrXrYeSKB'],
       message: 'secret',
       request_id: 99,
     } as any);
 
-    expect(encodeSpy).toHaveBeenNthCalledWith(1, 'privWif', 'PIX111', 'secret');
-    expect(encodeSpy).toHaveBeenNthCalledWith(2, 'privWif', 'PIX222', 'secret');
+    expect(encodeSpy).toHaveBeenNthCalledWith(1, 'privWif', 'PIX8RrW2Q65qHr3NULhsbmYArGUK1JnDpxzfao99JXbXjxbER5aEo', 'secret');
+    expect(encodeSpy).toHaveBeenNthCalledWith(2, 'privWif', 'PIX89L4B5EgYwhGv3794kEgq7bteLMgWj1vXefEyBrr7vrXrYeSKB', 'secret');
     expect(msg.msg?.success).toBe(true);
     expect(msg.msg?.result).toEqual({
-      PIX111: 'enc-a',
-      PIX222: 'enc-b',
+      PIX8RrW2Q65qHr3NULhsbmYArGUK1JnDpxzfao99JXbXjxbER5aEo: 'enc-a',
+      PIX89L4B5EgYwhGv3794kEgq7bteLMgWj1vXefEyBrr7vrXrYeSKB: 'enc-b',
     });
   });
 

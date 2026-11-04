@@ -1,4 +1,4 @@
-import { decode } from '@hiveio/hive-js/lib/auth/memo';
+import { decode } from 'src/utils/memo.utils';
 import {
   KeychainKeyTypesLC,
   RequestDecode,

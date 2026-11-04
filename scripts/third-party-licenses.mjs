@@ -21,6 +21,13 @@ for (const file of readdirSync(dist).filter((name) => name.endsWith('.js.map')))
   }
 }
 
+// Joi's browser build has its dependencies inside it, where the source maps above can't see them.
+for (const name of Object.keys(
+  JSON.parse(readFileSync(join(root, 'node_modules/joi/package.json'), 'utf8')).dependencies,
+)) {
+  packages.add(`node_modules/${name}`);
+}
+
 const licenseFile = (dir) =>
   readdirSync(dir).find((name) => /^(licen[sc]e|copying|notice)(\.|-|$)/i.test(name));
 

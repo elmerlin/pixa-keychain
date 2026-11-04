@@ -458,7 +458,7 @@ var pixa_keychain = {
    * Requests a custom JSON broadcast
    * @example
    * const keychain = window.pixa_keychain;
-   * keychain.requestCustomJson(null, 'sm_market_rent', 'Active', JSON.stringify({items:["9292cd44ccaef8b73a607949cc787f1679ede10b-93"],currency:"DEC",days:1}), 'Rent 1 card on Splinterlands', (response) => {
+   * keychain.requestCustomJson(null, 'my-app', 'Posting', JSON.stringify({ action: 'hello' }), 'Say hello in My App', (response) => {
    *   console.log(response);
    * });
    * @param {String} [account=null] Pixa account to perform the request. If null, user can choose the account from a dropdown

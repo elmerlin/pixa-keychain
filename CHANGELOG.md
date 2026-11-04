@@ -25,6 +25,10 @@ The first public release. Everything here came from a review before opening the 
   message is now shown before you agree to share it.
 - A public key longer than a key could spill into the fields after it, so a signature could cover something else. Keys are
   now checked fully. Reviews of new accounts also show who gets active and posting control, not just the owner.
+- A site could ask the wallet to encrypt to, or read a message from, something that isn't a real key, which can leak a
+  private key a little at a time. Memos now check every key first.
+- Reviews now show a new account's and a witness's full settings, a proposal's new end date, and that a power down route
+  arrives as power.
 - If two sites asked at once, approving one could answer the other. The approved request now decides whose keys sign and who
   hears back.
 - A master password could bring in a key that's also the account's owner key. That's refused, as it is for a key.
@@ -39,6 +43,7 @@ The first public release. Everything here came from a review before opening the 
   reports it as cancelled while it goes through. Trying again could have sent it twice. A new request now gets `busy` until
   the last one has finished.
 - Pressing Confirm twice can no longer send a transfer twice.
+- Changing your password saves your accounts under it first. Closing the popup straight afterwards could have locked you out.
 - Putting back withdrawal routes takes old ones away first, and says so if it fails instead of reporting success.
 - Closing the unlock window now tells the site.
 - Adding a second key to an authority no longer fails on key order.

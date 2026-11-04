@@ -1280,6 +1280,24 @@
   "popup_html_vesting_routes_revert_failed": {
     "message": "Your routes couldn't be put back, so they're still as shown. Try again."
   },
+  "dialog_op_arrives_as": {
+    "message": "Arrives as"
+  },
+  "dialog_op_arrives_as_power": {
+    "message": "Pixa Power"
+  },
+  "dialog_op_request": {
+    "message": "Request"
+  },
+  "dialog_op_account_fee": {
+    "message": "Account creation fee"
+  },
+  "dialog_op_block_size": {
+    "message": "Maximum block size"
+  },
+  "dialog_op_interest": {
+    "message": "PXS interest"
+  },
   "bgd_ops_busy": {
     "message": "The last request is still being sent. Wait for its answer."
   },

@@ -14,14 +14,17 @@ const getAllOutgoingDelegations = async (
     'rc_api.list_rc_direct_delegations',
     { start: [username, ''], limit: 1000 },
   );
+  // The list carries on into whoever comes next after this account.
   let list = result
-    ? result.rc_direct_delegations.map((delegation: any) => {
-        return {
-          value: delegation.delegated_rc,
-          delegatee: delegation.to,
-          delegator: delegation.from,
-        };
-      })
+    ? result.rc_direct_delegations
+        .filter((delegation: any) => delegation.from === username)
+        .map((delegation: any) => {
+          return {
+            value: delegation.delegated_rc,
+            delegatee: delegation.to,
+            delegator: delegation.from,
+          };
+        })
     : [];
   return list;
 };

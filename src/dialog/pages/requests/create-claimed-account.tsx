@@ -7,6 +7,7 @@ import React from 'react';
 import { Separator } from 'src/common-ui/separator/separator.component';
 import UsernameWithAvatar from 'src/common-ui/username-with-avatar/username-with-avatar';
 import CollaspsibleItem from 'src/dialog/components/collapsible-item/collapsible-item';
+import OperationSummaries from 'src/dialog/components/operation-summary/operation-summary';
 import Operation from 'src/dialog/components/operation/operation';
 import RequestItem from 'src/dialog/components/request-item/request-item';
 
@@ -35,6 +36,25 @@ const CreateClaimedAccount = (props: Props) => {
       <RequestItem
         title="dialog_new_account"
         content={`@${data.new_account}`}
+      />
+      <Separator type={'horizontal'} fullSize />
+      <OperationSummaries
+        operations={[
+          [
+            'create_claimed_account',
+            {
+              creator: data.username,
+              new_account_name: data.new_account,
+              owner: keys.owner,
+              active: keys.active,
+              posting: keys.posting,
+              memo_key: keys.memo,
+              json_metadata: '',
+              extensions: [],
+            },
+          ],
+        ]}
+        username={data.username}
       />
       <Separator type={'horizontal'} fullSize />
       <CollaspsibleItem

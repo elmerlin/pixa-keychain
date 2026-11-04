@@ -1,3 +1,5 @@
+/** @jest-environment node */
+// jsdom has its own Uint8Array, which the key libraries don't recognise.
 import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import HiveUtils from '@hiveapp/utils/hive.utils';
 import TransactionUtils from '@hiveapp/utils/transaction.utils';

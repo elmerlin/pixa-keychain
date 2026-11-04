@@ -192,11 +192,36 @@ const OptionalSerializer = (valueSerializer) => {
   }
 }
 
-const AuthoritySerializer = ObjectSerializer([
+const AuthorityFieldsSerializer = ObjectSerializer([
   ['weight_threshold', UInt32Serializer],
   ['account_auths', FlatMapSerializer(StringSerializer, UInt16Serializer)],
   ['key_auths', FlatMapSerializer(PublicKeySerializer, UInt16Serializer)]
 ])
+
+// The node reads these as sorted maps, so any other order signs bytes it won't check. A name or key
+// listed twice has no one meaning, so it's refused.
+const inChainOrder = (entries, order) => {
+  if (!Array.isArray(entries)) throw new Error(`Not a list: ${entries}`)
+  const sorted = [...entries].sort((a, b) => order(a[0], b[0]))
+  sorted.forEach((entry, index) => {
+    if (index && order(sorted[index - 1][0], entry[0]) === 0) {
+      throw new Error(`Listed twice: ${entry[0]}`)
+    }
+  })
+  return sorted
+}
+
+const AuthoritySerializer = (buffer, data) => {
+  AuthorityFieldsSerializer(buffer, {
+    ...data,
+    account_auths: inChainOrder(data.account_auths, (a, b) =>
+      a < b ? -1 : a > b ? 1 : 0
+    ),
+    key_auths: inChainOrder(data.key_auths, (a, b) =>
+      Buffer.compare(PublicKey.from(a).key, PublicKey.from(b).key)
+    )
+  })
+}
 
 const BeneficiarySerializer = ObjectSerializer([
   ['account', StringSerializer],

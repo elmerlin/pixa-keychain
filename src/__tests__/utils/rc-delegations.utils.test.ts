@@ -19,7 +19,7 @@ describe('rc-delegations.utils.ts tests:\n', () => {
           {
             delegated_rc: '100',
             to: mk.user.one,
-            from: mk.user.two,
+            from: mk.user.one,
           },
         ],
       });
@@ -29,9 +29,21 @@ describe('rc-delegations.utils.ts tests:\n', () => {
         {
           value: '100',
           delegatee: mk.user.one,
-          delegator: mk.user.two,
+          delegator: mk.user.one,
         },
       ]);
+    });
+
+    it('Must leave out delegations from whoever comes next', async () => {
+      HiveTxUtils.getData = jest.fn().mockResolvedValue({
+        rc_direct_delegations: [
+          { delegated_rc: '100', to: 'a', from: mk.user.one },
+          { delegated_rc: '200', to: 'b', from: mk.user.two },
+        ],
+      });
+      expect(
+        await RcDelegationsUtils.getAllOutgoingDelegations(mk.user.one),
+      ).toEqual([{ value: '100', delegatee: 'a', delegator: mk.user.one }]);
     });
 
     it('Must return []', async () => {

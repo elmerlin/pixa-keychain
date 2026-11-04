@@ -1,6 +1,6 @@
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
-import { encode } from '@hiveio/hive-js/lib/auth/memo';
+import { encode } from 'src/utils/memo.utils';
 import {
   KeychainKeyTypesLC,
   RequestEncode,
@@ -23,7 +23,7 @@ export const encodeMessage = async (
     } else {
       publicKey = receiver.posting.key_auths[0][0];
     }
-    encoded = encode(key, publicKey, data.message);
+    encoded = encode(key, String(publicKey), data.message);
   } catch (err) {
     error = err;
   } finally {

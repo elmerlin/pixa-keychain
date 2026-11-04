@@ -268,17 +268,20 @@ const accountUpdate = (v: Fields): Described => {
   };
 };
 
-const createAccount = (v: Fields, fee?: string): Described => ({
-  actor: account(v.creator),
-  title: say('dialog_op_create_account', handle(v.new_account_name)),
-  rows: [
-    ...(fee ? [row('dialog_op_fee', fee)] : []),
-    row('dialog_op_owner', authorityText(v.owner)),
-    row('dialog_op_active', authorityText(v.active)),
-    row('dialog_op_posting', authorityText(v.posting)),
-    row('dialog_op_memo_key', matching(PUBLIC_KEY, v.memo_key)),
-  ],
-});
+const createAccount = (v: Fields, fee?: string): Described => {
+  if (v.extensions !== undefined) none(v.extensions);
+  return {
+    actor: account(v.creator),
+    title: say('dialog_op_create_account', handle(v.new_account_name)),
+    rows: [
+      ...(fee ? [row('dialog_op_fee', fee)] : []),
+      row('dialog_op_owner', authorityText(v.owner)),
+      row('dialog_op_active', authorityText(v.active)),
+      row('dialog_op_posting', authorityText(v.posting)),
+      row('dialog_op_memo_key', matching(PUBLIC_KEY, v.memo_key)),
+    ],
+  };
+};
 
 // What each operation does, by the name the chain gives it. Anything else isn't understood.
 const describers = (
@@ -441,6 +444,9 @@ const describers = (
         rows: [
           row('dialog_to', handle(v.to_account)),
           ...(share ? [row('dialog_op_power_downs', percent(share))] : []),
+          ...(share && flag(v.auto_vest)
+            ? [row('dialog_op_arrives_as', say('dialog_op_arrives_as_power'))]
+            : []),
         ],
         ...(share ? { warning: say('dialog_op_route_warning') } : {}),
       };
@@ -458,6 +464,7 @@ const describers = (
     cancel_transfer_from_savings: (v) => ({
       actor: account(v.from),
       title: say('dialog_op_cancel_savings'),
+      rows: [row('dialog_op_request', String(whole(v.request_id)))],
     }),
     convert: (v) => ({
       actor: account(v.owner),
@@ -516,25 +523,39 @@ const describers = (
         ),
       };
     },
-    create_proposal: (v) => ({
-      actor: account(v.creator),
-      title: say('dialog_op_proposal_create'),
-      rows: [
-        row('dialog_op_subject', shown(v.subject)),
-        row('dialog_op_pays', handle(v.receiver)),
-        row('dialog_op_per_day', liquid(v.daily_pay)),
-        row('dialog_op_starts', shown(v.start_date)),
-        row('dialog_op_ends', shown(v.end_date)),
-      ],
-    }),
-    update_proposal: (v) => ({
-      actor: account(v.creator),
-      title: say('dialog_op_proposal_update', String(whole(v.proposal_id))),
-      rows: [
-        row('dialog_op_subject', shown(v.subject)),
-        row('dialog_op_per_day', liquid(v.daily_pay)),
-      ],
-    }),
+    create_proposal: (v) => {
+      none(v.extensions);
+      return {
+        actor: account(v.creator),
+        title: say('dialog_op_proposal_create'),
+        rows: [
+          row('dialog_op_subject', shown(v.subject)),
+          row('dialog_op_pays', handle(v.receiver)),
+          row('dialog_op_per_day', liquid(v.daily_pay)),
+          row('dialog_op_starts', shown(v.start_date)),
+          row('dialog_op_ends', shown(v.end_date)),
+          row('dialog_op_address', shown(v.permlink)),
+        ],
+      };
+    },
+    update_proposal: (v) => {
+      // The one thing an update can carry besides these is a new end date.
+      const ends = list(v.extensions).map((extension) => {
+        const [kind, details] = list(extension);
+        if (kind !== 1) throw new Unreadable();
+        return row('dialog_op_ends', shown(fields(details).end_date));
+      });
+      return {
+        actor: account(v.creator),
+        title: say('dialog_op_proposal_update', String(whole(v.proposal_id))),
+        rows: [
+          row('dialog_op_subject', shown(v.subject)),
+          row('dialog_op_per_day', liquid(v.daily_pay)),
+          row('dialog_op_address', shown(v.permlink)),
+          ...ends,
+        ],
+      };
+    },
     remove_proposal: (v) => {
       none(v.extensions);
       const ids = list(v.proposal_ids).map((id) => String(whole(id)));
@@ -544,21 +565,32 @@ const describers = (
         title: say('dialog_op_proposal_remove', ids.join(', ')),
       };
     },
-    claim_account: (v) => ({
-      actor: account(v.creator),
-      title: say('dialog_op_claim_ticket'),
-      rows: [row('dialog_op_fee', liquid(v.fee))],
-    }),
+    claim_account: (v) => {
+      none(v.extensions);
+      return {
+        actor: account(v.creator),
+        title: say('dialog_op_claim_ticket'),
+        rows: [row('dialog_op_fee', liquid(v.fee))],
+      };
+    },
     create_claimed_account: (v) => createAccount(v),
     account_create: (v) => createAccount(v, liquid(v.fee)),
     account_update: accountUpdate,
     account_update2: accountUpdate,
     witness_update: (v) => {
       const key = string(v.block_signing_key);
+      const props = fields(v.props);
+      const paid = [
+        row('dialog_op_fee', liquid(v.fee)),
+        row('dialog_op_account_fee', liquid(props.account_creation_fee)),
+        row('dialog_op_block_size', String(whole(props.maximum_block_size))),
+        row('dialog_op_interest', percent(whole(props.pxs_interest_rate))),
+      ];
       if (NULL_SIGNING_KEY.test(key)) {
         return {
           actor: account(v.owner),
           title: say('dialog_op_witness_stop'),
+          rows: paid,
         };
       }
       return {
@@ -567,6 +599,7 @@ const describers = (
         rows: [
           row('dialog_op_signing_key', matching(PUBLIC_KEY, key)),
           row('dialog_op_url', shown(v.url)),
+          ...paid,
         ],
       };
     },

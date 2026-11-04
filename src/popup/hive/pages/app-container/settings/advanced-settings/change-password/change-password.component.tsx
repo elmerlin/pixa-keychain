@@ -35,14 +35,16 @@ const ChangePassword = ({
     });
   }, []);
 
-  const submitMk = (): any => {
+  const submitMk = async (): Promise<any> => {
     if (mk !== oldPassword) {
       setErrorMessage('wrong_password');
       return;
     }
     if (newPassword === newPasswordConfirm) {
       if (MkUtils.isPasswordValid(newPassword)) {
-        AccountUtils.saveAccounts(accounts, newPassword);
+        // Saved under the new password before anything uses it. The other way round, closing the
+        // popup in between would leave accounts the new password can't open.
+        await AccountUtils.saveAccounts(accounts, newPassword);
         setMk(newPassword, true);
         navigateTo(Screen.HOME_PAGE, true);
         setSuccessMessage('popup_master_changed');

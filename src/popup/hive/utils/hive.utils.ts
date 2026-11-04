@@ -1,5 +1,5 @@
 import type { ExtendedAccount, Price } from '@hiveio/dhive';
-import { decode, encode } from '@hiveio/hive-js/lib/auth/memo';
+import { decode, encode } from 'src/utils/memo.utils';
 import { Asset } from 'hive-keychain-commons';
 import {
   GlobalProperties,

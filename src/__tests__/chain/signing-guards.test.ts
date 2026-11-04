@@ -20,6 +20,10 @@ import { RequestsHandler } from '@background/requests/request-handler';
 import { RequestTracker } from '@background/requests/request-tracker';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
 import { decode } from '@hiveio/hive-js/lib/auth/memo';
+import {
+  decode as decodeChecked,
+  encode as encodeChecked,
+} from 'src/utils/memo.utils';
 
 const ByteBuffer = require('bytebuffer');
 const serializer = require('hive-tx/helpers/serializer');
@@ -168,6 +172,54 @@ describe('what gets signed is what was reviewed', () => {
     for (const name of ['toString', 'constructor', '__proto__']) {
       expect(() => bytes(transaction([name, {}]))).toThrow('No serializer');
     }
+  });
+
+  describe('authorities', () => {
+    const update = (posting: object) =>
+      transaction([
+        'account_update',
+        {
+          account: 'alice',
+          posting,
+          memo_key: KEY_C,
+          json_metadata: '',
+        },
+      ]);
+    const authority = (
+      account_auths: [string, number][],
+      key_auths: [string, number][],
+    ) => ({ weight_threshold: 1, account_auths, key_auths });
+
+    it('are signed in the chain\'s order, however they were listed', () => {
+      expect(
+        bytes(
+          update(
+            authority(
+              [['carol', 1], ['bob', 1]],
+              [[KEY_A, 1], [KEY_B, 1], [KEY_C, 1]],
+            ),
+          ),
+        ),
+      ).toBe(
+        bytes(
+          update(
+            authority(
+              [['bob', 1], ['carol', 1]],
+              [[KEY_C, 1], [KEY_B, 1], [KEY_A, 1]],
+            ),
+          ),
+        ),
+      );
+    });
+
+    it('refuse the same name or key twice', () => {
+      expect(() =>
+        bytes(update(authority([['bob', 1], ['bob', 2]], []))),
+      ).toThrow('twice');
+      expect(() =>
+        bytes(update(authority([], [[KEY_A, 1], [KEY_A, 2]]))),
+      ).toThrow('twice');
+    });
   });
 
   it('refuses a list that is really some text', () => {
@@ -402,6 +454,120 @@ describe('authority changes', () => {
       );
       expect(summary.understood).toBe(false);
     });
+  });
+});
+
+describe('memos', () => {
+  const bs58 = require('bs58');
+  const offCurve = Buffer.concat([Buffer.from([2]), Buffer.alloc(32, 0xff)]);
+  const { ripemd160 } = require('hive-tx/helpers/crypto');
+  const encodedKey = (key: Buffer) =>
+    `PIX${bs58.encode(Buffer.concat([key, ripemd160(key).slice(0, 4)]))}`;
+
+  it('still encrypts and decrypts between real keys', () => {
+    const sealed = encodeChecked(MEMO_WIF, MEMO_PUB, '#hello');
+    expect(sealed).not.toContain('hello');
+    expect(decodeChecked(MEMO_WIF, sealed)).toBe('#hello');
+  });
+
+  it('leaves a memo that was never encrypted alone', () => {
+    expect(decodeChecked(MEMO_WIF, 'plain')).toBe('plain');
+  });
+
+  it('never uses a key to encrypt to something that is not on the curve', () => {
+    expect(() =>
+      encodeChecked(MEMO_WIF, encodedKey(offCurve), '#hello'),
+    ).toThrow('public key');
+  });
+
+  it('never uses a key to read a message from something that is not on the curve', () => {
+    const sealed = encodeChecked(MEMO_WIF, MEMO_PUB, '#hello');
+    const bytes = Buffer.from(bs58.decode(sealed.slice(1)));
+    const forged = `#${bs58.encode(
+      Buffer.concat([offCurve, bytes.subarray(33)]),
+    )}`;
+    expect(() => decodeChecked(MEMO_WIF, forged)).toThrow();
+  });
+});
+
+describe('reviews show every field that does something', () => {
+  const titles = (operation: unknown) =>
+    describeOperations([operation], 'alice')[0];
+  beforeEach(() => {
+    (globalThis as any).chrome.i18n.getMessage = jest.fn(
+      (key: string, values?: string[]) => [key, ...(values ?? [])].join(' '),
+    );
+  });
+  const proposalUpdate = (extensions: unknown[]) => [
+    'update_proposal',
+    {
+      proposal_id: 1,
+      creator: 'alice',
+      daily_pay: '1.000 PXS',
+      subject: 's',
+      permlink: 'p',
+      extensions,
+    },
+  ];
+
+  it('a new end date on a proposal', () => {
+    const summary = titles(
+      proposalUpdate([[1, { end_date: '2027-01-01T00:00:00' }]]),
+    );
+    expect(summary.understood).toBe(true);
+    expect(JSON.stringify(summary.rows)).toContain('2027-01-01T00:00:00');
+  });
+
+  it('calls any other extension on a proposal unreadable', () => {
+    expect(titles(proposalUpdate([[0, {}]])).understood).toBe(false);
+    expect(
+      titles([
+        'create_proposal',
+        {
+          creator: 'alice',
+          receiver: 'bob',
+          daily_pay: '1.000 PXS',
+          subject: 's',
+          permlink: 'p',
+          start_date: '2027-01-01T00:00:00',
+          end_date: '2027-02-01T00:00:00',
+          extensions: [[0, {}]],
+        },
+      ]).understood,
+    ).toBe(false);
+  });
+
+  it('what becoming or stopping as a witness costs and sets', () => {
+    const shown = JSON.stringify(
+      titles([
+        'witness_update',
+        {
+          owner: 'alice',
+          url: '',
+          block_signing_key: 'PIX1111111111111111111111111111111114T1Anm',
+          props: {
+            account_creation_fee: '3.000 PIXA',
+            maximum_block_size: 65536,
+            pxs_interest_rate: 100,
+          },
+          fee: '9.000 PIXA',
+        },
+      ]).rows,
+    );
+    expect(shown).toContain('9.000 PIXA');
+    expect(shown).toContain('3.000 PIXA');
+  });
+
+  it('that a power down route arrives as power', () => {
+    const route = (auto_vest: boolean) =>
+      JSON.stringify(
+        titles([
+          'set_withdraw_vesting_route',
+          { from_account: 'alice', to_account: 'bob', percent: 100, auto_vest },
+        ]).rows,
+      );
+    expect(route(true)).toContain('dialog_op_arrives_as_power');
+    expect(route(false)).not.toContain('dialog_op_arrives_as_power');
   });
 });
 

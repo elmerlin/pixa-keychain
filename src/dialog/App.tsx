@@ -50,7 +50,13 @@ const App = () => {
       case DialogCommand.REGISTER:
         return <Register data={data} />;
       case DialogCommand.SEND_DIALOG_CONFIRM:
-        return <RequestConfirmation data={data} />;
+        // A new request starts over, so nothing shown or read for the last one carries across.
+        return (
+          <RequestConfirmation
+            key={`${data.data?.replyTo?.documentToken}:${data.data?.request_id}`}
+            data={data}
+          />
+        );
       case DialogCommand.ANSWER_REQUEST:
         return <RequestResponse data={data} />;
 

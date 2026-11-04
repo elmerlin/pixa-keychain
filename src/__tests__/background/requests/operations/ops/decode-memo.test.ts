@@ -1,3 +1,5 @@
+/** @jest-environment node */
+// jsdom has its own Uint8Array, which the key libraries don't recognise.
 import { decodeMessage } from '@background/requests/operations/ops/decode-memo';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { DialogCommand } from '@reference-data/dialog-message-key.enum';

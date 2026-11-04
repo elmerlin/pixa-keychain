@@ -1,7 +1,7 @@
 import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestsHandler } from '@background/requests/request-handler';
 import type { Operation } from '@hiveio/dhive';
-import { encode } from '@hiveio/hive-js/lib/auth/memo';
+import { encode } from 'src/utils/memo.utils';
 import {
   KeychainKeyTypesLC,
   RequestBroadcast,
