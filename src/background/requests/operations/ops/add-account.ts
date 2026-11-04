@@ -13,7 +13,7 @@ export const addAccount = async (
   const { username, keys } = data;
   let err = null;
   const mk = await MkModule.getMk();
-  const accounts = (await AccountUtils.getAccountsFromLocalStorage(mk)) || [];
+  const accounts = await AccountUtils.getAccountsToAddTo(mk);
   const account = await AccountUtils.getExtendedAccount(username);
   if (account) {
     // Owner keys are never stored, even when the same key also holds another role.

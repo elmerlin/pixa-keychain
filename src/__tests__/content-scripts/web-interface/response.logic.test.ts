@@ -54,7 +54,7 @@ describe('response.logic tests:\n', () => {
       expect(sSendMessage).toHaveBeenCalledWith({
         command: 'sendRequest',
         request: req,
-        domain: window.location.hostname,
+        domain: window.location.host,
         request_id: req.request_id,
         documentToken: 'document-token',
       });

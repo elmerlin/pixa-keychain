@@ -159,6 +159,19 @@ const saveAccounts = async (localAccounts: LocalAccount[], mk: string) => {
   );
 };
 
+// For anything about to add to the saved accounts. Accounts that can't be read aren't an empty list:
+// saving over them would lose them.
+const getAccountsToAddTo = async (mk: string): Promise<LocalAccount[]> => {
+  const saved = await LocalStorageUtils.getValueFromLocalStorage(
+    LocalStorageKeyEnum.ACCOUNTS,
+  );
+  const list = saved
+    ? (await EncryptUtils.decryptToJson(saved, mk))?.list
+    : [];
+  if (!list) throw new Error('Could not read the saved accounts');
+  return list;
+};
+
 const getAccountFromLocalStorage = async (
   username: string,
 ): Promise<LocalAccount | undefined> => {
@@ -894,6 +907,7 @@ const AccountUtils = {
   reorderAccounts,
   addAuthorizedKey,
   getAuthorityChangeOperation,
+  getAccountsToAddTo,
   processAuthorityUpdate,
   processAuthorityRemoval,
   processKeyAuthorityUpdate,

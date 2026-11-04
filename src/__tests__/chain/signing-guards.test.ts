@@ -4,6 +4,8 @@
 // jsdom has its own Uint8Array, which the key libraries don't recognise.
 import BgdAccountsUtils from '@background/utils/accounts.utils';
 import { PrivateKey, PublicKey, config } from 'hive-tx';
+import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
+import LocalStorageUtils from 'src/utils/localStorage.utils';
 import { KeychainRequestTypes } from '@interfaces/keychain.interface';
 import { readCommentOptions } from 'src/utils/comment-options.utils';
 import {
@@ -707,6 +709,25 @@ describe('a request that fails unexpectedly', () => {
     const answer = answers.find((a) => a.message?.msg?.request_id === 7);
     expect(answer.message.msg.success).toBe(false);
     jest.restoreAllMocks();
+  });
+});
+
+describe('saved accounts that can not be read', () => {
+  afterEach(() => jest.restoreAllMocks());
+  it('are not treated as none, so nothing gets saved over them', async () => {
+    jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue('something encrypted' as never);
+    jest.spyOn(EncryptUtils, 'decryptToJson').mockResolvedValue(null as never);
+    await expect(AccountUtils.getAccountsToAddTo('wrong')).rejects.toThrow(
+      'read the saved accounts',
+    );
+  });
+  it('are none if there really are none', async () => {
+    jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue(undefined as never);
+    await expect(AccountUtils.getAccountsToAddTo('any')).resolves.toEqual([]);
   });
 });
 

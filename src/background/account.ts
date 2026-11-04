@@ -3,6 +3,7 @@ import BgdAccountsUtils from '@background/utils/accounts.utils';
 import { ImportCallbackPayload } from '@interfaces/import-callback.interface';
 import { BackgroundCommand } from '@reference-data/background-message-key.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
+import AccountUtils from 'src/popup/hive/utils/account.utils';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
@@ -42,18 +43,24 @@ const sendBackImportedAccounts = async (fileContent: string) => {
       return;
     }
 
-    const accounts =
-      (await EncryptUtils.decryptToJson(
-        await LocalStorageUtils.getValueFromLocalStorage(
-          LocalStorageKeyEnum.ACCOUNTS,
-        ),
-        mk,
-      )) || [];
+    let existing;
+    try {
+      existing = await AccountUtils.getAccountsToAddTo(mk);
+    } catch (e) {
+      chrome.runtime.sendMessage({
+        command: BackgroundCommand.SEND_BACK_IMPORTED_ACCOUNTS,
+        value: {
+          success: false,
+          message: 'import_html_error',
+        } as ImportCallbackPayload,
+      });
+      return;
+    }
 
     const newAccounts =
       await BgdAccountsUtils.mergeImportedAccountsToExistingAccounts(
         checked.accounts,
-        accounts.list || [],
+        existing,
       );
     const newAccountsEncrypted = await EncryptUtils.encryptJson(
       { list: newAccounts },

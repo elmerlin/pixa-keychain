@@ -301,27 +301,25 @@ var pixa_keychain = {
    * Requests to sign a transaction with a given authority
    * @example
    * // This example would be done much easier with requestBroadcast
-   * import dhive from '@hiveio/dhive';
+   * const node = 'https://api.pixagram.com';
+   * const call = async (method, params) =>
+   *   (await (await fetch(node, {
+   *     method: 'POST',
+   *     body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+   *   })).json()).result;
    *
-   * const client = new dhive.Client(['https://api.pixagram.com'], { chainId: '706978616772616d000000000000000000000000000000000000000000000000', addressPrefix: 'PIX' });
-   * const keychain = window.pixa_keychain;
-   *
-   * const props = await client.database.getDynamicGlobalProperties();
-   * const headBlockNumber = props.head_block_number;
-   * const headBlockId = props.head_block_id;
-   * const expireTime = 600000;
-   *
-   * const op = {
-   *   ref_block_num: headBlockNumber & 0xffff,
-   *   ref_block_prefix: Buffer.from(headBlockId, 'hex').readUInt32LE(4),
-   *   expiration: new Date(Date.now() + expireTime).toISOString(),
-   *   operations: [...] // Add operations here
+   * const { head_block_number, head_block_id } = await call('condenser_api.get_dynamic_global_properties', []);
+   * const prefix = head_block_id.slice(8, 16).match(/../g).reverse().join('');
+   * const tx = {
+   *   ref_block_num: head_block_number & 0xffff,
+   *   ref_block_prefix: parseInt(prefix, 16),
+   *   expiration: new Date(Date.now() + 600000).toISOString().slice(0, 19),
+   *   operations: [...], // Add operations here
+   *   extensions: [],
    * };
-   * keychain.requestSignTx(username, op, 'Posting', async (response) => {
-   *   if (!response.error) {
-   *     console.log(response.result);
-   *     await client.database.verifyAuthority(response.result);
-   *     await client.broadcast.send(response.result);
+   * window.pixa_keychain.requestSignTx(username, tx, 'Posting', async (response) => {
+   *   if (response.success) {
+   *     await call('condenser_api.broadcast_transaction', [response.result]);
    *   }
    * });
    *

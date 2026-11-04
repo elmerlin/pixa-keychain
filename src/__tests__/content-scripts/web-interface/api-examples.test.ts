@@ -16,7 +16,7 @@ const examples = [...source.matchAll(/\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s*(reques
   })
   .filter((entry): entry is readonly [string, string] => !!entry[1])
   // This one fetches from a node to build its transaction.
-  .filter(([, example]) => !example.includes('import '));
+  .filter(([, example]) => !example.includes('await '));
 
 const provider = () => {
   const sent: any[] = [];

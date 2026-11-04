@@ -4,6 +4,7 @@ import ClaimModule from '@background/claim.module';
 import LocalStorageModule from '@background/local-storage.module';
 import init from '@background/requests/init';
 import { noteApproval } from '@background/requests/dialog-lifecycle';
+import sendErrors from '@background/requests/errors';
 import { performOperation } from '@background/requests/operations';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { RequestTracker } from '@background/requests/request-tracker';
@@ -130,6 +131,26 @@ const chromeMessageHandler = async (
     }
     case BackgroundCommand.REGISTER_FROM_DIALOG: {
       const { mk, domain, data, tab } = backgroundMessage.value;
+      // A wallet may have been set up elsewhere while this window sat open. A second password
+      // mustn't replace the first, or what's saved under it could be lost.
+      if (
+        await LocalStorageUtils.getValueFromLocalStorage(
+          LocalStorageKeyEnum.ACCOUNTS,
+        )
+      ) {
+        const alreadySetUp = await chrome.i18n.getMessage(
+          'bgd_auth_already_set_up',
+        );
+        sendErrors(
+          await RequestsHandler.getFromLocalStorage(),
+          tab,
+          'already_set_up',
+          alreadySetUp,
+          alreadySetUp,
+          data,
+        );
+        break;
+      }
       MkModule.saveMk(mk);
       init(data, tab, domain, await RequestsHandler.getFromLocalStorage());
       break;

@@ -7,7 +7,7 @@ export const useDomainCheck = (data: KeychainRequest) => {
   useEffect(() => {
     PhishingUtils.getBlacklistedDomains().then((domains: string[]) => {
       let warning;
-      if (domains.includes(data.domain)) {
+      if (domains.includes(data.domain.split(':')[0])) {
         warning = chrome.i18n.getMessage('popup_warning_phishing_domain', [
           data.domain,
         ]);

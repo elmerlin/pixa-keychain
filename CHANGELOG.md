@@ -19,6 +19,9 @@ The first public release. Everything here came from a review before opening the 
 - A number too big for its type, a date that doesn't exist or a key left empty could be signed as something other than
   what the review showed. Those are now refused, or treated as left out.
 - A site could choose which of your saved nodes answered a request. It can't any more.
+- Approvals went by hostname, so one site's on `localhost:3000` also covered `localhost:8000`. They now include the port.
+- A setup window left open could replace a wallet set up elsewhere, and accounts that couldn't be read were treated as none,
+  so saving could lose them. Both are refused now.
 - The wallet could contact the default node when yours stopped answering, even with automatic switching off. It now asks
   first, and automatic switching is off unless you turn it on.
 - A site asking to verify a key could have the wallet decrypt a private memo copied from the chain, without showing it. The

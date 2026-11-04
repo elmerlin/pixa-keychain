@@ -45,7 +45,7 @@ describe('add-account tests:\n', () => {
   it('Must return error with no such account', async () => {
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(mk.user.one);
     jest
-      .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+      .spyOn(AccountUtils, 'getAccountsToAddTo')
       .mockResolvedValue([]);
     AccountUtils.getExtendedAccount = jest
       .fn()
@@ -73,7 +73,7 @@ describe('add-account tests:\n', () => {
       .mockResolvedValueOnce(accounts.extended);
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(mk.user.one);
     jest
-      .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+      .spyOn(AccountUtils, 'getAccountsToAddTo')
       .mockResolvedValue([]);
     const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
     cloneData.keys = {};
@@ -100,7 +100,7 @@ describe('add-account tests:\n', () => {
       .mockResolvedValueOnce(accounts.extended);
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(null);
     jest
-      .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+      .spyOn(AccountUtils, 'getAccountsToAddTo')
       .mockResolvedValue([]);
     const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
     cloneData.keys = allowedKeys;
@@ -128,7 +128,7 @@ describe('add-account tests:\n', () => {
         .mockResolvedValueOnce(accounts.extended);
       jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(null);
       jest
-        .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+        .spyOn(AccountUtils, 'getAccountsToAddTo')
         .mockResolvedValue([]);
       const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
       cloneData.keys = userData.one.encryptKeys;
@@ -146,7 +146,7 @@ describe('add-account tests:\n', () => {
         .mockResolvedValueOnce(accounts.extended);
       jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(null);
       jest
-        .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+        .spyOn(AccountUtils, 'getAccountsToAddTo')
         .mockResolvedValue([]);
       const cloneData = objects.clone(data) as RequestAddAccount & RequestId;
       cloneData.keys = {
@@ -170,7 +170,7 @@ describe('add-account tests:\n', () => {
       });
       jest.spyOn(MkModule, 'getMk').mockResolvedValue(mk.user.one);
       jest
-        .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+        .spyOn(AccountUtils, 'getAccountsToAddTo')
         .mockResolvedValue([]);
       const save = jest
         .spyOn(AccountUtils, 'saveAccounts')
@@ -191,7 +191,7 @@ describe('add-account tests:\n', () => {
       .mockResolvedValueOnce(accounts.extended);
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(mk.user.one);
     jest
-      .spyOn(AccountUtils, 'getAccountsFromLocalStorage')
+      .spyOn(AccountUtils, 'getAccountsToAddTo')
       .mockResolvedValueOnce(accounts.twoAccounts);
     const sSaveAccounts = jest
       .spyOn(AccountUtils, 'saveAccounts')

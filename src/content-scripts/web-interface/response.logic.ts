@@ -24,7 +24,8 @@ export const sendRequestToBackground = (
   chrome.runtime.sendMessage({
     command: 'sendRequest',
     request: req,
-    domain: window.location.hostname,
+    // With the port: localhost:3000 and localhost:8000 are different sites, and approvals go by this.
+    domain: window.location.host,
     request_id: req.request_id,
     documentToken,
   });
