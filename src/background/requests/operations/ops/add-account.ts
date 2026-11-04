@@ -83,9 +83,14 @@ export const addAccount = async (
       throw new Error('Invalid memo key');
     }
     if (Object.keys(savedKeys).length && mk) {
-      // addAccount
+      // addAccount. What's saved by now: looking this account up can take a while, and anything
+      // added in the meantime has to stay.
+      const latest = await AccountUtils.getAccountsToAddTo(mk);
       await AccountUtils.saveAccounts(
-        [...accounts, { name: username, keys: savedKeys }],
+        [
+          ...latest.filter(({ name }) => name !== username),
+          { name: username, keys: savedKeys },
+        ],
         mk,
       );
     } else {

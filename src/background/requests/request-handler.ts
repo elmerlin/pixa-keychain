@@ -167,14 +167,19 @@ export class RequestsHandler {
     );
   }
 
-  /** The approved request says whose keys sign and who hears the answer, not whichever was saved last. */
-  useApproved(data: KeychainRequest) {
+  /** A request picked up again, after unlocking, answers whoever asked it. Others may have asked since. */
+  replyToWhoeverAsked(data: KeychainRequest) {
     const { replyTo } = data as ReplyTo;
     this.data.frameId = replyTo?.frameId;
     this.data.documentId = replyTo?.documentId;
     this.data.documentToken = replyTo?.documentToken;
     this.data.request = data;
     this.data.request_id = data.request_id;
+  }
+
+  /** The approved request says whose keys sign and who hears the answer, not whichever was saved last. */
+  useApproved(data: KeychainRequest) {
+    this.replyToWhoeverAsked(data);
     const account = this.data.accounts?.find((e) => e.name === data.username);
     const role = account ? getRequiredWifType(data) : undefined;
     this.data.key = role ? account!.keys[role] : undefined;

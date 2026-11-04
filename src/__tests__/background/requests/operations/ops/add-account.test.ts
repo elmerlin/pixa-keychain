@@ -192,7 +192,7 @@ describe('add-account tests:\n', () => {
     jest.spyOn(MkModule, 'getMk').mockResolvedValueOnce(mk.user.one);
     jest
       .spyOn(AccountUtils, 'getAccountsToAddTo')
-      .mockResolvedValueOnce(accounts.twoAccounts);
+      .mockResolvedValue(accounts.twoAccounts);
     const sSaveAccounts = jest
       .spyOn(AccountUtils, 'saveAccounts')
       .mockResolvedValue(undefined);
@@ -204,7 +204,7 @@ describe('add-account tests:\n', () => {
     expect(sSaveAccounts).toHaveBeenCalledTimes(1);
     expect(sSaveAccounts).toHaveBeenCalledWith(
       [
-        ...accounts.twoAccounts,
+        ...accounts.twoAccounts.filter(({ name }) => name !== data.username),
         {
           name: data.username,
           keys: {

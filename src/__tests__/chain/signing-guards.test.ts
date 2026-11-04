@@ -660,6 +660,24 @@ describe('who an approval is for', () => {
     );
   });
 
+  it('after unlocking, is whoever asked for the request picked up again', () => {
+    const handler = new RequestsHandler();
+    // Someone else's request was the last one saved while the password was being checked.
+    handler.data = {
+      confirmed: false,
+      isWaitingForConfirmation: false,
+      frameId: 9,
+      documentId: 'other-document',
+      documentToken: 'other-token',
+    };
+    handler.replyToWhoeverAsked({
+      request_id: 1,
+      replyTo: { frameId: 0, documentId: 'my-document', documentToken: 'my-token' },
+    } as never);
+    expect(handler.data.documentToken).toBe('my-token');
+    expect(handler.data.documentId).toBe('my-document');
+  });
+
   it('has no key if that account has none for the role', () => {
     const handler = new RequestsHandler();
     handler.data = {

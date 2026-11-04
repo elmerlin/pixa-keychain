@@ -1,5 +1,5 @@
 import MkModule from '@background/mk.module';
-import { RequestsHandler } from '@background/requests/request-handler';
+import { ReplyTo, RequestsHandler } from '@background/requests/request-handler';
 import {
   KeychainRequest,
   KeychainRequestTypes,
@@ -26,6 +26,7 @@ export default async (
   domain: string,
   requestHandler: RequestsHandler,
 ) => {
+  if ((request as ReplyTo).replyTo) requestHandler.replyToWhoeverAsked(request);
   const items: {
     accounts: string;
     current_rpc?: Rpc;
