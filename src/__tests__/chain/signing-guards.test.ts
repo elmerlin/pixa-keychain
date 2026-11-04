@@ -17,6 +17,7 @@ import schemas, {
 } from 'src/content-scripts/web-interface/input-validation';
 import { broadcastSavings } from '@background/requests/operations/ops/savings';
 import { RequestsHandler } from '@background/requests/request-handler';
+import { RequestTracker } from '@background/requests/request-tracker';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
 import { decode } from '@hiveio/hive-js/lib/auth/memo';
 
@@ -105,6 +106,84 @@ describe('what gets signed is what was reviewed', () => {
     it('takes a real one', () => {
       expect(() => bytes(at('2026-12-01T00:00:00'))).not.toThrow();
     });
+  });
+
+  describe('public keys', () => {
+    const bs58 = require('bs58');
+    const { ripemd160 } = require('hive-tx/helpers/crypto');
+    const encoded = (key: Buffer, checksum?: Buffer) =>
+      `PIX${bs58.encode(
+        Buffer.concat([key, checksum ?? ripemd160(key).slice(0, 4)]),
+      )}`;
+    const real = PublicKey.from(KEY_A).key as Buffer;
+    const stop = (block_signing_key: unknown) =>
+      transaction([
+        'witness_update',
+        {
+          owner: 'alice',
+          url: '',
+          block_signing_key,
+          props: {
+            account_creation_fee: '0.000 PIXA',
+            maximum_block_size: 65536,
+            pxs_interest_rate: 0,
+          },
+          fee: '0.000 PIXA',
+        },
+      ]);
+
+    it.each([
+      ['longer than a key, with extra bytes meant for the next field', () => encoded(Buffer.concat([real, Buffer.from('extra')]))],
+      ['shorter than a key', () => encoded(real.subarray(0, 20))],
+      ['with a wrong checksum', () => encoded(real, Buffer.from([1, 2, 3, 4]))],
+      ['not on the curve', () => encoded(Buffer.concat([Buffer.from([2]), Buffer.alloc(32, 0xff)]))],
+      ['from another chain', () => KEY_A.replace('PIX', 'STM')],
+      ['that starts like the empty key', () => encoded(Buffer.concat([real, Buffer.alloc(7)])).replace(/^PIX.{4}/, 'PIX1111')],
+      ['that is not text', () => 12345],
+    ])('refuses one %s', (_, key) => {
+      expect(() => bytes(stop(key()))).toThrow();
+    });
+
+    it('takes a real key, and the empty key only exactly', () => {
+      expect(() => bytes(stop(KEY_A))).not.toThrow();
+      expect(() =>
+        bytes(stop(`PIX1111111111111111111111111111111114T1Anm`)),
+      ).not.toThrow();
+    });
+
+    it('reads as stopping a witness only for exactly the empty key', () => {
+      (globalThis as any).chrome.i18n.getMessage = jest.fn(
+        (key: string) => key,
+      );
+      const titleOf = (key: string) =>
+        describeOperations(stop(key).operations, 'alice')[0].title;
+      expect(titleOf('PIX1111111111111111111111111111111114T1Anm')).toBe(
+        'dialog_op_witness_stop',
+      );
+      expect(titleOf(`PIX${'1'.repeat(45)}abc`)).toBe('dialog_op_witness_update');
+    });
+  });
+
+  it('refuses an operation name that only exists on every object', () => {
+    for (const name of ['toString', 'constructor', '__proto__']) {
+      expect(() => bytes(transaction([name, {}]))).toThrow('No serializer');
+    }
+  });
+
+  it('refuses a list that is really some text', () => {
+    const removal = transaction([
+      'remove_proposal',
+      { proposal_owner: 'alice', proposal_ids: '12', extensions: [] },
+    ]);
+    expect(() => bytes(removal)).toThrow('list');
+  });
+
+  it('refuses an amount with anything else in it', () => {
+    const transfer = (amount: string) =>
+      transaction(['transfer', { from: 'alice', to: 'bob', amount, memo: '' }]);
+    expect(() => bytes(transfer('1.000abc PIXA'))).toThrow('amount');
+    expect(() => bytes(transfer('1.000 PIXA extra'))).toThrow('amount');
+    expect(() => bytes(transfer('-1.000 PIXA'))).toThrow('amount');
   });
 
   it('refuses a vote strength that would wrap around', () => {
@@ -323,6 +402,115 @@ describe('authority changes', () => {
       );
       expect(summary.understood).toBe(false);
     });
+  });
+});
+
+describe('a new account', () => {
+  it('shows everyone who gets control of it, not just its owner', () => {
+    (globalThis as any).chrome.i18n.getMessage = jest.fn(
+      (key: string, values?: string[]) => [key, ...(values ?? [])].join(' '),
+    );
+    const single = (key: string) => ({
+      weight_threshold: 1,
+      account_auths: [],
+      key_auths: [[key, 1]],
+    });
+    const [summary] = describeOperations(
+      [
+        [
+          'create_claimed_account',
+          {
+            creator: 'alice',
+            new_account_name: 'newname',
+            owner: single(KEY_A),
+            active: single(KEY_B),
+            posting: single(KEY_C),
+            memo_key: MEMO_PUB,
+            json_metadata: '',
+            extensions: [],
+          },
+        ],
+      ],
+      'alice',
+    );
+    const shown = JSON.stringify(summary.rows);
+    expect(summary.understood).toBe(true);
+    for (const key of [KEY_A, KEY_B, KEY_C]) expect(shown).toContain(key);
+    expect(shown).toContain('dialog_op_memo_key');
+  });
+});
+
+describe('who an approval is for', () => {
+  const wif = '5KfnbiZsWVWWuudbko42sSUgjm38woJZ1hqo9CtU1z6zkpCZMVS';
+  const send = () =>
+    jest.spyOn(chrome.tabs, 'sendMessage').mockImplementation(() => undefined as never);
+  afterEach(() => jest.restoreAllMocks());
+
+  it('is whoever asked for that request, not whichever was saved last', () => {
+    const sSend = send();
+    const handler = new RequestsHandler();
+    // Someone else's request was the last one saved.
+    handler.data = {
+      confirmed: false,
+      isWaitingForConfirmation: false,
+      frameId: 9,
+      documentId: 'other-document',
+      documentToken: 'other-token',
+      key: 'other-key',
+      accounts: [{ name: 'alice', keys: { memo: wif, memoPubkey: MEMO_PUB } }] as never,
+    };
+    handler.useApproved({
+      type: 'decode',
+      username: 'alice',
+      method: 'Memo',
+      request_id: 1,
+      replyTo: { frameId: 0, documentId: 'my-document', documentToken: 'my-token' },
+    } as never);
+    expect(handler.data.key).toBe(wif);
+    handler.answer(2, { command: 'x', msg: { data: { replyTo: {}, username: 'alice' } } });
+    expect(sSend).toHaveBeenCalledWith(
+      2,
+      {
+        documentToken: 'my-token',
+        message: { command: 'x', msg: { data: { username: 'alice' } } },
+      },
+      { documentId: 'my-document' },
+      expect.any(Function),
+    );
+  });
+
+  it('has no key if that account has none for the role', () => {
+    const handler = new RequestsHandler();
+    handler.data = {
+      confirmed: false,
+      isWaitingForConfirmation: false,
+      key: 'other-key',
+      accounts: [{ name: 'alice', keys: { posting: wif } }] as never,
+    };
+    handler.useApproved({
+      type: 'decode',
+      username: 'alice',
+      method: 'Memo',
+      request_id: 1,
+    } as never);
+    expect(handler.data.key).toBeUndefined();
+  });
+});
+
+describe('what a document has asked for', () => {
+  it('moves on to the newest request, until one is being sent', () => {
+    expect(RequestTracker.isLatest('doc', 1)).toBe(true);
+    RequestTracker.accept('doc', 1);
+    RequestTracker.accept('doc', 2);
+    expect(RequestTracker.isLatest('doc', 1)).toBe(false);
+    expect(RequestTracker.isLatest('doc', 2)).toBe(true);
+    expect(RequestTracker.isSending('doc')).toBe(false);
+    RequestTracker.startSending('doc');
+    expect(RequestTracker.isSending('doc')).toBe(true);
+    expect(RequestTracker.isSending('another')).toBe(false);
+    RequestTracker.finishSending('doc');
+    expect(RequestTracker.isSending('doc')).toBe(false);
+    expect(RequestTracker.isLatest('doc', 1)).toBe(true);
   });
 });
 

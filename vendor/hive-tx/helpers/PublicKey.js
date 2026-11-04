@@ -60,12 +60,24 @@ const encodePublic = (key, prefix) => {
   return prefix + bs58.encode(Buffer.concat([key, checksum.slice(0, 4)]))
 }
 
-/** Decode bs58+ripemd160-checksum encoded public key. */
+/**
+ * Decode bs58+ripemd160-checksum encoded public key. Strict, because its bytes go straight into what
+ * gets signed: anything longer than a key would spill into the fields after it.
+ */
 const decodePublic = encodedKey => {
+  const invalid = () => new Error(`Not a valid public key: ${encodedKey}`)
+  if (typeof encodedKey !== 'string') throw invalid()
   const prefix = encodedKey.slice(0, 3)
-  encodedKey = encodedKey.slice(3)
-  const buffer = Buffer.from(bs58.decode(encodedKey))
+  if (prefix !== config.address_prefix) throw invalid()
+  const buffer = Buffer.from(bs58.decode(encodedKey.slice(3)))
   const key = buffer.slice(0, -4)
+  if (
+    key.length !== 33 ||
+    !crypto.ripemd160(key).slice(0, 4).equals(buffer.slice(-4)) ||
+    !secp256k1.publicKeyVerify(key)
+  ) {
+    throw invalid()
+  }
   return { key, prefix }
 }
 

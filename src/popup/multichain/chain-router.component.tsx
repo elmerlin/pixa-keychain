@@ -1,6 +1,5 @@
 import { BackgroundMessage } from '@background/background-message.interface';
 import { ActionButton } from '@interfaces/action-button.interface';
-import { Autolock, AutoLockType } from '@interfaces/autolock.interface';
 import { HiveAppComponent } from '@popup/hive/hive-app.component';
 import { setHasFinishedSignup } from '@popup/multichain/actions/has-finished-signup.actions';
 import { resetMessage } from '@popup/multichain/actions/message.actions';
@@ -39,7 +38,6 @@ const ChainRouter = ({
 }: Props & PropsFromRedux) => {
   useEffect(() => {
     PopupUtils.fixPopupOnMacOs();
-    initAutoLock();
     checkIfHasFinishedSignup();
     initMk();
   }, []);
@@ -60,24 +58,16 @@ const ChainRouter = ({
     }, 500);
   };
 
-  const initAutoLock = async () => {
-    let autolock: Autolock = await LocalStorageUtils.getValueFromLocalStorage(
-      LocalStorageKeyEnum.AUTOLOCK,
-    );
-    if (
-      autolock &&
-      [AutoLockType.DEVICE_LOCK, AutoLockType.IDLE_LOCK].includes(autolock.type)
-    ) {
-      chrome.runtime.onMessage.addListener(onReceivedAutolockCmd);
-    }
-  };
-
-  const onReceivedAutolockCmd = (message: BackgroundMessage) => {
-    if (message.command === BackgroundCommand.LOCK_APP) {
-      setMk('', false);
-      chrome.runtime.onMessage.removeListener(onReceivedAutolockCmd);
-    }
-  };
+  // Whatever the setting, and for as long as it's open: the wallet can lock itself at any time.
+  useEffect(() => {
+    const onReceivedAutolockCmd = (message: BackgroundMessage) => {
+      if (message.command === BackgroundCommand.LOCK_APP) {
+        setMk('', false);
+      }
+    };
+    chrome.runtime.onMessage.addListener(onReceivedAutolockCmd);
+    return () => chrome.runtime.onMessage.removeListener(onReceivedAutolockCmd);
+  }, []);
 
   const renderChain = () => {
     if (!mk || mk.length === 0) {

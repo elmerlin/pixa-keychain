@@ -6,6 +6,7 @@ import init from '@background/requests/init';
 import { noteApproval } from '@background/requests/dialog-lifecycle';
 import { performOperation } from '@background/requests/operations';
 import { RequestsHandler } from '@background/requests/request-handler';
+import { RequestTracker } from '@background/requests/request-tracker';
 import RPCModule from '@background/rpc.module';
 import SettingsModule from '@background/settings.module';
 import getMessage from '@background/utils/i18n.utils';
@@ -69,7 +70,35 @@ const chromeMessageHandler = async (
     case BackgroundCommand.SAVE_RPC:
       RPCModule.setActiveRpc(backgroundMessage.value);
       break;
-    case BackgroundCommand.SEND_REQUEST:
+    case BackgroundCommand.SEND_REQUEST: {
+      const { request, request_id, documentToken } =
+        backgroundMessage as KeychainRequestWrapper & {
+          documentToken?: string;
+        };
+      const replyTo = {
+        frameId: sender.frameId,
+        documentId: (sender as { documentId?: string }).documentId,
+        documentToken,
+      };
+      if (RequestTracker.isSending(documentToken)) {
+        RequestsHandler.answerTo(sender.tab!.id!, replyTo, {
+          command: DialogCommand.ANSWER_REQUEST,
+          msg: {
+            success: false,
+            error: 'busy',
+            result: null,
+            data: request,
+            message: await chrome.i18n.getMessage('bgd_ops_busy'),
+            request_id,
+          },
+        });
+        break;
+      }
+      RequestTracker.accept(documentToken, request_id!);
+      RequestsHandler.answerTo(sender.tab!.id!, replyTo, {
+        command: DialogCommand.REQUEST_ACCEPTED,
+        request_id,
+      });
       const requestHandler = await RequestsHandler.getFromLocalStorage();
       if (requestHandler) {
         requestHandler.closeWindow();
@@ -79,6 +108,7 @@ const chromeMessageHandler = async (
         backgroundMessage as KeychainRequestWrapper,
       );
       break;
+    }
     case BackgroundCommand.UNLOCK_FROM_DIALOG: {
       const { mk, domain, data, tab } = backgroundMessage.value;
       const login = await MkModule.login(mk);
@@ -105,9 +135,14 @@ const chromeMessageHandler = async (
       break;
     }
     case BackgroundCommand.ACCEPT_TRANSACTION:
-      noteApproval();
       const { keep, data, tab, domain, options } = backgroundMessage.value;
+      const token = data.replyTo?.documentToken;
+      // The site's already been told this one was replaced: it mustn't go out now.
+      if (!RequestTracker.isLatest(token, data.request_id)) break;
+      noteApproval();
+      RequestTracker.startSending(token);
       const approvedHandler = await RequestsHandler.getFromLocalStorage();
+      approvedHandler.useApproved(data);
       // From here it runs to the end. Closing the window no longer means cancelled, and saying so
       // could get a transfer that's going through sent twice.
       approvedHandler.setConfirmed(true);
@@ -166,6 +201,10 @@ export const performOperationFromIndex = async (
   tab: number,
   request: KeychainRequest,
 ) => {
+  // A later request from this document replaced this one while it was getting ready.
+  if (!RequestTracker.isLatest(requestHandler.data.documentToken, request.request_id!)) {
+    return;
+  }
   performOperation(requestHandler, request, tab!, request.domain, false);
 };
 

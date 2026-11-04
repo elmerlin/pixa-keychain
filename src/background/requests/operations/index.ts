@@ -40,7 +40,7 @@ import {
 } from '@interfaces/keychain.interface';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import Logger from 'src/utils/logger.utils';
-import { DialogCommand } from '@reference-data/dialog-message-key.enum';
+import { RequestTracker } from '@background/requests/request-tracker';
 import { addToWhitelist, approvalFor } from 'src/utils/preferences.utils';
 
 export const performOperation = async (
@@ -52,10 +52,8 @@ export const performOperation = async (
   options?: TransactionOptions,
 ) => {
   let message = null;
-  requestHandler.answer(tab, {
-    command: DialogCommand.REQUEST_STARTED,
-    request_id: data.request_id,
-  });
+  const { documentToken } = requestHandler.data;
+  RequestTracker.startSending(documentToken);
   try {
     Logger.info('-- PERFORMING TRANSACTION --');
     Logger.log(data);
@@ -175,6 +173,7 @@ export const performOperation = async (
       data,
     );
   } finally {
+    RequestTracker.finishSending(documentToken);
     if (no_confirm) {
       const approval = approvalFor(data);
       if (approval) addToWhitelist(data.username!, domain, approval);

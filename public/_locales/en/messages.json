@@ -1280,6 +1280,18 @@
   "popup_html_vesting_routes_revert_failed": {
     "message": "Your routes couldn't be put back, so they're still as shown. Try again."
   },
+  "bgd_ops_busy": {
+    "message": "The last request is still being sent. Wait for its answer."
+  },
+  "dialog_decoded_message": {
+    "message": "What the site will see"
+  },
+  "dialog_desc_decode": {
+    "message": "$1 wants to read this message with the $2 key of @$3. If you confirm, it sees what it says."
+  },
+  "dialog_decode_failed": {
+    "message": "This message can't be read with that key."
+  },
   "bgd_ops_authority_not_reviewed": {
     "message": "This change couldn't be shown for review, so nothing was changed."
   },

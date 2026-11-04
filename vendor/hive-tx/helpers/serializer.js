@@ -88,7 +88,11 @@ const StaticVariantSerializer = (itemSerializers) => {
 const AssetSerializer = (buffer, data) => {
   const asset = Asset.from(data)
   const precision = asset.getPrecision()
-  // More decimals than the asset has would be rounded into a different amount.
+  // Anything else would be read as something it doesn't say: "1.000abc" as 1, or more decimals than
+  // the asset has rounded into a different amount.
+  if (typeof data === 'string' && !/^\d+(\.\d+)? [A-Z]+$/.test(data)) {
+    throw new Error(`Not a valid amount: ${data}`)
+  }
   if (typeof data === 'string' && (data.split(' ')[0].split('.')[1] ?? '').length > precision) {
     throw new Error(`Too many decimals: ${data}`)
   }
@@ -114,8 +118,7 @@ const DateSerializer = (buffer, data) => {
 const PublicKeySerializer = (buffer, data) => {
   if (
     data === null ||
-    (typeof data === 'string' &&
-      data.slice(-39) === '1111111111111111111111111111111114T1Anm')
+    data === `${config.address_prefix}1111111111111111111111111111111114T1Anm`
   ) {
     buffer.append(Buffer.alloc(33, 0))
   } else {
@@ -144,6 +147,7 @@ const VariableBinarySerializer = BinarySerializer()
 
 const FlatMapSerializer = (keySerializer, valueSerializer) => {
   return (buffer, data) => {
+    if (!Array.isArray(data)) throw new Error(`Not a list: ${data}`)
     buffer.writeVarint32(data.length)
     for (const [key, value] of data) {
       keySerializer(buffer, key)
@@ -154,6 +158,7 @@ const FlatMapSerializer = (keySerializer, valueSerializer) => {
 
 const ArraySerializer = (itemSerializer) => {
   return (buffer, data) => {
+    if (!Array.isArray(data)) throw new Error(`Not a list: ${data}`)
     buffer.writeVarint32(data.length)
     for (const item of data) {
       itemSerializer(buffer, item)
@@ -622,7 +627,10 @@ OperationSerializers.recurrent_transfer = OperationDataSerializer(49, [
   ]])
 
 const OperationSerializer = (buffer, operation) => {
-  const serializer = OperationSerializers[operation[0]]
+  // Its own, so that a name like "toString" isn't taken for one that writes nothing.
+  const serializer = Object.prototype.hasOwnProperty.call(OperationSerializers, operation[0])
+    ? OperationSerializers[operation[0]]
+    : null
   if (!serializer) {
     throw new Error(`No serializer for operation: ${operation[0]}`)
   }

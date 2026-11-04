@@ -1,6 +1,6 @@
 import { removeWindow } from '@background/requests/dialog-lifecycle';
 import init from '@background/requests/init';
-import { Key } from '@interfaces/keys.interface';
+import { Key, Keys } from '@interfaces/keys.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { NoConfirm } from '@interfaces/no-confirm.interface';
 import { Rpc } from '@interfaces/rpc.interface';
@@ -23,6 +23,10 @@ if (!process.env.IS_FIREFOX && !global.window) {
   //@ts-ignore
   global.window = { crypto };
 }
+
+export type ReplyTo = {
+  replyTo?: { frameId?: number; documentId?: string; documentToken?: string };
+};
 
 type RequestData = {
   tab?: number;
@@ -117,6 +121,13 @@ export class RequestsHandler {
     this.data.frameId = sender.frameId;
     this.data.documentId = (sender as { documentId?: string }).documentId;
     this.data.documentToken = msg.documentToken;
+    // Travels with the request, through the dialog and back, so the answer goes to whoever asked
+    // this, not whoever asked last.
+    (msg.request as ReplyTo).replyTo = {
+      frameId: this.data.frameId,
+      documentId: this.data.documentId,
+      documentToken: this.data.documentToken,
+    };
     this.data.request = msg.request;
     this.data.request_id = msg.request_id;
     init(msg.request, this.data.tab, msg.domain, this);
@@ -125,12 +136,38 @@ export class RequestsHandler {
   /** Only the document that asked hears the answer. Other frames in the tab can belong to anyone. */
   answer(tab: number, message: object) {
     const { frameId, documentId, documentToken } = this.data;
+    RequestsHandler.answerTo(tab, { frameId, documentId, documentToken }, message);
+  }
+
+  static answerTo(tab: number, replyTo: ReplyTo['replyTo'], message: any) {
+    const { documentId, frameId, documentToken } = replyTo ?? {};
+    // A page has no use for how its answers find it.
+    if (message?.msg?.data?.replyTo) {
+      const { replyTo: _, ...data } = message.msg.data;
+      message = { ...message, msg: { ...message.msg, data } };
+    }
     chrome.tabs.sendMessage(
       tab,
       { documentToken, message },
       documentId ? { documentId } : { frameId: frameId ?? 0 },
       () => void chrome.runtime.lastError,
     );
+  }
+
+  /** The approved request says whose keys sign and who hears the answer, not whichever was saved last. */
+  useApproved(data: KeychainRequest) {
+    const { replyTo } = data as ReplyTo;
+    this.data.frameId = replyTo?.frameId;
+    this.data.documentId = replyTo?.documentId;
+    this.data.documentToken = replyTo?.documentToken;
+    this.data.request = data;
+    this.data.request_id = data.request_id;
+    const account = this.data.accounts?.find((e) => e.name === data.username);
+    const role = account ? getRequiredWifType(data) : undefined;
+    this.data.key = role ? account!.keys[role] : undefined;
+    this.data.publicKey = role
+      ? (account!.keys[`${role}Pubkey` as keyof Keys] as Key)
+      : undefined;
   }
 
   getUserKeyPair(username: string, keyType: KeychainKeyTypesLC) {

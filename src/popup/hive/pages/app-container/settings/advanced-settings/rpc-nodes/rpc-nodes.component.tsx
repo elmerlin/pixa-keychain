@@ -44,7 +44,7 @@ const RpcNodes = ({
   // Hive RPC
   const [customRpcs, setCustomRpcs] = useState([] as Rpc[]);
   const [isAddRpcPanelDisplayed, setIsAddRpcPanelDisplayed] = useState(false);
-  const [switchAuto, setSwitchAuto] = useState(true);
+  const [switchAuto, setSwitchAuto] = useState(false);
   const [addRpcNodeUri, setAddRpcNodeUri] = useState('');
   const [addRpcNodeChainId, setAddRpcNodeChainId] = useState('');
   const [addRpcNodeTestnet, setAddRpcNodeTestnet] = useState(false);
@@ -84,18 +84,20 @@ const RpcNodes = ({
     initSwitchAuto();
   }, []);
 
-  useEffect(() => {
+  // Saved when it's changed. Saving on opening the screen used to turn it on.
+  const changeSwitchAuto = (value: boolean) => {
+    setSwitchAuto(value);
     LocalStorageUtils.saveValueInLocalStorage(
       LocalStorageKeyEnum.SWITCH_RPC_AUTO,
-      switchAuto,
+      value,
     );
-  }, [switchAuto]);
+  };
 
   const initSwitchAuto = async () => {
     setSwitchAuto(
-      await LocalStorageUtils.getValueFromLocalStorage(
+      !!(await LocalStorageUtils.getValueFromLocalStorage(
         LocalStorageKeyEnum.SWITCH_RPC_AUTO,
-      ),
+      )),
     );
   };
 
@@ -140,7 +142,7 @@ const RpcNodes = ({
     RpcUtils.addCustomRpc(newCustomRpc);
     setCustomRpcs([...customRpcs, newCustomRpc]);
     if (setNewRpcAsActive) {
-      setSwitchAuto(false);
+      changeSwitchAuto(false);
       setActiveRpc(newCustomRpc);
     }
   };
@@ -162,7 +164,7 @@ const RpcNodes = ({
             title="popup_html_rpc_automatic_mode"
             hint="popup_html_rpc_automatic_mode_hint"
             checked={switchAuto}
-            onChange={setSwitchAuto}
+            onChange={changeSwitchAuto}
           />
           {activeRpc && !switchAuto && hiveRpcOptions && (
             <div className="select-rpc-panel">

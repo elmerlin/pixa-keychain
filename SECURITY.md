@@ -28,7 +28,8 @@ Worth reporting first:
   closes.
 - **Sites:** a page talks to the wallet through `window.pixa_keychain`, and each request opens a window of the extension's
   own. Sign and broadcast requests are described from the operations themselves, and anything that can't be read exactly
-  is reported as not understood and shows the raw transaction. An answer goes only to the document that asked.
+  is reported as not understood and shows the raw transaction. A message a site wants decrypted is shown first. An answer
+  goes only to the document that asked.
 - **"Don't ask again":** one kind of request, from one site, for one account, with the posting key. A transaction's approval
   covers only the kinds of operation it held. Nothing with the active or memo key can be approved in advance, nor anything
   that can't be read, nor a post's reward settings.
@@ -39,7 +40,8 @@ Worth reporting first:
 - **Authority changes:** the whole result is built before the review, shown with weights and the threshold, and signed
   exactly as shown. Only the role asked about is in the operation, and a change that would leave nobody able to use it is
   refused.
-- **Network:** only the Pixa node the person chose. There are no analytics and no servers of ours.
+- **Network:** only the Pixa node the person chose. If it stops answering, the wallet asks before trying another, unless the
+  person has turned on automatic switching. There are no analytics and no servers of ours.
 
 ## What it can't protect against
 

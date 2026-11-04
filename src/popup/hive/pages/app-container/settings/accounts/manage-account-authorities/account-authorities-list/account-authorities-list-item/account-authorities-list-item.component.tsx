@@ -22,6 +22,7 @@ import { ConfirmationPageParams } from 'src/common-ui/confirmation-page/confirma
 import { SVGIcons } from 'src/common-ui/icons.enum';
 import { SVGIcon } from 'src/common-ui/svg-icon/svg-icon.component';
 import { setAccounts } from 'src/popup/hive/actions/account.actions';
+import { authorityText } from 'src/dialog/utils/operation-summary.utils';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import ActiveAccountUtils from 'src/popup/hive/utils/active-account.utils';
 import Config from 'src/config';
@@ -49,6 +50,21 @@ const AccountAuthoritiesListItem = ({
   const handleClickOnRemoveAccountAuth = async (
     authorizedAccountName: string,
   ) => {
+    // Built here, shown below and signed as it is: what a node says the role looks like has to be seen.
+    const after = {
+      ...activeAccount.account[role],
+      account_auths: activeAccount.account[role].account_auths.filter(
+        (auth) => auth[0] !== authorizedAccountName,
+      ),
+    };
+    let afterText: string;
+    try {
+      afterText = authorityText(after);
+      if (![...after.account_auths, ...after.key_auths].length) throw new Error();
+    } catch {
+      setErrorMessage('bgd_ops_authority_lockout', [role]);
+      return;
+    }
     navigateToWithParams(Screen.CONFIRMATION_PAGE, {
       method: null,
       message: chrome.i18n.getMessage(
@@ -66,32 +82,35 @@ const AccountAuthoritiesListItem = ({
           label: 'popup_html_role',
           value: chrome.i18n.getMessage(`popup_html_authority_${role}`),
         },
+        {
+          label: 'dialog_after_change',
+          value: afterText,
+        },
+        {
+          label: 'dialog_op_memo_key',
+          value: activeAccount.account.memo_key,
+        },
       ],
       title: 'popup_html_remove_account_authority',
       afterConfirmAction: async (options?: TransactionOptions) => {
         addToLoadingList('html_popup_remove_authorized_account_operation');
         try {
-          const updatedActiveAccountAuth =
+          // Only the role being changed: the other stays as it is on chain.
+          const success = await AccountUtils.updateAccount(
+            activeAccount.name!,
+            role === 'active' ? after : undefined,
+            role === 'posting' ? after : undefined,
+            activeAccount.account.memo_key,
+            activeAccount.account.json_metadata,
+            activeAccount.keys.active!,
+            options,
+          );
+          if (success) {
             ActiveAccountUtils.removeAuthorizedAccount(
               activeAccount,
               role,
               authorizedAccountName,
             );
-          let success = await AccountUtils.updateAccount(
-            updatedActiveAccountAuth.name!,
-            // Only the role being changed: the other stays as it is on chain.
-            role === 'active'
-              ? updatedActiveAccountAuth.account.active
-              : undefined,
-            role === 'posting'
-              ? updatedActiveAccountAuth.account.posting
-              : undefined,
-            updatedActiveAccountAuth.account.memo_key,
-            updatedActiveAccountAuth.account.json_metadata,
-            updatedActiveAccountAuth.keys.active!,
-            options,
-          );
-          if (success) {
             goBack();
             setSuccessMessage('popup_html_remove_account_authority_successful');
           } else {

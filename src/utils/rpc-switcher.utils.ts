@@ -15,17 +15,21 @@ export const useWorkingRPC = async (activeRpc?: Rpc) => {
     LocalStorageKeyEnum.SWITCH_RPC_AUTO,
   );
   const currentRpc = activeRpc || (await store.getState().hive.activeRpc);
-  for (const rpc of RpcUtils.getFullList().filter(
+  const others = RpcUtils.getFullList().filter(
     (rpc) => rpc.uri !== currentRpc?.uri && !rpc.testnet,
-  )) {
+  );
+  // Asks first, and tries nothing until then: even checking another node tells it someone's there.
+  if (!switchAuto) {
+    if (others.length) {
+      store.dispatch(setSwitchToRpc(others[0]));
+      store.dispatch(setDisplayChangeRpcPopup(true));
+    }
+    return;
+  }
+  for (const rpc of others) {
     await AsyncUtils.sleep(1000);
     if (await RpcUtils.checkRpcStatus(rpc.uri)) {
-      if (switchAuto) {
-        store.dispatch(setActiveRpc(rpc));
-      } else {
-        store.dispatch(setSwitchToRpc(rpc));
-        store.dispatch(setDisplayChangeRpcPopup(true));
-      }
+      store.dispatch(setActiveRpc(rpc));
       return;
     }
   }

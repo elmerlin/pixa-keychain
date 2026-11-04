@@ -128,4 +128,24 @@ describe('useWorkingRPC', () => {
 
     expect(store.dispatch).not.toHaveBeenCalled();
   });
+
+  it('asks first, and contacts nothing, when automatic switching is off', async () => {
+    (LocalStorageUtils.getValueFromLocalStorage as jest.Mock).mockResolvedValue(false);
+    (store.getState as jest.Mock).mockReturnValue({ hive: { activeRpc: { uri: 'https://mine.test' } } });
+    (RpcUtils.getFullList as jest.Mock).mockReturnValue([
+      { uri: 'https://api.test', testnet: false },
+    ]);
+    (RpcUtils.checkRpcStatus as jest.Mock).mockClear();
+    (store.dispatch as jest.Mock).mockClear();
+    await useWorkingRPC();
+    expect(RpcUtils.checkRpcStatus).not.toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: 'SET_SWITCH_TO_RPC',
+      payload: { uri: 'https://api.test', testnet: false },
+    });
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: 'SET_DISPLAY_SWITCH_RPC',
+      payload: true,
+    });
+  });
 });

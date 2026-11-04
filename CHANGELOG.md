@@ -19,6 +19,14 @@ The first public release. Everything here came from a review before opening the 
 - A number too big for its type, a date that doesn't exist or a key left empty could be signed as something other than
   what the review showed. Those are now refused, or treated as left out.
 - A site could choose which of your saved nodes answered a request. It can't any more.
+- The wallet could contact the default node when yours stopped answering, even with automatic switching off. It now asks
+  first, and automatic switching is off unless you turn it on.
+- A site asking to verify a key could have the wallet decrypt a private memo copied from the chain, without showing it. The
+  message is now shown before you agree to share it.
+- A public key longer than a key could spill into the fields after it, so a signature could cover something else. Keys are
+  now checked fully. Reviews of new accounts also show who gets active and posting control, not just the owner.
+- If two sites asked at once, approving one could answer the other. The approved request now decides whose keys sign and who
+  hears back.
 - A master password could bring in a key that's also the account's owner key. That's refused, as it is for a key.
 - Savings memos marked as encrypted went out as plain text. They're now encrypted.
 - A site's keys could be saved under an empty password if the wallet was locked when it asked to add them. They now wait
@@ -28,7 +36,8 @@ The first public release. Everything here came from a review before opening the 
 ### Fixed
 
 - Closing the window after approving a transfer, or a page asking for something else while it's being sent, no longer
-  reports it as cancelled while it goes through. Trying again could have sent it twice.
+  reports it as cancelled while it goes through. Trying again could have sent it twice. A new request now gets `busy` until
+  the last one has finished.
 - Pressing Confirm twice can no longer send a transfer twice.
 - Putting back withdrawal routes takes old ones away first, and says so if it fails instead of reporting success.
 - Closing the unlock window now tells the site.

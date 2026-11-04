@@ -6,7 +6,6 @@ import schemas, {
 } from 'src/content-scripts/web-interface/input-validation';
 import {
   cancelPreviousRequest,
-  sendBusyResponse,
   sendIncompleteDataResponse,
   sendRequestToBackground,
   sendResponse,
@@ -18,11 +17,8 @@ if (window.chrome) {
   window.chrome.storage = undefined;
 }
 
-let req: KeychainRequest | null = null;
-// When the wallet started sending it. From then on it can't be called off.
-let startedAt = 0;
-// A service worker can die without answering, so this doesn't hold a page up forever.
-const BUSY_MS = 2 * 60 * 1000;
+// Everything still waiting for an answer. The wallet says which of them it's on.
+const pending = new Map<number, KeychainRequest>();
 
 // Tells this document's answers from anyone else's. A request ID can't: every page picks its own.
 const documentToken = Array.from(crypto.getRandomValues(new Uint8Array(16)))
@@ -62,37 +58,31 @@ document.addEventListener('swRequest_pixa', (request: object) => {
   const { error, value } = validateRequest(incoming);
   if (error) {
     sendIncompleteDataResponse(value!, error);
-  } else if (req && startedAt && Date.now() - startedAt < BUSY_MS) {
-    // Telling a site the one before was ignored, while it goes through, could get it sent twice.
-    sendBusyResponse(value);
-  } else {
-    const prevReq = req;
-    req = incoming;
-    startedAt = 0;
-    sendRequestToBackground(value, documentToken, chrome);
-    if (prevReq) {
-      cancelPreviousRequest(prevReq);
-    }
+    return;
   }
+  pending.set(incoming.request_id, incoming);
+  sendRequestToBackground(value, documentToken, chrome);
 });
 
 // Get notification from the background upon request completion and pass it back to the dApp.
 chrome.runtime.onMessage.addListener(function (obj, sender, sendResp) {
   // Only what's meant for this document. A page that's taken over the frame has its own token.
-  if (obj.documentToken !== documentToken || !req) return;
+  if (obj.documentToken !== documentToken) return;
   const { message } = obj;
-  if (
-    message?.command === DialogCommand.REQUEST_STARTED &&
-    message.request_id === req.request_id
-  ) {
-    startedAt = Date.now();
+  if (message?.command === DialogCommand.REQUEST_ACCEPTED) {
+    // The wallet's moved on to this one, so anything before it was never sent.
+    pending.forEach((earlier, id) => {
+      if (id !== message.request_id) {
+        cancelPreviousRequest(earlier);
+        pending.delete(id);
+      }
+    });
   } else if (
     message?.command === DialogCommand.ANSWER_REQUEST &&
-    message.msg?.request_id === req.request_id
+    pending.has(message.msg?.request_id)
   ) {
     sendResponse(message.msg);
-    req = null;
-    startedAt = 0;
+    pending.delete(message.msg.request_id);
   }
 });
 

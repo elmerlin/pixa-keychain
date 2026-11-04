@@ -48,9 +48,10 @@ const checkAndUpdateLocalStorage = async () => {
         activeRpc.uri === 'DEFAULT' ||
         activeRpc === 'DEFAULT'
       ) {
+        // Off until someone turns it on: a node you chose is the only one that hears from you.
         LocalStorageUtils.saveValueInLocalStorage(
           LocalStorageKeyEnum.SWITCH_RPC_AUTO,
-          true,
+          false,
         );
         LocalStorageUtils.saveValueInLocalStorage(
           LocalStorageKeyEnum.CURRENT_RPC,

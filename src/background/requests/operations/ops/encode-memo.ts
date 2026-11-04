@@ -2,7 +2,7 @@ import { createMessage } from '@background/requests/operations/operations.utils'
 import { RequestsHandler } from '@background/requests/request-handler';
 import { encode } from '@hiveio/hive-js/lib/auth/memo';
 import {
-  KeychainKeyTypes,
+  KeychainKeyTypesLC,
   RequestEncode,
   RequestId,
 } from '@interfaces/keychain.interface';
@@ -18,7 +18,7 @@ export const encodeMessage = async (
     const receiver = await AccountUtils.getExtendedAccount(data.receiver);
     let publicKey;
 
-    if (data.method === KeychainKeyTypes.memo) {
+    if (data.method.toLowerCase() === KeychainKeyTypesLC.memo) {
       publicKey = receiver.memo_key;
     } else {
       publicKey = receiver.posting.key_auths[0][0];

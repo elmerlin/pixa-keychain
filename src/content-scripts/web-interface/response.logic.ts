@@ -30,16 +30,6 @@ export const sendRequestToBackground = (
   });
 };
 
-export const sendBusyResponse = (value: KeychainRequest) => {
-  sendResponse({
-    success: false,
-    error: 'busy',
-    result: null,
-    message: 'The last request is still being sent. Wait for its answer.',
-    data: value,
-    request_id: value.request_id,
-  });
-};
 
 export const sendIncompleteDataResponse = (
   value: KeychainRequest,

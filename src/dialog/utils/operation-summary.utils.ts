@@ -28,7 +28,7 @@ const ACCOUNT = /^[a-z][a-z0-9.-]{2,15}$/;
 const LIQUID = /^\d+\.\d{3} (PIXA|PXS)$/;
 const VESTS = /^\d+\.\d{6} VESTS$/;
 const PUBLIC_KEY = /^PIX[1-9A-HJ-NP-Za-km-z]{40,60}$/;
-const NULL_SIGNING_KEY = /^PIX1{20,}/;
+const NULL_SIGNING_KEY = /^PIX1111111111111111111111111111111114T1Anm$/;
 const OPERATION_NAME = /^[a-z0-9_]{1,64}$/;
 const PICTURE = /data:image\/[a-z+.-]+;base64,[A-Za-z0-9+/=]+/g;
 const INVISIBLE = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]+/gu;
@@ -213,7 +213,7 @@ const customJson = (v: Fields): Described => {
 
 // Who holds it isn't enough: weights decide who can act alone. So they're shown with what's needed,
 // and a change that leaves it out of reach isn't read as something ordinary.
-const authorityText = (value: unknown) => {
+export const authorityText = (value: unknown) => {
   const v = fields(value);
   const threshold = whole(v.weight_threshold, 1, 0xffffffff);
   const holder = (name: string, auth: unknown) => {
@@ -274,6 +274,9 @@ const createAccount = (v: Fields, fee?: string): Described => ({
   rows: [
     ...(fee ? [row('dialog_op_fee', fee)] : []),
     row('dialog_op_owner', authorityText(v.owner)),
+    row('dialog_op_active', authorityText(v.active)),
+    row('dialog_op_posting', authorityText(v.posting)),
+    row('dialog_op_memo_key', matching(PUBLIC_KEY, v.memo_key)),
   ],
 });
 
