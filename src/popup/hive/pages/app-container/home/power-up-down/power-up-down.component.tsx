@@ -353,8 +353,9 @@ const PowerUpDown = ({
 
       {powerType === PowerType.POWER_DOWN &&
         powerDownInfo &&
-        powerDownInfo[1] !== '0' &&
-        powerDownInfo[0] !== powerDownInfo[1] && (
+        // From the chain's own numbers: rounded ones hide a small power down, and its cancel button.
+        Number(activeAccount.account.to_withdraw) >
+          Number(activeAccount.account.withdrawn) && (
           <CustomTooltip
             dataTestId="custom-tool-tip-next-power-down"
             message={chrome.i18n.getMessage('popup_next_powerdown', [

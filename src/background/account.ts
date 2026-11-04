@@ -27,6 +27,21 @@ const sendBackImportedAccounts = async (fileContent: string) => {
       return;
     }
 
+    let checked;
+    try {
+      checked = await BgdAccountsUtils.withoutOwnerKeys(importedAccounts);
+    } catch (e) {
+      // Nothing's kept that hasn't been checked.
+      chrome.runtime.sendMessage({
+        command: BackgroundCommand.SEND_BACK_IMPORTED_ACCOUNTS,
+        value: {
+          success: false,
+          message: 'import_html_check_failed',
+        } as ImportCallbackPayload,
+      });
+      return;
+    }
+
     const accounts =
       (await EncryptUtils.decryptToJson(
         await LocalStorageUtils.getValueFromLocalStorage(
@@ -37,7 +52,7 @@ const sendBackImportedAccounts = async (fileContent: string) => {
 
     const newAccounts =
       await BgdAccountsUtils.mergeImportedAccountsToExistingAccounts(
-        importedAccounts,
+        checked.accounts,
         accounts.list || [],
       );
     const newAccountsEncrypted = await EncryptUtils.encryptJson(
@@ -51,7 +66,9 @@ const sendBackImportedAccounts = async (fileContent: string) => {
 
     const response: ImportCallbackPayload = {
       success: true,
-      message: 'import_html_success',
+      message: checked.removed
+        ? 'import_html_success_without_owner_keys'
+        : 'import_html_success',
       accounts: newAccounts,
     };
     chrome.runtime.sendMessage({

@@ -40,6 +40,7 @@ import {
 } from '@interfaces/keychain.interface';
 import { TransactionOptions } from '@interfaces/keys.interface';
 import Logger from 'src/utils/logger.utils';
+import { createMessage } from '@background/requests/operations/operations.utils';
 import { RequestTracker } from '@background/requests/request-tracker';
 import { addToWhitelist, approvalFor } from 'src/utils/preferences.utils';
 
@@ -164,6 +165,17 @@ export const performOperation = async (
     requestHandler.answer(tab, message!);
   } catch (e) {
     Logger.error(e);
+    // The site's waiting on this too, not only the window.
+    requestHandler.answer(
+      tab,
+      await createMessage(
+        e,
+        null,
+        data,
+        '',
+        await chrome.i18n.getMessage('unknown_error'),
+      ),
+    );
     sendErrors(
       requestHandler,
       tab,
@@ -180,7 +192,9 @@ export const performOperation = async (
       if (!!requestHandler.data.windowId) {
         removeWindow(requestHandler.data.windowId!);
       }
-    } else chrome.runtime.sendMessage(message, () => void chrome.runtime.lastError);
+    } else if (message) {
+      chrome.runtime.sendMessage(message, () => void chrome.runtime.lastError);
+    }
     requestHandler.reset(false);
   }
 };

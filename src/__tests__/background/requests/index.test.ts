@@ -62,10 +62,29 @@ describe('index tests:\n', () => {
     expect(requestHandler.data.accounts).toEqual(accounts.twoAccounts);
   });
 
-  it('Must not reset resetWinId and reset data', () => {
+  it('Must leave a newer request\'s record alone when an older one finishes', async () => {
+    const save = jest
+      .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+      .mockResolvedValue(undefined as never);
+    jest.spyOn(LocalStorageUtils, 'getValueFromLocalStorage').mockResolvedValue({
+      data: { documentToken: 'newer', request_id: 9, request: { type: 'vote' } },
+    } as never);
+    const requestHandler = new RequestsHandler();
+    requestHandler.data.documentToken = 'older';
+    requestHandler.data.request_id = 1;
+    requestHandler.reset(false);
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(save).not.toHaveBeenCalled();
+    jest.restoreAllMocks();
+  });
+
+  it('Must not reset resetWinId and reset data', async () => {
     const sSaveValueInLocalStorage = jest
       .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
       .mockReturnValue(undefined);
+    jest
+      .spyOn(LocalStorageUtils, 'getValueFromLocalStorage')
+      .mockResolvedValue(undefined as never);
     const requestHandler = new RequestsHandler();
     requestHandler.reset(false);
     expect(requestHandler.data).toEqual({
@@ -73,6 +92,7 @@ describe('index tests:\n', () => {
       windowId: undefined,
       isWaitingForConfirmation: false,
     });
+    await new Promise((resolve) => setTimeout(resolve));
     expect(sSaveValueInLocalStorage).toHaveBeenCalledWith(
       LocalStorageKeyEnum.__REQUEST_HANDLER,
       expect.objectContaining({

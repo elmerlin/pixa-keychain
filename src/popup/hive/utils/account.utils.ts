@@ -471,12 +471,12 @@ const getPowerDown = (
   const withdrawn = (
     ((Number(account.withdrawn) / totalVests) * totalSteem) /
     1000000
-  ).toFixed(0);
+  ).toFixed(3);
 
   const total_withdrawing = (
     ((Number(account.to_withdraw) / totalVests) * totalSteem) /
     1000000
-  ).toFixed(0);
+  ).toFixed(3);
   const next_vesting_withdrawal = account.next_vesting_withdrawal;
   return [withdrawn, total_withdrawing, next_vesting_withdrawal];
 };

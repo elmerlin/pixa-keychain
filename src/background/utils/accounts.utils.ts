@@ -1,5 +1,7 @@
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import { LocalAccount } from 'src/interfaces/local-account.interface';
+import AccountUtils from 'src/popup/hive/utils/account.utils';
+import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 
@@ -90,7 +92,39 @@ const getAccountsFromLocalStorage = async (
   return accounts?.list;
 };
 
+// Owner keys are never kept, and that goes for a backup too. Keys that also hold the owner role are
+// taken out, and an account left with nothing isn't added.
+const withoutOwnerKeys = async (imported: LocalAccount[]) => {
+  const onChain = await AccountUtils.getExtendedAccounts(
+    imported.map(({ name }) => name!),
+  );
+  let removed = false;
+  const accounts = imported.flatMap((account) => {
+    const owner = onChain.find(({ name }) => name === account.name)?.owner;
+    if (!owner) return [account];
+    const keys = { ...account.keys };
+    for (const role of ['posting', 'active', 'memo'] as const) {
+      const key = keys[role];
+      if (
+        key &&
+        !String(key).startsWith('@') &&
+        KeysUtils.getPubkeyWeight(
+          KeysUtils.getPublicKeyFromPrivateKeyString(String(key)),
+          owner,
+        )
+      ) {
+        delete keys[role];
+        delete keys[`${role}Pubkey`];
+        removed = true;
+      }
+    }
+    return Object.keys(keys).length ? [{ ...account, keys }] : [];
+  });
+  return { accounts, removed };
+};
+
 const BgdAccountsUtils = {
+  withoutOwnerKeys,
   getAccountsFromFileData,
   mergeImportedAccountsToExistingAccounts,
   getAccountsFromLocalStorage,

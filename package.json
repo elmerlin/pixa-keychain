@@ -1,6 +1,6 @@
 {
   "name": "pixtopia-keychain",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pixtopia Keychain: a wallet browser extension for the Pixa blockchain",
   "main": "index.js",
   "directories": {

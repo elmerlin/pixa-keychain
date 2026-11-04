@@ -31,7 +31,8 @@ The first public release. Everything here came from a review before opening the 
   arrives as power.
 - If two sites asked at once, approving one could answer the other. The approved request now decides whose keys sign and who
   hears back.
-- A master password could bring in a key that's also the account's owner key. That's refused, as it is for a key.
+- A master password or a backup file could bring in a key that's also the account's owner key. A master password is now
+  refused, as a key is, and a backup is added without it.
 - Savings memos marked as encrypted went out as plain text. They're now encrypted.
 - A site's keys could be saved under an empty password if the wallet was locked when it asked to add them. They now wait
   for the password.

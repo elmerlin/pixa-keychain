@@ -122,7 +122,7 @@ This function is called to verify that the user has a certain authority over an 
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `username` (optional) | String | Pixa account to perform the request. If null, user can choose the account from a dropdown |
+| `username` | String | Pixa account to perform the request |
 | `receiver` | String | Account that will decode the string |
 | `message` | String | Message to be encrypted. It has to start with # |
 | `key` | String | Type of key. Can be 'Posting','Active' or 'Memo' |
@@ -283,7 +283,7 @@ Generic broadcast request
 | --- | --- | --- |
 | `account` | String | Pixa account to perform the request |
 | `operations` | Array | Array of operations to be broadcasted |
-| `key` | String | Type of key. Can be 'Posting','Active' or 'Memo' |
+| `key` | String | Type of key. Can be 'Posting' or 'Active' |
 | `callback` | function | Function that handles Keychain's response to the request |
 | `rpc` (optional) | String | Ignored. The wallet always uses the person's own node |
 
@@ -311,7 +311,7 @@ Requests to sign a transaction with a given authority
 | --- | --- | --- |
 | `account` | String | Pixa account to perform the request |
 | `tx` | Object | Unsigned transaction |
-| `key` | String | Type of key. Can be 'Posting','Active' or 'Memo' |
+| `key` | String | Type of key. Can be 'Posting' or 'Active' |
 | `callback` | function | Function that handles Keychain's response to the request |
 | `rpc` (optional) | String | Ignored. The wallet always uses the person's own node |
 
@@ -426,7 +426,7 @@ Requests a custom JSON broadcast
 | --- | --- | --- |
 | `account` (optional) | String | Pixa account to perform the request. If null, user can choose the account from a dropdown |
 | `id` | String | Type of custom_json to be broadcasted |
-| `key` | String | Type of key. Can be 'Posting','Active' or 'Memo' |
+| `key` | String | Type of key. Can be 'Posting' or 'Active' |
 | `json` | String | Stringified custom json |
 | `display_msg` | String | Message to display to explain to the user what this broadcast is about |
 | `callback` | function | Function that handles Keychain's response to the request |
@@ -618,9 +618,9 @@ Request the creation of an account using claimed tokens
 | --- | --- | --- |
 | `username` | String | Pixa account to perform the request |
 | `new_account` | String | New account to be created |
-| `owner` | object | owner authority object |
-| `active` | object | active authority object |
-| `posting` | object | posting authority object |
+| `owner` | String | Owner authority, as JSON |
+| `active` | String | Active authority, as JSON |
+| `posting` | String | Posting authority, as JSON |
 | `memo` | String | public memo key |
 | `callback` | function | Function that handles Keychain's response to the request |
 | `rpc` (optional) | String | Ignored. The wallet always uses the person's own node |

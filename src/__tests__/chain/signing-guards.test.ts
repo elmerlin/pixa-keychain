@@ -2,7 +2,8 @@
  * @jest-environment node
  */
 // jsdom has its own Uint8Array, which the key libraries don't recognise.
-import { PublicKey, config } from 'hive-tx';
+import BgdAccountsUtils from '@background/utils/accounts.utils';
+import { PrivateKey, PublicKey, config } from 'hive-tx';
 import { KeychainRequestTypes } from '@interfaces/keychain.interface';
 import { readCommentOptions } from 'src/utils/comment-options.utils';
 import {
@@ -16,6 +17,7 @@ import schemas, {
   commonRequestParams,
 } from 'src/content-scripts/web-interface/input-validation';
 import { broadcastSavings } from '@background/requests/operations/ops/savings';
+import { performOperation } from '@background/requests/operations';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { RequestTracker } from '@background/requests/request-tracker';
 import { SavingsUtils } from 'src/popup/hive/utils/savings.utils';
@@ -663,6 +665,100 @@ describe('who an approval is for', () => {
   });
 });
 
+describe('a request that fails unexpectedly', () => {
+  it('still gets an answer', async () => {
+    (globalThis as any).chrome.i18n.getMessage = jest.fn((key: string) => key);
+    const answers: any[] = [];
+    jest
+      .spyOn(chrome.tabs, 'sendMessage')
+      .mockImplementation(((_: number, message: any) => {
+        answers.push(message);
+      }) as never);
+    jest
+      .spyOn(chrome.runtime, 'sendMessage')
+      .mockImplementation((() => undefined) as never);
+    const handler = new RequestsHandler();
+    handler.data.key = 'not-a-key';
+    // No expiration, so this fails before it gets anywhere near signing.
+    await performOperation(
+      handler,
+      {
+        type: KeychainRequestTypes.signTx,
+        username: 'alice',
+        method: 'Posting',
+        tx: null,
+        request_id: 7,
+      } as never,
+      2,
+      'site.test',
+      false,
+    );
+    const answer = answers.find((a) => a.message?.msg?.request_id === 7);
+    expect(answer.message.msg.success).toBe(false);
+    jest.restoreAllMocks();
+  });
+});
+
+describe('a backup', () => {
+  const key = (role: string) => PrivateKey.fromLogin('alice', 'not-a-real-password', role);
+  const pub = (role: string) => key(role).createPublic().toString();
+  const authority = (role: string) => ({
+    weight_threshold: 1,
+    account_auths: [],
+    key_auths: [[pub(role), 1]],
+  });
+  const backup = (name = 'alice') => ({
+    name,
+    keys: {
+      active: key('active').toString(),
+      activePubkey: pub('active'),
+      posting: key('posting').toString(),
+      postingPubkey: pub('posting'),
+    },
+  });
+  afterEach(() => jest.restoreAllMocks());
+
+  it('keeps everything when no key holds the owner role', async () => {
+    jest.spyOn(AccountUtils, 'getExtendedAccounts').mockResolvedValue([
+      { name: 'alice', owner: authority('owner') },
+    ] as never);
+    const { accounts, removed } = await BgdAccountsUtils.withoutOwnerKeys([backup()]);
+    expect(removed).toBe(false);
+    expect(accounts).toEqual([backup()]);
+  });
+
+  it('takes out a key that also holds the owner role', async () => {
+    jest.spyOn(AccountUtils, 'getExtendedAccounts').mockResolvedValue([
+      { name: 'alice', owner: authority('active') },
+    ] as never);
+    const { accounts, removed } = await BgdAccountsUtils.withoutOwnerKeys([backup()]);
+    expect(removed).toBe(true);
+    expect(accounts[0].keys.active).toBeUndefined();
+    expect(accounts[0].keys.activePubkey).toBeUndefined();
+    expect(accounts[0].keys.posting).toBe(key('posting').toString());
+  });
+
+  it('leaves out an account with nothing left', async () => {
+    jest.spyOn(AccountUtils, 'getExtendedAccounts').mockResolvedValue([
+      {
+        name: 'alice',
+        owner: {
+          weight_threshold: 1,
+          account_auths: [],
+          key_auths: [[pub('active'), 1], [pub('posting'), 1]],
+        },
+      },
+    ] as never);
+    const { accounts } = await BgdAccountsUtils.withoutOwnerKeys([backup()]);
+    expect(accounts).toEqual([]);
+  });
+
+  it('stops if the accounts can not be checked', async () => {
+    jest.spyOn(AccountUtils, 'getExtendedAccounts').mockRejectedValue(new Error('offline'));
+    await expect(BgdAccountsUtils.withoutOwnerKeys([backup()])).rejects.toThrow('offline');
+  });
+});
+
 describe('what a document has asked for', () => {
   it('moves on to the newest request, until one is being sent', () => {
     expect(RequestTracker.isLatest('doc', 1)).toBe(true);
@@ -890,6 +986,53 @@ describe('saved approvals', () => {
     ['the memo key', signTx([vote], 'Memo')],
   ])('never covers %s', (_, request) => {
     expect(approvalFor(request)).toBeNull();
+  });
+
+  it.each([
+    [
+      'a change to who controls the account',
+      [
+        'account_update2',
+        {
+          account: 'alice',
+          active: { weight_threshold: 1, account_auths: [], key_auths: [[KEY_A, 1]] },
+          json_metadata: '',
+          posting_json_metadata: '',
+          extensions: [],
+        },
+      ],
+    ],
+    [
+      'even a harmless profile update, which reads the same',
+      [
+        'account_update2',
+        {
+          account: 'alice',
+          json_metadata: '',
+          posting_json_metadata: '{}',
+          extensions: [],
+        },
+      ],
+    ],
+    [
+      'a transfer',
+      ['transfer', { from: 'alice', to: 'bob', amount: '1.000 PIXA', memo: '' }],
+    ],
+    [
+      'a custom_json that needs the active key',
+      [
+        'custom_json',
+        {
+          id: 'follow',
+          required_auths: ['alice'],
+          required_posting_auths: [],
+          json: JSON.stringify(['follow', { follower: 'alice', following: 'bob', what: ['blog'] }]),
+        },
+      ],
+    ],
+  ])('never covers %s, whichever key the site names', (_, operation) => {
+    expect(approvalFor(signTx([operation]))).toBeNull();
+    expect(approvalFor(broadcast([operation]))).toBeNull();
   });
 
   it('ignores an approval saved for every transaction', () => {

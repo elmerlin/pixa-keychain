@@ -5,6 +5,7 @@ import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
 import moment from 'moment';
 import Config from 'src/config';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
+import { HiveTxUtils } from 'src/popup/hive/utils/hive-tx.utils';
 import ProposalUtils from 'src/popup/hive/utils/proposal.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
@@ -58,33 +59,23 @@ const renewUsersGovernance = async (
             keys: { active: localAccount?.keys.active },
           } as ActiveAccount;
 
-          if (await ProposalUtils.hasVotedForProposal(activeAccount.name!, 0)) {
-            await ProposalUtils.unvoteProposal(
-              0,
-              activeAccount.name!,
-              activeAccount.keys.active!,
-              options,
-            );
-            await ProposalUtils.voteForProposal(
-              0,
-              activeAccount.name!,
-              activeAccount.keys.active!,
-              options,
-            );
-          } else {
-            await ProposalUtils.voteForProposal(
-              0,
-              activeAccount.name!,
-              activeAccount.keys.active!,
-              options,
-            );
-            await ProposalUtils.unvoteProposal(
-              0,
-              activeAccount.name!,
-              activeAccount.keys.active!,
-              options,
-            );
-          }
+          // Both in one transaction: either way, the vote ends up as it started.
+          const voted = await ProposalUtils.hasVotedForProposal(
+            activeAccount.name!,
+            0,
+          );
+          await HiveTxUtils.sendOperation(
+            [!voted, voted].map((approve) =>
+              ProposalUtils.getUpdateProposalVoteOperation(
+                [0],
+                approve,
+                activeAccount.name!,
+              ),
+            ),
+            activeAccount.keys.active!,
+            false,
+            options,
+          );
           resolve();
         } catch (err) {
           Logger.error('Error while renewing proposal', err);

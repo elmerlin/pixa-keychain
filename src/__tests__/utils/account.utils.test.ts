@@ -838,7 +838,7 @@ describe('account.utils tests:\n', () => {
         account_details,
         globalPropsUsed,
       );
-      expect(result_array).toEqual(['0', '0', '1.00']);
+      expect(result_array).toEqual(['0.000', '0.000', '1.00']);
     });
   });
 

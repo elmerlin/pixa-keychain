@@ -10,6 +10,11 @@ import { understandsAll } from 'src/dialog/utils/operation-summary.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import { getRequiredWifType } from 'src/utils/requests.utils';
 
+const POSTING_OPERATIONS = ['vote', 'comment', 'delete_comment', 'claim_reward_balance'];
+const needsOnlyPosting = ([name, details]: [string, any]) =>
+  POSTING_OPERATIONS.includes(name) ||
+  (name === 'custom_json' && !details.required_auths?.length);
+
 // What a saved approval covers. Approving one thing never approves another: a transaction's approval
 // is for the kinds of operation it held, and a custom_json's for that one kind. Nothing with the
 // active or memo key can be approved in advance, nor anything that can't be read, nor where a post's
@@ -29,11 +34,13 @@ export const approvalFor = (data: KeychainRequest): string | null => {
             ? data.tx?.operations
             : data.operations;
         if (!understandsAll(operations, data.username)) return null;
-        const kinds = (operations as unknown as [string, any][]).map(
-          ([name, details]) =>
-            name === 'custom_json' ? `${name}/${details.id}` : name,
+        const list = operations as unknown as [string, any][];
+        // The site only says it's using the posting key, and that key may well hold more on this
+        // account. So only operations the chain would accept with nothing else can go unreviewed.
+        if (!list.every(needsOnlyPosting)) return null;
+        const kinds = list.map(([name, details]) =>
+          name === 'custom_json' ? `${name}/${details.id}` : name,
         );
-        if (kinds.includes('comment_options')) return null;
         return `${data.type}:${[...new Set(kinds)].sort().join('+')}`;
       }
       default:

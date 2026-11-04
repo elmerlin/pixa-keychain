@@ -91,12 +91,25 @@ export class RequestsHandler {
       config.node = this.defaultRpcConfig.node;
       RequestsHandler.clearLocalStorage();
     } else {
+      const { documentToken, request_id } = this.data;
       this.data = {
         confirmed: this.data.confirmed,
         windowId: this.data.windowId,
         isWaitingForConfirmation: false,
       };
-      this.saveInLocalStorage();
+      // Another page may have asked something while this was being sent. Its record stays.
+      LocalStorageUtils.getValueFromLocalStorage(
+        LocalStorageKeyEnum.__REQUEST_HANDLER,
+      ).then((saved) => {
+        const latest = saved?.data;
+        if (
+          !latest?.request ||
+          (latest.documentToken === documentToken &&
+            latest.request_id === request_id)
+        ) {
+          this.saveInLocalStorage();
+        }
+      });
     }
   }
 

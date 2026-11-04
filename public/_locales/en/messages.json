@@ -1298,6 +1298,12 @@
   "dialog_op_interest": {
     "message": "PXS interest"
   },
+  "import_html_check_failed": {
+    "message": "Your node couldn't be reached to check these accounts, so nothing was added. Try again."
+  },
+  "import_html_success_without_owner_keys": {
+    "message": "Accounts added, without their owner keys. This wallet never keeps those."
+  },
   "bgd_ops_busy": {
     "message": "The last request is still being sent. Wait for its answer."
   },

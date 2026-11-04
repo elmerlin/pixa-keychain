@@ -34,7 +34,18 @@ const App = () => {
       if (data.command === DialogCommand.READY) {
         return BrowserUtils.sendResponse(true, sendResp);
       } else if (Object.values(DialogCommand).includes(data.command)) {
-        setData(data);
+        // A result only belongs in the window of the request it's for.
+        setData((shown: any) => {
+          const showing = shown?.data;
+          const finished = data.msg?.data;
+          return data.command === DialogCommand.ANSWER_REQUEST &&
+            showing?.replyTo &&
+            finished?.replyTo &&
+            (showing.replyTo.documentToken !== finished.replyTo.documentToken ||
+              showing.request_id !== data.msg.request_id)
+            ? shown
+            : data;
+        });
       }
     });
   }, []);

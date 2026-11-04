@@ -31,7 +31,7 @@ var pixa_keychain = {
    *   }
    * });
    *
-   * @param {String} [username=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
+   * @param {String} username Pixa account to perform the request
    * @param {String} receiver Account that will decode the string
    * @param {String} message Message to be encrypted. It has to start with #
    * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
@@ -282,7 +282,7 @@ var pixa_keychain = {
    *
    * @param {String} account Pixa account to perform the request
    * @param {Array} operations Array of operations to be broadcasted
-   * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
+   * @param {String} key Type of key. Can be 'Posting' or 'Active'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
@@ -327,7 +327,7 @@ var pixa_keychain = {
    *
    * @param {String} account Pixa account to perform the request
    * @param {Object} tx Unsigned transaction
-   * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
+   * @param {String} key Type of key. Can be 'Posting' or 'Active'
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
    */
@@ -463,7 +463,7 @@ var pixa_keychain = {
    * });
    * @param {String} [account=null] Pixa account to perform the request. If null, user can choose the account from a dropdown
    * @param {String} id Type of custom_json to be broadcasted
-   * @param {String} key Type of key. Can be 'Posting','Active' or 'Memo'
+   * @param {String} key Type of key. Can be 'Posting' or 'Active'
    * @param {String} json Stringified custom json
    * @param {String} display_msg Message to display to explain to the user what this broadcast is about
    * @param {requestCallback} callback Function that handles Keychain's response to the request
@@ -731,9 +731,9 @@ var pixa_keychain = {
    * Request the creation of an account using claimed tokens
    * @param {String} username Pixa account to perform the request
    * @param {String} new_account New account to be created
-   * @param {object} owner owner authority object
-   * @param {object} active active authority object
-   * @param {object} posting posting authority object
+   * @param {String} owner Owner authority, as JSON
+   * @param {String} active Active authority, as JSON
+   * @param {String} posting Posting authority, as JSON
    * @param {String} memo public memo key
    * @param {requestCallback} callback Function that handles Keychain's response to the request
    * @param {String} [rpc=null] Ignored. The wallet always uses the person's own node
