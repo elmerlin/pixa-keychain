@@ -16,6 +16,7 @@ import userData from 'src/__tests__/utils-for-testing/data/user-data';
 import reactTestingLibrary from 'src/__tests__/utils-for-testing/react-testing-library-render/react-testing-library-render-functions';
 import { Icons } from 'src/common-ui/icons.enum';
 import { HiveAppComponent } from 'src/popup/hive/hive-app.component';
+import VaultUtils from 'src/utils/vault.utils';
 
 /** Matches `AccountKeysListItemComponent` private key display (SUBSTRING_LENGTH = 15). */
 const truncatedPrivateKeyDisplay = (pk: string) =>
@@ -140,6 +141,12 @@ describe('account-keys-list.component tests:\n', () => {
           name: mk.user.two,
         } as ExtendedAccount,
       ]);
+      // What's saved may be newer than what this window was showing.
+      const savedAccounts = [{ name: mk.user.two, keys: {} }];
+      VaultUtils.getValueFromVault = jest.fn().mockResolvedValue('mk');
+      AccountUtils.getAccountsFromLocalStorage = jest
+        .fn()
+        .mockResolvedValue(savedAccounts);
       AccountUtils.deleteAccount = jest
         .fn()
         .mockReturnValue([accounts.local.two] as LocalAccount[]);

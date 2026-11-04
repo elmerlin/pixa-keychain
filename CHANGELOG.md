@@ -51,7 +51,8 @@ The first public release. Everything here came from a review before opening the 
 - `requestEncodeWithKeys` uses the key it asked for.
 - Your balance counts what's still locked in market orders, not the orders' original size.
 - Wallet windows left open now pick up what others save. An old window could have saved its list over newer keys. Logging out
-  in one window locks them all.
+  in one window locks them all. Deleting an account works from what's saved at that moment, and deleting the last one really
+  removes its keys.
 - `requestAddAccount` checks a memo key against the account.
 - Every request a site makes now gets an answer, even if something goes wrong unexpectedly.
 - Proposal IDs and authorities can be listed in any order. A small power down still shows, with its cancel button.

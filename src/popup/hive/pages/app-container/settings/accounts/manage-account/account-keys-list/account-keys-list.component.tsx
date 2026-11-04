@@ -25,6 +25,8 @@ import { LocalAccount } from 'src/interfaces/local-account.interface';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
 import { KeysUtils } from 'src/popup/hive/utils/keys.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
+import { VaultKey } from '@reference-data/vault-message-key.enum';
+import VaultUtils from 'src/utils/vault.utils';
 
 interface AccountKeysListProps {
   wrongKeysFound?: WrongKeysOnUser;
@@ -87,9 +89,12 @@ const AccountKeysList = ({
       warningParams: warningParams,
       afterConfirmAction: async () => {
         addToLoadingList('html_popup_delete_account_operation');
+        // What's saved now, not what this window knew when it asked. This page can sit open for a
+        // while, and keys added elsewhere in the meantime mustn't go with it.
+        const mk = await VaultUtils.getValueFromVault(VaultKey.__MK);
         let newAccounts = AccountUtils.deleteAccount(
           activeAccount.name!,
-          accounts,
+          await AccountUtils.getAccountsFromLocalStorage(mk),
         );
         let no_key_check = await LocalStorageUtils.getValueFromLocalStorage(
           LocalStorageKeyEnum.NO_KEY_CHECK,
@@ -103,32 +108,32 @@ const AccountKeysList = ({
           );
         }
         let finalAccounts = [];
-        if (hasAuthorizedAccountLinkedToActiveAccount) {
-          for (let i = 0; i < newAccounts.length; i++) {
-            let tmp = newAccounts[i];
-            if (tmp.keys.activePubkey === `@${activeAccount.name}`) {
-              delete tmp.keys.activePubkey;
-              delete tmp.keys.active;
-            }
-            if (tmp.keys.postingPubkey === `@${activeAccount.name}`) {
-              delete tmp.keys.posting;
-              delete tmp.keys.postingPubkey;
-            }
-            if (tmp.keys.memoPubkey === `@${activeAccount.name}`) {
-              delete tmp.keys.memo;
-              delete tmp.keys.memoPubkey;
-            }
-
-            newAccounts[i] = tmp;
-
-            if (Object.keys(newAccounts[i].keys).length > 0) {
-              finalAccounts.push(newAccounts[i]);
-            }
+        for (let i = 0; i < newAccounts.length; i++) {
+          let tmp = newAccounts[i];
+          if (tmp.keys.activePubkey === `@${activeAccount.name}`) {
+            delete tmp.keys.activePubkey;
+            delete tmp.keys.active;
           }
-        } else {
-          finalAccounts = newAccounts;
+          if (tmp.keys.postingPubkey === `@${activeAccount.name}`) {
+            delete tmp.keys.posting;
+            delete tmp.keys.postingPubkey;
+          }
+          if (tmp.keys.memoPubkey === `@${activeAccount.name}`) {
+            delete tmp.keys.memo;
+            delete tmp.keys.memoPubkey;
+          }
+
+          newAccounts[i] = tmp;
+
+          if (Object.keys(newAccounts[i].keys).length > 0) {
+            finalAccounts.push(newAccounts[i]);
+          }
         }
 
+        // An empty list isn't saved by itself, and these keys are meant to be gone.
+        if (!finalAccounts.length) {
+          await AccountUtils.saveAccounts([], mk);
+        }
         setAccounts(finalAccounts);
         if (finalAccounts.length) {
           loadActiveAccount(finalAccounts[0]);
