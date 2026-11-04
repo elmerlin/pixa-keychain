@@ -38,6 +38,9 @@ const ONLY = arg('only', '')?.split(',').filter(Boolean);
 const NODE = 'https://api.pixagram.com';
 const PORT = 8799;
 const PROXY = `http://127.0.0.1:${PORT}`;
+// The one outside address the wallet reads for everyone. It's blocked here like the rest, so screens
+// show the Big Mac price the wallet shipped with.
+const BIG_MAC = 'https://raw.githubusercontent.com/TheEconomist/big-mac-data/';
 const ACCOUNT = arg('account', 'pixtopia');
 const PASSWORD = `e2e-${Math.random().toString(36).slice(2)}-Aa1!`;
 const POPUP = { width: 435, height: 600 };
@@ -271,7 +274,11 @@ const watchNetwork = async (target) => {
     const session = await target.createCDPSession();
     await session.send('Network.enable');
     session.on('Network.requestWillBeSent', ({ request }) => {
-      if (/^https?:/.test(request.url) && !request.url.startsWith(PROXY)) {
+      if (
+        /^https?:/.test(request.url) &&
+        !request.url.startsWith(PROXY) &&
+        !request.url.startsWith(BIG_MAC)
+      ) {
         problems.push(`outside request: ${request.url.slice(0, 120)}`);
       }
     });

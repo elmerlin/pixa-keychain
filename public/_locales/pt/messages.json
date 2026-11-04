@@ -2926,7 +2926,7 @@
     "description": "Error message if granularity failed has been used already"
   },
   "popup_html_currency_intro": {
-    "message": "Os valores são aproximados: 1 PXS é considerado 1 dólar americano. Para qualquer outra moeda, a carteira obtém as taxas de câmbio de frankfurter.dev, que vê o seu endereço IP e mais nada."
+    "message": "Os valores são uma referência, não um preço de mercado: a Pixa fixa 1 PXS em um Big Mac dos EUA. A carteira obtém esse preço dos dados da The Economist no GitHub, e as taxas de outras moedas de frankfurter.dev. Eles veem o seu endereço IP e mais nada."
   },
   "popup_html_currency_unavailable": {
     "message": "Não foi possível obter as taxas de câmbio, por isso os valores estão em dólares americanos por agora."
@@ -2935,7 +2935,7 @@
     "message": "Preço de referência"
   },
   "popup_html_price_feed_info": {
-    "message": "O que as testemunhas da Pixa dizem que PIXA vale, considerando 1 PXS como 1 dólar americano. Neste momento, 1 PXS são $1 PIXA."
+    "message": "O que as testemunhas da Pixa dizem que PIXA vale. Elas fixam 1 PXS em um Big Mac dos EUA ($1), e neste momento 1 PXS são $2 PIXA."
   },
   "popup_html_vm_full_vote_value": {
     "message": "Um voto completo vale $1 PXS."

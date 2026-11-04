@@ -42,9 +42,11 @@ Worth reporting first:
   refused.
 - **Network:** only the Pixa node the person chose. If it stops answering, the wallet asks before trying another, unless the
   person has turned on automatic switching. There are no analytics and no servers of ours.
-- **Exchange rates:** the one exception. If the person picks a currency other than US dollars, the wallet asks
-  `api.frankfurter.dev` for the day's rates, at most twice a day, sending nothing about them or their accounts. A rate only
-  changes a number shown for information, and nothing that gets signed ever comes from one.
+- **Reference prices:** the one exception, for showing what things are worth. The wallet reads the US Big Mac price that
+  Pixa's feed sets 1 PXS to from The Economist's data on GitHub, at most once a week. If the person picks a currency other
+  than US dollars, it also asks `api.frankfurter.dev` for the day's rates, at most twice a day. Neither request says anything
+  about them or their accounts. These only change a number shown for information, and nothing that gets signed ever comes
+  from one.
 
 ## What it can't protect against
 

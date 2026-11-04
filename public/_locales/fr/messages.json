@@ -1989,7 +1989,7 @@
     "message": "Devise"
   },
   "popup_html_currency_intro": {
-    "message": "Les valeurs sont approximatives : 1 PXS est compté comme 1 dollar américain. Pour toute autre devise, le portefeuille récupère les taux de change sur frankfurter.dev, qui voit votre adresse IP et rien d'autre."
+    "message": "Ces valeurs sont une référence, pas un prix de marché : Pixa fixe 1 PXS à un Big Mac américain. Le portefeuille récupère ce prix dans les données de The Economist sur GitHub, et les taux des autres devises sur frankfurter.dev. Ils voient votre adresse IP et rien d'autre."
   },
   "popup_html_currency_unavailable": {
     "message": "Impossible d'obtenir les taux de change, les valeurs sont donc en dollars américains pour le moment."
@@ -1998,7 +1998,7 @@
     "message": "Prix de référence"
   },
   "popup_html_price_feed_info": {
-    "message": "Ce que les témoins de Pixa estiment que vaut PIXA, en comptant 1 PXS comme 1 dollar américain. En ce moment, 1 PXS vaut $1 PIXA."
+    "message": "Ce que les témoins de Pixa estiment que vaut PIXA. Ils fixent 1 PXS à un Big Mac américain ($1), et en ce moment 1 PXS vaut $2 PIXA."
   },
   "popup_html_vm_full_vote_value": {
     "message": "Un vote complet vaut $1 PXS."

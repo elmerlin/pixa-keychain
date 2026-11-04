@@ -3375,7 +3375,7 @@
     "message": "Rate"
   },
   "popup_html_currency_intro": {
-    "message": "Values are rough: 1 PXS is taken as 1 US dollar. For any other currency, the wallet gets exchange rates from frankfurter.dev, which sees your IP address and nothing else."
+    "message": "Values are a reference, not a market price: Pixa's feed sets 1 PXS to one US Big Mac. The wallet gets that price from The Economist's data on GitHub, and other currencies' rates from frankfurter.dev. They see your IP address and nothing else."
   },
   "popup_html_currency_unavailable": {
     "message": "Couldn't get exchange rates, so this shows US dollars for now."
@@ -3384,7 +3384,7 @@
     "message": "Price feed"
   },
   "popup_html_price_feed_info": {
-    "message": "What Pixa's witnesses say PIXA is worth, taking 1 PXS as 1 US dollar. Right now 1 PXS is $1 PIXA."
+    "message": "What Pixa's witnesses say PIXA is worth. Their feed sets 1 PXS to one US Big Mac ($1), and right now 1 PXS is $2 PIXA."
   },
   "popup_html_vm_full_vote_value": {
     "message": "A full vote is worth $1 PXS."

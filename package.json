@@ -1,6 +1,6 @@
 {
   "name": "pixa-keychain",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "PIXA Keychain: a wallet browser extension for the Pixa blockchain",
   "main": "index.js",
   "directories": {

@@ -2938,7 +2938,7 @@
     "description": "Error message if granularity failed has been used already"
   },
   "popup_html_currency_intro": {
-    "message": "Nilainya perkiraan: 1 PXS dianggap 1 dolar AS. Untuk mata uang lain, dompet mengambil kurs dari frankfurter.dev, yang melihat alamat IP Anda dan tidak ada yang lain."
+    "message": "Nilainya hanya acuan, bukan harga pasar: feed Pixa menetapkan 1 PXS sama dengan satu Big Mac AS. Dompet mengambil harga itu dari data The Economist di GitHub, dan kurs mata uang lain dari frankfurter.dev. Keduanya melihat alamat IP Anda dan tidak ada yang lain."
   },
   "popup_html_currency_unavailable": {
     "message": "Kurs tidak bisa diambil, jadi untuk sementara ditampilkan dalam dolar AS."
@@ -2947,7 +2947,7 @@
     "message": "Harga feed"
   },
   "popup_html_price_feed_info": {
-    "message": "Nilai PIXA menurut witness Pixa, dengan 1 PXS dianggap 1 dolar AS. Saat ini 1 PXS sama dengan $1 PIXA."
+    "message": "Nilai PIXA menurut witness Pixa. Feed mereka menetapkan 1 PXS sama dengan satu Big Mac AS ($1), dan saat ini 1 PXS sama dengan $2 PIXA."
   },
   "popup_html_vm_full_vote_value": {
     "message": "Satu suara penuh bernilai $1 PXS."

@@ -109,7 +109,7 @@ Holds the unlocked wallet in memory in a separate document, apart from the pages
 Host permission (`https://*/*`):
 
 ```text
-The user can choose any Pixa node by its address, so the wallet can't list node addresses in advance. It makes requests only to the node the user has chosen and, if the user picks a currency other than US dollars, to api.frankfurter.dev for exchange rates. No account data is sent there.
+The user can choose any Pixa node by its address, so the wallet can't list node addresses in advance. It makes requests only to the node the user has chosen, to raw.githubusercontent.com for The Economist's published Big Mac prices, which Pixa's price feed is based on, and, if the user picks a currency other than US dollars, to api.frankfurter.dev for exchange rates. No account data is sent to either.
 ```
 
 Content script on all `https://` sites, plus `localhost` and `127.0.0.1` for development:

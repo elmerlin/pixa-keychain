@@ -1977,7 +1977,7 @@
     "message": "貨幣"
   },
   "popup_html_currency_intro": {
-    "message": "數值僅為估算：1 PXS 以 1 美元計算。選擇其他貨幣時，錢包會從 frankfurter.dev 取得匯率，對方只會看到你的 IP 位址。"
+    "message": "這些數值僅供參考，並非市場價格：Pixa 的喂價將 1 PXS 定為一個美國大麥克。錢包從 GitHub 上《經濟學人》的資料取得該價格，從 frankfurter.dev 取得其他貨幣的匯率。對方只會看到你的 IP 位址。"
   },
   "popup_html_currency_unavailable": {
     "message": "無法取得匯率，暫時以美元顯示。"
@@ -1986,7 +1986,7 @@
     "message": "喂價"
   },
   "popup_html_price_feed_info": {
-    "message": "Pixa 見證人給出的 PIXA 價值，以 1 PXS 等於 1 美元計算。目前 1 PXS 等於 $1 PIXA。"
+    "message": "Pixa 見證人給出的 PIXA 價值。他們的喂價將 1 PXS 定為一個美國大麥克（$1），目前 1 PXS 等於 $2 PIXA。"
   },
   "popup_html_vm_full_vote_value": {
     "message": "一次滿額投票價值 $1 PXS。"

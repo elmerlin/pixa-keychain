@@ -2938,7 +2938,7 @@
     "description": "Error message if granularity failed has been used already"
   },
   "popup_html_currency_intro": {
-    "message": "Werte sind grob: 1 PXS gilt als 1 US-Dollar. Für jede andere Währung holt die Wallet Wechselkurse von frankfurter.dev, das deine IP-Adresse sieht und sonst nichts."
+    "message": "Werte sind ein Richtwert, kein Marktpreis: Der Feed von Pixa setzt 1 PXS einem US-Big-Mac gleich. Die Wallet holt diesen Preis aus den Daten von The Economist auf GitHub und die Kurse anderer Währungen von frankfurter.dev. Beide sehen deine IP-Adresse und sonst nichts."
   },
   "popup_html_currency_unavailable": {
     "message": "Wechselkurse konnten nicht geladen werden, daher vorerst US-Dollar."
@@ -2947,7 +2947,7 @@
     "message": "Preis-Feed"
   },
   "popup_html_price_feed_info": {
-    "message": "Was die Witnesses von Pixa für den Wert von PIXA halten, wobei 1 PXS als 1 US-Dollar gilt. Aktuell ist 1 PXS $1 PIXA."
+    "message": "Was die Witnesses von Pixa für den Wert von PIXA halten. Ihr Feed setzt 1 PXS einem US-Big-Mac gleich ($1), und aktuell ist 1 PXS $2 PIXA."
   },
   "popup_html_vm_full_vote_value": {
     "message": "Eine volle Stimme ist $1 PXS wert."

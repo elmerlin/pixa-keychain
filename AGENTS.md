@@ -56,11 +56,13 @@ transaction. It is the test oracle for anything that serializes.
   upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, PIXA Keychain.
 - Copy says Pixa for the chain and its accounts, and PIXA and PXS for its tokens. Pixagram is only
   the app Pixa's founders launched first. Code and `api.pixagram.com` keep their names.
-- **Fiat is for looking at** (`src/popup/hive/utils/fiat.utils.ts`). 1 PXS is taken as 1 US dollar, as the chain's feed does.
-  Rates come from `api.frankfurter.dev`, only once someone picks another currency, saved for 12 hours and checked when they
-  arrive. It's the one request that doesn't go to the person's node: send it nothing about them, never let a rate near an
-  amount that gets signed, and keep `SECURITY.md`, the README, the store guide and Pixtopia's `app/keychain/privacy.tsx`
-  true to it.
+- **Fiat is for looking at** (`src/popup/hive/utils/fiat.utils.ts`). Pixa's feed sets 1 PXS to one US Big Mac and quotes PIXA
+  against it, so a value is its PXS times the latest US Big Mac, times an exchange rate. PXS is never a dollar. The price is The
+  Economist's, read at most once a week, with `BUILT_IN_BIG_MAC` until then: bring that up to date in a release after each
+  January and July edition. Rates come from `api.frankfurter.dev`, only once someone picks another currency, saved for 12 hours
+  and checked when they arrive. These are the only requests that don't go to the person's node: send them nothing about the
+  person, never let one near an amount that gets signed, and keep `SECURITY.md`, the README, the store guide, and Pixtopia's
+  `app/keychain/privacy.tsx` and `public/keychain/index.html` true to them.
 - `src/popup/hive/utils/hive-tx.utils.ts` and `vendor/hive-tx` are the signing path. Keep changes to
   them small and covered by `npm test`.
 

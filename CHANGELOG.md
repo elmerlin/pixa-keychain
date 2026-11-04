@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.4
+
+- **Values were about six times too low.** The wallet counted 1 PXS as 1 US dollar. Pixa's price feed sets 1 PXS to one US
+  Big Mac, by The Economist's index, which is $6.22 right now, so your value and PIXA's price now start from that. These
+  numbers are only ever shown: nothing that gets signed comes from them, and your balances haven't changed.
+- **One more request, for everyone.** To keep that price current, the wallet reads it from The Economist's data on GitHub, at
+  most once a week. GitHub sees your IP address and nothing else. Until it has read one, or if it can't, the wallet uses the
+  price it shipped with.
+
 ## 0.1.3
 
 - **Lent and received, apart.** The home screen's Pixa Power column now shows what you've lent and what you've received on

@@ -13,6 +13,7 @@ const PixaFeedPrice = ({ pricePerPixa }: PropsFromRedux) => {
     <CustomTooltip
       dataTestId="custom-tool-tip-feed-price"
       message={chrome.i18n.getMessage('popup_html_price_feed_info', [
+        FiatUtils.formatPrice(fiat.pxsUsd, { code: 'USD', rate: 1 }),
         (1 / pricePerPixa).toFixed(3),
       ])}
       position="top"

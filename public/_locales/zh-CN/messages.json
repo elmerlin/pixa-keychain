@@ -1977,7 +1977,7 @@
     "message": "货币"
   },
   "popup_html_currency_intro": {
-    "message": "数值仅为估算：1 PXS 按 1 美元计算。选择其他货币时，钱包会从 frankfurter.dev 获取汇率，对方只能看到你的 IP 地址。"
+    "message": "这些数值只是参考，并非市场价格：Pixa 的喂价将 1 PXS 定为一个美国巨无霸。钱包从 GitHub 上《经济学人》的数据获取该价格，从 frankfurter.dev 获取其他货币的汇率。对方只能看到你的 IP 地址。"
   },
   "popup_html_currency_unavailable": {
     "message": "无法获取汇率，暂时以美元显示。"
@@ -1986,7 +1986,7 @@
     "message": "喂价"
   },
   "popup_html_price_feed_info": {
-    "message": "Pixa 见证人给出的 PIXA 价值，按 1 PXS 等于 1 美元计算。目前 1 PXS 等于 $1 PIXA。"
+    "message": "Pixa 见证人给出的 PIXA 价值。他们的喂价将 1 PXS 定为一个美国巨无霸（$1），目前 1 PXS 等于 $2 PIXA。"
   },
   "popup_html_vm_full_vote_value": {
     "message": "一次满额投票价值 $1 PXS。"

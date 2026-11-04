@@ -108,8 +108,11 @@ Keychain, you mostly need to rename its one global and use Pixa's tokens.
 - A site gets only what you approve: a signature, an account name, a result. Never a key. "Don't ask again" covers one
   kind of request on one site, only ever with the posting key.
 - It talks only to the Pixa node you chose (`api.pixagram.com` unless you change it). If that node stops answering, it asks
-  before switching, unless you've turned on automatic switching. If you pick a currency other than US dollars, it also gets
-  exchange rates from [frankfurter.dev](https://frankfurter.dev), which sees your IP address and nothing else.
+  before switching, unless you've turned on automatic switching.
+- To show what things are worth, it also reads the US Big Mac price that Pixa's feed sets 1 PXS to, from
+  [The Economist's data](https://github.com/TheEconomist/big-mac-data) on GitHub, at most once a week. If you pick a currency
+  other than US dollars, it gets exchange rates from [frankfurter.dev](https://frankfurter.dev) too. They see your IP address
+  and nothing else.
 
 [SECURITY.md](SECURITY.md) has more, including what it can't protect you from.
 
