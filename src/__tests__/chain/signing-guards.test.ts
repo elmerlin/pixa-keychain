@@ -1046,6 +1046,18 @@ describe('saved approvals', () => {
     expect(approvalFor(broadcast([operation]))).toBeNull();
   });
 
+  it('never covers acting as a different account', () => {
+    const asTeam = [
+      'vote',
+      { voter: 'team.account', author: 'bob', permlink: 'p', weight: 100 },
+    ];
+    expect(approvalFor(signTx([asTeam]))).toBeNull();
+    expect(approvalFor(broadcast([vote, asTeam]))).toBeNull();
+    expect(
+      isWhitelisted(saved('signTx:vote'), signTx([asTeam]), 'site.test', rpc),
+    ).toBe(false);
+  });
+
   it('ignores an approval saved for every transaction', () => {
     expect(isWhitelisted(saved('signTx'), signTx([vote]), 'site.test', rpc)).toBe(false);
     expect(isWhitelisted(saved('broadcast'), broadcast([unreadable]), 'site.test', rpc)).toBe(false);

@@ -6,7 +6,7 @@ import {
 import { NoConfirm } from '@interfaces/no-confirm.interface';
 import { Rpc } from '@interfaces/rpc.interface';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
-import { understandsAll } from 'src/dialog/utils/operation-summary.utils';
+import { describeOperations } from 'src/dialog/utils/operation-summary.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import { getRequiredWifType } from 'src/utils/requests.utils';
 
@@ -33,7 +33,16 @@ export const approvalFor = (data: KeychainRequest): string | null => {
           data.type === KeychainRequestTypes.signTx
             ? data.tx?.operations
             : data.operations;
-        if (!understandsAll(operations, data.username)) return null;
+        // Every operation has to be understood, and acting as this account: the key may hold
+        // authority over others, and approving one account isn't approving them.
+        const summaries = describeOperations(operations, data.username);
+        if (
+          !summaries.every(
+            ({ understood, actor }) => understood && actor === data.username,
+          )
+        ) {
+          return null;
+        }
         const list = operations as unknown as [string, any][];
         // The site only says it's using the posting key, and that key may well hold more on this
         // account. So only operations the chain would accept with nothing else can go unreviewed.

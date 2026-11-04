@@ -1,5 +1,6 @@
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { setAccounts } from '@popup/hive/actions/account.actions';
+import { loadActiveAccount } from '@popup/hive/actions/active-account.actions';
 import { MultichainActionType } from '@popup/multichain/actions/action-type.enum';
 import { setHasFinishedSignup } from '@popup/multichain/actions/has-finished-signup.actions';
 import reducers from '@popup/multichain/reducers';
@@ -41,6 +42,18 @@ if (store.getState().hive) {
     } else if (!AccountUtils.isAccountListIdentical(hive.accounts, latest.list)) {
       previousAccounts = latest.list;
       store.dispatch(setAccounts(latest.list));
+      // The keys this window has in hand have to follow, or it could still use deleted ones.
+      const active = hive.activeAccount;
+      const current =
+        latest.list.find(({ name }: LocalAccount) => name === active?.name) ??
+        latest.list[0];
+      if (
+        current &&
+        (current.name !== active?.name ||
+          JSON.stringify(current.keys) !== JSON.stringify(active?.keys))
+      ) {
+        store.dispatch(loadActiveAccount(current) as never);
+      }
     }
   });
 

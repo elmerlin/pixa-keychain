@@ -9,6 +9,7 @@ export type OperationSummary = {
   rows: SummaryRow[];
   warning?: string;
   understood: boolean;
+  actor?: string;
 };
 type ToPower = (vests: string) => string;
 type Described = {
@@ -652,6 +653,7 @@ const describeOperation = (
       ],
       ...(warning ? { warning } : {}),
       understood: true,
+      actor,
     };
   } catch (error) {
     if (error instanceof Unreadable) return notUnderstood(name);
