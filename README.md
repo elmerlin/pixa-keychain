@@ -125,8 +125,8 @@ and given Pixtopia's look. It signs with Pixa's chain ID and `PIX` keys, uses `P
 Sign requests are described in plain words, and what can't be read is treated as a warning. Other new work: automatic
 account tickets priced from the chain, and a Send that never reports a sent transfer as failed.
 
-Left out because they can't work on Pixa: Hive Engine tokens, swaps, buying coins, multisig, HiveAuth, Ledger, PeakD
-notifications and upstream's analytics. Nothing here calls a Hive service.
+Left out because they can't work on Pixa: Hive Engine tokens, swaps, buying coins, multisig, Ledger, PeakD notifications
+and upstream's analytics. Nothing here calls a Hive service.
 
 ## Develop
 
