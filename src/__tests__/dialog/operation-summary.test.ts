@@ -135,6 +135,254 @@ describe('describing what gets signed', () => {
     });
   });
 
+  // As Pixtopia sends them: `gameOperation` in its `src/lib/game/moves.ts`, actions from its Pixholm screens.
+  describe('Pixholm moves', () => {
+    const move = (
+      actions: unknown,
+      changes: Record<string, unknown> = {},
+      json = JSON.stringify({ v: 1, do: actions }),
+    ) => [
+      'custom_json',
+      {
+        required_auths: [],
+        required_posting_auths: ['alice'],
+        id: 'pixtopia.game',
+        json,
+        ...changes,
+      },
+    ];
+
+    it('founding an island says so, and names the game', () => {
+      const summary = describeOne(move([['found', {}]]));
+      expect(summary.understood).toBe(true);
+      expect(summary.title).toBe('Found your island');
+      expect(value(summary, 'Game')).toBe('Pixholm');
+      expect(summary.warning).toBeUndefined();
+      expect(summary.actor).toBe('alice');
+      expect(understandsAll([move([['found', {}]])], 'alice')).toBe(true);
+    });
+
+    it.each([
+      [['found', { look: 3 }], 'Found your island'],
+      [['build', { kind: 'lantern', x: 4, y: 7 }], 'Build a lantern'],
+      [['build', { kind: 'flower', x: 0, y: 13 }], 'Plant a flower bed'],
+      [['build', { kind: 'hut', x: 5, y: 5 }], "Build a builder's hut"],
+      [['build', { kind: 'pavilion', x: 9, y: 2 }], 'Build a pavilion'],
+      [['upgrade', { id: 0 }], 'Upgrade something on your island'],
+      [['cancel', { id: 4 }], 'Stop work on your island'],
+      [['remove', { id: 4 }], 'Remove something from your island'],
+      [['move', { id: 4, x: 3, y: 8 }], 'Move something on your island'],
+      [['hurry', { id: 4, hourglasses: 1 }], 'Use an hourglass'],
+      [['hurry', { id: 4, hourglasses: 3 }], 'Use 3 hourglasses'],
+      [['research', { topic: 'roots' }], 'Study Deep roots'],
+      [['scout', { target: 0 }], 'Send a paper crane to scout Driftwood Camp'],
+      [['recall', { trip: 2 }], 'Call raiders home'],
+      [['crew.invite', { account: 'bobby' }], 'Invite @bobby to your crew'],
+      [['crew.leave', {}], 'Leave your crew'],
+      [['crew.remove', { account: 'bobby' }], 'Remove @bobby from your crew'],
+      [['crew.hand', { account: 'bobby' }], "Make @bobby your crew's founder"],
+      [['crew.give', { glow: 12500 }], "Pour 12,500 glow into your crew's lighthouse"],
+      [['crew.banner', { colour: 7, mark: 0 }], "Change your crew's banner"],
+    ])('%j', (action, title) => {
+      const summary = describeOne(move([action]));
+      expect(summary.understood).toBe(true);
+      expect(summary.title).toBe(title);
+    });
+
+    it('training says who and how many', () => {
+      const summary = describeOne(
+        move([['train', { dock: 12, kind: 'kite', count: 3 }]]),
+      );
+      expect(summary.title).toBe('Train raiders');
+      expect(value(summary, 'Kites')).toBe('3');
+    });
+
+    it('a raid on a camp or a person says where and who goes', () => {
+      const camp = describeOne(
+        move([
+          [
+            'raid',
+            { target: 4, kite: 3, balloon: 1, from: 'nw', waves: { kite: 1, balloon: 2 } },
+          ],
+        ]),
+      );
+      expect(camp.title).toBe('Send a raid on Pirate Keep');
+      expect(value(camp, 'Kites')).toBe('3');
+      expect(value(camp, 'Balloons')).toBe('1');
+      expect(camp.rows.map((row) => row.label)).toEqual(['Game', 'Kites', 'Balloons']);
+      expect(
+        describeOne(move([['raid', { target: 'bobby', glider: 2 }]])).title,
+      ).toBe('Send a raid on @bobby');
+      const help = describeOne(
+        move([['help', { target: 'bobby', airship: 1, mender: 2 }]]),
+      );
+      expect(help.title).toBe('Send raiders to help @bobby');
+      expect(value(help, 'Airships')).toBe('1');
+      expect(value(help, 'Menders')).toBe('2');
+    });
+
+    it('a crew’s name, which a site wrote, is only ever a row', () => {
+      const found = describeOne(move([['crew.found', { name: 'Sky Pirates' }]]));
+      expect(found.title).toBe('Found a crew');
+      expect(value(found, 'Crew')).toBe('Sky Pirates');
+      const join = describeOne(move([['crew.join', { crew: "Wren's Lot" }]]));
+      expect(join.title).toBe('Join a crew');
+      expect(value(join, 'Crew')).toBe("Wren's Lot");
+    });
+
+    it('several actions in one move are each listed, in order', () => {
+      const summary = describeOne(
+        move([
+          ['upgrade', { id: 0 }],
+          ['hurry', { id: 0, hourglasses: 2 }],
+          ['train', { dock: 12, kind: 'crane', count: 1 }],
+        ]),
+      );
+      expect(summary.title).toBe('Make 3 moves in Pixholm');
+      expect(summary.rows).toEqual([
+        { label: 'Move', value: 'Upgrade something on your island' },
+        { label: 'Move', value: 'Use 2 hourglasses' },
+        { label: 'Move', value: 'Train raiders' },
+        { label: 'Paper cranes', value: '1' },
+      ]);
+    });
+
+    it('a move made as another account says so', () => {
+      const summary = describeOne(
+        move([['found', {}]], { required_posting_auths: ['bobby'] }),
+        'alice',
+      );
+      expect(summary.understood).toBe(true);
+      expect(value(summary, 'As')).toBe('@bobby');
+    });
+
+    it.each([
+      ['signed with the active key', move([['found', {}]], { required_auths: ['alice'], required_posting_auths: [] })],
+      ['signed with both keys', move([['found', {}]], { required_auths: ['alice'] })],
+      ['another version', move(null, {}, '{"v":2,"do":[["found",{}]]}')],
+      ['no actions', move([])],
+      ['more actions than a move takes', move(Array(11).fill(['recall', { trip: 1 }]))],
+      ['something else beside the actions', move(null, {}, '{"v":1,"do":[["found",{}]],"also":1}')],
+      ['an action nobody knows', move([['burn', {}]])],
+      ['an object’s built-in name', move([['constructor', {}]])],
+      ['an action with no params', move([['found']])],
+      ['an action with params that are a list', move([['found', []]])],
+      ['an action with something extra', move([['found', {}, 'more']])],
+      ['params with something extra', move([['upgrade', { id: 1, all: true }]])],
+      ['building the Beacon', move([['build', { kind: 'beacon', x: 6, y: 6 }]])],
+      ['building something the game has no name for', move([['build', { kind: 'toString', x: 1, y: 1 }]])],
+      ['building off the island', move([['build', { kind: 'lantern', x: 14, y: 1 }]])],
+      ['a tile that is not a whole number', move([['build', { kind: 'lantern', x: 1.5, y: 1 }]])],
+      ['no hourglasses', move([['hurry', { id: 1, hourglasses: 0 }]])],
+      ['training too many', move([['train', { dock: 1, kind: 'kite', count: 51 }]])],
+      ['training a kind nobody knows', move([['train', { dock: 1, kind: 'dragon', count: 1 }]])],
+      ['studying something nobody knows', move([['research', { topic: 'alchemy' }]])],
+      ['a raid with nobody in it', move([['raid', { target: 0 }]])],
+      ['a raid with nobody of a kind', move([['raid', { target: 0, kite: 0 }]])],
+      ['a raid with a kind nobody knows', move([['raid', { target: 0, dragon: 2 }]])],
+      ['a raid on a camp that isn’t there', move([['raid', { target: 5, kite: 1 }]])],
+      ['a raid on something that isn’t an account', move([['raid', { target: 'Bob Smith', kite: 1 }]])],
+      ['a raid from a side nobody knows', move([['raid', { target: 0, kite: 1, from: 'up' }]])],
+      ['a raid in a fourth wave', move([['raid', { target: 0, kite: 1, waves: { kite: 4 } }]])],
+      ['help for nobody', move([['help', { kite: 1 }]])],
+      ['a crew name the game refuses', move([['crew.found', { name: 'Send 1 PIXA\u202e' }]])],
+      ['a crew name that is not text', move([['crew.join', { crew: 7 }]])],
+      ['leaving a crew with something extra', move([['crew.leave', { crew: 'Sky' }]])],
+      ['no glow', move([['crew.give', { glow: 0 }]])],
+      ['a banner that isn’t one', move([['crew.banner', { colour: 8, mark: 0 }]])],
+      ['json written with spaces', move(null, {}, '{"v": 1, "do": [["found", {}]]}')],
+      ['a key written twice', move(null, {}, '{"v":1,"do":[["recall",{"trip":1,"trip":2}]]}')],
+      ['a number written another way', move(null, {}, '{"v":1,"do":[["recall",{"trip":1e2}]]}')],
+      ['json that does not parse', move(null, {}, '{"v":1,')],
+    ])('a move %s is not understood', (_, operation) => {
+      expectNotUnderstood(describeOne(operation));
+      expect(understandsAll([operation], 'alice')).toBe(false);
+    });
+  });
+
+  // As Pixtopia's `buildDelegateRc` sends it, and as Hive Keychain does (`getRcDelegationOperation`), without extensions.
+  describe('lending RC', () => {
+    const lend = (
+      details: Record<string, unknown>,
+      changes: Record<string, unknown> = {},
+      json = JSON.stringify(['delegate_rc', details]),
+    ) => [
+      'custom_json',
+      {
+        required_auths: [],
+        required_posting_auths: ['alice'],
+        id: 'rc',
+        json,
+        ...changes,
+      },
+    ];
+    const pixtopia = {
+      from: 'alice',
+      delegatees: ['bobby'],
+      max_rc: 5000000000,
+      extensions: [],
+    };
+
+    it('says who gets it and exactly how much', () => {
+      const summary = describeOne(lend(pixtopia));
+      expect(summary.understood).toBe(true);
+      expect(summary.title).toBe('Lend RC to @bobby');
+      expect(value(summary, 'Amount')).toBe('5,000,000,000 RC');
+      expect(summary.rows).toHaveLength(1);
+      const { extensions, ...keychain } = pixtopia;
+      expect(describeOne(lend(keychain)).title).toBe('Lend RC to @bobby');
+    });
+
+    it('nothing lent is taking it back', () => {
+      const summary = describeOne(lend({ ...pixtopia, max_rc: 0 }));
+      expect(summary.title).toBe('Stop lending RC to @bobby');
+      expect(summary.rows).toHaveLength(0);
+    });
+
+    it('several at once names each of them', () => {
+      const summary = describeOne(
+        lend({ ...pixtopia, delegatees: ['bobby', 'carol'], max_rc: 1000 }),
+      );
+      expect(summary.title).toBe('Lend RC to 2 accounts');
+      expect(summary.rows).toEqual([
+        { label: 'To', value: '@bobby' },
+        { label: 'To', value: '@carol' },
+        { label: 'Each', value: '1,000 RC' },
+      ]);
+      expect(
+        describeOne(lend({ ...pixtopia, delegatees: ['bobby', 'carol'], max_rc: 0 })).title,
+      ).toBe('Stop lending RC to 2 accounts');
+    });
+
+    it.each([
+      ['from someone else', lend({ ...pixtopia, from: 'mallory' })],
+      ['to yourself', lend({ ...pixtopia, delegatees: ['alice'] })],
+      ['to nobody', lend({ ...pixtopia, delegatees: [] })],
+      ['to the same account twice', lend({ ...pixtopia, delegatees: ['bobby', 'bobby'] })],
+      [
+        'to more than 100',
+        lend({ ...pixtopia, delegatees: Array.from({ length: 101 }, (_, i) => `user${i}`) }),
+      ],
+      ['to something that isn’t an account', lend({ ...pixtopia, delegatees: ['Bob Smith'] })],
+      ['with the active key', lend(pixtopia, { required_auths: ['alice'], required_posting_auths: [] })],
+      ['with an extension', lend({ ...pixtopia, extensions: [[0, {}]] })],
+      ['with something extra', lend({ ...pixtopia, also: 1 })],
+      ['as text', lend({ ...pixtopia, max_rc: '5000' })],
+      ['below nothing', lend({ ...pixtopia, max_rc: -1 })],
+      ['too large to read exactly', lend({ ...pixtopia, max_rc: 2 ** 60 })],
+      ['for another RC action', lend(pixtopia, {}, JSON.stringify(['undelegate_rc', pixtopia]))],
+      ['with something after it', lend(pixtopia, {}, JSON.stringify(['delegate_rc', pixtopia, {}]))],
+      ['written with spaces', lend(pixtopia, {}, JSON.stringify(['delegate_rc', pixtopia], null, 1))],
+      [
+        'with the amount written twice',
+        lend(pixtopia, {}, '["delegate_rc",{"from":"alice","delegatees":["bobby"],"max_rc":1,"max_rc":900000000000}]'),
+      ],
+      ['that is empty', lend(pixtopia, {}, '[]')],
+    ])('lending %s is not understood', (_, operation) => {
+      expectNotUnderstood(describeOne(operation));
+    });
+  });
+
   describe('posts', () => {
     const comment = (changes = {}) => [
       'comment',

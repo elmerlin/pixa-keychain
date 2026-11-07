@@ -197,10 +197,320 @@ const portal = (actor: string, payload: unknown): Described => {
   };
 };
 
+const hasOwn = (table: object, key: string) =>
+  Object.prototype.hasOwnProperty.call(table, key);
+// A name from a fixed table, never one of an object's built-in properties.
+const oneOf = <T>(table: Record<string, T>, value: unknown): T => {
+  if (typeof value !== 'string' || !hasOwn(table, value)) throw new Unreadable();
+  return table[value];
+};
+// An object with exactly these keys, and maybe these others, so nothing rides along unread.
+const exactly = (
+  value: unknown,
+  required: readonly string[],
+  optional: readonly string[] = [],
+) => {
+  const v = fields(value);
+  const keys = Object.keys(v);
+  if (
+    !required.every((key) => keys.includes(key)) ||
+    !keys.every((key) => required.includes(key) || optional.includes(key))
+  ) {
+    throw new Unreadable();
+  }
+  return v;
+};
+// JSON exactly as JSON.stringify writes it: a repeated key, or a number written another way, could read
+// one way here and another on chain.
+const canonical = (json: unknown) => {
+  const text = string(json);
+  let payload: unknown;
+  try {
+    payload = JSON.parse(text);
+  } catch {
+    throw new Unreadable();
+  }
+  if (JSON.stringify(payload) !== text) throw new Unreadable();
+  return payload;
+};
+const counted = (value: number) =>
+  String(value).replace(/\B(?=(\d{3})+$)/g, ',');
+
+// Lending resource credits, as Pixa's node reads it: one account lending its own, to up to 100 others.
+// The amount is what each of them ends up with from this account, not something added to it.
+const MOST_RC_DELEGATEES = 100;
+const lendRc = (actor: string, payload: unknown): Described => {
+  const parts = list(payload);
+  if (parts.length !== 2 || parts[0] !== 'delegate_rc') throw new Unreadable();
+  const v = exactly(parts[1], ['from', 'delegatees', 'max_rc'], ['extensions']);
+  signedAuthor(actor, v.from);
+  if (v.extensions !== undefined) none(v.extensions);
+  const to = list(v.delegatees).map(account);
+  if (
+    !to.length ||
+    to.length > MOST_RC_DELEGATEES ||
+    new Set(to).size !== to.length ||
+    to.includes(actor)
+  ) {
+    throw new Unreadable();
+  }
+  const amount = whole(v.max_rc);
+  const one = to.length === 1;
+  const whom = one ? handle(to[0]) : String(to.length);
+  return {
+    actor,
+    title: amount
+      ? say(one ? 'dialog_op_rc_lend' : 'dialog_op_rc_lend_many', whom)
+      : say(one ? 'dialog_op_rc_stop' : 'dialog_op_rc_stop_many', whom),
+    rows: [
+      ...(one ? [] : to.map((name) => row('dialog_to', handle(name)))),
+      ...(amount
+        ? [
+            row(
+              one ? 'dialog_amount' : 'dialog_op_rc_each',
+              say('dialog_op_rc_amount', counted(amount)),
+            ),
+          ]
+        : []),
+    ],
+  };
+};
+
+// Pixholm, Pixtopia's island game. A move is up to ten actions, read as the game reads them and no
+// further. The dialog can't see the island, so it says what each action asks for, never whether it'll
+// work. The numbers here are the game's rules (Pixtopia's `src/lib/game`).
+const GAME_ID = 'pixtopia.game';
+const MOST_GAME_ACTIONS = 10;
+const ISLAND_SIDE = 14;
+const MOST_TRAINED = 50;
+const WAVES = 3;
+const BANNER_CHOICES = 8;
+const SIDES = ['nw', 'ne', 'se', 'sw'];
+const CREW_NAME = /^[A-Za-z0-9][A-Za-z0-9 '-]{1,18}[A-Za-z0-9]$/;
+const BUILDS: Record<string, string> = {
+  flower: 'dialog_op_game_build_flower',
+  lantern: 'dialog_op_game_build_lantern',
+  cottage: 'dialog_op_game_build_cottage',
+  hut: 'dialog_op_game_build_hut',
+  dock: 'dialog_op_game_build_dock',
+  almanac: 'dialog_op_game_build_almanac',
+  vault: 'dialog_op_game_build_vault',
+  net: 'dialog_op_game_build_net',
+  cactus: 'dialog_op_game_build_cactus',
+  windmill: 'dialog_op_game_build_windmill',
+  bell: 'dialog_op_game_build_bell',
+  searchlight: 'dialog_op_game_build_searchlight',
+  hedge: 'dialog_op_game_build_hedge',
+  cannon: 'dialog_op_game_build_cannon',
+  path: 'dialog_op_game_build_path',
+  bench: 'dialog_op_game_build_bench',
+  lamp: 'dialog_op_game_build_lamp',
+  arch: 'dialog_op_game_build_arch',
+  fountain: 'dialog_op_game_build_fountain',
+  statue: 'dialog_op_game_build_statue',
+  pavilion: 'dialog_op_game_build_pavilion',
+};
+const RAIDERS: Record<string, string> = {
+  crane: 'dialog_op_game_cranes',
+  kite: 'dialog_op_game_kites',
+  balloon: 'dialog_op_game_balloons',
+  glider: 'dialog_op_game_gliders',
+  airship: 'dialog_op_game_airships',
+  spark: 'dialog_op_game_sparks',
+  mender: 'dialog_op_game_menders',
+  cloudship: 'dialog_op_game_cloudships',
+};
+const TOPICS: Record<string, string> = {
+  crane: 'dialog_op_game_topic_crane',
+  kite: 'dialog_op_game_topic_kite',
+  balloon: 'dialog_op_game_topic_balloon',
+  glider: 'dialog_op_game_topic_glider',
+  airship: 'dialog_op_game_topic_airship',
+  spark: 'dialog_op_game_topic_spark',
+  mender: 'dialog_op_game_topic_mender',
+  cloudship: 'dialog_op_game_topic_cloudship',
+  roots: 'dialog_op_game_topic_roots',
+  tailwind: 'dialog_op_game_topic_tailwind',
+};
+const CAMPS = [
+  'dialog_op_game_camp_driftwood',
+  'dialog_op_game_camp_thistle',
+  'dialog_op_game_camp_gull',
+  'dialog_op_game_camp_reef',
+  'dialog_op_game_camp_keep',
+];
+
+type Step = { says: string; rows?: SummaryRow[] };
+const tile = (value: unknown) => whole(value, 0, ISLAND_SIDE - 1);
+const camp = (value: unknown) => say(CAMPS[whole(value, 0, CAMPS.length - 1)]);
+const crewName = (value: unknown) =>
+  row('dialog_op_game_crew', matching(CREW_NAME, string(value).trim()));
+// Who goes, a row for each kind, in the game's order. At least one, and nothing else among them.
+const raidersIn = (v: Fields, others: readonly string[]) => {
+  Object.keys(v)
+    .filter((key) => !others.includes(key))
+    .forEach((kind) => oneOf(RAIDERS, kind));
+  const rows = Object.keys(RAIDERS)
+    .filter((kind) => hasOwn(v, kind))
+    .map((kind) => row(RAIDERS[kind], String(whole(v[kind], 1))));
+  if (!rows.length) throw new Unreadable();
+  return rows;
+};
+const onIsland = (key: string) => (params: unknown): Step => {
+  whole(exactly(params, ['id']).id);
+  return { says: say(key) };
+};
+const toCrewMate = (key: string) => (params: unknown): Step => ({
+  says: say(key, handle(exactly(params, ['account']).account)),
+});
+
+const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
+  found: (params) => {
+    const v = exactly(params, [], ['look']);
+    if (v.look !== undefined) whole(v.look);
+    return { says: say('dialog_op_game_found') };
+  },
+  build: (params) => {
+    const v = exactly(params, ['kind', 'x', 'y']);
+    tile(v.x);
+    tile(v.y);
+    return { says: say(oneOf(BUILDS, v.kind)) };
+  },
+  upgrade: onIsland('dialog_op_game_upgrade'),
+  cancel: onIsland('dialog_op_game_cancel'),
+  remove: onIsland('dialog_op_game_remove'),
+  move: (params) => {
+    const v = exactly(params, ['id', 'x', 'y']);
+    whole(v.id);
+    tile(v.x);
+    tile(v.y);
+    return { says: say('dialog_op_game_move_thing') };
+  },
+  hurry: (params) => {
+    const v = exactly(params, ['id', 'hourglasses']);
+    whole(v.id);
+    const count = whole(v.hourglasses, 1);
+    return {
+      says:
+        count === 1
+          ? say('dialog_op_game_hurry_one')
+          : say('dialog_op_game_hurry', String(count)),
+    };
+  },
+  train: (params) => {
+    const v = exactly(params, ['dock', 'kind', 'count']);
+    whole(v.dock);
+    return {
+      says: say('dialog_op_game_train'),
+      rows: [
+        row(oneOf(RAIDERS, v.kind), String(whole(v.count, 1, MOST_TRAINED))),
+      ],
+    };
+  },
+  research: (params) => ({
+    says: say(
+      'dialog_op_game_research',
+      say(oneOf(TOPICS, exactly(params, ['topic']).topic)),
+    ),
+  }),
+  raid: (params) => {
+    const plan = ['target', 'from', 'waves'];
+    const v = fields(params);
+    const rows = raidersIn(v, plan);
+    if (v.from !== undefined && !SIDES.includes(string(v.from))) {
+      throw new Unreadable();
+    }
+    if (v.waves !== undefined) {
+      Object.entries(fields(v.waves)).forEach(([kind, wave]) => {
+        oneOf(RAIDERS, kind);
+        whole(wave, 1, WAVES);
+      });
+    }
+    const target =
+      typeof v.target === 'string' ? handle(v.target) : camp(v.target);
+    return { says: say('dialog_op_game_raid', target), rows };
+  },
+  scout: (params) => ({
+    says: say('dialog_op_game_scout', camp(exactly(params, ['target']).target)),
+  }),
+  help: (params) => {
+    const v = fields(params);
+    const rows = raidersIn(v, ['target']);
+    return { says: say('dialog_op_game_help', handle(v.target)), rows };
+  },
+  recall: (params) => {
+    whole(exactly(params, ['trip']).trip);
+    return { says: say('dialog_op_game_recall') };
+  },
+  'crew.found': (params) => ({
+    says: say('dialog_op_game_crew_found'),
+    rows: [crewName(exactly(params, ['name']).name)],
+  }),
+  'crew.invite': toCrewMate('dialog_op_game_crew_invite'),
+  'crew.join': (params) => ({
+    says: say('dialog_op_game_crew_join'),
+    rows: [crewName(exactly(params, ['crew']).crew)],
+  }),
+  'crew.leave': (params) => {
+    exactly(params, []);
+    return { says: say('dialog_op_game_crew_leave') };
+  },
+  'crew.remove': toCrewMate('dialog_op_game_crew_remove'),
+  'crew.hand': toCrewMate('dialog_op_game_crew_hand'),
+  'crew.give': (params) => ({
+    says: say(
+      'dialog_op_game_crew_give',
+      counted(whole(exactly(params, ['glow']).glow, 1)),
+    ),
+  }),
+  'crew.banner': (params) => {
+    const v = exactly(params, ['colour', 'mark']);
+    whole(v.colour, 0, BANNER_CHOICES - 1);
+    whole(v.mark, 0, BANNER_CHOICES - 1);
+    return { says: say('dialog_op_game_crew_banner') };
+  },
+};
+
+const gameMove = (actor: string, payload: unknown): Described => {
+  const move = exactly(payload, ['v', 'do']);
+  if (move.v !== 1) throw new Unreadable();
+  const actions = list(move.do);
+  if (!actions.length || actions.length > MOST_GAME_ACTIONS) {
+    throw new Unreadable();
+  }
+  const steps = actions.map((action) => {
+    const parts = list(action);
+    if (parts.length !== 2) throw new Unreadable();
+    return oneOf(GAME_ACTIONS, parts[0])(parts[1]);
+  });
+  if (steps.length === 1) {
+    const [{ says, rows = [] }] = steps;
+    return {
+      actor,
+      title: says,
+      rows: [row('dialog_op_game', say('dialog_op_game_pixholm')), ...rows],
+    };
+  }
+  return {
+    actor,
+    title: say('dialog_op_game_moves', String(steps.length)),
+    rows: steps.flatMap(({ says, rows = [] }) => [
+      row('dialog_op_game_move', says),
+      ...rows,
+    ]),
+  };
+};
+
 const customJson = (v: Fields): Described => {
   const auths = [...list(v.required_auths), ...list(v.required_posting_auths)];
   if (auths.length !== 1) throw new Unreadable();
   const actor = account(auths[0]);
+  // These two are only ever signed with the posting key, and read only as their apps write them.
+  if (v.id === GAME_ID || v.id === 'rc') {
+    if (list(v.required_auths).length) throw new Unreadable();
+    const payload = canonical(v.json);
+    return v.id === GAME_ID ? gameMove(actor, payload) : lendRc(actor, payload);
+  }
   let payload: unknown;
   try {
     payload = JSON.parse(string(v.json));

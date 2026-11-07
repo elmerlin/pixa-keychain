@@ -3200,6 +3200,234 @@
   "dialog_op_notes": {
     "message": "Notes"
   },
+  "dialog_op_rc_lend": {
+    "message": "Lend RC to $1"
+  },
+  "dialog_op_rc_lend_many": {
+    "message": "Lend RC to $1 accounts"
+  },
+  "dialog_op_rc_stop": {
+    "message": "Stop lending RC to $1"
+  },
+  "dialog_op_rc_stop_many": {
+    "message": "Stop lending RC to $1 accounts"
+  },
+  "dialog_op_rc_each": {
+    "message": "Each"
+  },
+  "dialog_op_rc_amount": {
+    "message": "$1 RC"
+  },
+  "dialog_op_game": {
+    "message": "Game"
+  },
+  "dialog_op_game_pixholm": {
+    "message": "Pixholm"
+  },
+  "dialog_op_game_moves": {
+    "message": "Make $1 moves in Pixholm"
+  },
+  "dialog_op_game_move": {
+    "message": "Move"
+  },
+  "dialog_op_game_found": {
+    "message": "Found your island"
+  },
+  "dialog_op_game_build_flower": {
+    "message": "Plant a flower bed"
+  },
+  "dialog_op_game_build_lantern": {
+    "message": "Build a lantern"
+  },
+  "dialog_op_game_build_cottage": {
+    "message": "Build a cottage"
+  },
+  "dialog_op_game_build_hut": {
+    "message": "Build a builder's hut"
+  },
+  "dialog_op_game_build_dock": {
+    "message": "Build a sky dock"
+  },
+  "dialog_op_game_build_almanac": {
+    "message": "Build the Almanac"
+  },
+  "dialog_op_game_build_vault": {
+    "message": "Build a vault"
+  },
+  "dialog_op_game_build_net": {
+    "message": "Build a net"
+  },
+  "dialog_op_game_build_cactus": {
+    "message": "Plant a cactus"
+  },
+  "dialog_op_game_build_windmill": {
+    "message": "Build a windmill"
+  },
+  "dialog_op_game_build_bell": {
+    "message": "Build a bell tower"
+  },
+  "dialog_op_game_build_searchlight": {
+    "message": "Build a searchlight"
+  },
+  "dialog_op_game_build_hedge": {
+    "message": "Plant a hedge"
+  },
+  "dialog_op_game_build_cannon": {
+    "message": "Build a pea cannon"
+  },
+  "dialog_op_game_build_path": {
+    "message": "Lay a path"
+  },
+  "dialog_op_game_build_bench": {
+    "message": "Place a bench"
+  },
+  "dialog_op_game_build_lamp": {
+    "message": "Place a lamp"
+  },
+  "dialog_op_game_build_arch": {
+    "message": "Build a rose arch"
+  },
+  "dialog_op_game_build_fountain": {
+    "message": "Build a fountain"
+  },
+  "dialog_op_game_build_statue": {
+    "message": "Raise a statue"
+  },
+  "dialog_op_game_build_pavilion": {
+    "message": "Build a pavilion"
+  },
+  "dialog_op_game_upgrade": {
+    "message": "Upgrade something on your island"
+  },
+  "dialog_op_game_cancel": {
+    "message": "Stop work on your island"
+  },
+  "dialog_op_game_remove": {
+    "message": "Remove something from your island"
+  },
+  "dialog_op_game_move_thing": {
+    "message": "Move something on your island"
+  },
+  "dialog_op_game_hurry_one": {
+    "message": "Use an hourglass"
+  },
+  "dialog_op_game_hurry": {
+    "message": "Use $1 hourglasses"
+  },
+  "dialog_op_game_train": {
+    "message": "Train raiders"
+  },
+  "dialog_op_game_cranes": {
+    "message": "Paper cranes"
+  },
+  "dialog_op_game_kites": {
+    "message": "Kites"
+  },
+  "dialog_op_game_balloons": {
+    "message": "Balloons"
+  },
+  "dialog_op_game_gliders": {
+    "message": "Gliders"
+  },
+  "dialog_op_game_airships": {
+    "message": "Airships"
+  },
+  "dialog_op_game_sparks": {
+    "message": "Spark drones"
+  },
+  "dialog_op_game_menders": {
+    "message": "Menders"
+  },
+  "dialog_op_game_cloudships": {
+    "message": "Cloudships"
+  },
+  "dialog_op_game_research": {
+    "message": "Study $1"
+  },
+  "dialog_op_game_topic_crane": {
+    "message": "Crane folding"
+  },
+  "dialog_op_game_topic_kite": {
+    "message": "Kite craft"
+  },
+  "dialog_op_game_topic_balloon": {
+    "message": "Balloon craft"
+  },
+  "dialog_op_game_topic_glider": {
+    "message": "Glider craft"
+  },
+  "dialog_op_game_topic_airship": {
+    "message": "Airship craft"
+  },
+  "dialog_op_game_topic_spark": {
+    "message": "Spark drones"
+  },
+  "dialog_op_game_topic_mender": {
+    "message": "Mending"
+  },
+  "dialog_op_game_topic_cloudship": {
+    "message": "Cloudships"
+  },
+  "dialog_op_game_topic_roots": {
+    "message": "Deep roots"
+  },
+  "dialog_op_game_topic_tailwind": {
+    "message": "Tailwind"
+  },
+  "dialog_op_game_raid": {
+    "message": "Send a raid on $1"
+  },
+  "dialog_op_game_scout": {
+    "message": "Send a paper crane to scout $1"
+  },
+  "dialog_op_game_camp_driftwood": {
+    "message": "Driftwood Camp"
+  },
+  "dialog_op_game_camp_thistle": {
+    "message": "Thistle Cove"
+  },
+  "dialog_op_game_camp_gull": {
+    "message": "Gull Rock"
+  },
+  "dialog_op_game_camp_reef": {
+    "message": "Lantern Reef"
+  },
+  "dialog_op_game_camp_keep": {
+    "message": "Pirate Keep"
+  },
+  "dialog_op_game_help": {
+    "message": "Send raiders to help $1"
+  },
+  "dialog_op_game_recall": {
+    "message": "Call raiders home"
+  },
+  "dialog_op_game_crew": {
+    "message": "Crew"
+  },
+  "dialog_op_game_crew_found": {
+    "message": "Found a crew"
+  },
+  "dialog_op_game_crew_invite": {
+    "message": "Invite $1 to your crew"
+  },
+  "dialog_op_game_crew_join": {
+    "message": "Join a crew"
+  },
+  "dialog_op_game_crew_leave": {
+    "message": "Leave your crew"
+  },
+  "dialog_op_game_crew_remove": {
+    "message": "Remove $1 from your crew"
+  },
+  "dialog_op_game_crew_hand": {
+    "message": "Make $1 your crew's founder"
+  },
+  "dialog_op_game_crew_give": {
+    "message": "Pour $1 glow into your crew's lighthouse"
+  },
+  "dialog_op_game_crew_banner": {
+    "message": "Change your crew's banner"
+  },
   "dialog_op_send": {
     "message": "Send $1"
   },

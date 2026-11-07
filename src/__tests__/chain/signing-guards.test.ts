@@ -1126,6 +1126,25 @@ describe('saved approvals', () => {
     },
   );
 
+  it('can save a Pixholm move, and that covers nothing but moves', () => {
+    const move = [
+      'custom_json',
+      {
+        id: 'pixtopia.game',
+        required_auths: [],
+        required_posting_auths: ['alice'],
+        json: JSON.stringify({ v: 1, do: [['build', { kind: 'lantern', x: 4, y: 7 }]] }),
+      },
+    ];
+    const approval = approvalFor(signTx([move]))!;
+    expect(approval).toBe('signTx:custom_json/pixtopia.game');
+    expect(isWhitelisted(saved(approval), signTx([move]), 'site.test', rpc)).toBe(true);
+    expect(isWhitelisted(saved(approval), signTx([follow]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved(approval), signTx([move, vote]), 'site.test', rpc)).toBe(false);
+    const asBob = ['custom_json', { ...(move[1] as object), required_posting_auths: ['bob'] }];
+    expect(approvalFor(signTx([asBob]))).toBeNull();
+  });
+
   it('keeps one custom_json apart from another', () => {
     const custom = (id: string) =>
       ({
