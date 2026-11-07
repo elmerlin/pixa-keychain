@@ -120,6 +120,26 @@ describe('describing what gets signed', () => {
       );
     });
 
+    it.each([['constructor'], ['toString'], ['__proto__']])(
+      'a portal action named %s, an object’s built-in name, is not understood',
+      (action) => {
+        expectNotUnderstood(
+          describeOne([
+            'custom_json',
+            {
+              required_auths: [],
+              required_posting_auths: ['alice'],
+              id: 'community',
+              json: JSON.stringify([
+                action,
+                { community: 'portal-1', account: 'bobby', permlink: 'p' },
+              ]),
+            },
+          ]),
+        );
+      },
+    );
+
     it('a custom json signed by several accounts is not understood', () => {
       expectNotUnderstood(
         describeOne([

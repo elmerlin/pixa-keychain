@@ -79,6 +79,13 @@ const isZero = (amount: string) => /^0+\.0+ /.test(amount);
 const none = (value: unknown) => {
   if (list(value).length) throw new Unreadable();
 };
+const hasOwn = (table: object, key: string) =>
+  Object.prototype.hasOwnProperty.call(table, key);
+// A name from a fixed table, never one of an object's built-in properties.
+const oneOf = <T>(table: Record<string, T>, value: unknown): T => {
+  if (typeof value !== 'string' || !hasOwn(table, value)) throw new Unreadable();
+  return table[value];
+};
 
 const clean = (value: string) =>
   value.replace(INVISIBLE, ' ').replace(/\s+/g, ' ').trim();
@@ -184,8 +191,7 @@ const portal = (actor: string, payload: unknown): Described => {
       };
     }
   }
-  const key = PORTAL_POST_ACTIONS[string(action)];
-  if (!key) throw new Unreadable();
+  const key = oneOf(PORTAL_POST_ACTIONS, action);
   return {
     actor,
     title: say(key),
@@ -197,13 +203,6 @@ const portal = (actor: string, payload: unknown): Described => {
   };
 };
 
-const hasOwn = (table: object, key: string) =>
-  Object.prototype.hasOwnProperty.call(table, key);
-// A name from a fixed table, never one of an object's built-in properties.
-const oneOf = <T>(table: Record<string, T>, value: unknown): T => {
-  if (typeof value !== 'string' || !hasOwn(table, value)) throw new Unreadable();
-  return table[value];
-};
 // An object with exactly these keys, and maybe these others, so nothing rides along unread.
 const exactly = (
   value: unknown,
