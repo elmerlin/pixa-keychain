@@ -58,7 +58,7 @@ no ads and no analytics, and it sends nothing to us.
 You'll need a Pixa account, which you can make at [pixagram.com](https://pixagram.com). Add it to the wallet with a key
 or your master password.
 
-**Chrome Web Store:** coming soon.
+**[Chrome Web Store](https://chromewebstore.google.com/detail/ckalpnbohnaaikobbpggjhchnigkfgda):** the easy way, and it updates itself.
 
 **From a release**, for Chrome and other Chromium browsers (version 111 or newer):
 
