@@ -44,9 +44,9 @@ What you can do:
 
 Made to be careful:
 • Every request shows the account, the key it needs and what it does, with the exact transaction a tap away
-• A request the wallet can't read says so, shows the raw transaction and can't be approved in advance
+• A transaction the wallet can't read says so, shows it raw and can't be approved in advance
 • Changes to who controls an account come with a warning
-• Owner keys are always refused, and the wallet locks itself when you step away
+• Owner keys are always refused, and the wallet can lock itself when you step away
 
 You'll need a Pixa account. You can make one at pixagram.com, and add it here with a key or your master password.
 

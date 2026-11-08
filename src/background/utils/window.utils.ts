@@ -6,12 +6,14 @@ export const waitUntilDialogIsReady = async (
   command: DialogCommand,
   callback: () => void,
   nb = 0,
+  wanted: () => boolean = () => true,
 ) => {
   nb++;
+  if (!wanted()) return;
   if (await askIfReady(ms, command)) {
-    callback();
+    if (wanted()) callback();
   } else {
-    waitUntilDialogIsReady(ms, command, callback, nb);
+    waitUntilDialogIsReady(ms, command, callback, nb, wanted);
   }
 };
 /* istanbul ignore next */

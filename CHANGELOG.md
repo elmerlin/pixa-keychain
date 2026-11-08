@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.5
+
+- **It stays unlocked until you lock it.** The wallet now stays unlocked until you lock it or close every browser window.
+  It used to lock after 10 idle minutes, which asked for your password again and again. Approving a request doesn't ask
+  for the password, so if anyone else uses your computer, choose a timer under Settings, then Advanced settings, then Auto
+  lock. The descriptions there now say what each does: idle means your whole computer, and it locks when the screen does.
+- **Pixholm moves and lending RC say what they are.** A move in Pixtopia's island game reads as "Build a lantern" or
+  "Send a raid on Driftwood Camp", and lending RC names who and how much. They used to show a warning and the raw
+  transaction, and couldn't be approved in advance.
+- **"Don't ask again" says what it covers.** It now reads "Don't ask again for likes from @you on pixtopia.net". It used
+  to say "sign transaction requests", which sounded like everything, though it only ever covered the one kind you saw.
+- **Replies can be approved in advance.** A post or reply that shares its rewards can be, but only with exactly the
+  shares you approved, and only when your node says it's being posted. Any other split asks again, and so does a post your
+  node says is already out.
+- **Likes and downvotes are approved apart.** Approving likes no longer covers downvotes or taking a vote back. Each asks
+  until you approve it on its own.
+- **A site asking again works.** If a site sent a new request while a window was open, the new window couldn't sign, and
+  the one after it was blank. The newest request now signs, and one replaced from another tab is told it was cancelled. A
+  page that asked twice at once heard that both were set aside, though the newer one could still be approved; now only
+  the older is. And a request that's been cancelled can't be approved afterwards.
+- Closing every browser window locks the wallet in Firefox too. It only did in Chrome.
+- A portal action named after one of JavaScript's built-in properties broke the window. It now shows a warning.
+
 ## 0.1.4
 
 - **Values were about six times too low.** The wallet counted 1 PXS as 1 US dollar. Pixa's price feed sets 1 PXS to one US

@@ -7,10 +7,12 @@ import { PrivateKey, PublicKey, config } from 'hive-tx';
 import EncryptUtils from 'src/popup/hive/utils/encrypt.utils';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import { KeychainRequestTypes } from '@interfaces/keychain.interface';
+import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import { readCommentOptions } from 'src/utils/comment-options.utils';
 import {
   approvalFor,
   approvalLabel,
+  approvalWords,
   isWhitelisted,
 } from 'src/utils/preferences.utils';
 import AccountUtils from 'src/popup/hive/utils/account.utils';
@@ -820,7 +822,7 @@ describe('a backup', () => {
 });
 
 describe('what a document has asked for', () => {
-  it('moves on to the newest request, until one is being sent', () => {
+  it('moves on to the newest request, and never back to one it replaced', () => {
     expect(RequestTracker.isLatest('doc', 1)).toBe(true);
     RequestTracker.accept('doc', 1);
     RequestTracker.accept('doc', 2);
@@ -832,7 +834,62 @@ describe('what a document has asked for', () => {
     expect(RequestTracker.isSending('another')).toBe(false);
     RequestTracker.finishSending('doc');
     expect(RequestTracker.isSending('doc')).toBe(false);
-    expect(RequestTracker.isLatest('doc', 1)).toBe(true);
+    // A request that was replaced stays replaced once the one that replaced it has gone.
+    expect(RequestTracker.isLatest('doc', 1)).toBe(false);
+    expect(RequestTracker.isLatest('doc', 2)).toBe(true);
+    RequestTracker.accept('doc', 3);
+    expect(RequestTracker.isLatest('doc', 3)).toBe(true);
+  });
+
+  it('knows the one request the wallet is on, from any page', () => {
+    RequestTracker.accept('page-a', 1);
+    expect(RequestTracker.isCurrent('page-a', 1)).toBe(true);
+    RequestTracker.accept('page-b', 7);
+    expect(RequestTracker.isCurrent('page-a', 1)).toBe(false);
+    // Still the latest from its own page, but not what the wallet is on.
+    expect(RequestTracker.isLatest('page-a', 1)).toBe(true);
+    expect(RequestTracker.isCurrent('page-b', 7)).toBe(true);
+  });
+
+  it('says which request was replaced, and whether its page has its answer', () => {
+    RequestTracker.clear();
+    expect(RequestTracker.accept('page-a', 1, { tab: 3 })).toBeNull();
+    const replaced = RequestTracker.accept('page-b', 1, { tab: 4 });
+    expect(replaced).toEqual(expect.objectContaining({ token: 'page-a', requestId: 1, tab: 3 }));
+    expect(replaced!.answered).toBeFalsy();
+    // Every answer goes through answerTo, which marks it.
+    jest.spyOn(chrome.tabs, 'sendMessage').mockImplementation();
+    RequestsHandler.answerTo(4, { documentToken: 'page-b' }, { command: DialogCommand.ANSWER_REQUEST, msg: { request_id: 1 } });
+    expect(RequestTracker.accept('page-c', 1)!.answered).toBe(true);
+    RequestTracker.clear();
+  });
+
+  it('starts nothing more for a request whose page has its answer', async () => {
+    RequestTracker.clear();
+    await RequestTracker.restored();
+    RequestTracker.accept('page', 1);
+    expect(RequestTracker.isOpen('page', 1)).toBe(true);
+    RequestTracker.answered('page', 1);
+    expect(RequestTracker.isOpen('page', 1)).toBe(false);
+    // Still the one the wallet is on, so its window can still show how it ended.
+    expect(RequestTracker.isCurrent('page', 1)).toBe(true);
+    RequestTracker.clear();
+  });
+
+  it('never saves over the current request with one it replaced', async () => {
+    const save = jest
+      .spyOn(LocalStorageUtils, 'saveValueInLocalStorage')
+      .mockResolvedValue(undefined as never);
+    const replaced = new RequestsHandler();
+    replaced.data = { documentToken: 'doc', request_id: 4, confirmed: false, isWaitingForConfirmation: false };
+    RequestTracker.accept('doc', 5);
+    await replaced.saveInLocalStorage();
+    expect(save).not.toHaveBeenCalled();
+    replaced.data.request_id = 5;
+    await replaced.saveInLocalStorage();
+    expect(save).toHaveBeenCalledTimes(1);
+    save.mockRestore();
+    RequestTracker.clear();
   });
 });
 
@@ -1146,19 +1203,167 @@ describe('saved approvals', () => {
   });
 
   it('keeps one custom_json apart from another', () => {
-    const custom = (id: string) =>
+    const custom = (id: string, json = '{}') =>
       ({
         type: KeychainRequestTypes.custom,
         username: 'alice',
         method: 'Posting',
         id,
+        json,
       }) as never;
-    expect(approvalFor(custom('follow'))).toBe('custom:follow');
+    const followJson = JSON.stringify(['follow', { follower: 'alice', following: 'bob', what: ['blog'] }]);
+    expect(approvalFor(custom('follow', followJson))).toBe('custom:follow');
     expect(isWhitelisted(saved('custom:follow'), custom('rc'), 'site.test', rpc)).toBe(false);
+    // An ID the wallet reads is approved only when this one reads, since its words say what it does.
+    expect(approvalFor(custom('rc', '[]'))).toBeNull();
+    expect(approvalFor(custom('follow', '{"anything":1}'))).toBeNull();
+    expect(isWhitelisted(saved('custom:rc'), custom('rc', '[]'), 'site.test', rpc)).toBe(false);
+    expect(
+      approvalFor(custom('follow', JSON.stringify(['follow', { follower: 'bob', following: 'carol', what: ['blog'] }]))),
+    ).toBeNull();
+    // Other apps' IDs are approved by ID, as before.
+    expect(approvalFor(custom('another-app', '{"anything":1}'))).toBe('custom:another-app');
   });
 
-  it('says in the settings what an approval covers', () => {
-    expect(approvalLabel('signTx:comment+vote')).toBe('popup_sign_tx: comment, vote');
-    expect(approvalLabel('vote')).toBe('popup_vote');
+  // As Pixtopia sends a reply: `withPixtopiaShare` in its `post-builder.ts`.
+  const reply = (permlink = 're-p', shares = [{ account: 'pixtopia', weight: 500 }], options = {}) => [
+    [
+      'comment',
+      {
+        parent_author: 'bob',
+        parent_permlink: 'p',
+        author: 'alice',
+        permlink,
+        title: '',
+        body: 'Nice',
+        json_metadata: '{"app":"pixtopia/1"}',
+      },
+    ],
+    [
+      'comment_options',
+      {
+        author: 'alice',
+        permlink,
+        max_accepted_payout: '1000000.000 PXS',
+        percent_pxs: 10000,
+        allow_votes: true,
+        allow_curation_rewards: true,
+        extensions: [[0, { beneficiaries: shares }]],
+        ...options,
+      },
+    ],
+  ];
+
+  it('can save replies that share exactly as approved, and nothing else', () => {
+    const approval = approvalFor(signTx(reply()))!;
+    expect(approval).toBe('signTx:comment+comment_options/pixtopia=500');
+    expect(isWhitelisted(saved(approval), signTx(reply('another-reply')), 'site.test', rpc)).toBe(true);
+    // Any other share is another approval.
+    expect(
+      isWhitelisted(saved(approval), signTx(reply('re-p', [{ account: 'mallory', weight: 500 }])), 'site.test', rpc),
+    ).toBe(false);
+    expect(
+      isWhitelisted(saved(approval), signTx(reply('re-p', [{ account: 'pixtopia', weight: 5000 }])), 'site.test', rpc),
+    ).toBe(false);
+    expect(
+      isWhitelisted(
+        saved(approval),
+        signTx(reply('re-p', [{ account: 'mallory', weight: 500 }, { account: 'pixtopia', weight: 500 }])),
+        'site.test',
+        rpc,
+      ),
+    ).toBe(false);
+    // Nor does it cover a post without the share, or a share alone.
+    expect(isWhitelisted(saved(approval), signTx([reply()[0]]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved(approval), signTx([reply()[1]]), 'site.test', rpc)).toBe(false);
+  });
+
+  it.each([
+    ['declined rewards', { max_accepted_payout: '0.000 PXS' }],
+    ['a lower limit', { max_accepted_payout: '10.000 PXS' }],
+    ['all Pixa Power', { percent_pxs: 0 }],
+    ['likes turned off', { allow_votes: false }],
+    ['curation turned off', { allow_curation_rewards: false }],
+    ['another author', { author: 'bob' }],
+    ['a post already out', { permlink: 'an-older-post' }],
+    ['a field nobody sends', { extra: 1 }],
+    ['two extensions', { extensions: [[0, { beneficiaries: [{ account: 'pixtopia', weight: 500 }] }], [0, { beneficiaries: [] }]] }],
+    ['a share with more in it', { extensions: [[0, { beneficiaries: [{ account: 'pixtopia', weight: 500, more: 1 }] }]] }],
+    ['no shares', { extensions: [] }],
+  ])('never covers reward settings with %s', (_, options) => {
+    expect(approvalFor(signTx(reply('re-p', undefined, options)))).toBeNull();
+    expect(approvalFor(broadcast(reply('re-p', undefined, options)))).toBeNull();
+  });
+
+  it('never covers reward settings alone, on a post that is already out', () => {
+    expect(approvalFor(signTx([reply()[1]]))).toBeNull();
+    expect(approvalFor(signTx([vote, reply()[1]]))).toBeNull();
+  });
+
+  it('keeps likes, downvotes and taking a vote back apart', () => {
+    const weighted = (weight: number) => ['vote', { voter: 'alice', author: 'bob', permlink: 'p', weight }];
+    expect(approvalFor(signTx([weighted(100)]))).toBe('signTx:vote');
+    expect(approvalFor(signTx([weighted(-10000)]))).toBe('signTx:vote/down');
+    expect(approvalFor(signTx([weighted(0)]))).toBe('signTx:vote/remove');
+    expect(isWhitelisted(saved('signTx:vote'), signTx([weighted(-10000)]), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved('signTx:vote'), signTx([weighted(0)]), 'site.test', rpc)).toBe(false);
+    const request = (weight: unknown) =>
+      ({ type: KeychainRequestTypes.vote, username: 'alice', method: 'Posting', author: 'bob', permlink: 'p', weight }) as never;
+    expect(approvalFor(request(10000))).toBe('vote');
+    expect(approvalFor(request('10000'))).toBe('vote');
+    expect(approvalFor(request(-1))).toBe('vote/down');
+    expect(approvalFor(request(0))).toBe('vote/remove');
+    expect(approvalFor(request('1.5'))).toBeNull();
+    expect(isWhitelisted(saved('vote'), request(-10000), 'site.test', rpc)).toBe(false);
+  });
+
+  it('pairs reward settings one to one with the posts they are for', () => {
+    const [post, options] = reply();
+    const edit = ['comment', { ...(post[1] as object), permlink: 'an-older-post', body: 'Changed' }];
+    expect(approvalFor(signTx([edit, post, options]))).toBeNull();
+    expect(approvalFor(signTx([post, options, edit]))).toBeNull();
+    expect(approvalFor(signTx([options, post]))).toBe('signTx:comment+comment_options/pixtopia=500');
+    expect(approvalFor(signTx([post, options, options]))).toBeNull();
+    expect(approvalFor(signTx([post, post, options]))).toBeNull();
+    const [second, secondOptions] = reply('re-p-2');
+    expect(approvalFor(signTx([post, options, second, secondOptions]))).toBe(
+      'signTx:comment+comment_options/pixtopia=500',
+    );
+    expect(approvalFor(signTx([post, secondOptions, second, options]))).toBe(
+      'signTx:comment+comment_options/pixtopia=500',
+    );
+    // Two different splits in one transaction have no words of their own, so they ask.
+    const [third, thirdOptions] = reply('re-p-3', [{ account: 'carol', weight: 500 }]);
+    expect(approvalFor(signTx([post, options, third, thirdOptions]))).toBeNull();
+  });
+
+  it('says what an approval covers, in the dialog and the settings', () => {
+    expect(approvalWords('signTx:vote/down')).toBe('approval_downvotes');
+    expect(approvalWords('vote/remove')).toBe('approval_unvotes');
+    // An ID can hold a colon, and only the whole ID has words.
+    expect(approvalWords('custom:follow:other')).toBeNull();
+    expect(approvalWords('custom:pixtopia.game:other')).toBeNull();
+    expect(approvalLabel('custom:follow:other')).toBe('popup_custom: follow:other');
+    // A saved approval can come from an imported file.
+    expect(approvalWords('constructor')).toBeNull();
+    expect(approvalWords('signTx:constructor')).toBeNull();
+    expect(approvalWords('custom:__proto__')).toBeNull();
+    expect(() => approvalLabel('constructor')).not.toThrow();
+    expect(approvalWords('signTx:vote')).toBe('approval_likes');
+    expect(approvalWords('vote')).toBe('approval_likes');
+    expect(approvalWords('custom:pixtopia.game')).toBe('approval_pixholm');
+    expect(approvalWords('signTx:custom_json/pixtopia.game')).toBe('approval_pixholm');
+    expect(approvalWords('signTx:comment+comment_options/pixtopia=500')).toBe(
+      'approval_posts_sharing approval_share 5% @pixtopia',
+    );
+    expect(approvalWords('signTx:comment+vote')).toBe('approval_posts and approval_likes');
+    // A share without its post, or a kind with no words, keeps the request's name.
+    expect(approvalWords('signTx:comment_options/pixtopia=500')).toBeNull();
+    expect(approvalWords('signTx:custom_json/other')).toBeNull();
+    expect(approvalWords('custom:other')).toBeNull();
+    expect(approvalWords('transfer')).toBeNull();
+    expect(approvalLabel('signTx:comment+vote')).toBe('Approval_posts and approval_likes');
+    expect(approvalLabel('signTx:custom_json/other')).toBe('popup_sign_tx: custom json/other');
+    expect(approvalLabel('transfer')).toBe('popup_transfer');
   });
 });

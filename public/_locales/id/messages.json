@@ -372,7 +372,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_default_info": {
-    "message": "Kunci Keychain secara manual.",
+    "message": "Tetap terbuka sampai kamu menguncinya atau menutup semua jendela peramban.",
     "description": "on autolock settings"
   },
   "popup_html_al_locked_title": {
@@ -388,7 +388,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_idle_info": {
-    "message": "Keychain akan terkunci otomatis setelah peramban tidak aktif sesuai waktu yang telah diatur.",
+    "message": "Terkunci setelah sekian menit komputer tidak digunakan, atau saat layarnya terkunci.",
     "description": "on autolock settings"
   },
   "popup_html_import": {
@@ -1134,6 +1134,70 @@
   "dialog_no_prompt": {
     "message": "Jangan meminta lagi pengiriman transaksi $1 dari akun @$2 pada $3.",
     "description": "When a website request a transaction using posting key and you dont want it to pop all the time"
+  },
+  "dialog_no_prompt_for": {
+    "message": "Jangan tanya lagi untuk $1 dari @$2 di $3",
+    "description": "When a site asks with the posting key: $1 is what it may do, like 'likes', $2 the account, $3 the site"
+  },
+  "approval_likes": {
+    "message": "suka",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_downvotes": {
+    "message": "downvote",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_unvotes": {
+    "message": "menarik kembali vote",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts": {
+    "message": "postingan, balasan, dan suntingan",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts_sharing": {
+    "message": "postingan dan balasan yang membagikan $1",
+    "description": "What a saved approval lets a site do. $1 is who gets a share, like '5% with @pixtopia'"
+  },
+  "approval_share": {
+    "message": "$1 dengan $2",
+    "description": "A share of a post's rewards: $1 is the percentage, $2 the account"
+  },
+  "approval_deletes": {
+    "message": "menghapus postingan",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_claims": {
+    "message": "mengklaim hadiah",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_follows": {
+    "message": "mengikuti, membisukan, dan reblog",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_portals": {
+    "message": "tindakan portal",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_pixholm": {
+    "message": "langkah Pixholm",
+    "description": "What a saved approval lets a site do. Pixholm is a game's name"
+  },
+  "approval_rc": {
+    "message": "meminjamkan RC",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_sign_buffer": {
+    "message": "menandatangani pesan",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_decode": {
+    "message": "membaca pesan terenkripsi",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_encode": {
+    "message": "mengenkripsi pesan",
+    "description": "What a saved approval lets a site do"
   },
   "dialog_desc_verify": {
     "message": "Situs web $1 meminta verifikasi bahwa Anda memiliki akses ke kunci pribadi $2 milik akun @$3.",

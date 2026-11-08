@@ -260,7 +260,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_default_info": {
-    "message": "手动锁定Keychain。",
+    "message": "保持解鎖，直到你手動鎖定或關閉所有瀏覽器視窗。",
     "description": "on autolock settings"
   },
   "popup_html_al_locked_title": {
@@ -276,7 +276,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_idle_info": {
-    "message": "在浏览器窗口閒置指定的分钟数後，自动锁定Keychain。",
+    "message": "電腦閒置這麼多分鐘後，或螢幕鎖定時，自動鎖定。",
     "description": "on autolock settings"
   },
   "popup_html_import": {
@@ -866,6 +866,70 @@
   "dialog_no_prompt": {
     "message": "不要再次提示從$3上的@$2帳戶發送$1交易",
     "description": "When a website request a transaction using posting key and you dont want it to pop all the time"
+  },
+  "dialog_no_prompt_for": {
+    "message": "不再詢問 $3 上 @$2 的$1",
+    "description": "When a site asks with the posting key: $1 is what it may do, like 'likes', $2 the account, $3 the site"
+  },
+  "approval_likes": {
+    "message": "按讚",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_downvotes": {
+    "message": "倒讚",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_unvotes": {
+    "message": "撤回投票",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts": {
+    "message": "貼文、回覆和編輯",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts_sharing": {
+    "message": "分享 $1 的貼文和回覆",
+    "description": "What a saved approval lets a site do. $1 is who gets a share, like '5% with @pixtopia'"
+  },
+  "approval_share": {
+    "message": "$1 給 $2",
+    "description": "A share of a post's rewards: $1 is the percentage, $2 the account"
+  },
+  "approval_deletes": {
+    "message": "刪除貼文",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_claims": {
+    "message": "領取獎勵",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_follows": {
+    "message": "追蹤、靜音和轉發",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_portals": {
+    "message": "入口操作",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_pixholm": {
+    "message": "Pixholm 操作",
+    "description": "What a saved approval lets a site do. Pixholm is a game's name"
+  },
+  "approval_rc": {
+    "message": "借出 RC",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_sign_buffer": {
+    "message": "簽署訊息",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_decode": {
+    "message": "讀取加密訊息",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_encode": {
+    "message": "加密訊息",
+    "description": "What a saved approval lets a site do"
   },
   "dialog_desc_verify": {
     "message": "網站$1想驗證您是否有權限訪問帳戶的$2私鑰：@$3",

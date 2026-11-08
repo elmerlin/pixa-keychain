@@ -372,7 +372,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_default_info": {
-    "message": "Keychain manuell sperren.",
+    "message": "Bleibt entsperrt, bis du es sperrst oder alle Browserfenster schließt.",
     "description": "on autolock settings"
   },
   "popup_html_al_locked_title": {
@@ -388,7 +388,7 @@
     "description": "on autolock settings"
   },
   "popup_html_al_idle_info": {
-    "message": "Keychain automatisch sperren, nachdem das Browserfenster für die angegebene Anzahl von Minuten inaktiv ist.",
+    "message": "Sperrt sich nach so vielen Minuten ohne Nutzung deines Computers oder wenn sein Bildschirm gesperrt wird.",
     "description": "on autolock settings"
   },
   "popup_html_import": {
@@ -1134,6 +1134,70 @@
   "dialog_no_prompt": {
     "message": "Verlange keine Eingabeaufforderung mehr um $1 Transakationen für @$2 auf $3 zu überprüfen",
     "description": "When a website request a transaction using posting key and you dont want it to pop all the time"
+  },
+  "dialog_no_prompt_for": {
+    "message": "Nicht mehr fragen bei $1 von @$2 auf $3",
+    "description": "When a site asks with the posting key: $1 is what it may do, like 'likes', $2 the account, $3 the site"
+  },
+  "approval_likes": {
+    "message": "Likes",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_downvotes": {
+    "message": "Downvotes",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_unvotes": {
+    "message": "Zurücknehmen von Votes",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts": {
+    "message": "Beiträge, Antworten und Änderungen",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_posts_sharing": {
+    "message": "Beiträge und Antworten, die $1 teilen",
+    "description": "What a saved approval lets a site do. $1 is who gets a share, like '5% with @pixtopia'"
+  },
+  "approval_share": {
+    "message": "$1 mit $2",
+    "description": "A share of a post's rewards: $1 is the percentage, $2 the account"
+  },
+  "approval_deletes": {
+    "message": "Löschen von Beiträgen",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_claims": {
+    "message": "Abholen von Belohnungen",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_follows": {
+    "message": "Folgen, Stummschalten und Reblogs",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_portals": {
+    "message": "Portal-Aktionen",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_pixholm": {
+    "message": "Pixholm-Züge",
+    "description": "What a saved approval lets a site do. Pixholm is a game's name"
+  },
+  "approval_rc": {
+    "message": "Verleihen von RC",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_sign_buffer": {
+    "message": "Signieren von Nachrichten",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_decode": {
+    "message": "Lesen verschlüsselter Nachrichten",
+    "description": "What a saved approval lets a site do"
+  },
+  "approval_encode": {
+    "message": "Verschlüsseln von Nachrichten",
+    "description": "What a saved approval lets a site do"
   },
   "dialog_desc_verify": {
     "message": "Die Webseite $1 möchte überprüfen, ob Sie Zugriff auf den privaten $2-Schlüssel für @$3 haben",

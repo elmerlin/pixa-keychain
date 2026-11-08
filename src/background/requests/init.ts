@@ -1,5 +1,7 @@
 import MkModule from '@background/mk.module';
+import { postsAreNew } from '@background/requests/new-posts';
 import { ReplyTo, RequestsHandler } from '@background/requests/request-handler';
+import { RequestTracker } from '@background/requests/request-tracker';
 import {
   KeychainRequest,
   KeychainRequestTypes,
@@ -27,6 +29,8 @@ export default async (
   requestHandler: RequestsHandler,
 ) => {
   if ((request as ReplyTo).replyTo) requestHandler.replyToWhoeverAsked(request);
+  // Cancelled, answered or replaced already, as when its window closed while the password was checked.
+  if (!RequestTracker.isOpen(requestHandler.data.documentToken, request.request_id)) return;
   const items: {
     accounts: string;
     current_rpc?: Rpc;
@@ -113,7 +117,40 @@ export default async (
           const key = account.keys[typeWif];
           requestHandler.setKeys(key!, publicKey!);
 
-          if (!isWhitelisted(items.no_confirm, req, domain, rpc)) {
+          // Reward settings are only ever covered on a post being made, which only the node can say.
+          const operations =
+            req.type === KeychainRequestTypes.signTx
+              ? req.tx?.operations
+              : req.type === KeychainRequestTypes.broadcast
+              ? req.operations
+              : undefined;
+          const whitelisted = isWhitelisted(items.no_confirm, req, domain, rpc);
+          const approved = whitelisted && (await postsAreNew(operations));
+          // Asking the node can take seconds: the wallet must still be unlocked, the approval still saved,
+          // and the page mustn't have asked something else meanwhile.
+          const [stillUnlocked, noConfirm] = whitelisted
+            ? await Promise.all([
+                MkModule.getMk(),
+                LocalStorageUtils.getValueFromLocalStorage(
+                  LocalStorageKeyEnum.NO_CONFIRM,
+                ),
+              ])
+            : [mk, items.no_confirm];
+          if (
+            !RequestTracker.isLatest(
+              requestHandler.data.documentToken,
+              request.request_id!,
+            ) ||
+            !RequestTracker.isOpen(
+              requestHandler.data.documentToken,
+              request.request_id!,
+            )
+          ) {
+            return;
+          }
+          if (!stillUnlocked) {
+            Logic.unlockWallet(requestHandler, tab!, request, domain);
+          } else if (!approved || !isWhitelisted(noConfirm, req, domain, rpc)) {
             Logic.requestWithConfirmation(
               requestHandler,
               tab!,

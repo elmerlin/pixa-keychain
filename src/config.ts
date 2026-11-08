@@ -19,8 +19,8 @@ const Config = {
       'https://raw.githubusercontent.com/TheEconomist/big-mac-data/master/output-data/big-mac-full-index.csv',
     RATES_URL: 'https://api.frankfurter.dev/v1/latest?base=USD',
   },
-  // Until someone chooses otherwise, in Settings.
-  autolock: { DEFAULT: { type: AutoLockType.IDLE_LOCK, mn: 10 } },
+  // Unlocked until the person locks it or closes every browser window, unless they choose a timer in Settings.
+  autolock: { DEFAULT: { type: AutoLockType.DEFAULT, mn: 10 } },
   treasuryAccount: 'pixa.omnibus',
   explorer: {
     baseURL: 'https://pixtopia.net/chain',

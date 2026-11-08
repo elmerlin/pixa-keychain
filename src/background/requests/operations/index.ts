@@ -1,4 +1,4 @@
-import { removeWindow } from '@background/requests/dialog-lifecycle';
+import { removeWindow, toDialog } from '@background/requests/dialog-lifecycle';
 import sendErrors from '@background/requests/errors';
 import { addAccount } from '@background/requests/operations/ops/add-account';
 import {
@@ -193,7 +193,7 @@ export const performOperation = async (
         removeWindow(requestHandler.data.windowId!);
       }
     } else if (message) {
-      chrome.runtime.sendMessage(message, () => void chrome.runtime.lastError);
+      toDialog(requestHandler, message);
     }
     requestHandler.reset(false);
   }

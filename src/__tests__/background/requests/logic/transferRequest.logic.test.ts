@@ -106,7 +106,7 @@ describe('transferRequest.logic tests:\n', () => {
       account,
     );
     expect(sCreatePopup.mock.calls[0][0].toString()).toContain(
-      'chrome.runtime.sendMessage',
+      'toDialog',
     );
   });
 });

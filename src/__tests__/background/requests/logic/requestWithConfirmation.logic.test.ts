@@ -25,7 +25,7 @@ describe('requestWithConfirmation.logic tests:\n', () => {
       DefaultRpcs[0],
     );
     expect(sCreatePopup.mock.calls[0][0].toString()).toContain(
-      'chrome.runtime.sendMessage',
+      'toDialog',
     );
   });
 });

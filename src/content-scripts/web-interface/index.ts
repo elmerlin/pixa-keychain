@@ -70,9 +70,10 @@ chrome.runtime.onMessage.addListener(function (obj, sender, sendResp) {
   if (obj.documentToken !== documentToken) return;
   const { message } = obj;
   if (message?.command === DialogCommand.REQUEST_ACCEPTED) {
-    // The wallet's moved on to this one, so anything before it was never sent.
+    // The wallet's moved on to this one, so anything before it was never sent. Only before it: a page
+    // numbers its requests in order, and a newer one may already be on its way.
     pending.forEach((earlier, id) => {
-      if (id !== message.request_id) {
+      if (id < message.request_id) {
         cancelPreviousRequest(earlier);
         pending.delete(id);
       }

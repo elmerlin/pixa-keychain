@@ -23,6 +23,7 @@ import * as LogicRequestWithoutConfirmation from 'src/background/requests/logic/
 import * as LogicTransferRequest from 'src/background/requests/logic/transferRequest.logic';
 import * as LogicUnlockWallet from 'src/background/requests/logic/unlockWallet.logic';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
+import { RequestTracker } from '@background/requests/request-tracker';
 import Logger from 'src/utils/logger.utils';
 import { anonymousRequests } from 'src/utils/requests.utils';
 
@@ -46,6 +47,7 @@ describe('init tests:\n', () => {
   });
 
   afterEach(() => {
+    RequestTracker.clear();
     jest.clearAllMocks();
     jest.resetModules();
     jest.restoreAllMocks();
@@ -347,6 +349,10 @@ describe('init tests:\n', () => {
           'keychain.tests': { domain: { post: true } },
         },
       });
+    // Read again just before signing, in case it was taken back meanwhile.
+    LocalStorageUtils.getValueFromLocalStorage = jest
+      .fn()
+      .mockResolvedValue({ 'keychain.tests': { domain: { post: true } } });
     RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
     await init(
       cloneKeychainRequestPostData,
@@ -359,6 +365,81 @@ describe('init tests:\n', () => {
       0,
       cloneKeychainRequestPostData,
     );
+  });
+
+  it('Must do nothing more for a request already cancelled', async () => {
+    const request = objects.clone(keychainRequest.postData) as KeychainRequest;
+    const sWithout = jest.spyOn(LogicRequestWithoutConfirmation, 'requestWithoutConfirmation');
+    const sWith = jest.spyOn(LogicRequestWithConfirmation, 'requestWithConfirmation');
+    const sUnlock = jest.spyOn(LogicUnlockWallet, 'unlockWallet');
+    [sWithout, sWith, sUnlock].forEach((spy) => spy.mockClear());
+    const handler = keychainRequest.requestHandler;
+    handler.data.documentToken = 'page-token';
+    request.request_id = 1;
+    // Its window closed while the password was checked: the page heard it was cancelled.
+    RequestTracker.accept('page-token', 1);
+    RequestTracker.answered('page-token', 1);
+    await init(request, 0, request.domain, handler);
+    expect(sWithout).not.toHaveBeenCalled();
+    expect(sWith).not.toHaveBeenCalled();
+    expect(sUnlock).not.toHaveBeenCalled();
+    handler.data.documentToken = undefined;
+  });
+
+  it('Must drop a request its page replaced while it was getting ready', async () => {
+    const request = objects.clone(keychainRequest.postData) as KeychainRequest;
+    const sWithout = jest.spyOn(LogicRequestWithoutConfirmation, 'requestWithoutConfirmation');
+    const sWith = jest.spyOn(LogicRequestWithConfirmation, 'requestWithConfirmation');
+    sWithout.mockClear();
+    sWith.mockClear();
+    const handler = keychainRequest.requestHandler;
+    handler.data.documentToken = 'page-token';
+    request.request_id = 1;
+    RequestTracker.accept('page-token', 1);
+    MkModule.getMk = jest.fn().mockResolvedValue(TEST_VAULT_MK);
+    LocalStorageUtils.getMultipleValueFromLocalStorage = jest.fn().mockResolvedValue({
+      accounts: accounts.encrypted.noHash.oneAccount.msg,
+      current_rpc: DefaultRpcs[0],
+      no_confirm: { 'keychain.tests': { domain: { post: true } } },
+    });
+    // The page asks again, and that one finishes, while this one reads what's saved.
+    LocalStorageUtils.getValueFromLocalStorage = jest.fn().mockImplementation(async () => {
+      RequestTracker.accept('page-token', 2);
+      RequestTracker.finishSending('page-token');
+      return { 'keychain.tests': { domain: { post: true } } };
+    });
+    RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
+    await init(request, 0, request.domain, handler);
+    expect(sWithout).not.toHaveBeenCalled();
+    expect(sWith).not.toHaveBeenCalled();
+    handler.data.documentToken = undefined;
+  });
+
+  it.each([
+    ['unlock the wallet if it locked', false, { 'keychain.tests': { domain: { post: true } } }, 'unlock'],
+    ['ask if the approval was taken back', true, {}, 'confirm'],
+  ])('Must %s while it was getting ready', async (_, unlocked, saved, then) => {
+    const request = objects.clone(keychainRequest.postData) as KeychainRequest;
+    const sWithout = jest.spyOn(LogicRequestWithoutConfirmation, 'requestWithoutConfirmation');
+    const sWith = jest.spyOn(LogicRequestWithConfirmation, 'requestWithConfirmation');
+    const sUnlock = jest.spyOn(LogicUnlockWallet, 'unlockWallet');
+    sWithout.mockClear();
+    sWith.mockClear();
+    sUnlock.mockClear();
+    MkModule.getMk = jest
+      .fn()
+      .mockResolvedValueOnce(TEST_VAULT_MK)
+      .mockResolvedValueOnce(unlocked ? TEST_VAULT_MK : undefined);
+    LocalStorageUtils.getMultipleValueFromLocalStorage = jest.fn().mockResolvedValue({
+      accounts: accounts.encrypted.noHash.oneAccount.msg,
+      current_rpc: DefaultRpcs[0],
+      no_confirm: { 'keychain.tests': { domain: { post: true } } },
+    });
+    LocalStorageUtils.getValueFromLocalStorage = jest.fn().mockResolvedValue(saved);
+    RpcUtils.findRpc = jest.fn().mockResolvedValue(DefaultRpcs[0]);
+    await init(request, 0, request.domain, keychainRequest.requestHandler);
+    expect(sWithout).not.toHaveBeenCalled();
+    expect(then === 'unlock' ? sUnlock : sWith).toHaveBeenCalled();
   });
 
   it('Must call requestWithConfirmation', async () => {

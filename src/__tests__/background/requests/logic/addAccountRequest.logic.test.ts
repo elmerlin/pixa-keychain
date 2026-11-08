@@ -41,7 +41,7 @@ describe('addAccountRequest.logic tests:\n', () => {
       'domain',
     );
     expect(sCreatePopup.mock.calls[0][0].toString()).toContain(
-      'chrome.runtime.sendMessage',
+      'toDialog',
     );
   });
 });

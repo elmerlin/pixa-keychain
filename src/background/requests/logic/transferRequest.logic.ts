@@ -1,4 +1,4 @@
-import { createPopup } from '@background/requests/dialog-lifecycle';
+import { createPopup, toDialog } from '@background/requests/dialog-lifecycle';
 import sendErrors from '@background/requests/errors';
 import { RequestsHandler } from '@background/requests/request-handler';
 import {
@@ -67,7 +67,7 @@ export const transferRequest = (
   } else {
     /* istanbul ignore next */
     const callback = () => {
-      chrome.runtime.sendMessage({
+      toDialog(requestHandler, {
         command: DialogCommand.SEND_DIALOG_CONFIRM,
         data: request,
         domain,

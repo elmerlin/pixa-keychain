@@ -51,7 +51,7 @@ describe('anonymousRequests.logic tests:\n', () => {
       current_rpc,
     );
     expect(sCreatePopup.mock.calls[0][0].toString()).toContain(
-      'chrome.runtime.sendMessage',
+      'toDialog',
     );
   });
 });

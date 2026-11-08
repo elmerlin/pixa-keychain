@@ -103,7 +103,8 @@ Keychain, you mostly need to rename its one global and use Pixa's tokens.
 
 - Your accounts are encrypted with AES-GCM, using a key derived from your password with 600,000 rounds of PBKDF2. The
   password itself is never saved, and it's held in memory only while the wallet is unlocked.
-- The wallet locks itself after 10 idle minutes. You can change that in Settings.
+- The wallet stays unlocked until you lock it or close every browser window. In Settings it can lock itself after some
+  idle minutes instead, or when your screen locks. Approving a request doesn't ask for the password.
 - Owner keys are always refused. Keep yours offline.
 - A site gets only what you approve: a signature, an account name, a result. Never a key. "Don't ask again" covers one
   kind of request on one site, only ever with the posting key.

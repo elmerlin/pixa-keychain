@@ -9,7 +9,7 @@ import { LoadingComponent } from 'src/common-ui/loading/loading.component';
 import DialogHeader from 'src/dialog/components/dialog-header/dialog-header.component';
 import RequestUsername from 'src/dialog/components/request-username/request-username';
 import { useDomainCheck } from 'src/dialog/hooks/domain-check';
-import { approvalFor } from 'src/utils/preferences.utils';
+import { approvalFor, approvalWords } from 'src/utils/preferences.utils';
 
 type Props = {
   title: string;
@@ -48,6 +48,9 @@ const Operation = ({
   const [loading, setLoading] = useState(false);
 
   const domainHeader = useDomainCheck({ ...data, domain });
+  const approval = canWhitelist ? approvalFor(data) : null;
+  // Says exactly what it will stop asking about, since that's all a saved approval covers.
+  const words = approval ? approvalWords(approval) : null;
 
   const genericOnConfirm = () => {
     setLoading(true);
@@ -100,18 +103,24 @@ const Operation = ({
         </div>
       </div>
 
-      {canWhitelist && approvalFor(data) !== null && (
+      {approval !== null && (
         <CheckboxPanelComponent
           onChange={setKeep}
           checked={keep}
           skipTranslation
           title={
             checkboxLabelOverride ||
-            chrome.i18n.getMessage('dialog_no_prompt', [
-              title.toLowerCase(),
-              data.username!,
-              domain,
-            ])
+            (words
+              ? chrome.i18n.getMessage('dialog_no_prompt_for', [
+                  words,
+                  data.username!,
+                  domain,
+                ])
+              : chrome.i18n.getMessage('dialog_no_prompt', [
+                  title.toLowerCase(),
+                  data.username!,
+                  domain,
+                ]))
           }
         />
       )}

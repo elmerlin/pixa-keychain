@@ -1,4 +1,4 @@
-import { createPopup } from '@background/requests/dialog-lifecycle';
+import { createPopup, toDialog } from '@background/requests/dialog-lifecycle';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { KeychainRequest } from '@interfaces/keychain.interface';
 import { Rpc } from '@interfaces/rpc.interface';
@@ -13,7 +13,7 @@ export const requestWithConfirmation = (
 ) => {
   /* istanbul ignore next */
   const callback = () => {
-    chrome.runtime.sendMessage({
+    toDialog(requestHandler, {
       command: DialogCommand.SEND_DIALOG_CONFIRM,
       data: request,
       domain,

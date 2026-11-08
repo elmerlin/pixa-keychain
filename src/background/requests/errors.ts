@@ -1,3 +1,4 @@
+import { toDialog } from '@background/requests/dialog-lifecycle';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { KeychainRequest } from '@interfaces/keychain.interface';
 import { DialogCommand } from '@reference-data/dialog-message-key.enum';
@@ -12,7 +13,7 @@ const sendErrors = (
   display_msg: string,
   request: KeychainRequest,
 ) => {
-  chrome.runtime.sendMessage({
+  toDialog(requestHandler, {
     command: DialogCommand.SEND_DIALOG_ERROR,
     msg: {
       success: false,

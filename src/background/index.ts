@@ -19,10 +19,9 @@ import {
 import { BackgroundCommand } from '@reference-data/background-message-key.enum';
 import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import { LocalStorageKeyEnum } from '@reference-data/local-storage-key.enum';
-import { VaultCommand, VaultKey } from '@reference-data/vault-message-key.enum';
+import { VaultCommand } from '@reference-data/vault-message-key.enum';
 import LocalStorageUtils from 'src/utils/localStorage.utils';
 import Logger from 'src/utils/logger.utils';
-import VaultUtils from 'src/utils/vault.utils';
 import { BackgroundMessage } from './background-message.interface';
 import MkModule from './mk.module';
 
@@ -81,6 +80,7 @@ const chromeMessageHandler = async (
         documentId: (sender as { documentId?: string }).documentId,
         documentToken,
       };
+      await RequestTracker.restored();
       if (RequestTracker.isSending(documentToken)) {
         RequestsHandler.answerTo(sender.tab!.id!, replyTo, {
           command: DialogCommand.ANSWER_REQUEST,
@@ -95,12 +95,41 @@ const chromeMessageHandler = async (
         });
         break;
       }
-      RequestTracker.accept(documentToken, request_id!);
+      const replaced = RequestTracker.accept(documentToken, request_id!, {
+        tab: sender.tab!.id!,
+        replyTo,
+        request,
+      });
       RequestsHandler.answerTo(sender.tab!.id!, replyTo, {
         command: DialogCommand.REQUEST_ACCEPTED,
         request_id,
       });
+      // One from another page is replaced too, unless it's being sent or has had its answer. Its own page
+      // learns of a replacement from REQUEST_ACCEPTED; another page hears it was cancelled.
+      if (
+        replaced &&
+        replaced.tab !== undefined &&
+        replaced.token !== documentToken &&
+        !replaced.answered &&
+        !RequestTracker.isSending(replaced.token)
+      ) {
+        RequestsHandler.answerTo(replaced.tab, replaced.replyTo, {
+          command: DialogCommand.ANSWER_REQUEST,
+          msg: {
+            success: false,
+            error: 'user_cancel',
+            result: null,
+            data: replaced.request,
+            message: await chrome.i18n.getMessage(
+              'bgd_lifecycle_request_canceled',
+            ),
+            request_id: replaced.requestId,
+          },
+        });
+      }
       const requestHandler = await RequestsHandler.getFromLocalStorage();
+      // Another request may have come during those waits, and its window is its own.
+      if (!RequestTracker.isCurrent(documentToken, request_id)) break;
       if (requestHandler) {
         requestHandler.closeWindow();
       }
@@ -112,7 +141,12 @@ const chromeMessageHandler = async (
     }
     case BackgroundCommand.UNLOCK_FROM_DIALOG: {
       const { mk, domain, data, tab } = backgroundMessage.value;
+      const asked = data?.msg?.data;
       const login = await MkModule.login(mk);
+      // Checked after the password: the window may have closed, or another request come, meanwhile.
+      if (!RequestTracker.isOpen(asked?.replyTo?.documentToken, asked?.request_id)) {
+        break;
+      }
       if (login) {
         MkModule.saveMk(mk);
         init(
@@ -131,6 +165,8 @@ const chromeMessageHandler = async (
     }
     case BackgroundCommand.REGISTER_FROM_DIALOG: {
       const { mk, domain, data, tab } = backgroundMessage.value;
+      const stillOpen = () =>
+        RequestTracker.isOpen(data?.replyTo?.documentToken, data?.request_id);
       // A wallet may have been set up elsewhere while this window sat open. A second password
       // mustn't replace the first, or what's saved under it could be lost.
       if (
@@ -141,6 +177,7 @@ const chromeMessageHandler = async (
         const alreadySetUp = await chrome.i18n.getMessage(
           'bgd_auth_already_set_up',
         );
+        if (!stillOpen()) break;
         sendErrors(
           await RequestsHandler.getFromLocalStorage(),
           tab,
@@ -151,6 +188,7 @@ const chromeMessageHandler = async (
         );
         break;
       }
+      if (!stillOpen()) break;
       MkModule.saveMk(mk);
       init(data, tab, domain, await RequestsHandler.getFromLocalStorage());
       break;
@@ -158,8 +196,14 @@ const chromeMessageHandler = async (
     case BackgroundCommand.ACCEPT_TRANSACTION:
       const { keep, data, tab, domain, options } = backgroundMessage.value;
       const token = data.replyTo?.documentToken;
-      // The site's already been told this one was replaced: it mustn't go out now.
-      if (!RequestTracker.isLatest(token, data.request_id)) break;
+      await RequestTracker.restored();
+      // The site's already been told this one was replaced or cancelled: it mustn't go out now.
+      if (
+        !RequestTracker.isLatest(token, data.request_id) ||
+        !RequestTracker.isOpen(token, data.request_id)
+      ) {
+        break;
+      }
       noteApproval();
       RequestTracker.startSending(token);
       const approvedHandler = await RequestsHandler.getFromLocalStorage();
@@ -206,14 +250,10 @@ const chromeMessageHandler = async (
   return true;
 };
 
-// When a chrome window is removed, check if there are no window left open
+// The wallet locks when the last browser window closes, in every browser: Firefox has no offscreen document.
 chrome.windows.onRemoved.addListener(() => {
-  chrome.windows.getAll(async (windows) => {
-    if (windows.length === 0) {
-      if (await chrome.offscreen.hasDocument()) {
-        VaultUtils.removeFromVault(VaultKey.__MK);
-      }
-    }
+  chrome.windows.getAll((windows) => {
+    if (windows.length === 0) MkModule.lock();
   });
 });
 
@@ -223,7 +263,10 @@ export const performOperationFromIndex = async (
   request: KeychainRequest,
 ) => {
   // A later request from this document replaced this one while it was getting ready.
-  if (!RequestTracker.isLatest(requestHandler.data.documentToken, request.request_id!)) {
+  if (
+    !RequestTracker.isLatest(requestHandler.data.documentToken, request.request_id!) ||
+    !RequestTracker.isOpen(requestHandler.data.documentToken, request.request_id!)
+  ) {
     return;
   }
   performOperation(requestHandler, request, tab!, request.domain, false);

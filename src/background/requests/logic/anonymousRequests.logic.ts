@@ -1,4 +1,4 @@
-import { createPopup } from '@background/requests/dialog-lifecycle';
+import { createPopup, toDialog } from '@background/requests/dialog-lifecycle';
 import sendErrors from '@background/requests/errors';
 import { RequestsHandler } from '@background/requests/request-handler';
 import { KeychainRequest } from '@interfaces/keychain.interface';
@@ -32,7 +32,7 @@ export const anonymousRequests = (
     }, requestHandler);
   } else {
     const callback = () => {
-      chrome.runtime.sendMessage({
+      toDialog(requestHandler, {
         command: DialogCommand.SEND_DIALOG_CONFIRM,
         data: request,
         domain,

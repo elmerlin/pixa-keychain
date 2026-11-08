@@ -23,16 +23,23 @@ Worth reporting first:
 
 - **At rest:** accounts are encrypted with AES-GCM, using a key derived from the password with PBKDF2-HMAC-SHA256 and
   600,000 rounds, and stored in the extension's local storage. Data saved by an older format is upgraded on unlock.
-- **While unlocked:** the password is held in memory, in an offscreen document apart from what websites can talk to, and it
-  goes when the wallet locks. It locks after 10 idle minutes unless the person chooses otherwise, and when the browser
-  closes.
+- **While unlocked:** the password is held in memory (in Chrome, in an offscreen document apart from what websites can talk
+  to; in Firefox, in the extension's background), and it
+  goes when the wallet locks. It stays unlocked until the person locks it or closes every browser window, unless they
+  choose to have it lock after some idle minutes or when the device locks.
 - **Sites:** a page talks to the wallet through `window.pixa_keychain`, and each request opens a window of the extension's
   own. Sign and broadcast requests are described from the operations themselves, and anything that can't be read exactly
   is reported as not understood and shows the raw transaction. A message a site wants decrypted is shown first. An answer
   goes only to the document that asked.
 - **"Don't ask again":** one kind of request, from one site, for one account, with the posting key. A transaction's approval
   covers only the kinds of operation it held. Nothing with the active or memo key can be approved in advance, nor anything
-  that can't be read, nor a post's reward settings.
+  that can't be read, except a custom_json whose ID the wallet doesn't know, which is approved for that one ID. A like, a
+  downvote and taking a vote back are approved apart. A post's reward settings can be approved only as the chain's
+  defaults with exactly the shares that were approved, each paired with its own post in the same transaction, and only
+  once the person's node says that post isn't out yet: any other split, a post that's already out, or a node that can't
+  say in time, asks again. That's as far as a wallet can check. A node a few seconds behind, or a site that keeps a
+  signature until a post exists, could still put exactly the approved shares on a post that has no shares or likes yet,
+  and change its text to what was signed.
 - **Keys:** posting, active and memo keys only. Owner keys are always refused, and a master password is used to derive
   the other three.
 - **Automatic claims:** rewards, savings interest and account tickets, only if turned on, only while unlocked, and signed
@@ -51,6 +58,8 @@ Worth reporting first:
 ## What it can't protect against
 
 - A machine that's already compromised, or a malicious extension with access to the same pages.
+- Someone else at the computer while the wallet is unlocked. Approving a request doesn't ask for the password, so a
+  shared computer needs an auto-lock.
 - A weak wallet password, if someone gets hold of the encrypted data or an exported file.
 - A site that's approved with "Don't ask again" and later turns hostile, within what was approved.
 - A node that lies. It can show the wrong balances and history, and an authority change starts from what it says the

@@ -1,5 +1,7 @@
 import { removeWindow } from '@background/requests/dialog-lifecycle';
+import { DialogCommand } from '@reference-data/dialog-message-key.enum';
 import init from '@background/requests/init';
+import { RequestTracker } from '@background/requests/request-tracker';
 import { Key, Keys } from '@interfaces/keys.interface';
 import { LocalAccount } from '@interfaces/local-account.interface';
 import { NoConfirm } from '@interfaces/no-confirm.interface';
@@ -23,6 +25,9 @@ if (!process.env.IS_FIREFOX && !global.window) {
   //@ts-ignore
   global.window = { crypto };
 }
+
+// Saves can finish out of order, since an account's keys are encrypted first: only the newest one is written.
+let saves = 0;
 
 export type ReplyTo = {
   replyTo?: { frameId?: number; documentId?: string; documentToken?: string };
@@ -107,7 +112,7 @@ export class RequestsHandler {
           (latest.documentToken === documentToken &&
             latest.request_id === request_id)
         ) {
-          this.saveInLocalStorage();
+          this.saveInLocalStorage({ documentToken, request_id });
         }
       });
     }
@@ -154,6 +159,9 @@ export class RequestsHandler {
 
   static answerTo(tab: number, replyTo: ReplyTo['replyTo'], message: any) {
     const { documentId, frameId, documentToken } = replyTo ?? {};
+    if (message?.command === DialogCommand.ANSWER_REQUEST) {
+      RequestTracker.answered(documentToken, message.msg?.request_id);
+    }
     // A page has no use for how its answers find it.
     if (message?.msg?.data?.replyTo) {
       const { replyTo: _, ...data } = message.msg.data;
@@ -252,7 +260,14 @@ export class RequestsHandler {
     return handler;
   }
 
-  async saveInLocalStorage() {
+  // A request that's been replaced may still be finishing something: what's saved is the current one's,
+  // checked again right before writing, after anything that waits.
+  async saveInLocalStorage(
+    as: { documentToken?: string; request_id?: number } = this.data,
+  ) {
+    const { documentToken, request_id } = as;
+    if (!RequestTracker.isCurrent(documentToken, request_id)) return;
+    const revision = ++saves;
     const dataToSave = {
       defaultRpcConfig: this.defaultRpcConfig,
       data: {
@@ -291,6 +306,7 @@ export class RequestsHandler {
           : {}),
       } as any;
     }
+    if (!RequestTracker.isCurrent(documentToken, request_id) || revision !== saves) return;
     await LocalStorageUtils.saveValueInLocalStorage(
       LocalStorageKeyEnum.__REQUEST_HANDLER,
       dataToSave,

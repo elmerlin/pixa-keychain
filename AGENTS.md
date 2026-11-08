@@ -47,11 +47,23 @@ transaction. It is the test oracle for anything that serializes.
   as hostile: what it can't read exactly is reported as not understood, opens the raw transaction and
   drops "Don't ask again". Never guess, and never put what a site wrote into a title.
 - **Don't ask again stays narrow.** `approvalFor` in `src/utils/preferences.utils.ts` says what a saved approval covers: one
-  kind of request or set of operations, with the posting key, and nothing unreadable.
+  kind of request or set of operations, with the posting key, and nothing unreadable in a transaction (a `custom` request
+  with an ID the wallet doesn't read is approved for that ID, as upstream does). Likes, downvotes and taking a vote back
+  are separate kinds. Reward settings only as `rewardShares` allows: the chain's defaults with the exact shares in the
+  approval, paired one to one with posts in the same transaction, and `postsAreNew` has the node confirm each post isn't out
+  before one is signed without asking (then `init.ts` checks it's still unlocked and approved). A `custom` request with an ID
+  the wallet reads is approved only when its JSON reads. The checkbox and
+  Settings say what an approval covers in words (`approvalWords`), so a new kind needs its words too.
 - **Authority changes sign what the review built** (`getAuthorityChangeOperation`, `useAuthorityChange`), and read nothing
   again. Only the role asked about goes in. Every byte comes from a site or a node, so the serializer refuses what it can't
   write exactly instead of rounding or wrapping it.
 - Answers to a site go through `requestHandler.answer`, to the document that asked. Never to a whole tab.
+- **One request at a time, from any page.** `RequestTracker` keeps it in memory with how to answer its page (`isCurrent`), so a
+  replaced request from another page is told it was cancelled even if nothing was saved for it. A replaced request never
+  saves its handler, signs, or opens or fills a window. Windows hear their request by a message every window gets, so
+  `createPopup` opens one at a time and closes stray ones first, and everything sent to a window goes through `toDialog`.
+  Only a window the person closes cancels: ones the wallet closes itself (`removeWindow`) don't. Once a request's page has
+  its answer, nothing more starts for it (`isOpen`). The content script sets aside only requests older than the one accepted.
 - Internal names stay as upstream has them (`HiveUtils`, `src/popup/hive`, `hive-tx`), so merging
   upstream stays cheap. Everything a person can see says Pixa, PIXA, PXS, PIXA Keychain.
 - Copy says Pixa for the chain and its accounts, and PIXA and PXS for its tokens. Pixagram is only
