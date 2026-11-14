@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+- **More Pixholm moves can be approved once.** Hurrying with sand, which the game's Hurry button now uses, used to show a
+  warning and ask every time. So did turning something, naming your island, wearing a look, building something facing a
+  way, and resting, swapping or changing the kind of a sprite. Each now says what it is, and "Don't ask again" covers it.
+
 ## 0.1.5
 
 - **It stays unlocked until you lock it.** The wallet now stays unlocked until you lock it or close every browser window.
