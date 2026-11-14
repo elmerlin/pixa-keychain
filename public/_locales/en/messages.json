@@ -3378,6 +3378,39 @@
   "dialog_op_game_hurry": {
     "message": "Use $1 hourglasses"
   },
+  "dialog_op_game_sand_one": {
+    "message": "Use a minute of sand"
+  },
+  "dialog_op_game_sand": {
+    "message": "Use $1 minutes of sand"
+  },
+  "dialog_op_game_turn": {
+    "message": "Turn something on your island"
+  },
+  "dialog_op_game_name": {
+    "message": "Name your island"
+  },
+  "dialog_op_game_name_none": {
+    "message": "Take your island's name off"
+  },
+  "dialog_op_game_island": {
+    "message": "Name"
+  },
+  "dialog_op_game_look": {
+    "message": "Change how your island looks"
+  },
+  "dialog_op_game_sprite_rest": {
+    "message": "Rest a sprite"
+  },
+  "dialog_op_game_sprite_back": {
+    "message": "Bring a sprite back from rest"
+  },
+  "dialog_op_game_sprite_swap": {
+    "message": "Have two sprites trade crafts"
+  },
+  "dialog_op_game_sprite_kind": {
+    "message": "Change what kind a sprite is"
+  },
   "dialog_op_game_train": {
     "message": "Train raiders"
   },

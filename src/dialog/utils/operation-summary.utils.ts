@@ -285,6 +285,13 @@ const MOST_TRAINED = 50;
 const WAVES = 3;
 const BANNER_CHOICES = 8;
 const SIDES = ['nw', 'ne', 'se', 'sw'];
+// As Pixtopia's rules have them (`src/lib/game/rules.ts`, `looks.ts`).
+const MOST_SAND_MINUTES = 60 * 1000;
+const FACINGS = ['sw', 'se', 'ne', 'nw'];
+const ISLAND_NAME = /^[A-Za-z](?:[A-Za-z]|[ '-](?=[A-Za-z])){1,22}[A-Za-z]$/;
+const LOOK_SLOTS = ['flowers', 'crystal', 'lanterns', 'roofs', 'ground', 'garage', 'sails', 'trails', 'shots', 'flourish'];
+const LOOK_ID = /^[a-z][a-z0-9-]{1,39}$/;
+const FRIEND_KINDS = ['fluff', 'bear', 'fox', 'owl', 'lamb', 'mouse', 'frog', 'fawn'];
 const CREW_NAME = /^[A-Za-z0-9][A-Za-z0-9 '-]{1,18}[A-Za-z0-9]$/;
 const BUILDS: Record<string, string> = {
   flower: 'dialog_op_game_build_flower',
@@ -370,7 +377,10 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
     return { says: say('dialog_op_game_found') };
   },
   build: (params) => {
-    const v = exactly(params, ['kind', 'x', 'y']);
+    const v = exactly(params, ['kind', 'x', 'y'], ['facing']);
+    if (v.facing !== undefined && !FACINGS.includes(string(v.facing))) {
+      throw new Unreadable();
+    }
     tile(v.x);
     tile(v.y);
     return { says: say(oneOf(BUILDS, v.kind)) };
@@ -385,9 +395,22 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
     tile(v.y);
     return { says: say('dialog_op_game_move_thing') };
   },
+  // In hourglasses, or under the sand rules in minutes (an hourglass is 60), one or the other.
   hurry: (params) => {
-    const v = exactly(params, ['id', 'hourglasses']);
+    const v = exactly(params, ['id'], ['hourglasses', 'minutes']);
     whole(v.id);
+    if ((v.hourglasses === undefined) === (v.minutes === undefined)) {
+      throw new Unreadable();
+    }
+    if (v.minutes !== undefined) {
+      const minutes = whole(v.minutes, 1, MOST_SAND_MINUTES);
+      return {
+        says:
+          minutes === 1
+            ? say('dialog_op_game_sand_one')
+            : say('dialog_op_game_sand', counted(minutes)),
+      };
+    }
     const count = whole(v.hourglasses, 1);
     return {
       says:
@@ -395,6 +418,51 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
           ? say('dialog_op_game_hurry_one')
           : say('dialog_op_game_hurry', String(count)),
     };
+  },
+  turn: (params) => {
+    const v = exactly(params, ['id', 'facing']);
+    whole(v.id);
+    if (!FACINGS.includes(string(v.facing))) throw new Unreadable();
+    return { says: say('dialog_op_game_turn') };
+  },
+  name: (params) => {
+    const name = string(exactly(params, ['name']).name);
+    if (name === '') return { says: say('dialog_op_game_name_none') };
+    return {
+      says: say('dialog_op_game_name'),
+      rows: [row('dialog_op_game_island', matching(ISLAND_NAME, name))],
+    };
+  },
+  look: (params) => {
+    const v = exactly(params, ['slot', 'id']);
+    if (!LOOK_SLOTS.includes(string(v.slot))) throw new Unreadable();
+    const id = string(v.id);
+    if (id !== '') matching(LOOK_ID, id);
+    return { says: say('dialog_op_game_look') };
+  },
+  'sprite.rest': (params) => {
+    const v = exactly(params, ['id', 'rest']);
+    whole(v.id);
+    return {
+      says: say(
+        whole(v.rest, 0, 1) === 1
+          ? 'dialog_op_game_sprite_rest'
+          : 'dialog_op_game_sprite_back',
+      ),
+    };
+  },
+  'sprite.swap': (params) => {
+    const v = exactly(params, ['a', 'b']);
+    whole(v.a);
+    whole(v.b);
+    return { says: say('dialog_op_game_sprite_swap') };
+  },
+  'sprite.kind': (params) => {
+    const v = exactly(params, ['id', 'kind']);
+    whole(v.id);
+    const kind = string(v.kind);
+    if (kind !== '' && !FRIEND_KINDS.includes(kind)) throw new Unreadable();
+    return { says: say('dialog_op_game_sprite_kind') };
   },
   train: (params) => {
     const v = exactly(params, ['dock', 'kind', 'count']);

@@ -194,6 +194,18 @@ describe('describing what gets signed', () => {
       [['move', { id: 4, x: 3, y: 8 }], 'Move something on your island'],
       [['hurry', { id: 4, hourglasses: 1 }], 'Use an hourglass'],
       [['hurry', { id: 4, hourglasses: 3 }], 'Use 3 hourglasses'],
+      [['hurry', { id: 4, minutes: 1 }], 'Use a minute of sand'],
+      [['hurry', { id: 4, minutes: 1250 }], 'Use 1,250 minutes of sand'],
+      [['build', { kind: 'lantern', x: 4, y: 7, facing: 'ne' }], 'Build a lantern'],
+      [['turn', { id: 4, facing: 'sw' }], 'Turn something on your island'],
+      [['name', { name: '' }], "Take your island's name off"],
+      [['look', { slot: 'roofs', id: 'roofs-red' }], 'Change how your island looks'],
+      [['look', { slot: 'garage', id: '' }], 'Change how your island looks'],
+      [['sprite.rest', { id: 9, rest: 1 }], 'Rest a sprite'],
+      [['sprite.rest', { id: 9, rest: 0 }], 'Bring a sprite back from rest'],
+      [['sprite.swap', { a: 9, b: 12 }], 'Have two sprites trade crafts'],
+      [['sprite.kind', { id: 9, kind: 'fox' }], 'Change what kind a sprite is'],
+      [['sprite.kind', { id: 9, kind: '' }], 'Change what kind a sprite is'],
       [['research', { topic: 'roots' }], 'Study Deep roots'],
       [['scout', { target: 0 }], 'Send a paper crane to scout Driftwood Camp'],
       [['recall', { trip: 2 }], 'Call raiders home'],
@@ -239,6 +251,12 @@ describe('describing what gets signed', () => {
       expect(help.title).toBe('Send raiders to help @bobby');
       expect(value(help, 'Airships')).toBe('1');
       expect(value(help, 'Menders')).toBe('2');
+    });
+
+    it('an island’s name, which a site wrote, is only ever a row', () => {
+      const named = describeOne(move([['name', { name: "Wren's Rest" }]]));
+      expect(named.title).toBe('Name your island');
+      expect(value(named, 'Name')).toBe("Wren's Rest");
     });
 
     it('a crew’s name, which a site wrote, is only ever a row', () => {
@@ -294,6 +312,18 @@ describe('describing what gets signed', () => {
       ['building off the island', move([['build', { kind: 'lantern', x: 14, y: 1 }]])],
       ['a tile that is not a whole number', move([['build', { kind: 'lantern', x: 1.5, y: 1 }]])],
       ['no hourglasses', move([['hurry', { id: 1, hourglasses: 0 }]])],
+      ['no minutes', move([['hurry', { id: 1, minutes: 0 }]])],
+      ['part of a minute', move([['hurry', { id: 1, minutes: 1.5 }]])],
+      ['a hurry in hourglasses and minutes', move([['hurry', { id: 1, hourglasses: 1, minutes: 30 }]])],
+      ['a hurry in neither', move([['hurry', { id: 1 }]])],
+      ['building facing a way nobody knows', move([['build', { kind: 'lantern', x: 1, y: 1, facing: 'up' }]])],
+      ['turning to a way nobody knows', move([['turn', { id: 1, facing: 'north' }]])],
+      ['an island name the game refuses', move([['name', { name: 'Send 1 PIXA now' }]])],
+      ['an island name that is not text', move([['name', { name: 3 }]])],
+      ['a look in a slot nobody knows', move([['look', { slot: 'hats', id: 'hat-red' }]])],
+      ['a look id the game never writes', move([['look', { slot: 'roofs', id: 'Roofs Red!' }]])],
+      ['resting a sprite some other way', move([['sprite.rest', { id: 1, rest: 2 }]])],
+      ['a sprite of a kind nobody knows', move([['sprite.kind', { id: 1, kind: 'dragon' }]])],
       ['training too many', move([['train', { dock: 1, kind: 'kite', count: 51 }]])],
       ['training a kind nobody knows', move([['train', { dock: 1, kind: 'dragon', count: 1 }]])],
       ['studying something nobody knows', move([['research', { topic: 'alchemy' }]])],
