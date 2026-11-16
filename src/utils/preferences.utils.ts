@@ -12,7 +12,7 @@ import { getRequiredWifType } from 'src/utils/requests.utils';
 
 const POSTING_OPERATIONS = ['vote', 'comment', 'delete_comment', 'claim_reward_balance'];
 // The custom_json IDs the wallet reads, and has words for.
-const READABLE_IDS = ['follow', 'community', 'pixtopia.game', 'rc'];
+const READABLE_IDS = ['follow', 'community', 'pixtopia.game', 'pixtopia.crew', 'rc'];
 const ACCOUNT = /^[a-z][a-z0-9.-]{2,15}$/;
 const REWARD_OPTIONS = [
   'allow_curation_rewards',
@@ -185,6 +185,7 @@ const KIND_WORDS: Record<string, string> = {
   'custom_json/follow': 'approval_follows',
   'custom_json/community': 'approval_portals',
   'custom_json/pixtopia.game': 'approval_pixholm',
+  'custom_json/pixtopia.crew': 'approval_crew_calls',
   'custom_json/rc': 'approval_rc',
 };
 const TYPE_WORDS: Record<string, string> = {

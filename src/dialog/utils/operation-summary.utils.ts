@@ -292,6 +292,20 @@ const ISLAND_NAME = /^[A-Za-z](?:[A-Za-z]|[ '-](?=[A-Za-z])){1,22}[A-Za-z]$/;
 const LOOK_SLOTS = ['flowers', 'crystal', 'lanterns', 'roofs', 'ground', 'garage', 'sails', 'trails', 'shots', 'flourish'];
 const LOOK_ID = /^[a-z][a-z0-9-]{1,39}$/;
 const FRIEND_KINDS = ['fluff', 'bear', 'fox', 'owl', 'lamb', 'mouse', 'frog', 'fawn'];
+// A sprite's own name, as the game takes it (`SPRITE_NAME` in its `folk.ts`), after trimming.
+const SPRITE_NAME = /^[A-Za-z][A-Za-z '-]{0,10}[A-Za-z]$/;
+// An emblem's parts, each an index into what the game draws (`EMBLEM` in its `rules.ts`).
+const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 6, second: 12, mark: 30, ink: 12, coats: 2 };
+// Which crews a trip takes (`isPick` in the game's `folk.ts`).
+const CREW_PICKS = ['old', 'new'];
+// A steered fight's orders, as the game reads them (`readDrops`, `readSays` in its `steer.ts`, `STEER` and `COMMAND` in
+// `rules.ts`): up to 16 drops of craft, each a kind, how many and where in the field's steps; up to 8 kinds told what to
+// go for (a foe's place, 0 to 255) and up to 8 told to go all out.
+const MOST_DROPS = 16;
+const MOST_DROPPED = 999;
+const FIELD_REACH = 4 * ISLAND_SIDE * 32;
+const MOST_SAYS = 8;
+const MOST_FOE = 255;
 const CREW_NAME = /^[A-Za-z0-9][A-Za-z0-9 '-]{1,18}[A-Za-z0-9]$/;
 const BUILDS: Record<string, string> = {
   flower: 'dialog_op_game_build_flower',
@@ -362,6 +376,28 @@ const raidersIn = (v: Fields, others: readonly string[]) => {
   if (!rows.length) throw new Unreadable();
   return rows;
 };
+// A hunt's or raid's plan: the side it comes in from and each kind's wave.
+const planIn = (v: Fields) => {
+  if (v.from !== undefined && !SIDES.includes(string(v.from))) {
+    throw new Unreadable();
+  }
+  if (v.waves !== undefined) {
+    Object.entries(fields(v.waves)).forEach(([kind, wave]) => {
+      oneOf(RAIDERS, kind);
+      whole(wave, 1, WAVES);
+    });
+  }
+};
+// Kinds named once each, at most `MOST_SAYS` of them.
+const kindsOnce = (kinds: unknown[]) => {
+  if (!kinds.length || kinds.length > MOST_SAYS) throw new Unreadable();
+  kinds.forEach((kind, index) => {
+    oneOf(RAIDERS, kind);
+    if (kinds.indexOf(kind) !== index) throw new Unreadable();
+  });
+  return kinds as string[];
+};
+const raidersNamed = (kinds: string[]) => kinds.map((kind) => say(RAIDERS[kind])).join(', ');
 const onIsland = (key: string) => (params: unknown): Step => {
   whole(exactly(params, ['id']).id);
   return { says: say(key) };
@@ -481,21 +517,98 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
     ),
   }),
   raid: (params) => {
-    const plan = ['target', 'from', 'waves'];
+    const plan = ['target', 'from', 'waves', 'pick'];
     const v = fields(params);
     const rows = raidersIn(v, plan);
-    if (v.from !== undefined && !SIDES.includes(string(v.from))) {
+    planIn(v);
+    if (v.pick !== undefined && !CREW_PICKS.includes(string(v.pick))) {
       throw new Unreadable();
-    }
-    if (v.waves !== undefined) {
-      Object.entries(fields(v.waves)).forEach(([kind, wave]) => {
-        oneOf(RAIDERS, kind);
-        whole(wave, 1, WAVES);
-      });
     }
     const target =
       typeof v.target === 'string' ? handle(v.target) : camp(v.target);
     return { says: say('dialog_op_game_raid', target), rows };
+  },
+  // The day's beasts in your own sky, or with `great` the crew's great beast of the week.
+  hunt: (params) => {
+    const v = fields(params);
+    const rows = raidersIn(v, ['great', 'from', 'waves', 'pick']);
+    planIn(v);
+    if (v.pick !== undefined && !CREW_PICKS.includes(string(v.pick))) {
+      throw new Unreadable();
+    }
+    const great = v.great === undefined ? 0 : whole(v.great, 0, 1);
+    return {
+      says: say(great ? 'dialog_op_game_hunt_great' : 'dialog_op_game_hunt'),
+      rows,
+    };
+  },
+  // An order in a fight its raider steers: craft in, everyone home, the plan they were sent with, or crews of rank told
+  // what to go for or to go all out.
+  fight: (params) => {
+    const v = exactly(params, ['trip'], ['drops', 'home', 'plan', 'aim', 'ace']);
+    whole(v.trip);
+    const home = v.home === undefined ? 0 : whole(v.home, 1, 1);
+    const byPlan = v.plan === undefined ? 0 : whole(v.plan, 1, 1);
+    const sent: Record<string, number> = {};
+    if (v.drops !== undefined) {
+      const drops = list(v.drops);
+      if (!drops.length || drops.length > MOST_DROPS) throw new Unreadable();
+      drops.forEach((drop) => {
+        if (list(drop).length !== 4) throw new Unreadable();
+        const [kind, count, x, y] = list(drop);
+        oneOf(RAIDERS, kind);
+        const many = whole(count, 1, MOST_DROPPED);
+        whole(x, -FIELD_REACH, FIELD_REACH);
+        whole(y, -FIELD_REACH, FIELD_REACH);
+        sent[kind as string] = (sent[kind as string] ?? 0) + many;
+      });
+    }
+    const aims =
+      v.aim === undefined
+        ? []
+        : kindsOnce(
+            list(v.aim).map((entry) => {
+              const parts = list(entry);
+              if (parts.length !== 2) throw new Unreadable();
+              whole(parts[1], 0, MOST_FOE);
+              return parts[0];
+            }),
+          );
+    const aces = v.ace === undefined ? [] : kindsOnce(list(v.ace));
+    const told = [
+      ...(aims.length ? [row('dialog_op_game_fight_aim', raidersNamed(aims))] : []),
+      ...(aces.length ? [row('dialog_op_game_fight_ace', raidersNamed(aces))] : []),
+    ];
+    if (home) {
+      if (v.drops !== undefined || byPlan || told.length) throw new Unreadable();
+      return { says: say('dialog_op_game_fight_home') };
+    }
+    if (byPlan) {
+      if (v.drops !== undefined || told.length) throw new Unreadable();
+      return { says: say('dialog_op_game_fight_plan') };
+    }
+    const rows = Object.keys(RAIDERS)
+      .filter((kind) => hasOwn(sent, kind))
+      .map((kind) => row(RAIDERS[kind], counted(sent[kind])));
+    if (rows.length) return { says: say('dialog_op_game_fight_drops'), rows: [...rows, ...told] };
+    if (told.length) return { says: say('dialog_op_game_fight_orders'), rows: told };
+    throw new Unreadable();
+  },
+  emblem: (params) => {
+    const v = exactly(params, Object.keys(EMBLEM_PARTS));
+    Object.entries(EMBLEM_PARTS).forEach(([part, count]) => whole(v[part], 0, count - 1));
+    return { says: say('dialog_op_game_emblem') };
+  },
+  // The game trims a sprite's name before it reads it, so the name shown is the one it keeps.
+  'sprite.name': (params) => {
+    const v = exactly(params, ['id', 'name']);
+    whole(v.id);
+    const name = string(v.name).trim();
+    if (name === '') return { says: say('dialog_op_game_sprite_unname') };
+    return {
+      says: say('dialog_op_game_sprite_name'),
+      rows: [row('dialog_op_game_sprite', matching(SPRITE_NAME, name))],
+    };
   },
   scout: (params) => ({
     says: say('dialog_op_game_scout', camp(exactly(params, ['target']).target)),
@@ -538,6 +651,24 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
   },
 };
 
+// A crew-mate calling the rest of their crew in Pixholm, for help or to the great hunt: not a move, and nothing in
+// the game reads it (`pixtopia.crew`, Pixtopia's `src/lib/pixholm/crew-call.ts`). Exactly ["call", {"to": …}].
+const CREW_CALL_ID = 'pixtopia.crew';
+const CREW_CALLS: Record<string, string> = {
+  help: 'dialog_op_game_call_help',
+  hunt: 'dialog_op_game_call_hunt',
+};
+const crewCall = (actor: string, payload: unknown): Described => {
+  const call = list(payload);
+  if (call.length !== 2 || call[0] !== 'call') throw new Unreadable();
+  const { to } = exactly(call[1], ['to']);
+  return {
+    actor,
+    title: say(oneOf(CREW_CALLS, to)),
+    rows: [row('dialog_op_game', say('dialog_op_game_pixholm'))],
+  };
+};
+
 const gameMove = (actor: string, payload: unknown): Described => {
   const move = exactly(payload, ['v', 'do']);
   if (move.v !== 1) throw new Unreadable();
@@ -572,11 +703,13 @@ const customJson = (v: Fields): Described => {
   const auths = [...list(v.required_auths), ...list(v.required_posting_auths)];
   if (auths.length !== 1) throw new Unreadable();
   const actor = account(auths[0]);
-  // These two are only ever signed with the posting key, and read only as their apps write them.
-  if (v.id === GAME_ID || v.id === 'rc') {
+  // These are only ever signed with the posting key, and read only as their apps write them.
+  if (v.id === GAME_ID || v.id === CREW_CALL_ID || v.id === 'rc') {
     if (list(v.required_auths).length) throw new Unreadable();
     const payload = canonical(v.json);
-    return v.id === GAME_ID ? gameMove(actor, payload) : lendRc(actor, payload);
+    if (v.id === GAME_ID) return gameMove(actor, payload);
+    if (v.id === CREW_CALL_ID) return crewCall(actor, payload);
+    return lendRc(actor, payload);
   }
   let payload: unknown;
   try {

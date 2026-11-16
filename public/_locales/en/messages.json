@@ -1187,6 +1187,9 @@
     "message": "Pixholm moves",
     "description": "What a saved approval lets a site do. Pixholm is a game's name"
   },
+  "approval_crew_calls": {
+    "message": "Pixholm crew calls"
+  },
   "approval_rc": {
     "message": "lending RC",
     "description": "What a saved approval lets a site do"
@@ -3410,6 +3413,48 @@
   },
   "dialog_op_game_sprite_kind": {
     "message": "Change what kind a sprite is"
+  },
+  "dialog_op_game_sprite_name": {
+    "message": "Name a sprite"
+  },
+  "dialog_op_game_sprite_unname": {
+    "message": "Give a sprite back its own name"
+  },
+  "dialog_op_game_sprite": {
+    "message": "Name"
+  },
+  "dialog_op_game_emblem": {
+    "message": "Change your emblem"
+  },
+  "dialog_op_game_hunt": {
+    "message": "Hunt the beasts in your sky"
+  },
+  "dialog_op_game_hunt_great": {
+    "message": "Hunt your crew's great beast"
+  },
+  "dialog_op_game_fight_drops": {
+    "message": "Send craft into the fight"
+  },
+  "dialog_op_game_fight_home": {
+    "message": "Call your raiders home from the fight"
+  },
+  "dialog_op_game_fight_plan": {
+    "message": "Fight by your plan"
+  },
+  "dialog_op_game_fight_orders": {
+    "message": "Give orders in the fight"
+  },
+  "dialog_op_game_fight_aim": {
+    "message": "Go for it"
+  },
+  "dialog_op_game_fight_ace": {
+    "message": "All out"
+  },
+  "dialog_op_game_call_help": {
+    "message": "Call your crew for help"
+  },
+  "dialog_op_game_call_hunt": {
+    "message": "Call your crew to the great hunt"
   },
   "dialog_op_game_train": {
     "message": "Train raiders"

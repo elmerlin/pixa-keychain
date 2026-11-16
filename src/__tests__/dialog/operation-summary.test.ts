@@ -215,6 +215,11 @@ describe('describing what gets signed', () => {
       [['crew.hand', { account: 'bobby' }], "Make @bobby your crew's founder"],
       [['crew.give', { glow: 12500 }], "Pour 12,500 glow into your crew's lighthouse"],
       [['crew.banner', { colour: 7, mark: 0 }], "Change your crew's banner"],
+      [['emblem', { field: 2, pattern: 3, second: 9, mark: 19, ink: 9, coats: 1 }], 'Change your emblem'],
+      [['emblem', { field: 11, pattern: 5, second: 0, mark: 29, ink: 11, coats: 0 }], 'Change your emblem'],
+      [['sprite.name', { id: 9, name: '' }], 'Give a sprite back its own name'],
+      [['fight', { trip: 3, home: 1 }], 'Call your raiders home from the fight'],
+      [['fight', { trip: 3, plan: 1 }], 'Fight by your plan'],
     ])('%j', (action, title) => {
       const summary = describeOne(move([action]));
       expect(summary.understood).toBe(true);
@@ -251,6 +256,66 @@ describe('describing what gets signed', () => {
       expect(help.title).toBe('Send raiders to help @bobby');
       expect(value(help, 'Airships')).toBe('1');
       expect(value(help, 'Menders')).toBe('2');
+    });
+
+    // As the war table sends them: who goes, the plan, which crews, and for the crew's great beast `great`.
+    it('a hunt says which beasts and who goes', () => {
+      const sky = describeOne(
+        move([
+          [
+            'hunt',
+            { kite: 11, glider: 3, from: 'se', waves: { kite: 1, glider: 2 }, pick: 'new' },
+          ],
+        ]),
+      );
+      expect(sky.understood).toBe(true);
+      expect(sky.title).toBe('Hunt the beasts in your sky');
+      expect(sky.rows.map((row) => row.label)).toEqual(['Game', 'Kites', 'Gliders']);
+      expect(value(sky, 'Kites')).toBe('11');
+      const great = describeOne(move([['hunt', { airship: 2, great: 1 }]]));
+      expect(great.title).toBe("Hunt your crew's great beast");
+      expect(value(great, 'Airships')).toBe('2');
+      // A raid's crews can be picked the same way.
+      expect(describeOne(move([['raid', { target: 1, kite: 2, pick: 'old' }]])).understood).toBe(true);
+    });
+
+    // As the fight's screen sends them (Pixtopia's `fight-view.tsx`): craft in, the drops counted by kind.
+    it('craft sent into a fight are counted by kind, with any orders to crews of rank', () => {
+      const drops = describeOne(
+        move([
+          [
+            'fight',
+            {
+              trip: 7,
+              drops: [
+                ['kite', 3, -160, 0],
+                ['kite', 2, 32, -160],
+                ['balloon', 1, 1792, -1792],
+              ],
+            },
+          ],
+        ]),
+      );
+      expect(drops.title).toBe('Send craft into the fight');
+      expect(drops.rows.map((row) => row.label)).toEqual(['Game', 'Kites', 'Balloons']);
+      expect(value(drops, 'Kites')).toBe('5');
+      const told = describeOne(
+        move([['fight', { trip: 7, drops: [['glider', 3, 0, 0]], aim: [['glider', 4]], ace: ['spark'] }]]),
+      );
+      expect(told.title).toBe('Send craft into the fight');
+      expect(value(told, 'Go for it')).toBe('Gliders');
+      expect(value(told, 'All out')).toBe('Spark drones');
+      const orders = describeOne(
+        move([['fight', { trip: 7, aim: [['kite', 0], ['balloon', 255]] }]]),
+      );
+      expect(orders.title).toBe('Give orders in the fight');
+      expect(value(orders, 'Go for it')).toBe('Kites, Balloons');
+    });
+
+    it('a sprite’s name, which a site wrote, is only ever a row', () => {
+      const named = describeOne(move([['sprite.name', { id: 9, name: "Mo'lark" }]]));
+      expect(named.title).toBe('Name a sprite');
+      expect(value(named, 'Name')).toBe("Mo'lark");
     });
 
     it('an island’s name, which a site wrote, is only ever a row', () => {
@@ -340,11 +405,65 @@ describe('describing what gets signed', () => {
       ['leaving a crew with something extra', move([['crew.leave', { crew: 'Sky' }]])],
       ['no glow', move([['crew.give', { glow: 0 }]])],
       ['a banner that isn’t one', move([['crew.banner', { colour: 8, mark: 0 }]])],
+      ['a hunt with nobody in it', move([['hunt', {}]])],
+      ['a hunt with a kind nobody knows', move([['hunt', { dragon: 2 }]])],
+      ['a great hunt some other way', move([['hunt', { kite: 1, great: 2 }]])],
+      ['a hunt with crews picked some other way', move([['hunt', { kite: 1, pick: 'best' }]])],
+      ['a hunt from a side nobody knows', move([['hunt', { kite: 1, from: 'up' }]])],
+      ['an order with nothing in it', move([['fight', { trip: 1 }]])],
+      ['an order to no fight', move([['fight', { home: 1 }]])],
+      ['an order home some other way', move([['fight', { trip: 1, home: 2 }]])],
+      ['home and craft in at once', move([['fight', { trip: 1, home: 1, drops: [['kite', 1, 0, 0]] }]])],
+      ['the plan and craft in at once', move([['fight', { trip: 1, plan: 1, drops: [['kite', 1, 0, 0]] }]])],
+      ['no drops in a list of drops', move([['fight', { trip: 1, drops: [] }]])],
+      ['more drops than an order takes', move([['fight', { trip: 1, drops: Array(17).fill(['kite', 1, 0, 0]) }]])],
+      ['a drop of nobody', move([['fight', { trip: 1, drops: [['kite', 0, 0, 0]] }]])],
+      ['a drop of a kind nobody knows', move([['fight', { trip: 1, drops: [['dragon', 1, 0, 0]] }]])],
+      ['a drop far off the field', move([['fight', { trip: 1, drops: [['kite', 1, 1793, 0]] }]])],
+      ['a drop with a part missing', move([['fight', { trip: 1, drops: [['kite', 1, 0]] }]])],
+      ['a kind told twice what to go for', move([['fight', { trip: 1, aim: [['kite', 1], ['kite', 2]] }]])],
+      ['a foe the field has no place for', move([['fight', { trip: 1, aim: [['kite', 256]] }]])],
+      ['all out for a kind nobody knows', move([['fight', { trip: 1, ace: ['dragon'] }]])],
+      ['an order with something extra', move([['fight', { trip: 1, plan: 1, all: true }]])],
+      ['an emblem missing a part', move([['emblem', { field: 2, pattern: 3, second: 9, mark: 19, ink: 9 }]])],
+      ['an emblem colour nobody has', move([['emblem', { field: 12, pattern: 3, second: 9, mark: 19, ink: 9, coats: 1 }]])],
+      ['a sprite name the game refuses', move([['sprite.name', { id: 1, name: 'Send 1 PIXA now' }]])],
+      ['a sprite name that is not text', move([['sprite.name', { id: 1, name: 3 }]])],
       ['json written with spaces', move(null, {}, '{"v": 1, "do": [["found", {}]]}')],
       ['a key written twice', move(null, {}, '{"v":1,"do":[["recall",{"trip":1,"trip":2}]]}')],
       ['a number written another way', move(null, {}, '{"v":1,"do":[["recall",{"trip":1e2}]]}')],
       ['json that does not parse', move(null, {}, '{"v":1,')],
     ])('a move %s is not understood', (_, operation) => {
+      expectNotUnderstood(describeOne(operation));
+      expect(understandsAll([operation], 'alice')).toBe(false);
+    });
+  });
+
+  // As Pixtopia's `buildCrewCall` sends it (`src/lib/pixholm/crew-call.ts`): a crew-mate calling the rest.
+  describe('Pixholm crew calls', () => {
+    const call = (json: string, changes: Record<string, unknown> = {}) => [
+      'custom_json',
+      { required_auths: [], required_posting_auths: ['alice'], id: 'pixtopia.crew', json, ...changes },
+    ];
+
+    it.each([
+      ['["call",{"to":"help"}]', 'Call your crew for help'],
+      ['["call",{"to":"hunt"}]', 'Call your crew to the great hunt'],
+    ])('%s', (json, title) => {
+      const summary = describeOne(call(json));
+      expect(summary.understood).toBe(true);
+      expect(summary.title).toBe(title);
+      expect(value(summary, 'Game')).toBe('Pixholm');
+      expect(understandsAll([call(json)], 'alice')).toBe(true);
+    });
+
+    it.each([
+      ['a call nobody knows', call('["call",{"to":"party"}]')],
+      ['something else beside the call', call('["call",{"to":"help","also":1}]')],
+      ['not a call', call('["raid",{"to":"help"}]')],
+      ['written with spaces', call('["call", {"to": "help"}]')],
+      ['signed with the active key', call('["call",{"to":"help"}]', { required_auths: ['alice'], required_posting_auths: [] })],
+    ])('%s is not understood', (_, operation) => {
       expectNotUnderstood(describeOne(operation));
       expect(understandsAll([operation], 'alice')).toBe(false);
     });
