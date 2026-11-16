@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.7
+
+- **Every Pixholm move the game makes can be approved once.** Hunting, every order in a battle you steer (sending craft
+  in, fighting by your plan, calling them home, and telling crews of rank what to go for or to go all out), changing your
+  emblem and naming a sprite used to show a warning and ask every time. Each now says what it is, and "Don't ask again"
+  covers it.
+- **Crew calls say what they are.** Calling your crew for help or to the great hunt reads as just that, and can be
+  approved once on its own.
+
 ## 0.1.6
 
 - **More Pixholm moves can be approved once.** Hurrying with sand, which the game's Hurry button now uses, used to show a
