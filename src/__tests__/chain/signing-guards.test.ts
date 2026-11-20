@@ -1198,6 +1198,13 @@ describe('saved approvals', () => {
     expect(isWhitelisted(saved(approval), signTx([move]), 'site.test', rpc)).toBe(true);
     expect(isWhitelisted(saved(approval), signTx([follow]), 'site.test', rpc)).toBe(false);
     expect(isWhitelisted(saved(approval), signTx([move, vote]), 'site.test', rpc)).toBe(false);
+    // The Renown rules' moves are covered by the same approval, once they read.
+    const cast = ['custom_json', { ...(move[1] as object), json: JSON.stringify({ v: 1, do: [['fish', {}]] }) }];
+    expect(approvalFor(signTx([cast]))).toBe('signTx:custom_json/pixtopia.game');
+    expect(isWhitelisted(saved(approval), signTx([cast]), 'site.test', rpc)).toBe(true);
+    const self = ['custom_json', { ...(move[1] as object), json: JSON.stringify({ v: 1, do: [['water', { account: 'alice' }]] }) }];
+    expect(approvalFor(signTx([self]))).toBeNull();
+    expect(isWhitelisted(saved(approval), signTx([self]), 'site.test', rpc)).toBe(false);
     const asBob = ['custom_json', { ...(move[1] as object), required_posting_auths: ['bob'] }];
     expect(approvalFor(signTx([asBob]))).toBeNull();
   });

@@ -3570,6 +3570,213 @@
   "dialog_op_game_crew_banner": {
     "message": "Change your crew's banner"
   },
+  "dialog_op_game_where": {
+    "message": "Where"
+  },
+  "dialog_op_game_garden": {
+    "message": "Your sky garden"
+  },
+  "dialog_op_game_move_garden": {
+    "message": "Move something to your sky garden"
+  },
+  "dialog_op_game_look_thing": {
+    "message": "Change how one thing on your island looks"
+  },
+  "dialog_op_game_quest": {
+    "message": "Take a friend's quest"
+  },
+  "dialog_op_game_quest_drop": {
+    "message": "Drop your friend quest"
+  },
+  "dialog_op_game_friend": {
+    "message": "Friend"
+  },
+  "dialog_op_game_fish": {
+    "message": "Cast a fishing line"
+  },
+  "dialog_op_game_find": {
+    "message": "Pick up a lost thing"
+  },
+  "dialog_op_game_water": {
+    "message": "Water $1's flowers"
+  },
+  "dialog_op_game_chart": {
+    "message": "Chart the night's stars"
+  },
+  "dialog_op_game_cloud": {
+    "message": "Open a lucky cloud"
+  },
+  "dialog_op_game_seed_catch": {
+    "message": "Catch a sky seed"
+  },
+  "dialog_op_game_seed_plant": {
+    "message": "Plant a sky seed"
+  },
+  "dialog_op_game_seed": {
+    "message": "Seed"
+  },
+  "dialog_op_game_plant_moonlily": {
+    "message": "Moonlily"
+  },
+  "dialog_op_game_plant_sunbell": {
+    "message": "Sunbell"
+  },
+  "dialog_op_game_plant_starfern": {
+    "message": "Starfern"
+  },
+  "dialog_op_game_plant_cloudrose": {
+    "message": "Cloudrose"
+  },
+  "dialog_op_game_plant_dewcap": {
+    "message": "Dewcap"
+  },
+  "dialog_op_game_plant_glowvine": {
+    "message": "Glowvine"
+  },
+  "dialog_op_game_plant_remove": {
+    "message": "Pull up a plant"
+  },
+  "dialog_op_game_plant_pick": {
+    "message": "Pick a grown plant"
+  },
+  "dialog_op_game_renown_garden": {
+    "message": "Grow your sky garden with Renown"
+  },
+  "dialog_op_game_renown_wear": {
+    "message": "Buy something for sprites to wear with Renown"
+  },
+  "dialog_op_game_renown_look": {
+    "message": "Buy a look with Renown"
+  },
+  "dialog_op_game_item": {
+    "message": "Item"
+  },
+  "dialog_op_game_look_name": {
+    "message": "Look"
+  },
+  "dialog_op_game_look_starlight": {
+    "message": "Starlight flowers"
+  },
+  "dialog_op_game_look_coral": {
+    "message": "Coral flowers"
+  },
+  "dialog_op_game_look_sky": {
+    "message": "Sky crystal"
+  },
+  "dialog_op_game_look_lime": {
+    "message": "Lime crystal"
+  },
+  "dialog_op_game_look_violet": {
+    "message": "Violet lantern glow"
+  },
+  "dialog_op_game_look_ember": {
+    "message": "Ember lantern glow"
+  },
+  "dialog_op_game_sprite_dress": {
+    "message": "Dress a sprite"
+  },
+  "dialog_op_game_coat": {
+    "message": "Coat"
+  },
+  "dialog_op_game_coat_chance": {
+    "message": "As chance has it"
+  },
+  "dialog_op_game_coat_pink": {
+    "message": "Pink"
+  },
+  "dialog_op_game_coat_sky": {
+    "message": "Sky"
+  },
+  "dialog_op_game_coat_mint": {
+    "message": "Mint"
+  },
+  "dialog_op_game_coat_amber": {
+    "message": "Amber"
+  },
+  "dialog_op_game_coat_red": {
+    "message": "Red"
+  },
+  "dialog_op_game_coat_orange": {
+    "message": "Orange"
+  },
+  "dialog_op_game_coat_gold": {
+    "message": "Gold"
+  },
+  "dialog_op_game_coat_green": {
+    "message": "Green"
+  },
+  "dialog_op_game_coat_teal": {
+    "message": "Teal"
+  },
+  "dialog_op_game_coat_blue": {
+    "message": "Blue"
+  },
+  "dialog_op_game_coat_violet": {
+    "message": "Violet"
+  },
+  "dialog_op_game_coat_rose": {
+    "message": "Rose"
+  },
+  "dialog_op_game_coat_white": {
+    "message": "White"
+  },
+  "dialog_op_game_coat_black": {
+    "message": "Black"
+  },
+  "dialog_op_game_coat_brown": {
+    "message": "Brown"
+  },
+  "dialog_op_game_wear_head": {
+    "message": "Head"
+  },
+  "dialog_op_game_wear_face": {
+    "message": "Face"
+  },
+  "dialog_op_game_wear_back": {
+    "message": "Body"
+  },
+  "dialog_op_game_wear_nothing": {
+    "message": "Nothing"
+  },
+  "dialog_op_game_wear_flowers": {
+    "message": "Flower crown"
+  },
+  "dialog_op_game_wear_bow": {
+    "message": "Bow"
+  },
+  "dialog_op_game_wear_earmuffs": {
+    "message": "Earmuffs"
+  },
+  "dialog_op_game_wear_ribbon": {
+    "message": "Sprout ribbon"
+  },
+  "dialog_op_game_wear_halo": {
+    "message": "Halo"
+  },
+  "dialog_op_game_wear_crown": {
+    "message": "Golden crown"
+  },
+  "dialog_op_game_wear_glasses": {
+    "message": "Round glasses"
+  },
+  "dialog_op_game_wear_shades": {
+    "message": "Sunglasses"
+  },
+  "dialog_op_game_wear_blush": {
+    "message": "Rosy cheeks"
+  },
+  "dialog_op_game_wear_stars": {
+    "message": "Star glasses"
+  },
+  "dialog_op_game_wear_backpack": {
+    "message": "Backpack"
+  },
+  "dialog_op_game_wear_cape": {
+    "message": "Cape"
+  },
+  "dialog_op_game_wear_wings": {
+    "message": "Fairy wings"
+  },
   "dialog_op_send": {
     "message": "Send $1"
   },

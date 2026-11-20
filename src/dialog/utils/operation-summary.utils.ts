@@ -289,9 +289,87 @@ const SIDES = ['nw', 'ne', 'se', 'sw'];
 const MOST_SAND_MINUTES = 60 * 1000;
 const FACINGS = ['sw', 'se', 'ne', 'nw'];
 const ISLAND_NAME = /^[A-Za-z](?:[A-Za-z]|[ '-](?=[A-Za-z])){1,22}[A-Za-z]$/;
-const LOOK_SLOTS = ['flowers', 'crystal', 'lanterns', 'roofs', 'ground', 'garage', 'sails', 'trails', 'shots', 'flourish'];
+const LOOK_SLOTS = ['flowers', 'crystal', 'lanterns', 'roofs', 'ground', 'garage', 'sails', 'trails', 'shots', 'flourish', 'houses'];
 const LOOK_ID = /^[a-z][a-z0-9-]{1,39}$/;
-const FRIEND_KINDS = ['fluff', 'bear', 'fox', 'owl', 'lamb', 'mouse', 'frog', 'fawn'];
+// The slots one thing can wear a look of its own in, over the island's (`THING_SLOTS` in the game's `looks.ts`).
+const THING_SLOTS = ['flowers', 'crystal', 'lanterns', 'roofs', 'houses'];
+// The friends, by the kind of sprite each is, with their names (`FRIENDS` in Pixtopia's `stickers.ts`), which aren't
+// translated anywhere.
+const FRIEND_NAMES: Record<string, string> = {
+  fluff: 'Puff',
+  bear: 'Truffle',
+  fox: 'Bracken',
+  owl: 'Bluebell',
+  lamb: 'Clover',
+  mouse: 'Berry',
+  frog: 'Lily',
+  fawn: 'Maple',
+};
+const FRIEND_KINDS = Object.keys(FRIEND_NAMES);
+// The sky garden: 4 by 4 tiles, grown with Renown to 6 by 6 at the most (`inGarden` in the game's `island.ts`,
+// `GARDEN_GROWTH` in its `renown.ts`), and only cottages and decor stand there (`gardenKind`).
+const MOST_GARDEN = 6;
+const GARDEN_KINDS = ['cottage', 'path', 'bench', 'lamp', 'arch', 'fountain', 'statue', 'pavilion'];
+// Renown's things to do (the game's `renown.ts`): the day's lost things and lucky clouds, and the sky plants.
+const FINDS = 3;
+const CLOUD_CHOICES = 3;
+const SKY_PLANTS: Record<string, string> = {
+  moonlily: 'dialog_op_game_plant_moonlily',
+  sunbell: 'dialog_op_game_plant_sunbell',
+  starfern: 'dialog_op_game_plant_starfern',
+  cloudrose: 'dialog_op_game_plant_cloudrose',
+  dewcap: 'dialog_op_game_plant_dewcap',
+  glowvine: 'dialog_op_game_plant_glowvine',
+};
+// The looks Renown alone buys (`ofRenown` in the game's `looks.ts`).
+const RENOWN_LOOKS: Record<string, string> = {
+  'flowers-starlight': 'dialog_op_game_look_starlight',
+  'flowers-coral': 'dialog_op_game_look_coral',
+  'crystal-sky': 'dialog_op_game_look_sky',
+  'crystal-lime': 'dialog_op_game_look_lime',
+  'lanterns-violet': 'dialog_op_game_look_violet',
+  'lanterns-ember': 'dialog_op_game_look_ember',
+};
+// Sprites' clothes (the game's `wardrobe.ts`): fifteen coat colours, in the order the game numbers them (`ALL_COATS` in
+// Pixtopia's `emblems.ts`), and what can be worn on the head, face and back, each bought with Renown or sold for PIXA.
+const COATS = [
+  'dialog_op_game_coat_pink',
+  'dialog_op_game_coat_sky',
+  'dialog_op_game_coat_mint',
+  'dialog_op_game_coat_amber',
+  'dialog_op_game_coat_red',
+  'dialog_op_game_coat_orange',
+  'dialog_op_game_coat_gold',
+  'dialog_op_game_coat_green',
+  'dialog_op_game_coat_teal',
+  'dialog_op_game_coat_blue',
+  'dialog_op_game_coat_violet',
+  'dialog_op_game_coat_rose',
+  'dialog_op_game_coat_white',
+  'dialog_op_game_coat_black',
+  'dialog_op_game_coat_brown',
+];
+// What's worn on the back is called Body, as the game's wardrobe calls it.
+const WEAR_SLOTS: Record<string, string> = {
+  head: 'dialog_op_game_wear_head',
+  face: 'dialog_op_game_wear_face',
+  back: 'dialog_op_game_wear_back',
+};
+const WEARABLES: Record<string, { slot: string; renown: boolean; name: string }> = {
+  'wear-flowers': { slot: 'head', renown: true, name: 'dialog_op_game_wear_flowers' },
+  'wear-bow': { slot: 'head', renown: true, name: 'dialog_op_game_wear_bow' },
+  'wear-earmuffs': { slot: 'head', renown: true, name: 'dialog_op_game_wear_earmuffs' },
+  'wear-ribbon': { slot: 'head', renown: true, name: 'dialog_op_game_wear_ribbon' },
+  'wear-halo': { slot: 'head', renown: false, name: 'dialog_op_game_wear_halo' },
+  'wear-crown': { slot: 'head', renown: false, name: 'dialog_op_game_wear_crown' },
+  'wear-glasses': { slot: 'face', renown: true, name: 'dialog_op_game_wear_glasses' },
+  'wear-shades': { slot: 'face', renown: true, name: 'dialog_op_game_wear_shades' },
+  'wear-blush': { slot: 'face', renown: true, name: 'dialog_op_game_wear_blush' },
+  'wear-stars': { slot: 'face', renown: false, name: 'dialog_op_game_wear_stars' },
+  'wear-backpack': { slot: 'back', renown: true, name: 'dialog_op_game_wear_backpack' },
+  'wear-cape': { slot: 'back', renown: true, name: 'dialog_op_game_wear_cape' },
+  'wear-wings': { slot: 'back', renown: false, name: 'dialog_op_game_wear_wings' },
+};
 // A sprite's own name, as the game takes it (`SPRITE_NAME` in its `folk.ts`), after trimming.
 const SPRITE_NAME = /^[A-Za-z][A-Za-z '-]{0,10}[A-Za-z]$/;
 // An emblem's parts, each an index into what the game draws (`EMBLEM` in its `rules.ts`).
@@ -362,6 +440,23 @@ const CAMPS = [
 
 type Step = { says: string; rows?: SummaryRow[] };
 const tile = (value: unknown) => whole(value, 0, ISLAND_SIDE - 1);
+// A tile on the land, or with `garden: 1` on the sky garden: says which.
+const placed = (v: Fields) => {
+  if (v.garden === undefined) {
+    tile(v.x);
+    tile(v.y);
+    return false;
+  }
+  whole(v.garden, 1, 1);
+  whole(v.x, 0, MOST_GARDEN - 1);
+  whole(v.y, 0, MOST_GARDEN - 1);
+  return true;
+};
+const inGarden = () => [row('dialog_op_game_where', say('dialog_op_game_garden'))];
+// A look's id is its slot's name and its own (`houses-fox`), as every look the game has is.
+const lookIn = (slot: string, id: string) => {
+  if (!matching(LOOK_ID, id).startsWith(`${slot}-`)) throw new Unreadable();
+};
 const camp = (value: unknown) => say(CAMPS[whole(value, 0, CAMPS.length - 1)]);
 const crewName = (value: unknown) =>
   row('dialog_op_game_crew', matching(CREW_NAME, string(value).trim()));
@@ -405,31 +500,38 @@ const onIsland = (key: string) => (params: unknown): Step => {
 const toCrewMate = (key: string) => (params: unknown): Step => ({
   says: say(key, handle(exactly(params, ['account']).account)),
 });
+const nothingMore = (key: string) => (params: unknown): Step => {
+  exactly(params, []);
+  return { says: say(key) };
+};
 
-const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
+// Each action's params, and who's making the move (the island's own account).
+const GAME_ACTIONS: Record<string, (params: unknown, actor: string) => Step> = {
   found: (params) => {
     const v = exactly(params, [], ['look']);
     if (v.look !== undefined) whole(v.look);
     return { says: say('dialog_op_game_found') };
   },
   build: (params) => {
-    const v = exactly(params, ['kind', 'x', 'y'], ['facing']);
+    const v = exactly(params, ['kind', 'x', 'y'], ['facing', 'garden']);
     if (v.facing !== undefined && !FACINGS.includes(string(v.facing))) {
       throw new Unreadable();
     }
-    tile(v.x);
-    tile(v.y);
-    return { says: say(oneOf(BUILDS, v.kind)) };
+    const says = say(oneOf(BUILDS, v.kind));
+    if (!placed(v)) return { says };
+    if (!GARDEN_KINDS.includes(v.kind as string)) throw new Unreadable();
+    return { says, rows: inGarden() };
   },
   upgrade: onIsland('dialog_op_game_upgrade'),
   cancel: onIsland('dialog_op_game_cancel'),
   remove: onIsland('dialog_op_game_remove'),
+  // To a tile of the land, or of the sky garden: from either.
   move: (params) => {
-    const v = exactly(params, ['id', 'x', 'y']);
+    const v = exactly(params, ['id', 'x', 'y'], ['garden']);
     whole(v.id);
-    tile(v.x);
-    tile(v.y);
-    return { says: say('dialog_op_game_move_thing') };
+    return {
+      says: say(placed(v) ? 'dialog_op_game_move_garden' : 'dialog_op_game_move_thing'),
+    };
   },
   // In hourglasses, or under the sand rules in minutes (an hourglass is 60), one or the other.
   hurry: (params) => {
@@ -469,12 +571,21 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
       rows: [row('dialog_op_game_island', matching(ISLAND_NAME, name))],
     };
   },
+  // A look the island wears, or '' for the slot's own. With `thing`, one thing's own over the island's: a look in a slot
+  // that dresses its kind, `plain` for its own picture, or '' to wear the island's again.
   look: (params) => {
-    const v = exactly(params, ['slot', 'id']);
-    if (!LOOK_SLOTS.includes(string(v.slot))) throw new Unreadable();
+    const v = exactly(params, ['slot', 'id'], ['thing']);
+    const slot = string(v.slot);
+    if (!LOOK_SLOTS.includes(slot)) throw new Unreadable();
     const id = string(v.id);
-    if (id !== '') matching(LOOK_ID, id);
-    return { says: say('dialog_op_game_look') };
+    if (v.thing === undefined) {
+      if (id !== '') lookIn(slot, id);
+      return { says: say('dialog_op_game_look') };
+    }
+    whole(v.thing);
+    if (!THING_SLOTS.includes(slot)) throw new Unreadable();
+    if (id !== '' && id !== 'plain') lookIn(slot, id);
+    return { says: say('dialog_op_game_look_thing') };
   },
   'sprite.rest': (params) => {
     const v = exactly(params, ['id', 'rest']);
@@ -499,6 +610,83 @@ const GAME_ACTIONS: Record<string, (params: unknown) => Step> = {
     const kind = string(v.kind);
     if (kind !== '' && !FRIEND_KINDS.includes(kind)) throw new Unreadable();
     return { says: say('dialog_op_game_sprite_kind') };
+  },
+  // A coat colour of their own (-1 for the one chance or the emblem gives), and what's worn on the head, face and back,
+  // '' for nothing. Something always changes: a dress that changes nothing is never sent.
+  'sprite.dress': (params) => {
+    const v = exactly(params, ['id'], ['coat', ...Object.keys(WEAR_SLOTS)]);
+    whole(v.id);
+    const rows: SummaryRow[] = [];
+    if (v.coat !== undefined) {
+      const coat = whole(v.coat, -1, COATS.length - 1);
+      rows.push(row('dialog_op_game_coat', say(coat < 0 ? 'dialog_op_game_coat_chance' : COATS[coat])));
+    }
+    Object.entries(WEAR_SLOTS).forEach(([slot, label]) => {
+      if (v[slot] === undefined) return;
+      const id = string(v[slot]);
+      if (id === '') {
+        rows.push(row(label, say('dialog_op_game_wear_nothing')));
+        return;
+      }
+      const wearable = oneOf(WEARABLES, id);
+      if (wearable.slot !== slot) throw new Unreadable();
+      rows.push(row(label, say(wearable.name)));
+    });
+    if (!rows.length) throw new Unreadable();
+    return { says: say('dialog_op_game_sprite_dress'), rows };
+  },
+  // A friend's quest taken, or '' to drop the one taken.
+  quest: (params) => {
+    const friend = string(exactly(params, ['friend']).friend);
+    if (friend === '') return { says: say('dialog_op_game_quest_drop') };
+    return {
+      says: say('dialog_op_game_quest'),
+      rows: [row('dialog_op_game_friend', oneOf(FRIEND_NAMES, friend))],
+    };
+  },
+  // Renown's things to do: what bites, what a cloud holds and which seed comes, the block decides.
+  fish: nothingMore('dialog_op_game_fish'),
+  find: (params) => {
+    whole(exactly(params, ['n']).n, 0, FINDS - 1);
+    return { says: say('dialog_op_game_find') };
+  },
+  // Someone else's flowers: never your own.
+  water: (params, actor) => {
+    const neighbour = account(exactly(params, ['account']).account);
+    if (neighbour === actor) throw new Unreadable();
+    return { says: say('dialog_op_game_water', handle(neighbour)) };
+  },
+  chart: nothingMore('dialog_op_game_chart'),
+  cloud: (params) => {
+    whole(exactly(params, ['pick']).pick, 0, CLOUD_CHOICES - 1);
+    return { says: say('dialog_op_game_cloud') };
+  },
+  'seed.catch': nothingMore('dialog_op_game_seed_catch'),
+  'seed.plant': (params) => {
+    const v = exactly(params, ['kind', 'x', 'y'], ['garden']);
+    const seed = row('dialog_op_game_seed', say(oneOf(SKY_PLANTS, v.kind)));
+    return {
+      says: say('dialog_op_game_seed_plant'),
+      rows: placed(v) ? [seed, ...inGarden()] : [seed],
+    };
+  },
+  'plant.remove': onIsland('dialog_op_game_plant_remove'),
+  'plant.pick': onIsland('dialog_op_game_plant_pick'),
+  // What Renown alone buys: the sky garden a size bigger, something for sprites to wear, or a look.
+  'renown.buy': (params) => {
+    const { item } = exactly(params, ['item']);
+    if (item === 'garden') return { says: say('dialog_op_game_renown_garden') };
+    if (typeof item === 'string' && hasOwn(WEARABLES, item)) {
+      if (!WEARABLES[item].renown) throw new Unreadable();
+      return {
+        says: say('dialog_op_game_renown_wear'),
+        rows: [row('dialog_op_game_item', say(WEARABLES[item].name))],
+      };
+    }
+    return {
+      says: say('dialog_op_game_renown_look'),
+      rows: [row('dialog_op_game_look_name', say(oneOf(RENOWN_LOOKS, item)))],
+    };
   },
   train: (params) => {
     const v = exactly(params, ['dock', 'kind', 'count']);
@@ -679,7 +867,7 @@ const gameMove = (actor: string, payload: unknown): Described => {
   const steps = actions.map((action) => {
     const parts = list(action);
     if (parts.length !== 2) throw new Unreadable();
-    return oneOf(GAME_ACTIONS, parts[0])(parts[1]);
+    return oneOf(GAME_ACTIONS, parts[0])(parts[1], actor);
   });
   if (steps.length === 1) {
     const [{ says, rows = [] }] = steps;

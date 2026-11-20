@@ -220,6 +220,24 @@ describe('describing what gets signed', () => {
       [['sprite.name', { id: 9, name: '' }], 'Give a sprite back its own name'],
       [['fight', { trip: 3, home: 1 }], 'Call your raiders home from the fight'],
       [['fight', { trip: 3, plan: 1 }], 'Fight by your plan'],
+      [['move', { id: 4, x: 0, y: 5, garden: 1 }], 'Move something to your sky garden'],
+      [['look', { slot: 'houses', id: 'houses-fox' }], 'Change how your island looks'],
+      [['look', { slot: 'houses', id: '' }], 'Change how your island looks'],
+      [['look', { slot: 'houses', id: 'houses-owl', thing: 12 }], 'Change how one thing on your island looks'],
+      [['look', { slot: 'roofs', id: 'roofs-red', thing: 12 }], 'Change how one thing on your island looks'],
+      [['look', { slot: 'roofs', id: 'plain', thing: 12 }], 'Change how one thing on your island looks'],
+      [['look', { slot: 'crystal', id: '', thing: 1 }], 'Change how one thing on your island looks'],
+      [['quest', { friend: '' }], 'Drop your friend quest'],
+      [['fish', {}], 'Cast a fishing line'],
+      [['find', { n: 0 }], 'Pick up a lost thing'],
+      [['find', { n: 2 }], 'Pick up a lost thing'],
+      [['water', { account: 'bobby' }], "Water @bobby's flowers"],
+      [['chart', {}], "Chart the night's stars"],
+      [['cloud', { pick: 2 }], 'Open a lucky cloud'],
+      [['seed.catch', {}], 'Catch a sky seed'],
+      [['plant.remove', { id: 40 }], 'Pull up a plant'],
+      [['plant.pick', { id: 40 }], 'Pick a grown plant'],
+      [['renown.buy', { item: 'garden' }], 'Grow your sky garden with Renown'],
     ])('%j', (action, title) => {
       const summary = describeOne(move([action]));
       expect(summary.understood).toBe(true);
@@ -310,6 +328,66 @@ describe('describing what gets signed', () => {
       );
       expect(orders.title).toBe('Give orders in the fight');
       expect(value(orders, 'Go for it')).toBe('Kites, Balloons');
+    });
+
+    // As the place mode sends them (Pixtopia's `pixholm-screen.tsx`): cottages and decor on the sky garden's tiles.
+    it('building on the sky garden says where', () => {
+      const built = describeOne(move([['build', { kind: 'cottage', x: 5, y: 5, facing: 'ne', garden: 1 }]]));
+      expect(built.understood).toBe(true);
+      expect(built.title).toBe('Build a cottage');
+      expect(value(built, 'Where')).toBe('Your sky garden');
+      expect(value(describeOne(move([['build', { kind: 'cottage', x: 5, y: 5 }]])), 'Where')).toBeUndefined();
+      const sown = describeOne(move([['seed.plant', { kind: 'glowvine', x: 0, y: 3, garden: 1 }]]));
+      expect(sown.title).toBe('Plant a sky seed');
+      expect(sown.rows.map((row) => row.label)).toEqual(['Game', 'Seed', 'Where']);
+      expect(value(sown, 'Seed')).toBe('Glowvine');
+      const onLand = describeOne(move([['seed.plant', { kind: 'moonlily', x: 13, y: 0 }]]));
+      expect(onLand.rows.map((row) => row.label)).toEqual(['Game', 'Seed']);
+    });
+
+    it('a friend’s quest names the friend', () => {
+      const quest = describeOne(move([['quest', { friend: 'fox' }]]));
+      expect(quest.title).toBe("Take a friend's quest");
+      expect(value(quest, 'Friend')).toBe('Bracken');
+    });
+
+    // As the Today box and the wardrobe send them (`today-box.tsx`, `dressPlan` in Pixtopia's `pixholm/wardrobe.ts`).
+    it('what Renown buys is named', () => {
+      const wear = describeOne(move([['renown.buy', { item: 'wear-flowers' }]]));
+      expect(wear.title).toBe('Buy something for sprites to wear with Renown');
+      expect(value(wear, 'Item')).toBe('Flower crown');
+      const look = describeOne(move([['renown.buy', { item: 'lanterns-ember' }]]));
+      expect(look.title).toBe('Buy a look with Renown');
+      expect(value(look, 'Look')).toBe('Ember lantern glow');
+    });
+
+    it('dressing a sprite says what each part becomes', () => {
+      const dressed = describeOne(
+        move([['sprite.dress', { id: 9, coat: 2, head: 'wear-crown', face: '', back: 'wear-wings' }]]),
+      );
+      expect(dressed.title).toBe('Dress a sprite');
+      expect(dressed.rows).toEqual([
+        { label: 'Game', value: 'Pixholm' },
+        { label: 'Coat', value: 'Mint' },
+        { label: 'Head', value: 'Golden crown' },
+        { label: 'Face', value: 'Nothing' },
+        { label: 'Body', value: 'Fairy wings' },
+      ]);
+      expect(value(describeOne(move([['sprite.dress', { id: 9, coat: -1 }]])), 'Coat')).toBe('As chance has it');
+      expect(value(describeOne(move([['sprite.dress', { id: 9, coat: 14 }]])), 'Coat')).toBe('Brown');
+      // Something bought with Renown and worn in the same move, as the wardrobe's Buy & save sends it.
+      const bought = describeOne(
+        move([
+          ['renown.buy', { item: 'wear-cape' }],
+          ['sprite.dress', { id: 9, back: 'wear-cape' }],
+        ]),
+      );
+      expect(bought.rows).toEqual([
+        { label: 'Move', value: 'Buy something for sprites to wear with Renown' },
+        { label: 'Item', value: 'Cape' },
+        { label: 'Move', value: 'Dress a sprite' },
+        { label: 'Body', value: 'Cape' },
+      ]);
     });
 
     it('a sprite’s name, which a site wrote, is only ever a row', () => {
@@ -429,6 +507,44 @@ describe('describing what gets signed', () => {
       ['an emblem colour nobody has', move([['emblem', { field: 12, pattern: 3, second: 9, mark: 19, ink: 9, coats: 1 }]])],
       ['a sprite name the game refuses', move([['sprite.name', { id: 1, name: 'Send 1 PIXA now' }]])],
       ['a sprite name that is not text', move([['sprite.name', { id: 1, name: 3 }]])],
+      ['building on the sky garden what only stands on the land', move([['build', { kind: 'flower', x: 0, y: 0, garden: 1 }]])],
+      ['a builder’s hut on the sky garden', move([['build', { kind: 'hut', x: 0, y: 0, garden: 1 }]])],
+      ['building off the sky garden', move([['build', { kind: 'bench', x: 6, y: 0, garden: 1 }]])],
+      ['the sky garden asked some other way', move([['build', { kind: 'bench', x: 0, y: 0, garden: true }]])],
+      ['the sky garden asked with a 0', move([['build', { kind: 'bench', x: 0, y: 0, garden: 0 }]])],
+      ['moving off the sky garden', move([['move', { id: 4, x: 0, y: 6, garden: 1 }]])],
+      ['moving to the sky garden some other way', move([['move', { id: 4, x: 0, y: 0, garden: 2 }]])],
+      ['a look one thing can’t wear', move([['look', { slot: 'ground', id: 'ground-autumn', thing: 4 }]])],
+      ['a look of another slot on one thing', move([['look', { slot: 'roofs', id: 'houses-fox', thing: 4 }]])],
+      ['a look of another slot', move([['look', { slot: 'roofs', id: 'flowers-rose' }]])],
+      ['plain for the whole island', move([['look', { slot: 'roofs', id: 'plain' }]])],
+      ['one thing that is not a number', move([['look', { slot: 'roofs', id: 'roofs-red', thing: 'all' }]])],
+      ['a quest for a friend nobody knows', move([['quest', { friend: 'dragon' }]])],
+      ['a quest for an object’s built-in name', move([['quest', { friend: 'constructor' }]])],
+      ['a quest with no friend named', move([['quest', {}]])],
+      ['a cast with something extra', move([['fish', { casts: 5 }]])],
+      ['a fourth lost thing', move([['find', { n: 3 }]])],
+      ['part of a lost thing', move([['find', { n: 0.5 }]])],
+      ['watering your own flowers', move([['water', { account: 'alice' }]])],
+      ['watering something that is not an account', move([['water', { account: 'Bob Smith' }]])],
+      ['a fourth lucky cloud', move([['cloud', { pick: 3 }]])],
+      ['a cloud that is not a number', move([['cloud', { pick: '1' }]])],
+      ['a plant nobody knows', move([['seed.plant', { kind: 'nettle', x: 1, y: 1 }]])],
+      ['a seed planted off the land', move([['seed.plant', { kind: 'sunbell', x: 14, y: 1 }]])],
+      ['a plant picked that is not a number', move([['plant.pick', { id: 'all' }]])],
+      ['buying with Renown what is sold for PIXA', move([['renown.buy', { item: 'wear-halo' }]])],
+      ['buying with Renown a look sold for PIXA', move([['renown.buy', { item: 'roofs-red' }]])],
+      ['buying with Renown a friend’s house', move([['renown.buy', { item: 'houses-fox' }]])],
+      ['buying with Renown something nobody sells', move([['renown.buy', { item: 'castle' }]])],
+      ['buying with Renown an object’s built-in name', move([['renown.buy', { item: 'toString' }]])],
+      ['dressing a sprite in a coat nobody has', move([['sprite.dress', { id: 1, coat: 15 }]])],
+      ['dressing a sprite in a coat below none', move([['sprite.dress', { id: 1, coat: -2 }]])],
+      ['a bow on a sprite’s face', move([['sprite.dress', { id: 1, face: 'wear-bow' }]])],
+      ['wings on a sprite’s head', move([['sprite.dress', { id: 1, head: 'wear-wings' }]])],
+      ['something to wear nobody makes', move([['sprite.dress', { id: 1, head: 'wear-tophat' }]])],
+      ['something to wear named after a built-in', move([['sprite.dress', { id: 1, back: '__proto__' }]])],
+      ['dressing a sprite with nothing to change', move([['sprite.dress', { id: 1 }]])],
+      ['dressing no sprite', move([['sprite.dress', { coat: 1 }]])],
       ['json written with spaces', move(null, {}, '{"v": 1, "do": [["found", {}]]}')],
       ['a key written twice', move(null, {}, '{"v":1,"do":[["recall",{"trip":1,"trip":2}]]}')],
       ['a number written another way', move(null, {}, '{"v":1,"do":[["recall",{"trip":1e2}]]}')],
