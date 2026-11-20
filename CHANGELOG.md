@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.8
+
+- **Pixholm's newest moves can be approved once.** Fishing, picking up a lost thing, watering a neighbour's flowers, opening
+  a lucky cloud, catching, planting, picking and pulling up sky seeds, spending Renown, taking a friend's quest, dressing
+  a sprite, building or moving onto your sky garden, and giving one cottage a look of its own (a friend's house among
+  them) used to show a warning and ask every time. Each now says what it is, naming the seed, the friend, what Renown
+  buys and what a sprite will wear, and "Don't ask again" covers it.
+
 ## 0.1.7
 
 - **Every Pixholm move the game makes can be approved once.** Hunting, every order in a battle you steer (sending craft
