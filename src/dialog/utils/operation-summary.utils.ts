@@ -909,6 +909,11 @@ const GAME_ACTIONS: Record<string, (params: unknown, actor: string) => Step> = {
     whole(v.mark, 0, BANNER.marks - 1);
     return { says: say('dialog_op_game_crew_banner') };
   },
+  // A crew's founder changing its name (from block 2,340,970, 24 November 2026): a name as a new crew's is.
+  'crew.name': (params) => ({
+    says: say('dialog_op_game_crew_name'),
+    rows: [crewName(exactly(params, ['name']).name)],
+  }),
 };
 
 // A crew-mate calling the rest of their crew in Pixholm, for help or to the great hunt: not a move, and nothing in

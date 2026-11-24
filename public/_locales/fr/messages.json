@@ -2157,6 +2157,9 @@
   "dialog_op_game_crew_banner": {
     "message": "Changer la bannière de ton équipage"
   },
+  "dialog_op_game_crew_name": {
+    "message": "Changer le nom de ton équipage"
+  },
   "dialog_op_game_emblem": {
     "message": "Changer ton emblème"
   },

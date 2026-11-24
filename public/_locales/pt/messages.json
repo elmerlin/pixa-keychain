@@ -3094,6 +3094,9 @@
   "dialog_op_game_crew_banner": {
     "message": "Mudar o estandarte da sua tripulação"
   },
+  "dialog_op_game_crew_name": {
+    "message": "Mudar o nome da sua tripulação"
+  },
   "dialog_op_game_emblem": {
     "message": "Mudar seu emblema"
   },

@@ -2145,6 +2145,9 @@
   "dialog_op_game_crew_banner": {
     "message": "更换船队旗帜"
   },
+  "dialog_op_game_crew_name": {
+    "message": "更改船队名称"
+  },
   "dialog_op_game_emblem": {
     "message": "更换徽章"
   },

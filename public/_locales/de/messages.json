@@ -3106,6 +3106,9 @@
   "dialog_op_game_crew_banner": {
     "message": "Das Banner deiner Crew ändern"
   },
+  "dialog_op_game_crew_name": {
+    "message": "Den Namen deiner Crew ändern"
+  },
   "dialog_op_game_emblem": {
     "message": "Dein Emblem ändern"
   },
