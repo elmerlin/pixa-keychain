@@ -2063,5 +2063,284 @@
   },
   "popup_html_holdings": {
     "message": "你的帳戶由 $1 PIXA、$2 PXS 和 $3 Pixa Power 組成。"
+  },
+  "dialog_op_game_build_observatory": {
+    "message": "建造天文台"
+  },
+  "dialog_op_game_build_lodge": {
+    "message": "建造探險者小屋"
+  },
+  "dialog_op_game_build_glasshouse": {
+    "message": "建造玻璃溫室"
+  },
+  "dialog_op_game_arrange_one": {
+    "message": "重新擺放島上的一件物品"
+  },
+  "dialog_op_game_arrange": {
+    "message": "重新擺放島上的 $1 件物品"
+  },
+  "dialog_op_game_seed_pot": {
+    "message": "把天空種子種在玻璃溫室的花盆裡"
+  },
+  "dialog_op_game_study": {
+    "message": "研究"
+  },
+  "approval_world_map": {
+    "message": "在世界地圖上標記和移除作品"
+  },
+  "dialog_op_place_update": {
+    "message": "更新世界地圖上的作品"
+  },
+  "dialog_op_place_piece": {
+    "message": "1 件作品"
+  },
+  "dialog_op_place_pieces": {
+    "message": "$1 件作品"
+  },
+  "dialog_op_place_off": {
+    "message": "從地圖上移除"
+  },
+  "dialog_op_place_country": {
+    "message": "國家"
+  },
+  "dialog_op_place_town": {
+    "message": "城鎮"
+  },
+  "dialog_op_place_landmark": {
+    "message": "地標"
+  },
+  "dialog_op_place_google": {
+    "message": "Google 地圖地點"
+  },
+  "dialog_op_game_camp_mistral": {
+    "message": "Mistral Shoals"
+  },
+  "dialog_op_game_camp_bramble": {
+    "message": "Bramble Heights"
+  },
+  "dialog_op_game_camp_wreck": {
+    "message": "Beacon Wreck"
+  },
+  "dialog_op_game_camp_row": {
+    "message": "Cannon Row"
+  },
+  "dialog_op_game_camp_corsair": {
+    "message": "Corsair Citadel"
+  },
+  "dialog_op_game_cancel": {
+    "message": "停止島上的工作"
+  },
+  "dialog_op_game_hurry_one": {
+    "message": "使用一個沙漏"
+  },
+  "dialog_op_game_hurry": {
+    "message": "使用 $1 個沙漏"
+  },
+  "dialog_op_game_sand_one": {
+    "message": "使用一分鐘的沙子"
+  },
+  "dialog_op_game_sand": {
+    "message": "使用 $1 分鐘的沙子"
+  },
+  "dialog_op_game_crew_banner": {
+    "message": "更換船隊旗幟"
+  },
+  "dialog_op_game_emblem": {
+    "message": "更換徽章"
+  },
+  "dialog_op_game_look": {
+    "message": "更換島嶼外觀"
+  },
+  "dialog_op_game_look_name": {
+    "message": "外觀"
+  },
+  "dialog_op_game_renown_look": {
+    "message": "用聲望購買外觀"
+  },
+  "dialog_op_game_raid": {
+    "message": "派遣突襲隊前往 $1"
+  },
+  "dialog_op_game_scout": {
+    "message": "派紙鶴前往 $1 偵察"
+  },
+  "dialog_op_game_help": {
+    "message": "派突襲隊支援 $1"
+  },
+  "dialog_op_game_where": {
+    "message": "位置"
+  },
+  "dialog_op_game_garden": {
+    "message": "你的空中花園"
+  },
+  "dialog_op_game_seed": {
+    "message": "種子"
+  },
+  "dialog_op_game_moves": {
+    "message": "在 Pixholm 執行 $1 個動作"
+  },
+  "dialog_op_game_move": {
+    "message": "動作"
+  },
+  "dialog_op_game": {
+    "message": "遊戲"
+  },
+  "dialog_op_game_pixholm": {
+    "message": "Pixholm"
+  },
+  "dialog_op_game_look_sky_garage": {
+    "message": "空中機庫"
+  },
+  "dialog_op_game_look_treehouse": {
+    "message": "樹屋機庫"
+  },
+  "dialog_op_game_look_pirate": {
+    "message": "海盜碼頭"
+  },
+  "dialog_op_game_look_cloud": {
+    "message": "雲港"
+  },
+  "dialog_op_game_look_clockwork": {
+    "message": "發條工坊"
+  },
+  "dialog_op_game_look_crystal_hangar": {
+    "message": "水晶機庫"
+  },
+  "dialog_op_game_topic_crane": {
+    "message": "摺紙鶴"
+  },
+  "dialog_op_game_topic_kite": {
+    "message": "風箏工藝"
+  },
+  "dialog_op_game_topic_balloon": {
+    "message": "氣球工藝"
+  },
+  "dialog_op_game_topic_glider": {
+    "message": "滑翔機工藝"
+  },
+  "dialog_op_game_topic_airship": {
+    "message": "飛艇工藝"
+  },
+  "dialog_op_game_topic_spark": {
+    "message": "火花無人機"
+  },
+  "dialog_op_game_topic_mender": {
+    "message": "修補"
+  },
+  "dialog_op_game_topic_cloudship": {
+    "message": "雲艦"
+  },
+  "dialog_op_game_topic_roots": {
+    "message": "深根"
+  },
+  "dialog_op_game_topic_tailwind": {
+    "message": "順風"
+  },
+  "dialog_op_game_plant_moonlily": {
+    "message": "月百合"
+  },
+  "dialog_op_game_plant_sunbell": {
+    "message": "日鈴花"
+  },
+  "dialog_op_game_plant_starfern": {
+    "message": "星蕨"
+  },
+  "dialog_op_game_plant_cloudrose": {
+    "message": "雲玫瑰"
+  },
+  "dialog_op_game_plant_dewcap": {
+    "message": "露珠菇"
+  },
+  "dialog_op_game_plant_glowvine": {
+    "message": "螢光藤"
+  },
+  "dialog_op_game_crews": {
+    "message": "機組"
+  },
+  "dialog_op_game_pick_old": {
+    "message": "優先派經驗最多的機組"
+  },
+  "dialog_op_game_pick_new": {
+    "message": "優先派經驗最少的機組"
+  },
+  "dialog_op_game_build_flower": {
+    "message": "種植花壇"
+  },
+  "dialog_op_game_build_dock": {
+    "message": "建造空港"
+  },
+  "dialog_op_game_build_almanac": {
+    "message": "建造年鑑"
+  },
+  "dialog_op_game_upgrade": {
+    "message": "升級島上的設施"
+  },
+  "dialog_op_game_remove": {
+    "message": "移除島上的設施"
+  },
+  "dialog_op_game_move_thing": {
+    "message": "移動島上的設施"
+  },
+  "dialog_op_game_move_garden": {
+    "message": "把設施移到空中花園"
+  },
+  "dialog_op_game_turn": {
+    "message": "轉動島上的設施"
+  },
+  "dialog_op_game_plant_pick": {
+    "message": "採摘成熟的植物"
+  },
+  "dialog_op_game_plant_remove": {
+    "message": "拔除植物"
+  },
+  "dialog_op_game_research": {
+    "message": "研究$1"
+  },
+  "dialog_op_game_hunt": {
+    "message": "獵捕島嶼上空的野獸"
+  },
+  "dialog_op_game_hunt_great": {
+    "message": "狩獵船隊的巨獸"
+  },
+  "dialog_op_game_fight_home": {
+    "message": "召回戰鬥中的突襲隊"
+  },
+  "dialog_op_game_fight_plan": {
+    "message": "按計畫戰鬥"
+  },
+  "dialog_op_game_fight_drops": {
+    "message": "派飛行器參戰"
+  },
+  "dialog_op_game_fight_orders": {
+    "message": "下達戰鬥指令"
+  },
+  "dialog_op_game_fight_aim": {
+    "message": "瞄準目標"
+  },
+  "dialog_op_game_fight_ace": {
+    "message": "全力出擊"
+  },
+  "dialog_op_game_cranes": {
+    "message": "紙鶴"
+  },
+  "dialog_op_game_kites": {
+    "message": "風箏"
+  },
+  "dialog_op_game_balloons": {
+    "message": "氣球"
+  },
+  "dialog_op_game_gliders": {
+    "message": "滑翔機"
+  },
+  "dialog_op_game_airships": {
+    "message": "飛艇"
+  },
+  "dialog_op_game_sparks": {
+    "message": "火花無人機"
+  },
+  "dialog_op_game_menders": {
+    "message": "修補艇"
+  },
+  "dialog_op_game_cloudships": {
+    "message": "雲艦"
   }
 }

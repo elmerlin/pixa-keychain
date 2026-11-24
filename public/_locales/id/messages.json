@@ -3024,5 +3024,284 @@
   },
   "popup_html_holdings": {
     "message": "Akun Anda terdiri dari $1 PIXA, $2 PXS, dan $3 Pixa Power."
+  },
+  "dialog_op_game_build_observatory": {
+    "message": "Bangun observatorium"
+  },
+  "dialog_op_game_build_lodge": {
+    "message": "Bangun pondok penjelajah"
+  },
+  "dialog_op_game_build_glasshouse": {
+    "message": "Bangun rumah kaca"
+  },
+  "dialog_op_game_arrange_one": {
+    "message": "Atur ulang satu benda di pulaumu"
+  },
+  "dialog_op_game_arrange": {
+    "message": "Atur ulang $1 benda di pulaumu"
+  },
+  "dialog_op_game_seed_pot": {
+    "message": "Tanam benih langit di pot rumah kaca"
+  },
+  "dialog_op_game_study": {
+    "message": "Penelitian"
+  },
+  "approval_world_map": {
+    "message": "menempatkan dan menghapus karya dari peta dunia"
+  },
+  "dialog_op_place_update": {
+    "message": "Perbarui karyamu di peta dunia"
+  },
+  "dialog_op_place_piece": {
+    "message": "1 karya"
+  },
+  "dialog_op_place_pieces": {
+    "message": "$1 karya"
+  },
+  "dialog_op_place_off": {
+    "message": "Hapus dari peta"
+  },
+  "dialog_op_place_country": {
+    "message": "Negara"
+  },
+  "dialog_op_place_town": {
+    "message": "Kota"
+  },
+  "dialog_op_place_landmark": {
+    "message": "Markah tanah"
+  },
+  "dialog_op_place_google": {
+    "message": "Tempat di Google Maps"
+  },
+  "dialog_op_game_camp_mistral": {
+    "message": "Mistral Shoals"
+  },
+  "dialog_op_game_camp_bramble": {
+    "message": "Bramble Heights"
+  },
+  "dialog_op_game_camp_wreck": {
+    "message": "Beacon Wreck"
+  },
+  "dialog_op_game_camp_row": {
+    "message": "Cannon Row"
+  },
+  "dialog_op_game_camp_corsair": {
+    "message": "Corsair Citadel"
+  },
+  "dialog_op_game_cancel": {
+    "message": "Hentikan pekerjaan di pulaumu"
+  },
+  "dialog_op_game_hurry_one": {
+    "message": "Gunakan satu jam pasir"
+  },
+  "dialog_op_game_hurry": {
+    "message": "Gunakan $1 jam pasir"
+  },
+  "dialog_op_game_sand_one": {
+    "message": "Gunakan pasir untuk satu menit"
+  },
+  "dialog_op_game_sand": {
+    "message": "Gunakan pasir untuk $1 menit"
+  },
+  "dialog_op_game_crew_banner": {
+    "message": "Ubah panji krumu"
+  },
+  "dialog_op_game_emblem": {
+    "message": "Ubah lambangmu"
+  },
+  "dialog_op_game_look": {
+    "message": "Ubah tampilan pulaumu"
+  },
+  "dialog_op_game_look_name": {
+    "message": "Tampilan"
+  },
+  "dialog_op_game_renown_look": {
+    "message": "Beli tampilan dengan Renown"
+  },
+  "dialog_op_game_raid": {
+    "message": "Kirim serbuan ke $1"
+  },
+  "dialog_op_game_scout": {
+    "message": "Kirim bangau kertas untuk mengintai $1"
+  },
+  "dialog_op_game_help": {
+    "message": "Kirim bantuan untuk $1"
+  },
+  "dialog_op_game_where": {
+    "message": "Lokasi"
+  },
+  "dialog_op_game_garden": {
+    "message": "Kebun langitmu"
+  },
+  "dialog_op_game_seed": {
+    "message": "Benih"
+  },
+  "dialog_op_game_moves": {
+    "message": "Lakukan $1 langkah di Pixholm"
+  },
+  "dialog_op_game_move": {
+    "message": "Langkah"
+  },
+  "dialog_op_game": {
+    "message": "Permainan"
+  },
+  "dialog_op_game_pixholm": {
+    "message": "Pixholm"
+  },
+  "dialog_op_game_look_sky_garage": {
+    "message": "Garasi langit"
+  },
+  "dialog_op_game_look_treehouse": {
+    "message": "Hanggar rumah pohon"
+  },
+  "dialog_op_game_look_pirate": {
+    "message": "Dermaga bajak laut"
+  },
+  "dialog_op_game_look_cloud": {
+    "message": "Pelabuhan awan"
+  },
+  "dialog_op_game_look_clockwork": {
+    "message": "Bengkel roda gigi"
+  },
+  "dialog_op_game_look_crystal_hangar": {
+    "message": "Hanggar kristal"
+  },
+  "dialog_op_game_topic_crane": {
+    "message": "Melipat bangau"
+  },
+  "dialog_op_game_topic_kite": {
+    "message": "Pembuatan layang-layang"
+  },
+  "dialog_op_game_topic_balloon": {
+    "message": "Pembuatan balon"
+  },
+  "dialog_op_game_topic_glider": {
+    "message": "Pembuatan pesawat layang"
+  },
+  "dialog_op_game_topic_airship": {
+    "message": "Pembuatan kapal udara"
+  },
+  "dialog_op_game_topic_spark": {
+    "message": "Drone percikan"
+  },
+  "dialog_op_game_topic_mender": {
+    "message": "Perbaikan"
+  },
+  "dialog_op_game_topic_cloudship": {
+    "message": "Kapal awan"
+  },
+  "dialog_op_game_topic_roots": {
+    "message": "Akar dalam"
+  },
+  "dialog_op_game_topic_tailwind": {
+    "message": "Angin buritan"
+  },
+  "dialog_op_game_plant_moonlily": {
+    "message": "Lili bulan"
+  },
+  "dialog_op_game_plant_sunbell": {
+    "message": "Lonceng matahari"
+  },
+  "dialog_op_game_plant_starfern": {
+    "message": "Pakis bintang"
+  },
+  "dialog_op_game_plant_cloudrose": {
+    "message": "Mawar awan"
+  },
+  "dialog_op_game_plant_dewcap": {
+    "message": "Jamur embun"
+  },
+  "dialog_op_game_plant_glowvine": {
+    "message": "Sulur bercahaya"
+  },
+  "dialog_op_game_crews": {
+    "message": "Kru"
+  },
+  "dialog_op_game_pick_old": {
+    "message": "Yang paling berpengalaman dahulu"
+  },
+  "dialog_op_game_pick_new": {
+    "message": "Yang paling sedikit pengalamannya dahulu"
+  },
+  "dialog_op_game_build_flower": {
+    "message": "Tanam petak bunga"
+  },
+  "dialog_op_game_build_dock": {
+    "message": "Bangun dermaga langit"
+  },
+  "dialog_op_game_build_almanac": {
+    "message": "Bangun Almanak"
+  },
+  "dialog_op_game_upgrade": {
+    "message": "Tingkatkan sesuatu di pulaumu"
+  },
+  "dialog_op_game_remove": {
+    "message": "Singkirkan sesuatu dari pulaumu"
+  },
+  "dialog_op_game_move_thing": {
+    "message": "Pindahkan sesuatu di pulaumu"
+  },
+  "dialog_op_game_move_garden": {
+    "message": "Pindahkan sesuatu ke kebun langitmu"
+  },
+  "dialog_op_game_turn": {
+    "message": "Putar sesuatu di pulaumu"
+  },
+  "dialog_op_game_plant_pick": {
+    "message": "Petik tanaman yang sudah matang"
+  },
+  "dialog_op_game_plant_remove": {
+    "message": "Cabut tanaman"
+  },
+  "dialog_op_game_research": {
+    "message": "Pelajari $1"
+  },
+  "dialog_op_game_hunt": {
+    "message": "Buru binatang di langit pulaumu"
+  },
+  "dialog_op_game_hunt_great": {
+    "message": "Buru binatang raksasa krumu"
+  },
+  "dialog_op_game_fight_home": {
+    "message": "Panggil pulang penyerbumu dari pertempuran"
+  },
+  "dialog_op_game_fight_plan": {
+    "message": "Bertempur sesuai rencanamu"
+  },
+  "dialog_op_game_fight_drops": {
+    "message": "Kirim pesawat ke pertempuran"
+  },
+  "dialog_op_game_fight_orders": {
+    "message": "Beri perintah dalam pertempuran"
+  },
+  "dialog_op_game_fight_aim": {
+    "message": "Bidik sasaran"
+  },
+  "dialog_op_game_fight_ace": {
+    "message": "Kerahkan seluruh tenaga"
+  },
+  "dialog_op_game_cranes": {
+    "message": "Bangau kertas"
+  },
+  "dialog_op_game_kites": {
+    "message": "Layang-layang"
+  },
+  "dialog_op_game_balloons": {
+    "message": "Balon"
+  },
+  "dialog_op_game_gliders": {
+    "message": "Pesawat layang"
+  },
+  "dialog_op_game_airships": {
+    "message": "Kapal udara"
+  },
+  "dialog_op_game_sparks": {
+    "message": "Drone percikan"
+  },
+  "dialog_op_game_menders": {
+    "message": "Pesawat perbaikan"
+  },
+  "dialog_op_game_cloudships": {
+    "message": "Kapal awan"
   }
 }

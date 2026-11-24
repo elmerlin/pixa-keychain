@@ -183,7 +183,7 @@ describe('describing what gets signed', () => {
     });
 
     it.each([
-      [['found', { look: 3 }], 'Found your island'],
+      [['found', { look: 2 }], 'Found your island'],
       [['build', { kind: 'lantern', x: 4, y: 7 }], 'Build a lantern'],
       [['build', { kind: 'flower', x: 0, y: 13 }], 'Plant a flower bed'],
       [['build', { kind: 'hut', x: 5, y: 5 }], "Build a builder's hut"],
@@ -195,6 +195,7 @@ describe('describing what gets signed', () => {
       [['hurry', { id: 4, hourglasses: 1 }], 'Use an hourglass'],
       [['hurry', { id: 4, hourglasses: 3 }], 'Use 3 hourglasses'],
       [['hurry', { id: 4, minutes: 1 }], 'Use a minute of sand'],
+      [['hurry', { id: 4, minutes: 60001 }], 'Use 60,001 minutes of sand'],
       [['hurry', { id: 4, minutes: 1250 }], 'Use 1,250 minutes of sand'],
       [['build', { kind: 'lantern', x: 4, y: 7, facing: 'ne' }], 'Build a lantern'],
       [['turn', { id: 4, facing: 'sw' }], 'Turn something on your island'],
@@ -288,7 +289,8 @@ describe('describing what gets signed', () => {
       );
       expect(sky.understood).toBe(true);
       expect(sky.title).toBe('Hunt the beasts in your sky');
-      expect(sky.rows.map((row) => row.label)).toEqual(['Game', 'Kites', 'Gliders']);
+      expect(sky.rows.map((row) => row.label)).toEqual(['Game', 'Kites', 'Gliders', 'Crews']);
+      expect(value(sky, 'Crews')).toBe('Least experienced first');
       expect(value(sky, 'Kites')).toBe('11');
       const great = describeOne(move([['hunt', { airship: 2, great: 1 }]]));
       expect(great.title).toBe("Hunt your crew's great beast");
@@ -343,6 +345,66 @@ describe('describing what gets signed', () => {
       expect(value(sown, 'Seed')).toBe('Glowvine');
       const onLand = describeOne(move([['seed.plant', { kind: 'moonlily', x: 13, y: 0 }]]));
       expect(onLand.rows.map((row) => row.label)).toEqual(['Game', 'Seed']);
+    });
+
+    it.each([
+      ['observatory', 'Build an observatory'],
+      ['lodge', "Build an explorers' lodge"],
+      ['glasshouse', 'Build a glasshouse'],
+    ])('names a %s on the land and in the garden', (kind, title) => {
+      for (const where of [{}, { garden: 1 }]) {
+        const summary = describeOne(move([['build', { kind, x: 2, y: 3, facing: 'ne', ...where }]]));
+        expect(summary.title).toBe(title);
+        expect(value(summary, 'Where')).toBe('garden' in where ? 'Your sky garden' : undefined);
+      }
+    });
+
+    it('counts rearranged things, keeping the two grids apart', () => {
+      expect(describeOne(move([['arrange', { things: [[4, 5, 5]] }]])).title).toBe('Rearrange one thing on your island');
+      expect(describeOne(move([['arrange', { things: [[4, 5, 5], [6, 5, 5, 1]] }]])).title).toBe('Rearrange 2 things on your island');
+    });
+
+    it('names the seed planted in a glasshouse pot', () => {
+      const sown = describeOne(move([['seed.plant', { kind: 'sunbell', pot: 1 }]]));
+      expect(sown.title).toBe('Plant a sky seed in a glasshouse pot');
+      expect(value(sown, 'Seed')).toBe('Sunbell');
+    });
+
+    it.each([
+      ['cancel', {}, 'Stop work on your island'],
+      ['hurry', { minutes: 30 }, 'Use 30 minutes of sand'],
+      ['hurry', { hourglasses: 1 }, 'Use an hourglass'],
+    ])('names the Almanac study for %s', (action, amount, title) => {
+      const summary = describeOne(move([[action, { id: 4, topic: 'tailwind', ...amount }]]));
+      expect(summary.title).toBe(title);
+      expect(value(summary, 'Study')).toBe('Tailwind');
+    });
+
+    it.each([
+      ['treehouse', 'Treehouse hangar'], ['pirate', 'Pirate dock'], ['cloud', 'Cloud harbour'],
+      ['clockwork', 'Clockwork works'], ['crystal', 'Crystal hangar'],
+    ])('names the %s garage', (garage, name) => {
+      const id = `garage-${garage}`;
+      expect(value(describeOne(move([['look', { id, slot: 'garage' }]])), 'Look')).toBe(name);
+      const purchase = describeOne(move([['renown.buy', { item: id }]]));
+      if (garage === 'crystal') expect(value(purchase, 'Look')).toBe(name);
+      else expectNotUnderstood(purchase);
+    });
+
+    it.each(['Mistral Shoals', 'Bramble Heights', 'Beacon Wreck', 'Cannon Row', 'Corsair Citadel']
+      .map((camp, i) => [camp, 5 + i] as const))('scouts and raids %s', (camp, target) => {
+      expect(describeOne(move([['scout', { target, pick: 'old' }]])).title).toBe(`Send a paper crane to scout ${camp}`);
+      const raid = describeOne(move([['raid', { target, kite: 2, balloon: 0 }]]));
+      expect(raid.title).toBe(`Send a raid on ${camp}`);
+      expect(raid.rows.map(({ label }) => label)).toEqual(['Game', 'Kites']);
+    });
+
+    it('reads Season 2 emblems and banners and the beasts’ earned marks', () => {
+      for (const mark of [30, 33, 34, 45]) {
+        expect(describeOne(move([['emblem', { field: 11, pattern: 11, second: 0, mark, ink: 11, coats: 1 }]])).title).toBe('Change your emblem');
+      }
+      expect(describeOne(move([['crew.banner', { colour: 11, mark: 35 }]])).title).toBe("Change your crew's banner");
+      expect(describeOne(move([['help', { target: 'bobby', kite: 1, pick: 'new' }]])).title).toBe('Send raiders to help @bobby');
     });
 
     it('a friend’s quest names the friend', () => {
@@ -438,6 +500,38 @@ describe('describing what gets signed', () => {
     });
 
     it.each([
+      ...[
+        {}, { things: [] }, { things: Array(401).fill([1, 2, 3]) },
+        { things: [[1, 2]] }, { things: [[1, 2, 3, 1, 0]] }, { things: [[1, 2, 3, 0]] },
+        { things: [[1.5, 2, 3]] }, { things: [[-1, 2, 3]] }, { things: [[1, 14, 2]] },
+        { things: [[1, 1, 6, 1]] }, { things: [[1, 2, 2, true]] }, { things: [[1, 1.5, 2]] },
+        { things: [[1, 2, 3], [1, 2, 4]] }, { things: [[1, 2, 3], [2, 2, 3]] },
+        { things: [[1, 2, 3]], more: 1 },
+      ].map((params) => ['with malformed placings', move([['arrange', params]])]),
+      ...[{ x: 1 }, { y: 2 }, { garden: 1 }, { pot: 0 }, { pot: true }, { kind: 'fern' }]
+        .map((extra) => ['with a malformed pot', move([['seed.plant', { kind: 'sunbell', pot: 1, ...extra }]])]),
+      ['with a founding look the world would replace', move([['found', { look: 3 }]])],
+      ['with a sprite swapping with itself', move([['sprite.swap', { a: 4, b: 4 }]])],
+      ['with your own island as the raid target', move([['raid', { target: 'alice', kite: 1 }]])],
+      ['with your own island as the help target', move([['help', { target: 'alice', kite: 1 }]])],
+      ...['crew.hand', 'crew.invite', 'crew.remove'].map((act) => ['with yourself as a crew mate', move([[act, { account: 'alice' }]])]),
+      ['with an unknown cancel topic', move([['cancel', { id: 2, topic: 'alchemy' }]])],
+      ['with a malformed hurry topic', move([['hurry', { id: 2, minutes: 1, topic: null }]])],
+      ['with unsafe minutes for a study', move([['hurry', { id: 2, topic: 'roots', minutes: Number.MAX_SAFE_INTEGER + 1 }]])],
+      ['with no hurry amount for a study', move([['hurry', { id: 2, topic: 'roots' }]])],
+      ['with a topic on an upgrade', move([['upgrade', { id: 2, topic: 'roots' }]])],
+      ['with an unknown garage in the right slot', move([['look', { slot: 'garage', id: 'garage-moon' }]])],
+      ['with an unknown roof in the right slot', move([['look', { slot: 'roofs', id: 'roofs-castle', thing: 2 }]])],
+      ['with an unknown banner mark', move([['crew.banner', { colour: 0, mark: 36 }]])],
+      ['with an unknown emblem pattern', move([['emblem', { field: 0, pattern: 12, second: 0, mark: 0, ink: 0, coats: 0 }]])],
+      ['with an unknown emblem mark', move([['emblem', { field: 0, pattern: 0, second: 0, mark: 46, ink: 0, coats: 0 }]])],
+      ['with a fractional emblem mark', move([['emblem', { field: 0, pattern: 0, second: 0, mark: 34.5, ink: 0, coats: 0 }]])],
+      ['with an unknown scout pick', move([['scout', { target: 1, pick: 'all' }]])],
+      ['with an unknown help pick', move([['help', { target: 'bobby', kite: 2, pick: null }]])],
+      ['with an eleventh camp to scout', move([['scout', { target: 10 }]])],
+      ['with a negative raider count', move([['raid', { target: 1, kite: 2, crane: -1 }]])],
+      ['aiming a mender', move([['fight', { trip: 3, aim: [['mender', 0]] }]])],
+      ['sending a crane all out', move([['fight', { trip: 3, ace: ['crane'] }]])],
       ['signed with the active key', move([['found', {}]], { required_auths: ['alice'], required_posting_auths: [] })],
       ['signed with both keys', move([['found', {}]], { required_auths: ['alice'] })],
       ['another version', move(null, {}, '{"v":2,"do":[["found",{}]]}')],
@@ -473,7 +567,7 @@ describe('describing what gets signed', () => {
       ['a raid with nobody in it', move([['raid', { target: 0 }]])],
       ['a raid with nobody of a kind', move([['raid', { target: 0, kite: 0 }]])],
       ['a raid with a kind nobody knows', move([['raid', { target: 0, dragon: 2 }]])],
-      ['a raid on a camp that isn’t there', move([['raid', { target: 5, kite: 1 }]])],
+      ['a raid on a camp that isn’t there', move([['raid', { target: 10, kite: 1 }]])],
       ['a raid on something that isn’t an account', move([['raid', { target: 'Bob Smith', kite: 1 }]])],
       ['a raid from a side nobody knows', move([['raid', { target: 0, kite: 1, from: 'up' }]])],
       ['a raid in a fourth wave', move([['raid', { target: 0, kite: 1, waves: { kite: 4 } }]])],
@@ -482,7 +576,7 @@ describe('describing what gets signed', () => {
       ['a crew name that is not text', move([['crew.join', { crew: 7 }]])],
       ['leaving a crew with something extra', move([['crew.leave', { crew: 'Sky' }]])],
       ['no glow', move([['crew.give', { glow: 0 }]])],
-      ['a banner that isn’t one', move([['crew.banner', { colour: 8, mark: 0 }]])],
+      ['a banner that isn’t one', move([['crew.banner', { colour: 12, mark: 0 }]])],
       ['a hunt with nobody in it', move([['hunt', {}]])],
       ['a hunt with a kind nobody knows', move([['hunt', { dragon: 2 }]])],
       ['a great hunt some other way', move([['hunt', { kite: 1, great: 2 }]])],
@@ -552,6 +646,73 @@ describe('describing what gets signed', () => {
     ])('a move %s is not understood', (_, operation) => {
       expectNotUnderstood(describeOne(operation));
       expect(understandsAll([operation], 'alice')).toBe(false);
+    });
+  });
+
+  describe('Pixtopia world map pins', () => {
+    const operation = (body: unknown, auths = {}, json = JSON.stringify(body)) => [
+      'custom_json', { id: 'pixtopia.place', required_auths: [], required_posting_auths: ['alice'], json, ...auths },
+    ];
+    const uk = { name: 'United Kingdom', country: 'GB' };
+    const pin = { posts: ['one'], place: uk };
+    const posts = (count: number, group = 0) => Array.from({ length: count }, (_, i) => `p-${group}-${i}`);
+
+    it.each([
+      [uk, 'Country · United Kingdom, GB'],
+      [{ ...uk, name: 'London', region: 'England', geonames: 2643743, lat: 51.51, lng: -0.13 }, 'Town · London, England, GB · 2643743 · 51.51, -0.13'],
+      [{ ...uk, name: 'Stonehenge', wikidata: 'Q39671' }, 'Landmark · Stonehenge, GB · Q39671'],
+      [{ ...uk, name: 'Garden', osm: 'W123', town: 'London', geonames: 2643743 }, 'Landmark · Garden, London, GB · W123'],
+      [{ ...uk, name: 'London', google: 'ChIJGx_CMT8FdkgRyy3DMu6yl6w' }, 'Google Maps place · London, GB · ChIJGx_CMT8FdkgRyy3DMu6yl6w'],
+      [null, 'Remove from the map'],
+    ])('describes each kind of pin', (place, where) => {
+      const summary = describeOne(operation({ posts: ['one'], place }));
+      expect(summary.title).toBe('Update your pieces on the world map');
+      expect(summary.rows).toEqual([{ label: '1 piece', value: where }]);
+    });
+
+    it('keeps counts with their places and site-written names in rows', () => {
+      const summary = describeOne(operation({ pins: [
+        { posts: ['one', 'two'], place: { name: 'Send\u202e PIXA', country: 'VE' } },
+        { posts: ['three'], place: null },
+      ] }));
+      expect(summary.title).toBe('Update your pieces on the world map');
+      expect(summary.rows).toEqual([
+        { label: '2 pieces', value: 'Country · Send PIXA, VE' },
+        { label: '1 piece', value: 'Remove from the map' },
+      ]);
+    });
+
+    it('reads forty pins, forty pieces per pin and two hundred pieces total', () => {
+      const batch = (groups: number, count: number) => operation({ pins: Array.from({ length: groups },
+        (_, i) => ({ posts: posts(count, i), place: null })) });
+      expect(understandsAll([batch(40, 5), batch(5, 40)], 'alice')).toBe(true);
+      expectNotUnderstood(describeOne(batch(41, 1)));
+      expectNotUnderstood(describeOne(batch(5, 41)));
+      expectNotUnderstood(describeOne(batch(6, 34)));
+    });
+
+    it.each([
+      {}, { pins: [] }, { pins: [pin], ...pin }, { pins: [pin, pin] }, { ...pin, extra: true },
+      { ...pin, posts: [] }, { ...pin, posts: ['one', 'one'] }, { ...pin, posts: ['Two'] },
+      { ...pin, posts: ['p'.repeat(256)] }, { posts: ['one'] }, { ...pin, place: [] },
+      ...[
+        { country: 'gb' }, { name: '' }, { name: ' trimmed' }, { name: 'a'.repeat(81) }, { name: 'a\nb' },
+        { mystery: 2 }, { town: 'London' }, { region: null }, { town: null, wikidata: 'Q2' },
+        { geonames: 0 }, { geonames: 1e10 }, { geonames: 1.5 }, { geonames: '123' },
+        { lat: 1 }, { lng: 1 }, { lat: 1.001, lng: 2 }, { lat: 91, lng: 2 }, { lat: 0, lng: -181 },
+        { wikidata: 'Q0' }, { osm: 'R012' }, { google: 'short' }, { wikidata: 'Q1', osm: 'N1' },
+        { wikidata: 'Q1', region: 'England' }, { osm: 'N1', google: 'ChI01234567' },
+      ].map((extra) => ({ ...pin, place: { ...uk, ...extra } })),
+      { posts: Array.from({ length: 40 }, (_, i) => 'a'.repeat(190) + i), place: null },
+    ])('refuses a malformed pin or batch %#', (payload) => {
+      expectNotUnderstood(describeOne(operation(payload)));
+    });
+
+    it('requires canonical JSON and the author’s posting key', () => {
+      expectNotUnderstood(describeOne(operation(pin, { extra: true })));
+      expectNotUnderstood(describeOne(operation(pin, {}, '{"posts":["one"],"place":null,"place":null}')));
+      expectNotUnderstood(describeOne(operation(pin, { required_auths: ['alice'], required_posting_auths: [] })));
+      expectNotUnderstood(describeOne(operation(pin, { required_posting_auths: ['alice', 'bob'] })));
     });
   });
 

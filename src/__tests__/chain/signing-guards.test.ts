@@ -1228,6 +1228,16 @@ describe('saved approvals', () => {
     expect(
       approvalFor(custom('follow', JSON.stringify(['follow', { follower: 'bob', following: 'carol', what: ['blog'] }]))),
     ).toBeNull();
+    const id = 'pixtopia.place';
+    const json = JSON.stringify({ posts: ['one'], place: null });
+    const pin = ['custom_json', { id, json, required_auths: [], required_posting_auths: ['alice'] }];
+    expect(approvalFor(custom(id, json))).toBe('custom:pixtopia.place');
+    expect(approvalFor(signTx([pin]))).toBe('signTx:custom_json/pixtopia.place');
+    expect(approvalFor(broadcast([pin]))).toBe('broadcast:custom_json/pixtopia.place');
+    expect(isWhitelisted(saved('custom:pixtopia.place'), custom(id, '{}'), 'site.test', rpc)).toBe(false);
+    expect(isWhitelisted(saved('custom:pixtopia.game'), custom(id, json), 'site.test', rpc)).toBe(false);
+    expect(approvalWords('custom:pixtopia.place')).toBe('approval_world_map');
+    expect(approvalWords('signTx:custom_json/pixtopia.place')).toBe('approval_world_map');
     // Other apps' IDs are approved by ID, as before.
     expect(approvalFor(custom('another-app', '{"anything":1}'))).toBe('custom:another-app');
   });

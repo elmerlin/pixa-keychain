@@ -3974,5 +3974,95 @@
   },
   "popup_html_holdings": {
     "message": "Your account is $1 PIXA, $2 PXS and $3 Pixa Power."
+  },
+  "dialog_op_game_build_observatory": {
+    "message": "Build an observatory"
+  },
+  "dialog_op_game_build_lodge": {
+    "message": "Build an explorers' lodge"
+  },
+  "dialog_op_game_build_glasshouse": {
+    "message": "Build a glasshouse"
+  },
+  "dialog_op_game_arrange_one": {
+    "message": "Rearrange one thing on your island"
+  },
+  "dialog_op_game_arrange": {
+    "message": "Rearrange $1 things on your island"
+  },
+  "dialog_op_game_seed_pot": {
+    "message": "Plant a sky seed in a glasshouse pot"
+  },
+  "dialog_op_game_study": {
+    "message": "Study"
+  },
+  "approval_world_map": {
+    "message": "placing and removing pieces on the world map"
+  },
+  "dialog_op_place_update": {
+    "message": "Update your pieces on the world map"
+  },
+  "dialog_op_place_piece": {
+    "message": "1 piece"
+  },
+  "dialog_op_place_pieces": {
+    "message": "$1 pieces"
+  },
+  "dialog_op_place_off": {
+    "message": "Remove from the map"
+  },
+  "dialog_op_place_country": {
+    "message": "Country"
+  },
+  "dialog_op_place_town": {
+    "message": "Town"
+  },
+  "dialog_op_place_landmark": {
+    "message": "Landmark"
+  },
+  "dialog_op_place_google": {
+    "message": "Google Maps place"
+  },
+  "dialog_op_game_camp_mistral": {
+    "message": "Mistral Shoals"
+  },
+  "dialog_op_game_camp_bramble": {
+    "message": "Bramble Heights"
+  },
+  "dialog_op_game_camp_wreck": {
+    "message": "Beacon Wreck"
+  },
+  "dialog_op_game_camp_row": {
+    "message": "Cannon Row"
+  },
+  "dialog_op_game_camp_corsair": {
+    "message": "Corsair Citadel"
+  },
+  "dialog_op_game_look_sky_garage": {
+    "message": "Sky garage"
+  },
+  "dialog_op_game_look_treehouse": {
+    "message": "Treehouse hangar"
+  },
+  "dialog_op_game_look_pirate": {
+    "message": "Pirate dock"
+  },
+  "dialog_op_game_look_cloud": {
+    "message": "Cloud harbour"
+  },
+  "dialog_op_game_look_clockwork": {
+    "message": "Clockwork works"
+  },
+  "dialog_op_game_look_crystal_hangar": {
+    "message": "Crystal hangar"
+  },
+  "dialog_op_game_crews": {
+    "message": "Crews"
+  },
+  "dialog_op_game_pick_old": {
+    "message": "Most experienced first"
+  },
+  "dialog_op_game_pick_new": {
+    "message": "Least experienced first"
   }
 }

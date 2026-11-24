@@ -3024,5 +3024,284 @@
   },
   "popup_html_holdings": {
     "message": "Dein Konto besteht aus $1 PIXA, $2 PXS und $3 Pixa Power."
+  },
+  "dialog_op_game_build_observatory": {
+    "message": "Eine Sternwarte bauen"
+  },
+  "dialog_op_game_build_lodge": {
+    "message": "Ein Späherhaus bauen"
+  },
+  "dialog_op_game_build_glasshouse": {
+    "message": "Ein Glashaus bauen"
+  },
+  "dialog_op_game_arrange_one": {
+    "message": "Ein Objekt auf deiner Insel umstellen"
+  },
+  "dialog_op_game_arrange": {
+    "message": "$1 Objekte auf deiner Insel umstellen"
+  },
+  "dialog_op_game_seed_pot": {
+    "message": "Einen Himmelssamen in einen Topf im Glashaus pflanzen"
+  },
+  "dialog_op_game_study": {
+    "message": "Studie"
+  },
+  "approval_world_map": {
+    "message": "Werke auf der Weltkarte platzieren und entfernen"
+  },
+  "dialog_op_place_update": {
+    "message": "Deine Werke auf der Weltkarte aktualisieren"
+  },
+  "dialog_op_place_piece": {
+    "message": "1 Werk"
+  },
+  "dialog_op_place_pieces": {
+    "message": "$1 Werke"
+  },
+  "dialog_op_place_off": {
+    "message": "Von der Karte entfernen"
+  },
+  "dialog_op_place_country": {
+    "message": "Land"
+  },
+  "dialog_op_place_town": {
+    "message": "Ort"
+  },
+  "dialog_op_place_landmark": {
+    "message": "Sehenswürdigkeit"
+  },
+  "dialog_op_place_google": {
+    "message": "Ort auf Google Maps"
+  },
+  "dialog_op_game_camp_mistral": {
+    "message": "Mistral Shoals"
+  },
+  "dialog_op_game_camp_bramble": {
+    "message": "Bramble Heights"
+  },
+  "dialog_op_game_camp_wreck": {
+    "message": "Beacon Wreck"
+  },
+  "dialog_op_game_camp_row": {
+    "message": "Cannon Row"
+  },
+  "dialog_op_game_camp_corsair": {
+    "message": "Corsair Citadel"
+  },
+  "dialog_op_game_cancel": {
+    "message": "Eine Arbeit auf deiner Insel abbrechen"
+  },
+  "dialog_op_game_hurry_one": {
+    "message": "Eine Sanduhr verwenden"
+  },
+  "dialog_op_game_hurry": {
+    "message": "$1 Sanduhren verwenden"
+  },
+  "dialog_op_game_sand_one": {
+    "message": "Eine Minute Sand verwenden"
+  },
+  "dialog_op_game_sand": {
+    "message": "$1 Minuten Sand verwenden"
+  },
+  "dialog_op_game_crew_banner": {
+    "message": "Das Banner deiner Crew ändern"
+  },
+  "dialog_op_game_emblem": {
+    "message": "Dein Emblem ändern"
+  },
+  "dialog_op_game_look": {
+    "message": "Deine Insel umgestalten"
+  },
+  "dialog_op_game_look_name": {
+    "message": "Aussehen"
+  },
+  "dialog_op_game_renown_look": {
+    "message": "Einen Look mit Ruhm kaufen"
+  },
+  "dialog_op_game_raid": {
+    "message": "Einen Überfall auf $1 starten"
+  },
+  "dialog_op_game_scout": {
+    "message": "Einen Papierkranich zu $1 auf Erkundung schicken"
+  },
+  "dialog_op_game_help": {
+    "message": "Räuber zur Hilfe für $1 schicken"
+  },
+  "dialog_op_game_where": {
+    "message": "Ort"
+  },
+  "dialog_op_game_garden": {
+    "message": "Dein Himmelsgarten"
+  },
+  "dialog_op_game_seed": {
+    "message": "Samen"
+  },
+  "dialog_op_game_moves": {
+    "message": "$1 Spielzüge in Pixholm ausführen"
+  },
+  "dialog_op_game_move": {
+    "message": "Spielzug"
+  },
+  "dialog_op_game": {
+    "message": "Spiel"
+  },
+  "dialog_op_game_pixholm": {
+    "message": "Pixholm"
+  },
+  "dialog_op_game_look_sky_garage": {
+    "message": "Luftgarage"
+  },
+  "dialog_op_game_look_treehouse": {
+    "message": "Baumhaushangar"
+  },
+  "dialog_op_game_look_pirate": {
+    "message": "Piratendock"
+  },
+  "dialog_op_game_look_cloud": {
+    "message": "Wolkenhafen"
+  },
+  "dialog_op_game_look_clockwork": {
+    "message": "Uhrwerkhalle"
+  },
+  "dialog_op_game_look_crystal_hangar": {
+    "message": "Kristallhangar"
+  },
+  "dialog_op_game_topic_crane": {
+    "message": "Kranichfalten"
+  },
+  "dialog_op_game_topic_kite": {
+    "message": "Drachenbau"
+  },
+  "dialog_op_game_topic_balloon": {
+    "message": "Ballonbau"
+  },
+  "dialog_op_game_topic_glider": {
+    "message": "Gleiterbau"
+  },
+  "dialog_op_game_topic_airship": {
+    "message": "Luftschiffbau"
+  },
+  "dialog_op_game_topic_spark": {
+    "message": "Funkendrohnen"
+  },
+  "dialog_op_game_topic_mender": {
+    "message": "Flicken"
+  },
+  "dialog_op_game_topic_cloudship": {
+    "message": "Wolkenschiffe"
+  },
+  "dialog_op_game_topic_roots": {
+    "message": "Tiefe Wurzeln"
+  },
+  "dialog_op_game_topic_tailwind": {
+    "message": "Rückenwind"
+  },
+  "dialog_op_game_plant_moonlily": {
+    "message": "Mondlilie"
+  },
+  "dialog_op_game_plant_sunbell": {
+    "message": "Sonnenglocke"
+  },
+  "dialog_op_game_plant_starfern": {
+    "message": "Sternfarn"
+  },
+  "dialog_op_game_plant_cloudrose": {
+    "message": "Wolkenrose"
+  },
+  "dialog_op_game_plant_dewcap": {
+    "message": "Tauhut"
+  },
+  "dialog_op_game_plant_glowvine": {
+    "message": "Leuchtranke"
+  },
+  "dialog_op_game_crews": {
+    "message": "Besatzungen"
+  },
+  "dialog_op_game_pick_old": {
+    "message": "Erfahrenste zuerst"
+  },
+  "dialog_op_game_pick_new": {
+    "message": "Unerfahrenste zuerst"
+  },
+  "dialog_op_game_build_flower": {
+    "message": "Ein Blumenbeet anlegen"
+  },
+  "dialog_op_game_build_dock": {
+    "message": "Ein Luftdock bauen"
+  },
+  "dialog_op_game_build_almanac": {
+    "message": "Den Almanach bauen"
+  },
+  "dialog_op_game_upgrade": {
+    "message": "Etwas auf deiner Insel ausbauen"
+  },
+  "dialog_op_game_remove": {
+    "message": "Etwas von deiner Insel entfernen"
+  },
+  "dialog_op_game_move_thing": {
+    "message": "Etwas auf deiner Insel verschieben"
+  },
+  "dialog_op_game_move_garden": {
+    "message": "Etwas in deinen Himmelsgarten verschieben"
+  },
+  "dialog_op_game_turn": {
+    "message": "Etwas auf deiner Insel drehen"
+  },
+  "dialog_op_game_plant_pick": {
+    "message": "Eine ausgewachsene Pflanze ernten"
+  },
+  "dialog_op_game_plant_remove": {
+    "message": "Eine Pflanze ausreißen"
+  },
+  "dialog_op_game_research": {
+    "message": "$1 erforschen"
+  },
+  "dialog_op_game_hunt": {
+    "message": "Bestien an deinem Himmel jagen"
+  },
+  "dialog_op_game_hunt_great": {
+    "message": "Die große Bestie deiner Crew jagen"
+  },
+  "dialog_op_game_fight_home": {
+    "message": "Deine Räuber aus dem Kampf zurückrufen"
+  },
+  "dialog_op_game_fight_plan": {
+    "message": "Nach deinem Plan kämpfen"
+  },
+  "dialog_op_game_fight_drops": {
+    "message": "Fluggeräte in den Kampf schicken"
+  },
+  "dialog_op_game_fight_orders": {
+    "message": "Im Kampf Befehle geben"
+  },
+  "dialog_op_game_fight_aim": {
+    "message": "Ziel anvisieren"
+  },
+  "dialog_op_game_fight_ace": {
+    "message": "Alles geben"
+  },
+  "dialog_op_game_cranes": {
+    "message": "Papierkraniche"
+  },
+  "dialog_op_game_kites": {
+    "message": "Drachen"
+  },
+  "dialog_op_game_balloons": {
+    "message": "Ballons"
+  },
+  "dialog_op_game_gliders": {
+    "message": "Gleiter"
+  },
+  "dialog_op_game_airships": {
+    "message": "Luftschiffe"
+  },
+  "dialog_op_game_sparks": {
+    "message": "Funkendrohnen"
+  },
+  "dialog_op_game_menders": {
+    "message": "Flicker"
+  },
+  "dialog_op_game_cloudships": {
+    "message": "Wolkenschiffe"
   }
 }
