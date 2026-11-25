@@ -3573,6 +3573,21 @@
   "dialog_op_game_crew_name": {
     "message": "Change your crew's name"
   },
+  "dialog_op_game_front": {
+    "message": "Send a raid to the Storm Front, floor $1"
+  },
+  "dialog_op_game_front_buy": {
+    "message": "Buy something with sky shards"
+  },
+  "dialog_op_game_shard_mark": {
+    "message": "Storm mark"
+  },
+  "dialog_op_game_shard_trail": {
+    "message": "Storm trail"
+  },
+  "dialog_op_game_shard_sails": {
+    "message": "Storm sails"
+  },
   "dialog_op_game_where": {
     "message": "Where"
   },

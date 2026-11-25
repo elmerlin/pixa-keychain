@@ -3109,6 +3109,21 @@
   "dialog_op_game_crew_name": {
     "message": "Ubah nama krumu"
   },
+  "dialog_op_game_front": {
+    "message": "Kirim serbuan ke Storm Front, lantai $1"
+  },
+  "dialog_op_game_front_buy": {
+    "message": "Beli sesuatu dengan serpihan langit"
+  },
+  "dialog_op_game_shard_mark": {
+    "message": "Tanda badai"
+  },
+  "dialog_op_game_shard_trail": {
+    "message": "Jejak badai"
+  },
+  "dialog_op_game_shard_sails": {
+    "message": "Layar badai"
+  },
   "dialog_op_game_emblem": {
     "message": "Ubah lambangmu"
   },

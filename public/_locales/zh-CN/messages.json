@@ -2148,6 +2148,21 @@
   "dialog_op_game_crew_name": {
     "message": "更改船队名称"
   },
+  "dialog_op_game_front": {
+    "message": "派遣突袭队前往风暴前线第 $1 层"
+  },
+  "dialog_op_game_front_buy": {
+    "message": "用天空碎片购买物品"
+  },
+  "dialog_op_game_shard_mark": {
+    "message": "风暴徽记"
+  },
+  "dialog_op_game_shard_trail": {
+    "message": "风暴尾迹"
+  },
+  "dialog_op_game_shard_sails": {
+    "message": "风暴船帆"
+  },
   "dialog_op_game_emblem": {
     "message": "更换徽章"
   },

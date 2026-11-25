@@ -2160,6 +2160,21 @@
   "dialog_op_game_crew_name": {
     "message": "Changer le nom de ton équipage"
   },
+  "dialog_op_game_front": {
+    "message": "Lancer un raid sur le Front d’orage, étage $1"
+  },
+  "dialog_op_game_front_buy": {
+    "message": "Acheter quelque chose avec des éclats de ciel"
+  },
+  "dialog_op_game_shard_mark": {
+    "message": "Marque d’orage"
+  },
+  "dialog_op_game_shard_trail": {
+    "message": "Traînée d’orage"
+  },
+  "dialog_op_game_shard_sails": {
+    "message": "Voiles d’orage"
+  },
   "dialog_op_game_emblem": {
     "message": "Changer ton emblème"
   },

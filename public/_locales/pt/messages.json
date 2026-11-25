@@ -3097,6 +3097,21 @@
   "dialog_op_game_crew_name": {
     "message": "Mudar o nome da sua tripulação"
   },
+  "dialog_op_game_front": {
+    "message": "Enviar um ataque à Frente de Tempestade, andar $1"
+  },
+  "dialog_op_game_front_buy": {
+    "message": "Comprar algo com fragmentos do céu"
+  },
+  "dialog_op_game_shard_mark": {
+    "message": "Marca de tempestade"
+  },
+  "dialog_op_game_shard_trail": {
+    "message": "Rasto de tempestade"
+  },
+  "dialog_op_game_shard_sails": {
+    "message": "Velas de tempestade"
+  },
   "dialog_op_game_emblem": {
     "message": "Mudar seu emblema"
   },

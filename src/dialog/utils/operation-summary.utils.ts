@@ -345,8 +345,9 @@ const LOOKS: Record<string, readonly string[]> = {
   ground: ['autumn', 'winter', 'blossom', 'dunes'],
   garage: Object.keys(GARAGES).map((id) => id.slice('garage-'.length)),
   roofs: ['red', 'blue', 'green', 'plum', 'charcoal'],
-  sails: ['stripes', 'checks', 'chevrons', 'diagonals', 'halves'],
-  trails: ['cloud', 'rainbow', 'embers', 'frost', 'petals'],
+  // `storm` on each: the Storm Front's own, bought with its sky shards.
+  sails: ['stripes', 'checks', 'chevrons', 'diagonals', 'halves', 'storm'],
+  trails: ['cloud', 'rainbow', 'embers', 'frost', 'petals', 'storm'],
   shots: ['ruby', 'emerald', 'sapphire', 'amethyst', 'rainbow'],
   flourish: ['confetti', 'rockets', 'lanterns', 'stars', 'rainbow'],
   houses: FRIEND_KINDS,
@@ -394,7 +395,15 @@ const WEARABLES: Record<string, { slot: string; renown: boolean; name: string }>
 // A sprite's own name, as the game takes it (`SPRITE_NAME` in its `folk.ts`), after trimming.
 const SPRITE_NAME = /^[A-Za-z][A-Za-z '-]{0,10}[A-Za-z]$/;
 // An emblem's parts, each an index into what the game draws (`EMBLEM` in its `rules.ts`).
-const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 12, second: 12, mark: 46, ink: 12, coats: 2 };
+// (The last mark, 46, is the Storm Front's: the game refuses it for an island whose sky shards haven't bought it.)
+const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 12, second: 12, mark: 47, ink: 12, coats: 2 };
+// The Storm Front (the game's `front.ts`): its floors, and what its sky shards buy.
+const FRONT_FLOORS = 20;
+const SHARD_ITEMS: Record<string, string> = {
+  'mark-storm': 'dialog_op_game_shard_mark',
+  'trails-storm': 'dialog_op_game_shard_trail',
+  'sails-storm': 'dialog_op_game_shard_sails',
+};
 // Which crews a trip takes (`isPick` in the game's `folk.ts`).
 const CREW_PICKS = ['old', 'new'];
 // A steered fight's orders, as the game reads them (`readDrops`, `readSays` in its `steer.ts`, `STEER` and `COMMAND` in
@@ -787,6 +796,19 @@ const GAME_ACTIONS: Record<string, (params: unknown, actor: string) => Step> = {
       typeof v.target === 'string' ? otherHandle(v.target, actor) : camp(v.target);
     return { says: say('dialog_op_game_raid', target), rows };
   },
+  // A raid on a floor of the Storm Front: who goes and the plan, as a raid on a camp has them. Nothing is spent or lost.
+  front: (params) => {
+    const v = fields(params);
+    const rows = raidersIn(v, ['floor', 'from', 'waves', 'pick']);
+    planIn(v);
+    rows.push(...pickRows(v.pick));
+    return { says: say('dialog_op_game_front', String(whole(v.floor, 1, FRONT_FLOORS))), rows };
+  },
+  // What the Storm Front's sky shards buy: a look for the craft, or the emblem's storm mark.
+  'front.buy': (params) => ({
+    says: say('dialog_op_game_front_buy'),
+    rows: [row('dialog_op_game_item', say(oneOf(SHARD_ITEMS, exactly(params, ['item']).item)))],
+  }),
   // The day's beasts in your own sky, or with `great` the crew's great beast of the week.
   hunt: (params) => {
     const v = fields(params);
