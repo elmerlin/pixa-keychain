@@ -2334,6 +2334,12 @@
   "dialog_op_game_hunt_great": {
     "message": "Chasser la grande bête de ton équipage"
   },
+  "dialog_op_game_hunt_world": {
+    "message": "Frapper le Léviathan de l’éclipse"
+  },
+  "dialog_op_game_beacon_light": {
+    "message": "Allumer ton Phare contre le Léviathan de l’éclipse, pour $1 heures de ton éclat"
+  },
   "dialog_op_game_fight_home": {
     "message": "Rappeler tes pillards du combat"
   },

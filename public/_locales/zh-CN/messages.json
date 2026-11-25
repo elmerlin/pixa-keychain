@@ -2322,6 +2322,12 @@
   "dialog_op_game_hunt_great": {
     "message": "狩猎船队的巨兽"
   },
+  "dialog_op_game_hunt_world": {
+    "message": "攻击日蚀巨鲸"
+  },
+  "dialog_op_game_beacon_light": {
+    "message": "点亮灯塔对抗日蚀巨鲸，耗费你 $1 小时的辉光"
+  },
   "dialog_op_game_fight_home": {
     "message": "召回战斗中的突袭队"
   },

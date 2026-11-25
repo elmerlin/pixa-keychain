@@ -3283,6 +3283,12 @@
   "dialog_op_game_hunt_great": {
     "message": "Cazar la gran bestia de tu tripulación"
   },
+  "dialog_op_game_hunt_world": {
+    "message": "Atacar al Leviatán del Eclipse"
+  },
+  "dialog_op_game_beacon_light": {
+    "message": "Encender tu Faro contra el Leviatán del Eclipse, por $1 horas de tu brillo"
+  },
   "dialog_op_game_fight_home": {
     "message": "Llamar a tus asaltantes para que vuelvan del combate"
   },

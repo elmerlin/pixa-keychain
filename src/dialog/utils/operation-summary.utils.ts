@@ -347,7 +347,8 @@ const LOOKS: Record<string, readonly string[]> = {
   roofs: ['red', 'blue', 'green', 'plum', 'charcoal'],
   // `storm` on each: the Storm Front's own, bought with its sky shards.
   sails: ['stripes', 'checks', 'chevrons', 'diagonals', 'halves', 'storm'],
-  trails: ['cloud', 'rainbow', 'embers', 'frost', 'petals', 'storm'],
+  // `eclipse`: the Eclipse leviathan's, earned when the sky tears its wings, never bought.
+  trails: ['cloud', 'rainbow', 'embers', 'frost', 'petals', 'storm', 'eclipse'],
   shots: ['ruby', 'emerald', 'sapphire', 'amethyst', 'rainbow'],
   flourish: ['confetti', 'rockets', 'lanterns', 'stars', 'rainbow'],
   houses: FRIEND_KINDS,
@@ -397,7 +398,7 @@ const WEARABLES: Record<string, { slot: string; renown: boolean; name: string }>
 const SPRITE_NAME = /^[A-Za-z][A-Za-z '-]{0,10}[A-Za-z]$/;
 // An emblem's parts, each an index into what the game draws (`EMBLEM` in its `rules.ts`).
 // (The last mark, 46, is the Storm Front's: the game refuses it for an island whose sky shards haven't bought it.)
-const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 12, second: 12, mark: 47, ink: 12, coats: 2 };
+const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 12, second: 12, mark: 48, ink: 12, coats: 2 };
 // The Storm Front (the game's `front.ts`): its floors, and what its sky shards buy. Twenty until Beacon levels 16 to 20
 // opened (block 2,388,970), twenty-five since: the game refuses a floor past twenty before that block, so a move that
 // names one then does nothing.
@@ -814,17 +815,26 @@ const GAME_ACTIONS: Record<string, (params: unknown, actor: string) => Step> = {
     says: say('dialog_op_game_front_buy'),
     rows: [row('dialog_op_game_item', say(oneOf(SHARD_ITEMS, exactly(params, ['item']).item)))],
   }),
-  // The day's beasts in your own sky, or with `great` the crew's great beast of the week.
+  // The day's beasts in your own sky, with `great` the crew's great beast of the week, or with `world` a strike on the
+  // Eclipse leviathan, the whole sky's.
   hunt: (params) => {
     const v = fields(params);
-    const rows = raidersIn(v, ['great', 'from', 'waves', 'pick']);
+    const rows = raidersIn(v, ['great', 'world', 'from', 'waves', 'pick']);
     planIn(v);
     rows.push(...pickRows(v.pick));
     const great = v.great === undefined ? 0 : whole(v.great, 0, 1);
+    const world = v.world === undefined ? 0 : whole(v.world, 0, 1);
+    if (great && world) throw new Unreadable();
     return {
-      says: say(great ? 'dialog_op_game_hunt_great' : 'dialog_op_game_hunt'),
+      says: say(world ? 'dialog_op_game_hunt_world' : great ? 'dialog_op_game_hunt_great' : 'dialog_op_game_hunt'),
       rows,
     };
+  },
+  // A Beacon lit against the Eclipse leviathan: one, three or eight hours of the island's own glow, once a day.
+  'beacon.light': (params) => {
+    const hours = exactly(params, ['hours']).hours;
+    if (hours !== 1 && hours !== 3 && hours !== 8) throw new Unreadable();
+    return { says: say('dialog_op_game_beacon_light', String(hours)) };
   },
   // An order in a fight its raider steers: craft in, everyone home, the plan they were sent with, or crews of rank told
   // what to go for or to go all out.

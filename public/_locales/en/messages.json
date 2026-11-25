@@ -3432,6 +3432,12 @@
   "dialog_op_game_hunt_great": {
     "message": "Hunt your crew's great beast"
   },
+  "dialog_op_game_hunt_world": {
+    "message": "Strike the Eclipse leviathan"
+  },
+  "dialog_op_game_beacon_light": {
+    "message": "Light your Beacon against the Eclipse leviathan, for $1 hours of your glow"
+  },
   "dialog_op_game_fight_drops": {
     "message": "Send craft into the fight"
   },

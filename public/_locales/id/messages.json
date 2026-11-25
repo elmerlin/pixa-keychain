@@ -3283,6 +3283,12 @@
   "dialog_op_game_hunt_great": {
     "message": "Buru binatang raksasa krumu"
   },
+  "dialog_op_game_hunt_world": {
+    "message": "Serang Leviatan Gerhana"
+  },
+  "dialog_op_game_beacon_light": {
+    "message": "Nyalakan Mercusuarmu melawan Leviatan Gerhana, seharga $1 jam cahayamu"
+  },
   "dialog_op_game_fight_home": {
     "message": "Panggil pulang penyerbumu dari pertempuran"
   },
