@@ -221,6 +221,8 @@ describe('describing what gets signed', () => {
       [['front', { floor: 20, kite: 4 }], 'Send a raid to the Storm Front, floor 20'],
       [['front.buy', { item: 'trails-storm' }], 'Buy something with sky shards'],
       [['look', { slot: 'sails', id: 'sails-storm' }], 'Change how your island looks'],
+      [['front.buy', { item: 'crown-storm' }], 'Buy something with sky shards'],
+      [['look', { slot: 'crown', id: 'crown-storm' }], 'Change how your island looks'],
       [['emblem', { field: 1, pattern: 0, second: 2, mark: 46, ink: 3, coats: 0 }], 'Change your emblem'],
       [['emblem', { field: 2, pattern: 3, second: 9, mark: 19, ink: 9, coats: 1 }], 'Change your emblem'],
       [['emblem', { field: 11, pattern: 5, second: 0, mark: 29, ink: 11, coats: 0 }], 'Change your emblem'],

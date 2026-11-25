@@ -3124,6 +3124,9 @@
   "dialog_op_game_shard_sails": {
     "message": "Sturmsegel"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "Sturmkrone"
+  },
   "dialog_op_game_emblem": {
     "message": "Dein Emblem ändern"
   },

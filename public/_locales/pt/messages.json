@@ -3112,6 +3112,9 @@
   "dialog_op_game_shard_sails": {
     "message": "Velas de tempestade"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "Coroa da tempestade"
+  },
   "dialog_op_game_emblem": {
     "message": "Mudar seu emblema"
   },

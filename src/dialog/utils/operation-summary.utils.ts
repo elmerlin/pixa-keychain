@@ -351,6 +351,7 @@ const LOOKS: Record<string, readonly string[]> = {
   shots: ['ruby', 'emerald', 'sapphire', 'amethyst', 'rainbow'],
   flourish: ['confetti', 'rockets', 'lanterns', 'stars', 'rainbow'],
   houses: FRIEND_KINDS,
+  crown: ['storm'],
 };
 // Sprites' clothes (the game's `wardrobe.ts`): fifteen coat colours, in the order the game numbers them (`ALL_COATS` in
 // Pixtopia's `emblems.ts`), and what can be worn on the head, face and back, each bought with Renown or sold for PIXA.
@@ -403,6 +404,8 @@ const SHARD_ITEMS: Record<string, string> = {
   'mark-storm': 'dialog_op_game_shard_mark',
   'trails-storm': 'dialog_op_game_shard_trail',
   'sails-storm': 'dialog_op_game_shard_sails',
+  // From the sky's rules (block 2,489,824): lightning round the Beacon's crystal, worn in a look slot of its own.
+  'crown-storm': 'dialog_op_game_shard_crown',
 };
 // Which crews a trip takes (`isPick` in the game's `folk.ts`).
 const CREW_PICKS = ['old', 'new'];

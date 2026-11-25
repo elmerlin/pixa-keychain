@@ -3124,6 +3124,9 @@
   "dialog_op_game_shard_sails": {
     "message": "Layar badai"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "Mahkota badai"
+  },
   "dialog_op_game_emblem": {
     "message": "Ubah lambangmu"
   },

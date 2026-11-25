@@ -3588,6 +3588,9 @@
   "dialog_op_game_shard_sails": {
     "message": "Storm sails"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "Storm crown"
+  },
   "dialog_op_game_where": {
     "message": "Where"
   },

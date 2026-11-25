@@ -2175,6 +2175,9 @@
   "dialog_op_game_shard_sails": {
     "message": "Voiles d’orage"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "Couronne d’orage"
+  },
   "dialog_op_game_emblem": {
     "message": "Changer ton emblème"
   },

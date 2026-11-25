@@ -2163,6 +2163,9 @@
   "dialog_op_game_shard_sails": {
     "message": "風暴船帆"
   },
+  "dialog_op_game_shard_crown": {
+    "message": "風暴之冠"
+  },
   "dialog_op_game_emblem": {
     "message": "更換徽章"
   },
