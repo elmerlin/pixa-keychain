@@ -3142,6 +3142,9 @@
   "dialog_op_game_raid": {
     "message": "Kirim serbuan ke $1"
   },
+  "dialog_op_game_spar": {
+    "message": "Latih tanding dengan $1, tanpa menang atau kalah apa pun"
+  },
   "dialog_op_game_scout": {
     "message": "Kirim bangau kertas untuk mengintai $1"
   },

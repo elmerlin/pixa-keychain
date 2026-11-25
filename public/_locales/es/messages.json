@@ -3142,6 +3142,9 @@
   "dialog_op_game_raid": {
     "message": "Enviar una incursión contra $1"
   },
+  "dialog_op_game_spar": {
+    "message": "Combate de entrenamiento con $1, sin ganar ni perder nada"
+  },
   "dialog_op_game_scout": {
     "message": "Enviar una grulla de papel a explorar $1"
   },

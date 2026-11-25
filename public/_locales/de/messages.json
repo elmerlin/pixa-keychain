@@ -3142,6 +3142,9 @@
   "dialog_op_game_raid": {
     "message": "Einen Überfall auf $1 starten"
   },
+  "dialog_op_game_spar": {
+    "message": "Übungskampf mit $1, ohne Gewinn oder Verlust"
+  },
   "dialog_op_game_scout": {
     "message": "Einen Papierkranich zu $1 auf Erkundung schicken"
   },

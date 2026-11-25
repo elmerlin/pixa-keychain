@@ -2193,6 +2193,9 @@
   "dialog_op_game_raid": {
     "message": "Lancer un raid sur $1"
   },
+  "dialog_op_game_spar": {
+    "message": "Entraînement contre $1, sans rien gagner ni perdre"
+  },
   "dialog_op_game_scout": {
     "message": "Envoyer une grue en papier explorer $1"
   },

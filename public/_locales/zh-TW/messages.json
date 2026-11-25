@@ -2181,6 +2181,9 @@
   "dialog_op_game_raid": {
     "message": "派遣突襲隊前往 $1"
   },
+  "dialog_op_game_spar": {
+    "message": "與 $1 切磋，不贏不輸"
+  },
   "dialog_op_game_scout": {
     "message": "派紙鶴前往 $1 偵察"
   },

@@ -792,15 +792,18 @@ const GAME_ACTIONS: Record<string, (params: unknown, actor: string) => Step> = {
       say(oneOf(TOPICS, exactly(params, ['topic']).topic)),
     ),
   }),
+  // A raid on a camp or a person, or with `spar` a spar with a person: a raid where nothing is won or lost.
   raid: (params, actor) => {
-    const plan = ['target', 'from', 'waves', 'pick'];
+    const plan = ['target', 'spar', 'from', 'waves', 'pick'];
     const v = fields(params);
     const rows = raidersIn(v, plan);
     planIn(v);
     rows.push(...pickRows(v.pick));
+    const spar = v.spar === undefined ? 0 : whole(v.spar, 1, 1);
+    if (spar && typeof v.target !== 'string') throw new Unreadable();
     const target =
       typeof v.target === 'string' ? otherHandle(v.target, actor) : camp(v.target);
-    return { says: say('dialog_op_game_raid', target), rows };
+    return { says: say(spar ? 'dialog_op_game_spar' : 'dialog_op_game_raid', target), rows };
   },
   // A raid on a floor of the Storm Front: who goes and the plan, as a raid on a camp has them. Nothing is spent or lost.
   front: (params) => {

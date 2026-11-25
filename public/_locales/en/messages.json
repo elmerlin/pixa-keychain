@@ -3525,6 +3525,9 @@
   "dialog_op_game_raid": {
     "message": "Send a raid on $1"
   },
+  "dialog_op_game_spar": {
+    "message": "Spar with $1, with nothing won or lost"
+  },
   "dialog_op_game_scout": {
     "message": "Send a paper crane to scout $1"
   },
