@@ -398,8 +398,10 @@ const SPRITE_NAME = /^[A-Za-z][A-Za-z '-]{0,10}[A-Za-z]$/;
 // An emblem's parts, each an index into what the game draws (`EMBLEM` in its `rules.ts`).
 // (The last mark, 46, is the Storm Front's: the game refuses it for an island whose sky shards haven't bought it.)
 const EMBLEM_PARTS: Record<string, number> = { field: 12, pattern: 12, second: 12, mark: 47, ink: 12, coats: 2 };
-// The Storm Front (the game's `front.ts`): its floors, and what its sky shards buy.
-const FRONT_FLOORS = 20;
+// The Storm Front (the game's `front.ts`): its floors, and what its sky shards buy. Twenty until Beacon levels 16 to 20
+// opened (block 2,388,970), twenty-five since: the game refuses a floor past twenty before that block, so a move that
+// names one then does nothing.
+const FRONT_FLOORS = 25;
 const SHARD_ITEMS: Record<string, string> = {
   'mark-storm': 'dialog_op_game_shard_mark',
   'trails-storm': 'dialog_op_game_shard_trail',
